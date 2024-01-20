@@ -121,6 +121,15 @@ App_Data/*.ldf
 Thumbs.db
 ehthumbs.db
 
+# Ignore all 'bin' directories
+bin/
+
+# Ignore all 'obj' directories
+obj/
+
+# Ignore all '.idea' directories
+.idea/
+
 # Folder config file
 Desktop.ini
 
