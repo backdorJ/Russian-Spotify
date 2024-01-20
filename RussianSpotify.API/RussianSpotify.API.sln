@@ -1,8 +1,51 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6E7523E3-058B-42E1-A8FE-731D58E46BC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{65A9F672-FC50-4C38-BE3D-25AC7817003C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RussianSpotify.API.Core", "RussianSpotify.API.Core\RussianSpotify.API.Core.csproj", "{93621E9D-982B-478A-8811-ACB7C67693F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RussianSpotify.API.Contracts", "RussianSpotify.API.Contracts\RussianSpotify.API.Contracts.csproj", "{A058B2FE-BC51-44D3-B7E6-F11702AB135E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RussianSpotify.API.Data.PostgreSQL", "RussianSpotify.API.Data.PostgreSQL\RussianSpotify.API.Data.PostgreSQL.csproj", "{97570CDB-4ED6-44E8-8CDD-0B8A82705246}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RussianSpotify.API.WEB", "RussianSpotify.API.WEB\RussianSpotify.API.WEB.csproj", "{46226861-3380-411E-8B53-3E5FCDEC7C78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RussianSpotify.API.UnitTests", "RussianSpotify.API.UnitTests\RussianSpotify.API.UnitTests.csproj", "{05DD671B-5053-4439-9F40-CD87E306741D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{93621E9D-982B-478A-8811-ACB7C67693F5} = {6E7523E3-058B-42E1-A8FE-731D58E46BC6}
+		{A058B2FE-BC51-44D3-B7E6-F11702AB135E} = {6E7523E3-058B-42E1-A8FE-731D58E46BC6}
+		{97570CDB-4ED6-44E8-8CDD-0B8A82705246} = {6E7523E3-058B-42E1-A8FE-731D58E46BC6}
+		{46226861-3380-411E-8B53-3E5FCDEC7C78} = {6E7523E3-058B-42E1-A8FE-731D58E46BC6}
+		{05DD671B-5053-4439-9F40-CD87E306741D} = {65A9F672-FC50-4C38-BE3D-25AC7817003C}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93621E9D-982B-478A-8811-ACB7C67693F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93621E9D-982B-478A-8811-ACB7C67693F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93621E9D-982B-478A-8811-ACB7C67693F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93621E9D-982B-478A-8811-ACB7C67693F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A058B2FE-BC51-44D3-B7E6-F11702AB135E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A058B2FE-BC51-44D3-B7E6-F11702AB135E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A058B2FE-BC51-44D3-B7E6-F11702AB135E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A058B2FE-BC51-44D3-B7E6-F11702AB135E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97570CDB-4ED6-44E8-8CDD-0B8A82705246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97570CDB-4ED6-44E8-8CDD-0B8A82705246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97570CDB-4ED6-44E8-8CDD-0B8A82705246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97570CDB-4ED6-44E8-8CDD-0B8A82705246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46226861-3380-411E-8B53-3E5FCDEC7C78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46226861-3380-411E-8B53-3E5FCDEC7C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46226861-3380-411E-8B53-3E5FCDEC7C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46226861-3380-411E-8B53-3E5FCDEC7C78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05DD671B-5053-4439-9F40-CD87E306741D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DD671B-5053-4439-9F40-CD87E306741D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DD671B-5053-4439-9F40-CD87E306741D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DD671B-5053-4439-9F40-CD87E306741D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
