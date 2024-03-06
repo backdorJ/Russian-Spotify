@@ -1,15 +1,22 @@
+using Microsoft.EntityFrameworkCore;
+using RussianSpotift.API.Data.PostgreSQL;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddDbContext<EfContext>(
+    options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddPostgreSQLLayout();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using var scoped = app.Services.CreateScope();
+var migrator = scoped.ServiceProvider.GetRequiredService<Migrator>();
+await migrator.MigrateAsync();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
