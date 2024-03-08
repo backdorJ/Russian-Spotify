@@ -19,7 +19,7 @@ public class User : IdentityUser<Guid>
     /// <summary>
     /// Логин пользователя
     /// </summary>
-    public string Login { get; protected set; } = default!;
+    public string Login { get; set; } = default!;
 
     /// <summary>
     /// День рождения пользователя
