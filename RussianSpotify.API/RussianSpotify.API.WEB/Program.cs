@@ -17,6 +17,17 @@ builder.Services.AddSwaggerGen();
 // Добавлен медиатр
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
+// Добавлен db контекст, настроил identity с юзерами и ролями, добавил стор с identity таблицами
+builder.Services.AddDbContext<EfContext>(
+        options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
+    .AddIdentity<User, Role>(opt =>
+    {
+        opt.User.RequireUniqueEmail = true;
+        opt.Password.RequiredLength = 8;
+    })
+    .AddEntityFrameworkStores<EfContext>()
+    .AddDefaultTokenProviders();
+
 // Добавлена аутентификация и jwt bearer
 builder.Services.AddAuthentication(options =>
 {
@@ -36,17 +47,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!))
     };
 });
-
-// Добавлен db контекст, настроил identity с юзерами и ролями, добавил стор с identity таблицами
-builder.Services.AddDbContext<EfContext>(
-        options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
-    .AddIdentity<User, Role>(opt =>
-    {
-        opt.User.RequireUniqueEmail = true;
-        opt.Password.RequiredLength = 8;
-        opt.SignIn.RequireConfirmedEmail = false;
-    })
-    .AddEntityFrameworkStores<EfContext>();
 
 // Добавлен слой с db контекстом
 builder.Services.AddPostgreSQLLayout();

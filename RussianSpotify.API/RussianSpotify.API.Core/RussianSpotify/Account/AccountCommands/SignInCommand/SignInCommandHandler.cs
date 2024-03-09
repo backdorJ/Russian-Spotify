@@ -13,12 +13,15 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, AccountComman
 {
     private readonly UserManager<User> _userManager;
 
+    private readonly SignInManager<User> _signInManager;
+
     private readonly IJwtGenerator _jwtGenerator;
 
-    public SignInCommandHandler(UserManager<User> userManager, IJwtGenerator jwtGenerator)
+    public SignInCommandHandler(UserManager<User> userManager, IJwtGenerator jwtGenerator, SignInManager<User> signInManager)
     {
         _userManager = userManager;
         _jwtGenerator = jwtGenerator;
+        _signInManager = signInManager;
     }
 
     public async Task<AccountCommandResult> Handle(SignInCommand request, CancellationToken cancellationToken)
@@ -33,14 +36,16 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, AccountComman
             return errorResult;
         }
 
-        var isCorrectPassword = await _userManager.CheckPasswordAsync(user, request.Password);
+        var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
-        if (!isCorrectPassword)
+        if (!signInResult.Succeeded)
         {
             errorResult.ErrorMessages.Add(AuthErrorMessages.WrongPassword);
             return errorResult;
         }
 
+        await _signInManager.SignInAsync(user, isPersistent: false, "Bearer Token");
+        
         var userRoles = await _userManager.GetRolesAsync(user);
 
         var authClaims = new List<Claim>
@@ -57,7 +62,7 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, AccountComman
         return new AccountCommandResult
         {
             IsSuccessfull = true,
-            StatusCode = HttpStatusCode.Redirect,
+            StatusCode = HttpStatusCode.OK,
             Token = new JwtSecurityTokenHandler().WriteToken(jwt)
         };
     }

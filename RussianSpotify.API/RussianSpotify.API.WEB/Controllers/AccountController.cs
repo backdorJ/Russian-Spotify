@@ -1,9 +1,6 @@
-using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.RussianSpotify.Account.AccountCommands;
 using RussianSpotify.API.Core.RussianSpotify.Account.AccountCommands.RegisterCommand;
 using RussianSpotify.API.Core.RussianSpotify.Account.AccountCommands.SignInCommand;
@@ -12,7 +9,6 @@ using RussianSpotify.API.WEB.Models.ViewModels;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
-[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]/[action]")]
 public class AccountController : ControllerBase
@@ -65,4 +61,7 @@ public class AccountController : ControllerBase
         return StatusCode((int)registerResult.StatusCode, authResultDto);
     }
 
+    [Authorize]
+    [HttpGet]
+    public string Test() => "Test";
 }
