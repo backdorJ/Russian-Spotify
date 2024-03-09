@@ -8,8 +8,16 @@ using RussianSpotify.API.Core.Services;
 
 namespace RussianSpotify.API.Core;
 
+/// <summary>
+/// Добавление Core слоя(Инъекция всех зависимостей Core)
+/// </summary>
 public static class AddCoreLayoutExtension
 {
+    /// <summary>
+    /// Добавление сервисов в коллекцию
+    /// </summary>
+    /// <param name="services">Builder.Services</param>
+    /// <returns>Коллекцию сервисов с добавленными зависимостями</returns>
     public static IServiceCollection AddCoreLayout(this IServiceCollection services)
     {
         services.AddMediatR(config 

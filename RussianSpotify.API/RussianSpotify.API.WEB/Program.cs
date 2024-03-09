@@ -1,52 +1,36 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using RussianSpotift.API.Data.PostgreSQL;
 using RussianSpotify.API.Core;
-using RussianSpotify.API.Core.Entities;
+using RussianSpotify.API.WEB.Configurations;
+using RussianSpotify.API.WEB.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenWithAuth();
 
 // Добавлен медиатр
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
-// Добавлен db контекст, настроил identity с юзерами и ролями, добавил стор с identity таблицами
-builder.Services.AddDbContext<EfContext>(
-        options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
-    .AddIdentity<User, Role>(opt =>
-    {
-        opt.User.RequireUniqueEmail = true;
-        opt.Password.RequiredLength = 8;
-    })
-    .AddEntityFrameworkStores<EfContext>()
-    .AddDefaultTokenProviders();
+// Добавлен middleware для обработки исключений
+builder.Services.AddSingleton<ExceptionMiddleware>();
+
+// Добавлен db контекст, настроен identity с юзерами и ролями, добавлен стор с identity таблицами
+builder.Services.AddDbContextWithIdentity(configuration.GetConnectionString("DefaultConnection"));
 
 // Добавлена аутентификация и jwt bearer
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.SaveToken = true;
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
+builder.Services.AddAuthenticationWithJwtBearer(configuration);
+
+// Настройка CORS
+builder.Services.AddCors(opt
+    => opt.AddPolicy("AllowAll", policy =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = configuration["JWT:ValidAudience"],
-        ValidIssuer = configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!))
-    };
-});
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+    })
+);
 
 // Добавлен слой с db контекстом
 builder.Services.AddPostgreSQLLayout();
@@ -56,6 +40,7 @@ builder.Services.AddCoreLayout();
 
 var app = builder.Build();
 
+// Применение миграций
 using var scoped = app.Services.CreateScope();
 var migrator = scoped.ServiceProvider.GetRequiredService<Migrator>();
 await migrator.MigrateAsync();
@@ -66,8 +51,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Добавлено использование middleware для обработки исключений
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseHttpsRedirection();
 
+// Настройка CORS
+app.UseCors("AllowAll");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

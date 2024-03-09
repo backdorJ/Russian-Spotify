@@ -1,10 +1,16 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotify.API.Core.Abstractions;
 
+/// <summary>
+/// Отвечает за генерацию JWT
+/// </summary>
 public interface IJwtGenerator
 {
-    public JwtSecurityToken GenerateToken(List<Claim> authenticationClaims);
+    /// <summary>
+    /// Генерирует JWT
+    /// </summary>
+    /// <param name="authenticationClaims">Ифнормация о пользователе</param>
+    /// <returns>JWT в виде строки</returns>
+    public string GenerateToken(List<Claim> authenticationClaims);
 }

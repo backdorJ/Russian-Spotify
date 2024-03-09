@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
-using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotift.API.Data.PostgreSQL.Seeder;
@@ -37,7 +36,6 @@ public class DbSeeder : IDbSeeder
             .Select(x => x.Id)
             .ToListAsync(cancellationToken) ?? new List<Guid>();
 
-        // TODO: Добавить normalized-role-name
         var rolesToSeed = BaseRoles
             .Where(x => !existsRolesInDb.Contains(x.Key))
             .Select(x => new Role { Id = x.Key, Name = x.Value, NormalizedName = x.Value.ToUpper() })

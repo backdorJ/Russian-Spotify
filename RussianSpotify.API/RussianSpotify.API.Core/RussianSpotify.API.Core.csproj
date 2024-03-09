@@ -28,8 +28,4 @@
       <ProjectReference Include="..\RussianSpotify.API.Contracts\RussianSpotify.API.Contracts.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Requests\" />
-    </ItemGroup>
-
 </Project>
