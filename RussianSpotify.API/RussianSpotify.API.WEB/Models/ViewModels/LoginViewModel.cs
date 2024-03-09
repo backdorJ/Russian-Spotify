@@ -5,7 +5,7 @@ namespace RussianSpotify.API.WEB.Models.Dtos;
 public class LoginViewModel
 {
     [Required]
-    public string Login { get; set; }
+    public string UserName { get; set; }
     
     [Required]
     [DataType(DataType.Password)]

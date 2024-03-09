@@ -12,9 +12,9 @@ public class DbSeeder : IDbSeeder
 {
     private static readonly IReadOnlyDictionary<Guid, string> BaseRoles = new Dictionary<Guid, string>()
     {
-        [BaseRoleIds.AdminId] = "Админ",
-        [BaseRoleIds.AuthorId] = "Автор",
-        [BaseRoleIds.UserId] = "Пользователь"
+        [RussianSpotify.API.Core.DefaultSettings.BaseRoles.AdminId] = "Админ",
+        [RussianSpotify.API.Core.DefaultSettings.BaseRoles.AuthorId] = "Автор",
+        [RussianSpotify.API.Core.DefaultSettings.BaseRoles.UserId] = "Пользователь"
     };
 
     /// <inheritdoc />
@@ -39,7 +39,7 @@ public class DbSeeder : IDbSeeder
         
         rolesToSeed.ForEach(x =>
         {
-            if (!BaseRoleIds.RolePrivileges.TryGetValue(x.Id, out var privileges))
+            if (!RussianSpotify.API.Core.DefaultSettings.BaseRoles.RolePrivileges.TryGetValue(x.Id, out var privileges))
                 throw new ArgumentException("Не найдена для данной роли привилегий");
             
             x.UpdatePrivileges(privileges);
@@ -52,12 +52,12 @@ public class DbSeeder : IDbSeeder
     {
         var existsRolesInDb = await dbContext.Roles
             .Include(x => x.Privileges)
-            .Where(x => BaseRoleIds.RolePrivileges.Keys.Contains(x.Id))
+            .Where(x => RussianSpotify.API.Core.DefaultSettings.BaseRoles.RolePrivileges.Keys.Contains(x.Id))
             .ToListAsync(cancellationToken);
         
         existsRolesInDb.ForEach(x =>
         {
-            if (!BaseRoleIds.RolePrivileges.TryGetValue(x.Id, out var privileges))
+            if (!RussianSpotify.API.Core.DefaultSettings.BaseRoles.RolePrivileges.TryGetValue(x.Id, out var privileges))
                 throw new ArgumentException("Не найдена для данной роли привилегий");
 
             var currentPriviles = x.Privileges.Select(y => y.Privilege).ToList();

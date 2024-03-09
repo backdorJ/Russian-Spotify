@@ -4,13 +4,11 @@ namespace RussianSpotify.API.WEB.Models.Dtos;
 
 public class AuthResultDto
 {
-    public HttpStatusCode StatusCode { get; set; }
-    
     public bool IsSuccessfull { get; set; }
+
+    public List<string> ErrorMessages { get; set; } = new();
+
+    public string? ReturnUrl { get; set; }
     
-    public string ReturnUrl { get; set; }
-    
-    public string MessageOnError { get; set; }
-    
-    public byte[] Token { get; set; }
+    public string Token { get; set; }
 }

@@ -1,91 +1,68 @@
 using System.Net;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Entities;
+using RussianSpotify.API.Core.RussianSpotify.Account.AccountCommands;
+using RussianSpotify.API.Core.RussianSpotify.Account.AccountCommands.RegisterCommand;
+using RussianSpotify.API.Core.RussianSpotify.Account.AccountCommands.SignInCommand;
 using RussianSpotify.API.WEB.Models.Dtos;
 using RussianSpotify.API.WEB.Models.ViewModels;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
-[Authorize]
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]/[action]")]
 public class AccountController : ControllerBase
 {
-    private readonly SignInManager<User> _signInManager;
+    private readonly IMediator _mediator;
 
-    private readonly UserManager<User> _userManager;
-
-    public AccountController(SignInManager<User> signInManager, UserManager<User> userManager)
-    {
-        _signInManager = signInManager;
-        _userManager = userManager;
-    }
-
+    public AccountController(IMediator mediator) => _mediator = mediator;
 
     [HttpPost]
-    public async Task<ActionResult<AuthResultDto>> Login([FromBody] LoginViewModel model)
+    public async Task<ActionResult<AuthResultDto>> Login([FromBody] LoginViewModel model, CancellationToken cancellationToken)
     {
-        var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, model.RememberMe, false);
+        var command = new SignInCommand()
+        {
+            UserName = model.UserName,
+            Password = model.Password,
+        };
 
-        if (!result.Succeeded)
-            return BadRequest(
-                new AuthResultDto
-                {
-                    IsSuccessfull = false, StatusCode = HttpStatusCode.BadRequest,
-                    MessageOnError = "Wrong login or password", ReturnUrl = model.ReturnUrl
-                }
-            );
+        var signInResult = await _mediator.Send(command, cancellationToken);
 
-        var user = await _userManager.FindByNameAsync(model.Login);
-        var token = await _userManager.CreateSecurityTokenAsync(user);
-
-        return Ok(
-            new AuthResultDto
-            {
-                IsSuccessfull = true,
-                Token = token,
-                ReturnUrl = model.ReturnUrl,
-                StatusCode = HttpStatusCode.Redirect
-            }
-        );
+        var authResultDto = new AuthResultDto
+        {
+            IsSuccessfull = signInResult.IsSuccessfull,
+            ErrorMessages = signInResult.ErrorMessages,
+            Token = signInResult.Token,
+            ReturnUrl = model.ReturnUrl ?? string.Empty
+        };
+        
+        return StatusCode((int)signInResult.StatusCode, authResultDto);
     }
 
     [HttpPost]
-    public async Task<ActionResult<AuthResultDto>> Register([FromBody] RegisterViewModel model)
+    public async Task<ActionResult<AccountCommandResult>> Register([FromBody] RegisterViewModel model)
     {
-        if(model.Password != model.PasswordConfirm)
-            return BadRequest(
-                new AuthResultDto
-                {
-                    IsSuccessfull = false, StatusCode = HttpStatusCode.BadRequest,
-                    MessageOnError = "Passwords != PasswordConfirmation", ReturnUrl = model.ReturnUrl
-                }
-            );
-        
-        var user = new User { Email = model.Email, UserName = model.Login};
-        var registerResult = await _userManager.CreateAsync(user, model.Password);
-        
-        if(!registerResult.Succeeded)
-            return BadRequest(
-            new AuthResultDto
-            {
-                IsSuccessfull = false, StatusCode = HttpStatusCode.BadRequest,
-                MessageOnError = registerResult.Errors.First().Description, ReturnUrl = model.ReturnUrl
-            }
-        );
+        var command = new RegisterCommand
+        {
+            UserName = model.UserName,
+            Email = model.Email,
+            Password = model.Password,
+            PasswordConfirm = model.PasswordConfirm
+        };
 
-        user = await _userManager.FindByNameAsync(model.Login);
-        var token = await _userManager.CreateSecurityTokenAsync(user);
+        var registerResult = await _mediator.Send(command);
+        var authResultDto = new AuthResultDto
+        {
+            IsSuccessfull = registerResult.IsSuccessfull,
+            ErrorMessages = registerResult.ErrorMessages,
+            ReturnUrl = model.ReturnUrl ?? string.Empty
+        };
 
-        return Ok(
-            new AuthResultDto
-            {
-                IsSuccessfull = true, StatusCode = HttpStatusCode.Redirect, 
-                ReturnUrl = model.ReturnUrl, Token = token
-            }
-        );
+        return StatusCode((int)registerResult.StatusCode, authResultDto);
     }
 
 }

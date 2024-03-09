@@ -1,9 +1,9 @@
-
 using System.ComponentModel.DataAnnotations;
+using MediatR;
 
-namespace RussianSpotify.API.WEB.Models.ViewModels;
+namespace RussianSpotify.API.Core.RussianSpotify.Account.AccountCommands.RegisterCommand;
 
-public class RegisterViewModel
+public class RegisterCommand: IRequest<AccountCommandResult>
 {
     [Required]
     public string UserName { get; set; }
@@ -18,6 +18,4 @@ public class RegisterViewModel
     
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; }
-
-    public string? ReturnUrl { get; set; }
 }
