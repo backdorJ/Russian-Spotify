@@ -1,8 +1,19 @@
+import "./styles/LoginPage.css"
+import AuthForm from "./components/AuthForm/AuthForm";
+import AccountSignupBox from "./components/AccountSignupBox/AccountSignupBox";
+import React from "react";
+import Header from "./components/Header/Header";
+
 const LoginPage = () => {
     return (
-        <div>
-            
+        <div className="auth-form-container1">
+            <Header/>
+            <div className="login-form-container">
+                <AuthForm />
+                <AccountSignupBox />
+            </div>
         </div>
-    )
+    );
 }
-export default LoginPage
+
+export default LoginPage;

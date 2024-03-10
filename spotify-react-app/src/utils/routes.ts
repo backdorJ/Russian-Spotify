@@ -1,7 +1,9 @@
+import LoginPage from "../pages/LoginPage/LoginPage";
+
 export default [
     {
-        path: 'путь',
-        element: 'компонент'
+        path: '/login',
+        element: LoginPage()
     },
     {
         path: 'путь',

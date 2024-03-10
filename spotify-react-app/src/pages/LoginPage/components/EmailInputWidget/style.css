@@ -1,0 +1,33 @@
+.login-form-label-container {
+  flex: 0 0 auto;
+  margin-top: 29px;
+}
+.input-label-container {
+  border: none;
+  box-sizing: border-box;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  height: 74px;
+}
+.email-label-style {
+  font: var(--font-weight-700) var(--font-size-13) "Inter";
+  display: block;
+  margin-bottom: 10px;
+  color: var(--color-black);
+}
+.email-input-style {
+  border: none;
+  border-radius: var(--border-radius-4);
+  font: var(--font-weight-400) var(--font-size-15) "Inter";
+  background: var(--color-white);
+  box-sizing: border-box;
+  width: 100%;
+  height: 48px;
+  padding-left: 13px;
+  box-shadow: inset 0 0 0 1px #878787;
+}
+.input-style-f62::placeholder {
+  color: var(--color-dimgrey-b54ff344);
+}

@@ -1,0 +1,165 @@
+.auth-form-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+}
+.rounded-blue-button {
+  flex: 0 0 auto;
+  border: 1px solid var(--color-black-b9fa);
+  border-radius: var(--border-radius-500);
+  font: var(--font-weight-700) var(--font-size-14) "Inter";
+  background: var(--color-dodgerblue-24b168f6);
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  justify-content: center;
+  min-width: 450px;
+  height: 48px;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+.svg-container {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  color: var(--color-white);
+}
+.rounded-dark-button {
+  flex: 0 0 auto;
+  border: 1px solid var(--color-grey-2a36df50);
+  border-radius: var(--border-radius-500);
+  font: var(--font-weight-700) var(--font-size-13) "Inter";
+  background: var(--color-black-34deeef1);
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  min-width: 450px;
+  height: 48px;
+  margin-top: 10px;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+.separator-line {
+  flex: 0 0 auto;
+  border: 1px solid var(--color-gainsboro-c702608);
+  box-sizing: border-box;
+  width: 196px;
+  height: 2px;
+  margin-top: 22px;
+}
+.border-separator-horizontal {
+  flex: 0 0 auto;
+  border: 1px solid var(--color-gainsboro-c702608);
+  box-sizing: border-box;
+  align-self: flex-end;
+  width: 196px;
+  height: 2px;
+  margin-top: -2px;
+}
+.header-text-styles {
+  flex: 0 0 auto;
+  font: var(--font-weight-700) var(--font-size-14) / 1px "Inter";
+  align-self: center;
+  margin-top: 1px;
+  color: var(--color-black);
+  text-align: center;
+  text-transform: uppercase;
+  white-space: pre-wrap;
+}
+.login-section-controls {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+.password-reset-section {
+  flex: 0 0 auto;
+  padding-bottom: 24px;
+}
+.password-reset-link-text-style {
+  font: var(--font-weight-400) var(--font-size-16) "Helvetica";
+  color: var(--color-black);
+  text-decoration-line: underline;
+  white-space: pre-wrap;
+}
+.login-section1 {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+}
+.checkbox-container {
+  border: 1px solid var(--color-grey);
+  border-radius: var(--border-radius-3);
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+}
+.checkbox-container input:checked + img {
+  display: block;
+}
+.hidden-input {
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+.hidden-icon {
+  display: none;
+  width: 16px;
+  max-width: initial;
+  height: 16px;
+  margin-top: -1px;
+  margin-left: -1px;
+}
+
+.remember-me-label {
+  font: var(--font-weight-400) var(--font-size-13) "Inter";
+  margin-left: 11px;
+  color: var(--color-black);
+}
+.login-section {
+  flex: 0 0 auto;
+  padding-top: 36px;
+}
+.login-button-style {
+  border: none;
+  border-radius: var(--border-radius-500);
+  font: var(--font-weight-700) var(--font-size-14) "Inter";
+  background: var(--color-mediumseagreen-49039f4b);
+  box-sizing: border-box;
+  display: block;
+  width: 122px;
+  min-width: 122px;
+  height: 48px;
+  color: var(--color-black);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+.border-separator {
+  flex: 0 0 auto;
+  border: 1px solid var(--color-gainsboro-c702608);
+  box-sizing: border-box;
+  height: 2px;
+  margin-top: 22px;
+}
