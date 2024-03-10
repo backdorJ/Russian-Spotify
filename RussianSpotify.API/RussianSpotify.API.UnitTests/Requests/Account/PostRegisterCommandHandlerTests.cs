@@ -41,7 +41,7 @@ public class PostRegisterCommandHandlerTests : AccountCommandTestBase
         // Act
         // Assert
         await Assert.ThrowsAsync<ArgumentNullException>(async () => 
-            await postRegisterCommandHandler.Handle(null, default));
+            await postRegisterCommandHandler.Handle(null!, default));
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class PostRegisterCommandHandlerTests : AccountCommandTestBase
         });
         
         var postRegisterCommandHandler = new PostRegisterCommandHandler(UserManager);
-        var user = Context.Users.ToList();
+
         // Act
         // Assert
         await Assert.ThrowsAsync<EmailAlreadyRegisteredException>(async () =>
