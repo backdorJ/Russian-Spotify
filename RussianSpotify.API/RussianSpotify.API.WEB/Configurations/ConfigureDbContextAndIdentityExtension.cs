@@ -10,6 +10,9 @@ namespace RussianSpotify.API.WEB.Configurations;
 /// </summary>
 public static class ConfigureDbContextAndIdentityExtension
 {
+    private const string AllowAnyCharactersWithRus = 
+        "йцукенгшщзхъыфвапролджэячсмитьбюabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
+    
     /// <summary>
     /// Добавление db контекста с настройкой identity(юзеры, роли и стор)
     /// </summary>
@@ -28,6 +31,7 @@ public static class ConfigureDbContextAndIdentityExtension
             opt.Password.RequireDigit = false;
             opt.Password.RequireNonAlphanumeric = false;
             opt.Password.RequireUppercase = false;
+            opt.User.AllowedUserNameCharacters = AllowAnyCharactersWithRus;
         })
         .AddEntityFrameworkStores<EfContext>()
         .AddDefaultTokenProviders();

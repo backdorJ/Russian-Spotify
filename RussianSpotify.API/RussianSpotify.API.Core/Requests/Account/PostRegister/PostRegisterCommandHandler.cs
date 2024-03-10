@@ -17,14 +17,7 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand>
     public PostRegisterCommandHandler(UserManager<User> userManager)
         => _userManager = userManager;
 
-    /// <summary>
-    /// Регистрирует пользователя
-    /// </summary>
-    /// <param name="request">PostRegisterCommand</param>
-    /// <param name="cancellationToken"></param>
-    /// <exception cref="ArgumentNullException">Если пустой request</exception>
-    /// <exception cref="EmailAlreadyRegisteredException">Если существует пользователь с такой же почтой</exception>
-    /// <exception cref="RegisterUserException">Если UserManager по каким-то причинам не смог зарегистрировать пользователя</exception>
+    /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task Handle(PostRegisterCommand request, CancellationToken cancellationToken)
     {
         if (request is null)
@@ -47,6 +40,6 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand>
             throw new RegisterUserException(
                 string.Join("\n", result.Errors.Select(errror => errror.Description)));
 
-        await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName);
+        await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName.ToUpper());
     }
 }

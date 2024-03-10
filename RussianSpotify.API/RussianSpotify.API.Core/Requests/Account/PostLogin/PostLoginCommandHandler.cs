@@ -30,15 +30,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
         _jwtGenerator = jwtGenerator;
     }
 
-    /// <summary>
-    /// Логин пользователя
-    /// </summary>
-    /// <param name="request">PostLoginCommand</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>PostLoginResponse с JWT</returns>
-    /// <exception cref="ArgumentNullException">Если request пустой</exception>
-    /// <exception cref="NotFoundUserException">Если пользователь с такой почтой не найден</exception>
-    /// <exception cref="WrongPasswordException">Если введён неверный пароль</exception>
+    /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task<PostLoginResponse> Handle(PostLoginCommand request, CancellationToken cancellationToken)
     {
         if (request is null)
@@ -51,7 +43,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
 
         var passwordSignInResult =
             await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
-
+        
         if (!passwordSignInResult.Succeeded)
             throw new WrongPasswordException(AuthErrorMessages.WrongPassword);
 

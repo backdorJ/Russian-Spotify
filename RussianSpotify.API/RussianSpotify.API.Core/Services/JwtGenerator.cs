@@ -16,11 +16,7 @@ public class JwtGenerator: IJwtGenerator
 
     public JwtGenerator(IConfiguration configuration) => _configuration = configuration;
 
-    /// <summary>
-    /// Генерирует JWT
-    /// </summary>
-    /// <param name="authenticationClaims">Информация о пользователе</param>
-    /// <returns>JWT в виде строки</returns>
+    /// <inheritdoc cref="IJwtGenerator"/> 
     public string GenerateToken(List<Claim> authenticationClaims)
     {
         var authSignInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]!));

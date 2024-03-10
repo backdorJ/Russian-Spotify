@@ -12,6 +12,9 @@ public class PostLoginCommandValidator : AbstractValidator<PostLoginCommand>
     {
         RuleFor(command => command.Email)
             .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("Email"));
+
+        RuleFor(command => command.Email)
+            .EmailAddress().WithMessage(AuthErrorMessages.InvalidEmailFormat);
         
         RuleFor(command => command.Password)
             .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("Password"));

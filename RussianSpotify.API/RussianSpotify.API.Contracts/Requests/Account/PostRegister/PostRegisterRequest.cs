@@ -23,5 +23,5 @@ public class PostRegisterRequest
     /// <summary>
     /// Почта
     /// </summary>
-    public string Email { get; set; } = default;
+    public string Email { get; set; } = default!;
 }

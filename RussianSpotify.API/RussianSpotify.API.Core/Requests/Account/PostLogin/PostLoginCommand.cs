@@ -6,7 +6,7 @@ namespace RussianSpotify.API.Core.Requests.Account.PostLogin;
 /// <summary>
 /// Команда для авторизации пользователя
 /// </summary>
-public class PostLoginCommand: IRequest<PostLoginResponse>
+public class PostLoginCommand:  PostLoginRequest, IRequest<PostLoginResponse>
 {
     public PostLoginCommand(PostLoginRequest request)
     {
@@ -20,14 +20,4 @@ public class PostLoginCommand: IRequest<PostLoginResponse>
     public PostLoginCommand()
     {
     }
-    
-    /// <summary>
-    /// Почта
-    /// </summary>
-    public string Email { get; set; } = default!;
-
-    /// <summary>
-    /// Пароль
-    /// </summary>
-    public string Password { get; set; } = default!;
 }

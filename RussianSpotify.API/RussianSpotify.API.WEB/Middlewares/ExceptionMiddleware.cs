@@ -9,6 +9,7 @@ namespace RussianSpotify.API.WEB.Middlewares;
 /// </summary>
 public class ExceptionMiddleware : IMiddleware
 {
+    /// <inheritdoc cref="IMiddleware"/>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try

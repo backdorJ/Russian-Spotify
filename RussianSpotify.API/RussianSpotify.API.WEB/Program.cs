@@ -17,7 +17,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Progr
 builder.Services.AddSingleton<ExceptionMiddleware>();
 
 // Добавлен db контекст, настроен identity с юзерами и ролями, добавлен стор с identity таблицами
-builder.Services.AddDbContextWithIdentity(configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddDbContextWithIdentity(configuration.GetConnectionString("DefaultConnection")!);
 
 // Добавлена аутентификация и jwt bearer
 builder.Services.AddAuthenticationWithJwtBearer(configuration);
