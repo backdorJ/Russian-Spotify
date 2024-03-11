@@ -43,7 +43,7 @@
 .button-switch-type {
     border: none;
     background: none;
-    cursor: none;
+    cursor: pointer;
     width: 100%;
     height: 100%;
     margin-top: 5%;
