@@ -1,24 +1,24 @@
 .vertical-centered-container {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-width: 1440px;
-  border-bottom: 1px solid #d9dadc;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #d9dadc;
 }
+
 .vertical-centered-box {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  width: 144px;
-  height: 92px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 80px;
 }
+
 .image-container {
-  flex: 0 0 auto;
-  display: block;
-  max-width: initial;
-  height: 45px;
+    flex: 0 0 auto;
+    display: block;
+    height: 60%;
 }

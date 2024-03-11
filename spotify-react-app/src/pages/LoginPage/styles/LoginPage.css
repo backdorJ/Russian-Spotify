@@ -1,34 +1,25 @@
+/** {*/
+/*    overflow: hidden;*/
+/*}*/
+
 .signup-section {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: flex-start;
+    justify-content: center;
     width: 100%;
     margin-top: 32px;
 }
+
 .signup-prompt-text-style {
     flex: 0 0 auto;
-    font: var(--font-weight-700) var(--font-size-17) "Inter";
+    font-weight: 700;
+    font-size: 17px;
+    font-family: "Inter", sans-serif;
     align-self: center;
-    color: var(--color-black);
+    color: black;
     white-space: pre-wrap;
-}
-.sign-up-button-style {
-    flex: 0 0 auto;
-    border: 1px solid var(--color-grey-2a36df50);
-    border-radius: var(--border-radius-500);
-    font: var(--font-weight-700) var(--font-size-13) "Inter";
-    background: var(--color-991c5d52);
-    box-sizing: border-box;
-    display: block;
-    min-width: 450px;
-    height: 48px;
-    margin-top: 22px;
-    color: var(--color-dimgrey-b54ff344);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    cursor: pointer;
 }
 
 .auth-form-container1 {
@@ -36,12 +27,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-width: 1440px;
+    justify-content: center;
 }
+
 .login-form-container {
     box-sizing: border-box;
-    width: 451px;
-    padding-top: 40px;
-    padding-bottom: 133px;
+    padding-top: 5%;
+    width: 35%;
+}
+
+@media only screen and (max-width: 767px) {
+    .login-form-container {
+        box-sizing: border-box;
+        padding-top: 5%;
+        width: 85%;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .login-form-container {
+        box-sizing: border-box;
+        padding-top: 5%;
+        width: 60%;
+    }
 }

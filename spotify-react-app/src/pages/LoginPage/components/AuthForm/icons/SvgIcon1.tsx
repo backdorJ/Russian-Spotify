@@ -2,11 +2,6 @@ function SvgIcon1({ className }: { className: string }) {
   return (
     <div className={className}>
       <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" x="0" y="0">
-        <defs>
-          <clipPath id="clip1_0_878" xmlns="http://www.w3.org/2000/svg">
-            <rect height="24" width="24" fill="white" transform="translate(0, 0.018699999999995498)" />
-          </clipPath>
-        </defs>
         <g id="Frame_6" clipPath="url(#clip1_0_878)" xmlns="http://www.w3.org/2000/svg" data-node-id="0:888">
           <g id="Frame_7" data-node-id="0:889">
             <path
