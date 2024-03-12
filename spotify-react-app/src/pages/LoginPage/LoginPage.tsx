@@ -1,6 +1,5 @@
 import "./styles/LoginPage.css"
 import AuthForm from "./components/AuthForm/AuthForm";
-import AccountSignupBox from "./components/AccountSignupBox/AccountSignupBox";
 import React from "react";
 import Header from "./components/Header/Header";
 
@@ -10,7 +9,10 @@ const LoginPage = () => {
             <Header/>
             <div className="login-form-container">
                 <AuthForm />
-                <AccountSignupBox />
+                <div className="signup-section">
+                    <p className="signup-prompt-text-style">Don't have an account?</p>
+                    <button className="sign-up-button-style">Sign up for Spotify</button>
+                </div>
             </div>
         </div>
     );
