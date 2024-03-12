@@ -27,7 +27,7 @@ const InputWidget = () => {
                         <input id="password" placeholder="Password" type={isPasswordVisible ? 'text' : 'password'}
                                className="input-container input-style-f62::placeholder"/>
                         <div className="svg-container1">
-                            <button onClick={togglePasswordVisibility} className="button-switch-type">
+                            <button onClick={togglePasswordVisibility} className="button-switch-type" type="button">
                                 <svg id="toggle-password"
                                      viewBox="0 0 24.875 22.0241">
                                     <path

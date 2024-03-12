@@ -1,5 +1,6 @@
 body {
     background-color: #120F0F;
+    height: 100%;
 }
 .signup-section {
     box-sizing: border-box;
@@ -44,6 +45,7 @@ body {
 }
 
 .sign-up-button-style {
+    -webkit-tap-highlight-color: transparent;
     transition: all 0.3s ease;
     flex: 0 0 auto;
     border: 1px solid white;

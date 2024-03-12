@@ -60,6 +60,7 @@
 }
 
 .button-switch-type {
+    -webkit-tap-highlight-color: transparent;
     border: none;
     background: none;
     cursor: pointer;
