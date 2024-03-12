@@ -8,7 +8,7 @@ const LoginPage = () => {
         <div className="auth-form-container1">
             <Header/>
             <div className="login-form-container">
-                <AuthForm />
+                <AuthForm/>
                 <div className="signup-section">
                     <p className="signup-prompt-text-style">Don't have an account?</p>
                     <button className="sign-up-button-style">Sign up for Spotify</button>

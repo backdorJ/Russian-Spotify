@@ -1,7 +1,6 @@
-/** {*/
-/*    overflow: hidden;*/
-/*}*/
-
+body {
+    background-color: #120F0F;
+}
 .signup-section {
     box-sizing: border-box;
     display: flex;
@@ -9,7 +8,6 @@
     align-items: stretch;
     justify-content: center;
     width: 100%;
-    margin-top: 32px;
 }
 
 .signup-prompt-text-style {
@@ -18,7 +16,7 @@
     font-size: 17px;
     font-family: "Inter", sans-serif;
     align-self: center;
-    color: black;
+    color: white;
     white-space: pre-wrap;
 }
 
@@ -45,19 +43,10 @@
     margin-top: 25px;
 }
 
-.signup-prompt-text-style {
-    flex: 0 0 auto;
-    font-weight: 700;
-    font-size: 17px;
-    font-family: "Inter", sans-serif;
-    align-self: center;
-    color: black;
-    white-space: pre-wrap;
-}
-
 .sign-up-button-style {
+    transition: all 0.3s ease;
     flex: 0 0 auto;
-    border: 1px solid gray;
+    border: 1px solid white;
     border-radius: 500px;
     font-weight: 700;
     font-size: 13px;
@@ -67,11 +56,18 @@
     display: block;
     height: 48px;
     margin: 10px 0;
-    color: dimgray;
+    color: white;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     cursor: pointer;
-    width: 100%;
+    width: 70%;
+}
+
+.sign-up-button-style:hover {
+    transition: all 0.3s ease;
+    background: mediumseagreen;
+    color: black;
+    border-color: black;
 }
 
 @media only screen and (max-width: 767px) {

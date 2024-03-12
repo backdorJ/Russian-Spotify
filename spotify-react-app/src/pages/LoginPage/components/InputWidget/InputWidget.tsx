@@ -15,7 +15,7 @@ const InputWidget = () => {
                         Email address or username
                     </label>
                     <input id="email address or username" placeholder="Email address or username" type="text"
-                           className="email-input-style input-style-f62::placeholder"/>
+                           className="input-container input-style-f62::placeholder"/>
                 </div>
             </div>
             <div className="password-field-container">

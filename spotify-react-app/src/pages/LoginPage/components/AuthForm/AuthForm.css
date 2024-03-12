@@ -7,8 +7,9 @@
 }
 
 .rounded-blue-button {
+    transition: all 0.1s linear;
     flex: 0 0 auto;
-    border: 1px solid #b9fa;
+    border: 1px solid dodgerblue;
     border-radius: 500px;
     font-weight: 700;
     font-size: 14px;
@@ -26,23 +27,25 @@
     cursor: pointer;
 }
 
-.svg-container {
-    display: flex;
-    width: 24px;
-    height: 24px;
+.rounded-blue-button:hover {
+    transition: all 0.1s linear;
+    background-color: white;
+    color: #1976d2;
+    border-color: black;
 }
 
-.rounded-dark-button {
+.rounded-red-button {
+    transition: all 0.1s linear;
     flex: 0 0 auto;
-    border: 1px solid #2a36df50;
+    border: 1px solid #FC3F1D;
     border-radius: 500px;
     font-weight: 700;
     font-size: 14px;
     font-family: "Inter", sans-serif;
-    background: black;
+    background: #FC3F1D;
     box-sizing: border-box;
     display: inline-flex;
-    gap: 14px;
+    gap: 9px;
     align-items: center;
     justify-content: center;
     height: 48px;
@@ -53,9 +56,22 @@
     cursor: pointer;
 }
 
+.rounded-red-button:hover {
+    transition: all 0.1s linear;
+    background-color: white;
+    border-color: black;
+    color: #FC3F1D;
+}
+
+.rounded-red-button:hover .yandex-button-svg {
+    transition: all 0.1s linear;
+    fill: #FC3F1D;
+}
+
 .rounded-white-button {
+    transition: all 0.1s linear;
     flex: 0 0 auto;
-    border: 1px solid gray;
+    border: 1px solid white;
     border-radius: 500px;
     font-weight: 700;
     font-size: 14px;
@@ -63,7 +79,7 @@
     background: white;
     box-sizing: border-box;
     display: inline-flex;
-    gap: 9px;
+    gap: 5px;
     align-items: center;
     justify-content: center;
     margin-top: 10px;
@@ -74,8 +90,17 @@
     cursor: pointer;
 }
 
-.rounded-white-button .svg-container {
-    margin-top: 5px;
+.rounded-white-button:hover {
+    transition: all 0.1s linear;
+    background-color: dimgray;
+    color: white;
+    border-color: black;
+}
+
+.svg-container {
+    display: flex;
+    width: 24px;
+    height: 24px;
 }
 
 .separator-line {
@@ -105,7 +130,7 @@
     font-family: "Inter", sans-serif;
     align-self: center;
     margin-top: -5px;
-    color: black;
+    color: white;
     text-align: center;
     text-transform: uppercase;
     white-space: pre-wrap;
@@ -131,7 +156,7 @@
     font-weight: 400;
     font-size: 16px;
     font-family: Helvetica, sans-serif;
-    color: black;
+    color: white;
     text-decoration-line: underline;
     white-space: pre-wrap;
 }
@@ -149,7 +174,7 @@
     font-size: 13px;
     font-family: "Inter", sans-serif;
     margin-left: 11px;
-    color: black;
+    color: white;
 }
 
 .switch {
@@ -172,7 +197,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgb(181, 181, 181);
+    background-color: rgb(106, 105, 105);
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -227,15 +252,19 @@ input:checked + .slider:before {
     display: block;
     width: 100%;
     height: 48px;
-    color: black;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     cursor: pointer;
 }
 
+.login-button-style:hover {
+    transition: all 0.1s ease;
+    background: #287b51;
+}
+
 .border-separator {
     flex: 0 0 auto;
-    border: 1px solid gainsboro;
+    border: 1px solid white;
     box-sizing: border-box;
     height: 2px;
     margin-top: 22px;
