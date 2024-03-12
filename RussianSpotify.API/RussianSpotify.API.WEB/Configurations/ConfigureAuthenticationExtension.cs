@@ -48,12 +48,13 @@ public static class ConfigureAuthenticationExtension
             config.ClientId = configuration["Authentication:VK:AppId"]!;
             config.ClientSecret = configuration["Authentication:VK:AppSecret"]!;
             config.ClaimsIssuer = "VK";
-            config.CallbackPath = new PathString("/signin-vk-token");
+            config.CallbackPath = new PathString("/signin-vkontakte-token");
             config.AuthorizationEndpoint = "https://oauth.vk.com/authorize";
             config.TokenEndpoint = "https://oauth.vk.com/access_token";
             config.Scope.Add("email");
             config.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "user_id");
             config.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+            config.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "");
             config.SaveTokens = true;
             config.SignInScheme = IdentityConstants.ExternalScheme;
             config.Events = new OAuthEvents

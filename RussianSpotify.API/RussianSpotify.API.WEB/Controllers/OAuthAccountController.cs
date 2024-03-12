@@ -32,7 +32,7 @@ public class OAuthAccountController : ControllerBase
     }
 
     [HttpGet("ExternalLogin")]
-    public IActionResult ExternalLogin([FromQuery] string provider, [FromQuery] string returnUrl)
+    public IActionResult ExternalLogin(string provider, string? returnUrl = null)
     {
         var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "OAuthAccount", new { returnUrl });
          var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
@@ -40,10 +40,9 @@ public class OAuthAccountController : ControllerBase
     }
 
     [HttpGet("ExternalLoginCallback")]
-    public async Task<PostLoginResponse> ExternalLoginCallback([FromQuery] string returnUrl)
+    public async Task<PostLoginResponse> ExternalLoginCallback(string? returnUrl)
     {
         var info = await _signInManager.GetExternalLoginInfoAsync();
-        var info2 =  _signInManager.Context.Request.Cookies["Identity.External"];
         
         if (info is null)
             throw new ApplicationBaseException("Can not authorize(info null)", HttpStatusCode.InternalServerError);
@@ -51,6 +50,7 @@ public class OAuthAccountController : ControllerBase
         var jwt = _jwtGenerator.GenerateToken(info.Principal.Claims.ToList());
         var refreshToken = _jwtGenerator.GenerateRefreshToken();
 
+        var haha = info.Principal.Claims.Select(x => x.Value).ToList();
         return new PostLoginResponse { Token = jwt, RefreshToken = refreshToken };
     }
     
@@ -58,6 +58,7 @@ public class OAuthAccountController : ControllerBase
     public async Task<string> RegisterExternalConfirmed(string userName, string returnUrl)
     {
         var info = await _signInManager.GetExternalLoginInfoAsync();
+        
         if (info is null)
             throw new ApplicationBaseException("Can not authorize", HttpStatusCode.InternalServerError);
 
