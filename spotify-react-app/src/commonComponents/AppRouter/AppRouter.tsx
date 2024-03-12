@@ -8,7 +8,7 @@ export default function AppRouter() {
         <Routes>
             {
                 routes.map(({path, element}) => (
-                    <Route path={path} element={element({})} />
+                    <Route path={path} element={element({})} key={path}/>
                 ))
             }
         </Routes>

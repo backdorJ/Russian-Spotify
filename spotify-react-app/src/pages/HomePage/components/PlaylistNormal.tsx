@@ -1,5 +1,3 @@
-
-
 export default function PlaylistNormal(props: any) {
     const {imageUrl, title, description, playlistId} = props
 

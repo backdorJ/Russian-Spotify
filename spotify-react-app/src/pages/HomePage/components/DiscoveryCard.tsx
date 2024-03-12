@@ -1,5 +1,3 @@
-
-
 export default function DiscoveryCard(props: any) {
     const {imageUrl, name, artistId} = props
     const role = 'Artist'

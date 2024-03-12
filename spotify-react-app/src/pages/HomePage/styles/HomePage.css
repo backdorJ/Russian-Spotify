@@ -17,6 +17,7 @@ p {
 }
 
 .home-page__header > h2 {
+    text-transform: capitalize;
     font-family: 'proxima_nova_rgbold', sans-serif;
     font-size: 36px;
     margin-bottom: 30px;
@@ -38,6 +39,12 @@ p {
     border-radius: 8px;
     background-color: #FFFFFF0A;
     box-sizing: border-box;
+    transition: .03s;
+}
+
+.homepage__playlist-little:hover {
+    transform: scale(1.02);
+    transition: .03s;
 }
 
 .homepage__playlist-little__image-div {
@@ -93,6 +100,12 @@ p {
     padding: 16px;
     border-radius: 8px;
     background-color: #FFFFFF0A;
+    transition: .03s;
+}
+
+.home-page__discovery-card:hover {
+    transform: scale(1.02);
+    transition: .03s;
 }
 
 .home-page__discovery-card__image-div {
@@ -147,6 +160,7 @@ p {
     display: flex;
 }
 
+
 .home-page__latest-albums__cards > div:not(:last-child) {
     margin-right: 20px;
 }
@@ -160,6 +174,12 @@ p {
     padding: 16px;
     border-radius: 8px;
     background-color: #FFFFFF0A;
+    transition: .03s;
+}
+
+.home-page__playlist-normal:hover {
+    transform: scale(1.02);
+    transition: .03s;
 }
 
 .home-page__playlist-normal__image-div {

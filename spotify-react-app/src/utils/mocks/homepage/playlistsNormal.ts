@@ -39,5 +39,11 @@ export default [
         title: 'Discover Weekly',
         description: 'A blend of music for Dan & Hayley, updates everyday',
         playlistId: 5
+    },
+    {
+        imageUrl: discover_weekly_pic,
+        title: 'Discover Weekly',
+        description: 'A blend of music for Dan & Hayley, updates everyday',
+        playlistId: 6
     }
 ]

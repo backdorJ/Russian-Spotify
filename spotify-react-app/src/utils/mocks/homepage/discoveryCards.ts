@@ -27,5 +27,10 @@ export default [
         imageUrl: peggy_pic,
         name: 'Peggy Gou',
         artistId: 4
+    },
+    {
+        imageUrl: peggy_pic,
+        name: 'Peggy Gou',
+        artistId: 5
     }
 ]

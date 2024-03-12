@@ -1,6 +1,3 @@
-import {FC} from "react";
-
-
 export default function PlaylistLittle(props: any) {
     const {imageUrl, name, playlistId} = props
 
