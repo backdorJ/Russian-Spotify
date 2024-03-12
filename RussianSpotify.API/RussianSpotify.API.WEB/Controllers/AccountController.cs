@@ -21,7 +21,6 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// <summary>
 /// Контроллер отвечающий за авторизацию и регистрацию
 /// </summary>
-// [AllowAnonymous]
 [ApiController]
 [Route("api/[controller]/")]
 public class AccountController : ControllerBase

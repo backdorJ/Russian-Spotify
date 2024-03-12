@@ -2,8 +2,10 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using RussianSpotify.API.Core.Exceptions;
 
@@ -26,7 +28,7 @@ public static class ConfigureAuthenticationExtension
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; 
         }).AddJwtBearer(options =>
         {
             options.SaveToken = true;
@@ -53,11 +55,18 @@ public static class ConfigureAuthenticationExtension
             config.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "user_id");
             config.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
             config.SaveTokens = true;
+            config.SignInScheme = IdentityConstants.ExternalScheme;
             config.Events = new OAuthEvents
             {
                 OnRemoteFailure = _ =>
                     throw new ApplicationBaseException("Failure to VK authorization",
                         HttpStatusCode.InternalServerError)
             };
-        });
+        }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+        options =>
+    {
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+        options.Cookie.IsEssential = true;
+    });
 }
