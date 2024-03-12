@@ -1,4 +1,5 @@
 import LoginPage from "../pages/LoginPage/LoginPage";
+import RegisterPage from "../pages/RegisterPage/RegisterPage";
 
 export default [
     {
@@ -6,7 +7,7 @@ export default [
         element: LoginPage()
     },
     {
-        path: 'путь',
-        element: 'компонент'
+        path: '/register',
+        element: RegisterPage()
     }
 ]

@@ -8,7 +8,7 @@
 
 .rounded-blue-button {
     -webkit-tap-highlight-color: transparent;
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     flex: 0 0 auto;
     border: 1px solid dodgerblue;
     border-radius: 500px;
@@ -29,20 +29,20 @@
 }
 
 .rounded-blue-button:hover {
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     background-color: white;
     color: #1976d2;
     border-color: black;
 }
 
 .rounded-blue-button:hover .vk-button-svg {
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     fill: #1976d2;
 }
 
 .rounded-red-button {
     -webkit-tap-highlight-color: transparent;
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     flex: 0 0 auto;
     border: 1px solid #FC3F1D;
     border-radius: 500px;
@@ -64,20 +64,20 @@
 }
 
 .rounded-red-button:hover {
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     background-color: white;
     border-color: black;
     color: #FC3F1D;
 }
 
 .rounded-red-button:hover .yandex-button-svg {
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     fill: #FC3F1D;
 }
 
 .rounded-white-button {
     -webkit-tap-highlight-color: transparent;
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     flex: 0 0 auto;
     border: 1px solid white;
     border-radius: 500px;
@@ -99,7 +99,7 @@
 }
 
 .rounded-white-button:hover {
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     background-color: dimgray;
     color: white;
     border-color: black;
@@ -208,8 +208,8 @@
     right: 0;
     bottom: 0;
     background-color: rgb(106, 105, 105);
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: .3s;
+    transition: .3s;
 }
 
 .slider:before {
@@ -220,16 +220,16 @@
     left: 4px;
     bottom: 4px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: .3s;
+    transition: .3s;
 }
 
 input:checked + .slider {
-    background-color: mediumseagreen;
+    background-color: mediumpurple;
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px mediumseagreen;
+    box-shadow: 0 0 1px mediumpurple;
 }
 
 input:checked + .slider:before {
@@ -252,13 +252,14 @@ input:checked + .slider:before {
 }
 
 .login-button-style {
+    transition: all 0.3s ease;
     -webkit-tap-highlight-color: transparent;
-    border: none;
+    border: 1px solid mediumpurple;
     border-radius: 500px;
     font-weight: 700;
     font-size: 14px;
     font-family: "Inter", sans-serif;
-    background: mediumseagreen;
+    background: mediumpurple;
     box-sizing: border-box;
     display: block;
     width: 100%;
@@ -269,8 +270,9 @@ input:checked + .slider:before {
 }
 
 .login-button-style:hover {
-    transition: all 0.1s ease;
-    background: #287b51;
+    transition: all 0.3s ease;
+    background: #5a4184;
+    border-color: black;
 }
 
 .border-separator {

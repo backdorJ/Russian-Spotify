@@ -67,7 +67,7 @@ body {
 
 .sign-up-button-style:hover {
     transition: all 0.3s ease;
-    background: mediumseagreen;
+    background: mediumpurple;
     color: black;
     border-color: black;
 }
