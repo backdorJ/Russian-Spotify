@@ -12,7 +12,6 @@ public class EfContextFactory
     public static User RegisteredUser = new()
     {
         Id = Guid.NewGuid(),
-        Login = "userNameUserPasswordPasswordEmailString@mail.com",
         Email = "String@mail.com",
         NormalizedEmail = "String@mail.com".ToUpper(),
         SecurityStamp = Guid.NewGuid().ToString(),

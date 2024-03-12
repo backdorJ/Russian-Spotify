@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
 
 /// <summary>
@@ -5,7 +7,8 @@ namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
 /// </summary>
 public class WrongPasswordException : ApplicationBaseException
 {
-    public WrongPasswordException(string message) : base(message)
+    public WrongPasswordException(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+        : base(message, statusCode)
     {
     }
 

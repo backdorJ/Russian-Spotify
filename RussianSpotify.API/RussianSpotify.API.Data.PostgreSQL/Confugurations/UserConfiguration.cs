@@ -10,10 +10,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
-            .Property(p => p.Login)
-            .IsRequired();
-
-        builder
             .Property(p => p.Birthday);
 
         builder

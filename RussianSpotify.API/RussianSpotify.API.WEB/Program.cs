@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using RussianSpotift.API.Data.PostgreSQL;
 using RussianSpotify.API.Core;
 using RussianSpotify.API.WEB.Configurations;

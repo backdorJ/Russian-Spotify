@@ -1,7 +1,11 @@
+using System.Net;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.IdentityModel.Tokens;
+using RussianSpotify.API.Core.Exceptions;
 
 namespace RussianSpotify.API.WEB.Configurations;
 
@@ -31,9 +35,29 @@ public static class ConfigureAuthenticationExtension
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
                 ValidAudience = configuration["JWT:ValidAudience"],
+                ValidateLifetime = true,
                 ValidIssuer = configuration["JWT:ValidIssuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!))
+            };
+        }).AddOAuth("VK", "VK", config =>
+        {
+            config.ClientId = configuration["Authentication:VK:AppId"]!;
+            config.ClientSecret = configuration["Authentication:VK:AppSecret"]!;
+            config.ClaimsIssuer = "VK";
+            config.CallbackPath = new PathString("/signin-vk-token");
+            config.AuthorizationEndpoint = "https://oauth.vk.com/authorize";
+            config.TokenEndpoint = "https://oauth.vk.com/access_token";
+            config.Scope.Add("email");
+            config.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "user_id");
+            config.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+            config.SaveTokens = true;
+            config.Events = new OAuthEvents
+            {
+                OnRemoteFailure = _ =>
+                    throw new ApplicationBaseException("Failure to VK authorization",
+                        HttpStatusCode.InternalServerError)
             };
         });
 }

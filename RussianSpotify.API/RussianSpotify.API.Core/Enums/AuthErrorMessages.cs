@@ -36,4 +36,37 @@ public static class AuthErrorMessages
     /// Неправильный формат почты
     /// </summary>
     public const string InvalidEmailFormat = "Invalid email format";
+
+    /// <summary>
+    /// Новый пароль и старый совпадают
+    /// </summary>
+    public const string EqualsOldAndNewPasswords = "The new password must not be equal to the old one";
+
+    /// <summary>
+    /// Пароль короче минимальной длины
+    /// </summary>
+    /// <param name="requiredLength">Минимальная длина пароля</param>
+    /// <returns></returns>
+    public static string ShortPassword(int requiredLength) 
+        => $"The password must be more than {requiredLength} symbols";
+
+    /// <summary>
+    /// Некорректный JWT
+    /// </summary>
+    public const string InvalidAccessToken = "Invalid Access Token";
+    
+    /// <summary>
+    /// Некорректный Refresh Token
+    /// </summary>
+    public const string InvalidRefreshToken = "Invalid Refresh Token";
+
+    /// <summary>
+    /// Неверный код подтверждения
+    /// </summary>
+    public const string WrongConfirmationToken = "Confirmation token is wrong";
+
+    /// <summary>
+    /// Неподтверждённая почта
+    /// </summary>
+    public const string NotConfirmedEmail = "You need to confirm your Email Address";
 }

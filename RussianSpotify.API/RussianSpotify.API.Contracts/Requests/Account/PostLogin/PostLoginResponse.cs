@@ -9,4 +9,9 @@ public class PostLoginResponse
     /// JWT
     /// </summary>
     public string Token { get; set; } = default!;
+
+    /// <summary>
+    /// Токен для обновления JWT
+    /// </summary>
+    public string RefreshToken { get; set; } = default!;
 }

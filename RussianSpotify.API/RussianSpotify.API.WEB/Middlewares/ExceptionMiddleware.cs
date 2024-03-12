@@ -1,6 +1,6 @@
 using System.Net;
 using FluentValidation;
-using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Exceptions;
 
 namespace RussianSpotify.API.WEB.Middlewares;
 
@@ -16,19 +16,21 @@ public class ExceptionMiddleware : IMiddleware
         {
             await next(context);
         }
+        catch (ApplicationBaseException exception)
+        {
+            context.Response.StatusCode = (int)exception.ResponseStatusCode;
+
+            await context.Response.WriteAsJsonAsync(exception.Message);
+        }
+        catch (ValidationException exception)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+            await context.Response.WriteAsJsonAsync(exception.Message);
+        }
         catch (Exception exception)
         {
-            context.Response.StatusCode = exception switch
-                {
-                    NotFoundUserException or WrongPasswordException
-                        => (int)HttpStatusCode.Unauthorized,
-                    
-                    ValidationException 
-                        => (int)HttpStatusCode.BadRequest,
-                    
-                    EmailAlreadyRegisteredException or RegisterUserException or _ 
-                        => (int)HttpStatusCode.InternalServerError
-                };
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             await context.Response.WriteAsJsonAsync(exception.Message);
         }

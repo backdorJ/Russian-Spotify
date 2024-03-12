@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace RussianSpotify.API.Core.Exceptions;
 
 /// <summary>
@@ -9,8 +11,9 @@ public class NotIncludedException : ApplicationBaseException
     /// Консутрктор
     /// </summary>
     /// <param name="message"></param>
-    public NotIncludedException(string message)
-        : base($"Забыли incled на файл: {message}")
+    /// <param name="statusCode"></param>
+    public NotIncludedException(string message, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
+        : base($"Забыли incled на файл: {message}", statusCode)
     {
     }
 

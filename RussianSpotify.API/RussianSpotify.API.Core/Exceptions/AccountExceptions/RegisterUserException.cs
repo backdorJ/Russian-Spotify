@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
 
 /// <summary>
@@ -5,7 +7,8 @@ namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
 /// </summary>
 public class RegisterUserException : ApplicationBaseException
 {
-    public RegisterUserException(string message) : base(message)
+    public RegisterUserException(string message, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
+        : base(message, statusCode)
     {
     }
 

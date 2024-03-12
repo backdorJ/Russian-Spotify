@@ -15,12 +15,22 @@ public class User : IdentityUser<Guid>
         AuthorAlbums = new();
         Songs = new();
     }
+
+    /// <summary>
+    /// JWT
+    /// </summary>
+    public string? AccessToken { get; set; }
     
     /// <summary>
-    /// Логин пользователя
+    /// Токен для обновления JWT
     /// </summary>
-    public string Login { get; set; } = default!;
-
+    public string? RefreshToken { get; set; }
+    
+    /// <summary>
+    /// Время жизни Refresh Token
+    /// </summary>
+    public DateTime? RefreshTokenExpiryTime { get; set; }
+    
     /// <summary>
     /// День рождения пользователя
     /// </summary>
@@ -77,7 +87,6 @@ public class User : IdentityUser<Guid>
         => new()
         {
             Id = id ?? Guid.NewGuid(),
-            Login = login,
             Birthday = birthday,
             Email = email,
             Phone = phone,

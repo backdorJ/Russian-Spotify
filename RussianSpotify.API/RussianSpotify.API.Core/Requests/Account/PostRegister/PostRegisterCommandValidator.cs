@@ -20,7 +20,10 @@ public class PostRegisterCommandValidator : AbstractValidator<PostRegisterComman
             .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("User Name"));
         
         RuleFor(command => command.Password)
-            .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("Password"));    
+            .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("Password")); 
+        
+        RuleFor(command => command.Password).MinimumLength(8)
+            .WithMessage(AuthErrorMessages.ShortPassword(8));
         
         RuleFor(command => command.PasswordConfirm)
             .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("Password Confirm"));  

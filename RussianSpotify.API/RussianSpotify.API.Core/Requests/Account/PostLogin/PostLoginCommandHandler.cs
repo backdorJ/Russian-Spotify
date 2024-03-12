@@ -41,6 +41,9 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
         if (user is null)
             throw new NotFoundUserException(AuthErrorMessages.UserNotFound);
 
+        if (!user.EmailConfirmed)
+            throw new NotConfirmedEmailException(AuthErrorMessages.NotConfirmedEmail);
+        
         var passwordSignInResult =
             await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
         
@@ -54,14 +57,22 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
         var authClaims = new List<Claim>
         {
             new(ClaimTypes.Name, user.UserName!),
+            new(ClaimTypes.Email, request.Email),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
         foreach (var role in userRoles) 
             authClaims.Add(new Claim(ClaimTypes.Role, role));
-
+        
         var jwt = _jwtGenerator.GenerateToken(authClaims);
+        var refreshToken = _jwtGenerator.GenerateRefreshToken();
 
-        return new PostLoginResponse { Token = jwt };
+        user.AccessToken = jwt;
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(10);
+
+        await _userManager.UpdateAsync(user);
+        
+        return new PostLoginResponse { Token = jwt, RefreshToken = refreshToken};
     }
 }

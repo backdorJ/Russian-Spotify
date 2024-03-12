@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace RussianSpotify.API.Core.Exceptions;
 
 /// <summary>
@@ -5,9 +7,12 @@ namespace RussianSpotify.API.Core.Exceptions;
 /// </summary>
 public class ApplicationBaseException : Exception
 {
+    public HttpStatusCode ResponseStatusCode { get; set; }
+
     /// <summary>
     /// Конструктор
     /// </summary>
+    /// <param name="message"></param>
     public ApplicationBaseException()
     {
     }
@@ -16,8 +21,10 @@ public class ApplicationBaseException : Exception
     /// Конструктор
     /// </summary>
     /// <param name="message">Сообщение об ошибке</param>
-    public ApplicationBaseException(string message)
+    /// <param name="statusCode">Код ошибки</param>
+    public ApplicationBaseException(string message, HttpStatusCode statusCode)
         : base(message)
     {
+        ResponseStatusCode = statusCode;
     }
 }
