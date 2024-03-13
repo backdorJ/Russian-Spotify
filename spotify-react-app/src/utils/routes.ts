@@ -5,7 +5,7 @@ export default [
     {
         path: '/',
         element: HomePage
-    }
+    },
     {
         path: '/login',
         element: LoginPage
