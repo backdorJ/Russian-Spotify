@@ -13,7 +13,7 @@ const LoginPage = (props: any) => {
     }
 
     return (
-        <div className="form-page">
+        <div className="form-page login-page">
             <Header/>
             <div className="form-container">
                 <AuthForm/>
