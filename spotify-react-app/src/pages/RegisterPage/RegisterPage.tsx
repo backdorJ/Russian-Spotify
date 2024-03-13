@@ -4,7 +4,7 @@ import "./styles/RegisterPage.css"
 import Header from "../../commonComponents/Header/Header";
 import RegForm from "./components/RegForm/RegForm";
 
-const RegisterPage = () => {
+const RegisterPage = (props: any) => {
     const navigate = useNavigate();
 
     const navigateToLogin = () => {

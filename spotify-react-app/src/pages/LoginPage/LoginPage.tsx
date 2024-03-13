@@ -4,7 +4,8 @@ import "./styles/LoginPage.css"
 import AuthForm from "./components/AuthForm/AuthForm";
 import Header from "../../commonComponents/Header/Header";
 
-const LoginPage = () => {
+
+const LoginPage = (props: any) => {
     const navigate = useNavigate();
 
     const navigateToSignup = () => {
@@ -12,7 +13,7 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="form-page login-page">
+        <div className="form-page">
             <Header/>
             <div className="form-container">
                 <AuthForm/>

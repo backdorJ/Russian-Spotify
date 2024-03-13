@@ -2,10 +2,10 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 
 export default [
-    {
-        path: '/',
-        element: HomePage
-    },
+    // {
+    //     path: '/',
+    //     element: HomePage
+    // },
     {
         path: '/login',
         element: LoginPage
