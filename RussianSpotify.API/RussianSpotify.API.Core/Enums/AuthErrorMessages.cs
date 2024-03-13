@@ -69,4 +69,9 @@ public static class AuthErrorMessages
     /// Неподтверждённая почта
     /// </summary>
     public const string NotConfirmedEmail = "You need to confirm your Email Address";
+
+    /// <summary>
+    /// Если в Claim'ах не пришла почта
+    /// </summary>
+    public const string EmailClaimNotFound = "Email was not found";
 }

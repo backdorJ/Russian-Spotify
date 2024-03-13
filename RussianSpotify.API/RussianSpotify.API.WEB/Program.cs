@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using RussianSpotift.API.Data.PostgreSQL;
 using RussianSpotify.API.Core;
 using RussianSpotify.API.WEB.Configurations;

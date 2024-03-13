@@ -28,7 +28,7 @@ public static class ConfigureAuthenticationExtension
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; 
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(options =>
         {
             options.SaveToken = true;
@@ -43,31 +43,25 @@ public static class ConfigureAuthenticationExtension
                 ValidIssuer = configuration["JWT:ValidIssuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!))
             };
-        }).AddOAuth("VK", "VK", config =>
+        }).AddOAuth("VK", "VKontakte", config =>
         {
-            config.ClientId = configuration["Authentication:VK:AppId"]!;
-            config.ClientSecret = configuration["Authentication:VK:AppSecret"]!;
-            config.ClaimsIssuer = "VK";
+            config.ClientId =  configuration["Authentication:VK:AppId"]!;
+            config.ClientSecret =  configuration["Authentication:VK:AppSecret"]!;
+            config.ClaimsIssuer = "VKontakte";
             config.CallbackPath = new PathString("/signin-vkontakte-token");
             config.AuthorizationEndpoint = "https://oauth.vk.com/authorize";
             config.TokenEndpoint = "https://oauth.vk.com/access_token";
             config.Scope.Add("email");
             config.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "user_id");
             config.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
-            config.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "");
             config.SaveTokens = true;
-            config.SignInScheme = IdentityConstants.ExternalScheme;
             config.Events = new OAuthEvents
             {
-                OnRemoteFailure = _ =>
-                    throw new ApplicationBaseException("Failure to VK authorization",
-                        HttpStatusCode.InternalServerError)
+                OnCreatingTicket = context =>
+                {
+                     context.RunClaimActions(context.TokenResponse.Response!.RootElement);
+                     return Task.CompletedTask;
+                }
             };
-        }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-        options =>
-    {
-        options.Cookie.SameSite = SameSiteMode.None;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-        options.Cookie.IsEssential = true;
-    });
+        });
 }

@@ -9,7 +9,10 @@ using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Exceptions.OAuthAccountExceptions;
 using RussianSpotify.Contracts.Requests.Account.PostLogin;
+using RussianSpotify.Contracts.Requests.OAuthAccount;
+using RussianSpotify.Contracts.Requests.OAuthAccount.RegisterExternalConfirmed;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -32,15 +35,15 @@ public class OAuthAccountController : ControllerBase
     }
 
     [HttpGet("ExternalLogin")]
-    public IActionResult ExternalLogin(string provider, string? returnUrl = null)
+    public IActionResult ExternalLogin([FromQuery] string provider)
     {
-        var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "OAuthAccount", new { returnUrl });
+        var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "OAuthAccount");
          var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
          return Challenge(properties, provider);
     }
 
     [HttpGet("ExternalLoginCallback")]
-    public async Task<PostLoginResponse> ExternalLoginCallback(string? returnUrl)
+    public async Task<GetExternalLoginCallbackResponse> ExternalLoginCallback()
     {
         var info = await _signInManager.GetExternalLoginInfoAsync();
         
@@ -50,12 +53,31 @@ public class OAuthAccountController : ControllerBase
         var jwt = _jwtGenerator.GenerateToken(info.Principal.Claims.ToList());
         var refreshToken = _jwtGenerator.GenerateRefreshToken();
 
-        var haha = info.Principal.Claims.Select(x => x.Value).ToList();
-        return new PostLoginResponse { Token = jwt, RefreshToken = refreshToken };
+        var email = info.Principal.Claims.FirstOrDefault(claim => claim.Type is ClaimTypes.Email)?.Value;
+        if (email is null)
+            throw new EmailClaimNotFoundException(AuthErrorMessages.EmailClaimNotFound);
+
+        var user = await _userManager.FindByEmailAsync(email);
+
+        var isRegistered = user is not null;
+
+        if (!isRegistered)
+            return new GetExternalLoginCallbackResponse
+                { AccessToken = jwt, RefreshToken = refreshToken, IsRegistered = isRegistered };
+
+        user!.AccessToken = jwt;
+        user.RefreshToken = refreshToken;
+
+        await _userManager.UpdateAsync(user);
+
+        return new GetExternalLoginCallbackResponse
+            { AccessToken = jwt, RefreshToken = refreshToken, IsRegistered = isRegistered };
     }
     
-    [HttpGet("RegisterExternalConfirmed")]
-    public async Task<string> RegisterExternalConfirmed(string userName, string returnUrl)
+    [Authorize]
+    [HttpPost("RegisterExternalConfirmed")]
+    public async Task<RegisterExternalConfirmedResponse> 
+        RegisterExternalConfirmed(RegisterExternalConfirmedRequest request)
     {
         var info = await _signInManager.GetExternalLoginInfoAsync();
         
@@ -64,14 +86,19 @@ public class OAuthAccountController : ControllerBase
 
         var email = info.Principal.Claims.First(claim => claim.Type is ClaimTypes.Email).Value;
 
-        var user = new User { UserName = userName, Email = email };
+        var jwt = _jwtGenerator.GenerateToken(info.Principal.Claims.ToList());
+        var refreshToken = _jwtGenerator.GenerateRefreshToken();
+        
+        var user = 
+            new User { UserName = request.UserName, Email = email,
+                AccessToken = jwt, RefreshToken = refreshToken, EmailConfirmed = true};
 
         var result = await _userManager.CreateAsync(user);
         await _userManager.AddToRoleAsync(user, "Пользователь");
 
         if (!result.Succeeded)
-            throw new RegisterUserException(); 
-        
-        return returnUrl;
+            throw new RegisterUserException();
+
+        return new RegisterExternalConfirmedResponse { AccessToken = jwt, RefreshToken = refreshToken };
     }
 }
