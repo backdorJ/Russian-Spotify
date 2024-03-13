@@ -9,11 +9,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    width: 100%;
     height: 74px;
 }
 
-.email-label-style {
+.form-labels-style {
     font-weight: 700;
     font-size: 13px;
     font-family: "Inter", sans-serif;
@@ -25,14 +24,6 @@
 .password-field-container {
     flex: 0 0 auto;
     margin-top: 18px;
-}
-
-.input-label-container {
-    box-sizing: border-box;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    height: 74px;
 }
 
 .password-input-container {

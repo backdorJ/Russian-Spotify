@@ -1,6 +1,6 @@
-import "./AuthForm.css";
+import "./styles/AuthForm.css";
 import React from "react";
-import InputWidget from "../InputWidget/InputWidget";
+import InputLoginWidget from "../InputLoginWidget/InputLoginWidget";
 
 const AuthForm = () => {
     return (
@@ -56,11 +56,11 @@ const AuthForm = () => {
             <div className="border-separator-horizontal"/>
             <p className="header-text-styles">or</p>
             <form>
-                <InputWidget/>
+                <InputLoginWidget/>
                 <div className="login-section-controls">
                     <div className="password-reset-section">
-                        <a className="password-reset-link-text-style" href="">Forgot your password?</a>
-                        <div className="login-section1">
+                        <a className="password-reset-link-text-style">Forgot your password?</a>
+                        <div className="login-section">
                             <div className="checkbox-container">
                                 <label className="switch">
                                     <input type="checkbox"/>
@@ -72,8 +72,8 @@ const AuthForm = () => {
                             </label>
                         </div>
                     </div>
-                    <div className="login-section">
-                        <button className="login-button-style">Log In</button>
+                    <div className="login-section1">
+                        <button className="purple-button-style">Log In</button>
                     </div>
                 </div>
                 <div className="border-separator"/>

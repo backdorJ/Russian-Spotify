@@ -141,14 +141,12 @@
     color: white;
     text-align: center;
     text-transform: uppercase;
-    white-space: pre-wrap;
 }
 
 .login-section-controls {
     flex: 0 0 auto;
     display: flex;
     flex-direction: row;
-    gap: 8px;
     align-items: flex-start;
     justify-content: space-between;
     margin-top: 5px;
@@ -170,12 +168,17 @@
     white-space: pre-wrap;
 }
 
-.login-section1 {
+.login-section {
     position: relative;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     margin-top: 24px;
+    justify-content: center;
+}
+
+.login-section a, .login-section p {
+    font-size: 16px;
 }
 
 .remember-me-label {
@@ -245,34 +248,10 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-.login-section {
+.login-section1 {
     flex: 0 0 auto;
     padding-top: 56px;
     width: 30%;
-}
-
-.login-button-style {
-    transition: all 0.3s ease;
-    -webkit-tap-highlight-color: transparent;
-    border: 1px solid mediumpurple;
-    border-radius: 500px;
-    font-weight: 700;
-    font-size: 14px;
-    font-family: "Inter", sans-serif;
-    background: mediumpurple;
-    box-sizing: border-box;
-    display: block;
-    width: 100%;
-    height: 48px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-}
-
-.login-button-style:hover {
-    transition: all 0.3s ease;
-    background: #5a4184;
-    border-color: black;
 }
 
 .border-separator {

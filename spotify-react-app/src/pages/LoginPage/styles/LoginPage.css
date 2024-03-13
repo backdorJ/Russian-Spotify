@@ -1,14 +1,21 @@
 body {
     background-color: #120F0F;
-    height: 100%;
+    font-family: "Inter", sans-serif;
 }
+
+p, a {
+    color: white;
+    font-size: 12px;
+}
+
 .signup-section {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
+    text-align: center;
     justify-content: center;
-    width: 100%;
+    margin-top: 25px;
 }
 
 .signup-prompt-text-style {
@@ -21,7 +28,7 @@ body {
     white-space: pre-wrap;
 }
 
-.auth-form-container1 {
+.form-page {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -29,22 +36,16 @@ body {
     justify-content: center;
 }
 
-.login-form-container {
+.form-container {
     box-sizing: border-box;
-    padding-top: 5%;
     width: 35%;
 }
 
-.signup-section {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 25px;
+.login-page .form-container {
+    padding-top: 4%;
 }
 
-.sign-up-button-style {
+.signup-for-button-style {
     -webkit-tap-highlight-color: transparent;
     transition: all 0.3s ease;
     flex: 0 0 auto;
@@ -65,7 +66,7 @@ body {
     width: 70%;
 }
 
-.sign-up-button-style:hover {
+.signup-for-button-style:hover {
     transition: all 0.3s ease;
     background: mediumpurple;
     color: black;
@@ -73,7 +74,7 @@ body {
 }
 
 @media only screen and (max-width: 767px) {
-    .login-form-container {
+    .form-container {
         box-sizing: border-box;
         padding-top: 5%;
         width: 85%;
@@ -81,7 +82,7 @@ body {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    .login-form-container {
+    .form-container {
         box-sizing: border-box;
         padding-top: 5%;
         width: 60%;
