@@ -1,10 +1,8 @@
+import HomePage from "../pages/HomePage/HomePage";
+
 export default [
     {
-        path: 'путь',
-        element: 'компонент'
-    },
-    {
-        path: 'путь',
-        element: 'компонент'
+        path: '/',
+        element: HomePage
     }
 ]
