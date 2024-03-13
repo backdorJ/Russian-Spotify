@@ -12,8 +12,8 @@ using RussianSpotift.API.Data.PostgreSQL;
 namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 {
     [DbContext(typeof(EfContext))]
-    [Migration("20240227112507_Add Subscribe in User")]
-    partial class AddSubscribeinUser
+    [Migration("20240312171724_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -332,6 +332,9 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("timestamp with time zone");
 
@@ -355,10 +358,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -378,6 +377,12 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
