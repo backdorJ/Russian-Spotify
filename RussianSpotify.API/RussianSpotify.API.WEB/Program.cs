@@ -20,7 +20,7 @@ builder.Services.AddSingleton<ExceptionMiddleware>();
 builder.Services.AddDbContextWithIdentity(configuration.GetConnectionString("DefaultConnection")!);
 
 // Добавлена аутентификация и jwt bearer
-builder.Services.AddAuthenticationWithJwtBearer(configuration);
+builder.Services.AddAuthenticationWithJwtAndExternalServices(configuration);
 
 // Настройка CORS
 builder.Services.AddCors(opt

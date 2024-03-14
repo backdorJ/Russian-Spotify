@@ -8,7 +8,7 @@ public class PostLoginResponse
     /// <summary>
     /// JWT
     /// </summary>
-    public string Token { get; set; } = default!;
+    public string AccessToken { get; set; } = default!;
 
     /// <summary>
     /// Токен для обновления JWT

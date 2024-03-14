@@ -2,6 +2,9 @@ using System.Net;
 
 namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
 
+/// <summary>
+/// Если у пользователя не подтвержён Email, но он хочет залогиниться
+/// </summary>
 public class NotConfirmedEmailException : ApplicationBaseException
 {
     public NotConfirmedEmailException(string message,

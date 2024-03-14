@@ -31,8 +31,7 @@ public class PostConfirmPasswordResetCommandHandler : IRequestHandler<PostConfir
             request.VerificationCodeFromUser, request.NewPassword);
         
         if (!passwordResetResult.Succeeded)
-            throw new ResetPasswordException(string.Join("\n",
-                passwordResetResult.Errors.Select(error => error.Description)));
+            throw new WrongConfirmationTokenException(AuthErrorMessages.WrongConfirmationToken);
         
         user.SecurityStamp = _userManager.GenerateNewAuthenticatorKey();
         user.RefreshToken = null;

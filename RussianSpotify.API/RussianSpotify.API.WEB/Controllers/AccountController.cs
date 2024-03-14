@@ -27,10 +27,7 @@ public class AccountController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    /// <summary>
-    /// Принимает в себя медиатр
-    /// </summary>
-    /// <param name="mediator">Из библиотеки MediatR</param>
+    /// <inheritdoc cref="ControllerBase"/>
     public AccountController(IMediator mediator) => _mediator = mediator;
 
     /// <summary>

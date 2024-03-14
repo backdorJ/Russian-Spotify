@@ -2,6 +2,9 @@ using System.Net;
 
 namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
 
+/// <summary>
+/// Если пришёл не валидный JWT или Refresh Token
+/// </summary>
 public class InvalidTokenException : ApplicationBaseException
 {
     public InvalidTokenException(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest) 

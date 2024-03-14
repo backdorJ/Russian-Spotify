@@ -69,10 +69,10 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
 
         user.AccessToken = jwt;
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(10);
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
 
         await _userManager.UpdateAsync(user);
         
-        return new PostLoginResponse { Token = jwt, RefreshToken = refreshToken};
+        return new PostLoginResponse { AccessToken = jwt, RefreshToken = refreshToken};
     }
 }

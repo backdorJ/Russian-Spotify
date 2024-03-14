@@ -74,4 +74,9 @@ public static class AuthErrorMessages
     /// Если в Claim'ах не пришла почта
     /// </summary>
     public const string EmailClaimNotFound = "Email was not found";
+
+    /// <summary>
+    /// Если не найдена логин информация при логине через сторонние сервисы
+    /// </summary>
+    public const string ExternalLoginInfoNotFound = "External Login Info was not found";
 }

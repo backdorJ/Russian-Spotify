@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.AspNetCore.Identity;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions;

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RussianSpotify.API.Core.Abstractions;
+using RussianSpotify.API.Core.Enums;
 
 namespace RussianSpotify.API.Core.Services;
 
@@ -24,7 +25,7 @@ public class JwtGenerator : IJwtGenerator
 
         var jwt = new JwtSecurityToken(issuer: _configuration["JWT:ValidIssuer"],
             audience: _configuration["JWT:ValidAudience"],
-            expires: DateTime.Now.AddMinutes(1),
+            expires: DateTime.Now.AddMinutes(TokenConfiguration.AccessTokenExpiryMinutes),
             claims: authenticationClaims,
             signingCredentials: new SigningCredentials(authSignInKey, SecurityAlgorithms.HmacSha256)
         );
