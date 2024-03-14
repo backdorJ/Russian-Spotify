@@ -1,4 +1,4 @@
-![image](https://github.com/backdorJ/Russian-Spotify/assets/121990701/06d1664e-1b57-443b-a47d-e67f104d54ea)# Russian Spotify Web Api
+# Russian Spotify Web Api
 
 ## 1. Авторизация, Регистрация и Аутентификация
 
