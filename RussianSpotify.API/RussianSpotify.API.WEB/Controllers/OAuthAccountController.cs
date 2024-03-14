@@ -1,14 +1,9 @@
-using System.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RussianSpotify.API.Core.Abstractions;
-using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
-using RussianSpotify.API.Core.Enums;
-using RussianSpotify.API.Core.Exceptions.AccountExceptions;
-using RussianSpotify.API.Core.Exceptions.OAuthAccountExceptions;
-using RussianSpotify.API.Core.Extensions;
+using RussianSpotify.API.Core.Requests.OAuthAccount.GetExternalLoginCallback;
 using RussianSpotify.Contracts.Requests.OAuthAccount.GetExternalLoginCallback;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -21,37 +16,30 @@ namespace RussianSpotify.API.WEB.Controllers;
 [AllowAnonymous]
 public class OAuthAccountController : ControllerBase
 {
-    private readonly UserManager<User> _userManager;
-    
-    private readonly SignInManager<User> _signInManager;
+    private readonly IMediator _mediator;
 
-    private readonly IJwtGenerator _jwtGenerator;
-    
     /// <inheritdoc cref="ControllerBase"/>
-    public OAuthAccountController(SignInManager<User> signInManager, UserManager<User> userManager, IJwtGenerator jwtGenerator)
-    {
-        _signInManager = signInManager;
-        _userManager = userManager;
-        _jwtGenerator = jwtGenerator;
-    }
+
+    public OAuthAccountController(IMediator mediator) => _mediator = mediator;
 
     /// <summary>
     /// Редирект пользователя на логин страницу стороннего сервиса
     /// </summary>
     /// <param name="provider">Имя провайдера(Vkontakte, Yandex, Google)</param>
+    /// <param name="signInManager">SignInManager для User</param>
     /// <returns>Challenge Result</returns>
     /// <response code="200">Если всё хорошо</response>
     /// <response code="500">Если не удалось залогиниться через стороннего провайдера</response>
     [HttpGet("ExternalLogin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult ExternalLogin([FromQuery] string provider)
+    public IActionResult ExternalLogin([FromQuery] string provider, [FromServices] SignInManager<User> signInManager)
     {
         var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "OAuthAccount");
-        var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return Challenge(properties, provider);
     }
-
+    
     /// <summary>
     /// Логин через сторонний сервис
     /// </summary>
@@ -64,49 +52,7 @@ public class OAuthAccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<GetExternalLoginCallbackResponse> ExternalLoginCallback()
     {
-        var info = await _signInManager.GetExternalLoginInfoAsync();
-        
-        if (info is null)
-            throw new ExternalLoginInfoNotFoundException(AuthErrorMessages.ExternalLoginInfoNotFound);
-
-        var claims = info.Principal.Claims.ToList();
-        
-        var jwt = _jwtGenerator.GenerateToken(claims);
-        var refreshToken = _jwtGenerator.GenerateRefreshToken();
-
-        var email = claims.GetClaimValueOf(ClaimTypes.Email);
-        if (email is null)
-            throw new EmailClaimNotFoundException(AuthErrorMessages.EmailClaimNotFound);
-
-        var user = await _userManager.FindByEmailAsync(email);
-        
-        if (user is null)
-        {
-            user = new User
-            {
-                UserName = claims.GetClaimValueOf(ClaimTypes.Name) ??
-                           $"{claims.GetClaimValueOf(ClaimTypes.GivenName)}" +
-                           $" {claims.GetClaimValueOf(ClaimTypes.Surname)}", 
-                Email = email,
-                EmailConfirmed = true
-            };
-
-            var createUserResult = await _userManager.CreateAsync(user);
-
-            if (!createUserResult.Succeeded)
-                throw new RegisterUserException(string.Join("\n",
-                    createUserResult.Errors.Select(error => error.Description)));
-            
-            await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName);
-        }
-
-        user.AccessToken = jwt;
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
-
-        await _userManager.UpdateAsync(user);
-        
-        return new GetExternalLoginCallbackResponse
-            { AccessToken = jwt, RefreshToken = refreshToken };
+        var command = new GetExternalLoginCallbackCommand();
+        return await _mediator.Send(command);
     }
 }

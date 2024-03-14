@@ -52,6 +52,6 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, P
         await _emailSender.SendEmail(request.Email,
             EmailMessages.ConfirmEmailMessage(emailVerificationCode), cancellationToken);
         
-        return new PostRegisterResponse { Email = request.Email, };
+        return new PostRegisterResponse { Email = request.Email };
     }
 }
