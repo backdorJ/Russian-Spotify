@@ -87,7 +87,8 @@ public class OAuthAccountController : ControllerBase
                 UserName = claims.GetClaimValueOf(ClaimTypes.Name) ??
                            $"{claims.GetClaimValueOf(ClaimTypes.GivenName)}" +
                            $" {claims.GetClaimValueOf(ClaimTypes.Surname)}", 
-                Email = email
+                Email = email,
+                EmailConfirmed = true
             };
 
             var createUserResult = await _userManager.CreateAsync(user);
