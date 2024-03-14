@@ -12,6 +12,7 @@
 
 ### VK:
   1. Заходим на сайт <a href="https://dev.vk.com/ru">VK Developers</a>
+
 ![image](https://github.com/backdorJ/Russian-Spotify/assets/121990701/13b1272d-472d-44e1-9433-8d37b7e289f9)
 
   2. Создаём приложение
