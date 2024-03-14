@@ -59,7 +59,7 @@ const AuthForm = () => {
                 <InputLoginWidget/>
                 <div className="login-section-controls">
                     <div className="password-reset-section">
-                        <a className="password-reset-link-text-style">Forgot your password?</a>
+                        <a className="password-reset-link-text-style" href="/">Forgot your password?</a>
                         <div className="login-section">
                             <div className="checkbox-container">
                                 <label className="switch">

@@ -9,11 +9,11 @@ const InputRegisterWidget = () => {
     const [fadeProp, setFadeProp] = useState({fade: 'fade-out'})
 
     const togglePassword1Visibility = () => {
-        setIsPassword1Visible(!isPassword1Visible);
+        setIsPassword1Visible(prev => !prev)
     }
 
     const togglePassword2Visibility = () => {
-        setIsPassword2Visible(!isPassword2Visible);
+        setIsPassword2Visible(prev => !prev)
     }
 
     useEffect(() => {
@@ -99,11 +99,9 @@ const InputRegisterWidget = () => {
                     </div>
                 </div>
             </div>
-            {
-                <div className={fadeProp.fade}>
-                    <p className="password-error">Passwords don't match</p>
-                </div>
-            }
+            <div className={fadeProp.fade}>
+                <p className="password-error">Passwords don't match</p>
+            </div>
         </div>
     );
 }
