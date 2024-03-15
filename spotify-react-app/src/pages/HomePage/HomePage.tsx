@@ -87,7 +87,6 @@ export default function HomePage(props: any) {
 
     return (
         <div style={{display: "flex"}}>
-            <div style={{minWidth: "280px", height: "auto", backgroundColor: "gray"}}></div>
             <div className="home-page">
                 <div className="home-page__header">
                     <h2>{currentTimeMode}, {username}</h2>

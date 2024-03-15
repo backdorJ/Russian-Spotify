@@ -34,6 +34,15 @@
 
 }
 
+.app {
+    width: 100%;
+    display: flex;
+}
+
+.app__main {
+    width: 100%;
+}
+
 body {
     margin: 0;
     color: #FFFFFF;
