@@ -1,6 +1,5 @@
 import HomePage from "../pages/HomePage/HomePage";
-import LoginPage from "../pages/LoginPage/LoginPage";
-import RegisterPage from "../pages/RegisterPage/RegisterPage";
+import routeNames from "./routeNames";
 
 export default [
     // {
@@ -8,11 +7,7 @@ export default [
     //     element: HomePage
     // },
     {
-        path: '/login',
-        element: LoginPage
-    },
-    {
-        path: '/register',
-        element: RegisterPage
+        path: routeNames.HOME_PAGE,
+        element: HomePage
     }
 ]
