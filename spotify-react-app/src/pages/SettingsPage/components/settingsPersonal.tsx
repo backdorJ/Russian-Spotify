@@ -7,7 +7,7 @@ export default function SettingsPersonal(props: any) {
             <div className="settings__personal__editable">
                 <div className="settings__personal__main">
                     <UserInfoElement header="Username" text="Your username" value={username} />
-                    <UserInfoElement header="Email" text="Your email" value={username} />
+                    <UserInfoElement header="Email" text="Your email" value={email} />
                     <UserInfoElement header="Password" text="Your password" value="********" />
                 </div>
                 <div className="settings__personal__main__edit">
