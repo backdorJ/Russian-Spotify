@@ -8,19 +8,19 @@ import {GoogleButtonSvg} from "../../../../assets/mock/loginpage/buttons-SVGs/Go
 const AuthForm = () => {
     return (
         <div className="auth-form-container">
-            <button className="rounded-blue-button">
+            <button className="rounded-button rounded-blue-button">
                 <div className="svg-container">
                     <VkButtonSvg/>
                 </div>
                 Continue with VK
             </button>
-            <button className="rounded-red-button">
+            <button className="rounded-button rounded-red-button">
                 <div className="svg-container">
                     <YandexButtonSvg/>
                 </div>
                 Continue with Yandex
             </button>
-            <button className="rounded-white-button">
+            <button className="rounded-button rounded-white-button">
                 <div className="svg-container">
                     <GoogleButtonSvg/>
                 </div>

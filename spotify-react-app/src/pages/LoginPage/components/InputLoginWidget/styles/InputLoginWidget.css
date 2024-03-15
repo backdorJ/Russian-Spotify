@@ -1,6 +1,6 @@
-.login-form-label-container {
+.input-field-container {
     flex: 0 0 auto;
-    margin-top: 5%;
+    margin-top: 6%;
 }
 
 .input-label-container {
@@ -19,11 +19,6 @@
     display: block;
     margin-bottom: 10px;
     color: white;
-}
-
-.password-field-container {
-    flex: 0 0 auto;
-    margin-top: 18px;
 }
 
 .password-input-container {

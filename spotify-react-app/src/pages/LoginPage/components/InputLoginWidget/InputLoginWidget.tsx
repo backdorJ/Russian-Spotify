@@ -10,7 +10,7 @@ const InputLoginWidget = () => {
     }
     return (
         <div>
-            <div className="login-form-label-container">
+            <div className="input-field-container">
                 <div className="input-label-container">
                     <label htmlFor="email address or username" className="form-labels-style">
                         Email address or username
@@ -19,7 +19,7 @@ const InputLoginWidget = () => {
                            className="input-container" required/>
                 </div>
             </div>
-            <div className="password-field-container">
+            <div className="input-field-container">
                 <div className="input-label-container">
                     <label htmlFor="password" className="form-labels-style">
                         Password

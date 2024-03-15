@@ -6,33 +6,39 @@
     justify-content: center;
 }
 
-.rounded-blue-button {
+.rounded-button {
     -webkit-tap-highlight-color: transparent;
     transition: all 0.3s linear;
     flex: 0 0 auto;
-    border: 1px solid dodgerblue;
     border-radius: 500px;
     font-weight: 700;
     font-size: 14px;
     font-family: "Inter", sans-serif;
-    background: dodgerblue;
-    box-sizing: border-box;
     display: flex;
+    box-sizing: border-box;
     gap: 9px;
     align-items: center;
     justify-content: center;
     height: 48px;
-    color: white;
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
+    color: white;
+}
+
+.rounded-button:hover {
+    transition: all 0.3s linear;
+    border-color: black;
+    background-color: white;
+}
+
+.rounded-blue-button {
+    border: 1px solid dodgerblue;
+    background: dodgerblue;
 }
 
 .rounded-blue-button:hover {
-    transition: all 0.3s linear;
-    background-color: white;
     color: #1976d2;
-    border-color: black;
 }
 
 .rounded-blue-button:hover .vk-button-svg {
@@ -41,32 +47,12 @@
 }
 
 .rounded-red-button {
-    -webkit-tap-highlight-color: transparent;
-    transition: all 0.3s linear;
-    flex: 0 0 auto;
     border: 1px solid #FC3F1D;
-    border-radius: 500px;
-    font-weight: 700;
-    font-size: 14px;
-    font-family: "Inter", sans-serif;
     background: #FC3F1D;
-    box-sizing: border-box;
-    display: inline-flex;
-    gap: 9px;
-    align-items: center;
-    justify-content: center;
-    height: 48px;
     margin-top: 10px;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    cursor: pointer;
 }
 
 .rounded-red-button:hover {
-    transition: all 0.3s linear;
-    background-color: white;
-    border-color: black;
     color: #FC3F1D;
 }
 
@@ -76,33 +62,14 @@
 }
 
 .rounded-white-button {
-    -webkit-tap-highlight-color: transparent;
-    transition: all 0.3s linear;
-    flex: 0 0 auto;
     border: 1px solid white;
-    border-radius: 500px;
-    font-weight: 700;
-    font-size: 14px;
-    font-family: "Inter", sans-serif;
-    background: white;
-    box-sizing: border-box;
-    display: inline-flex;
-    gap: 5px;
-    align-items: center;
-    justify-content: center;
     margin-top: 10px;
-    height: 48px;
     color: dimgray;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    cursor: pointer;
 }
 
 .rounded-white-button:hover {
-    transition: all 0.3s linear;
     background-color: dimgray;
     color: white;
-    border-color: black;
 }
 
 .svg-container {

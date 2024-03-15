@@ -31,7 +31,7 @@ const InputRegisterWidget = () => {
 
     return (
         <div>
-            <div className="login-form-label-container">
+            <div className="input-field-container">
                 <div className="input-label-container">
                     <label htmlFor="username" className="form-labels-style">
                         Username
@@ -40,7 +40,7 @@ const InputRegisterWidget = () => {
                            className="input-container input-style-f62::placeholder" required/>
                 </div>
             </div>
-            <div className="login-form-label-container">
+            <div className="input-field-container">
                 <div className="input-label-container">
                     <label htmlFor="email address" className="form-labels-style">
                         Email address
@@ -49,7 +49,7 @@ const InputRegisterWidget = () => {
                            className="input-container input-style-f62::placeholder" required/>
                 </div>
             </div>
-            <div className="password-field-container">
+            <div className="input-field-container">
                 <div className="input-label-container">
                     <label htmlFor="password" className="form-labels-style">
                         Password
@@ -66,7 +66,7 @@ const InputRegisterWidget = () => {
                     </div>
                 </div>
             </div>
-            <div className="password-field-container">
+            <div className="input-field-container">
                 <div className="input-label-container">
                     <label htmlFor="password" className="form-labels-style">
                         Confirm password
