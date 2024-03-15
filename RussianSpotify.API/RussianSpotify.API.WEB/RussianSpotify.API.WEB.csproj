@@ -34,6 +34,7 @@
     <ItemGroup>
       <ProjectReference Include="..\RussianSpotify.API.Core\RussianSpotify.API.Core.csproj" />
       <ProjectReference Include="..\RussianSpotify.API.Data.PostgreSQL\RussianSpotify.API.Data.PostgreSQL.csproj" />
+      <ProjectReference Include="..\RussianSpotify.Data.S3\RussianSpotify.Data.S3.csproj" />
     </ItemGroup>
 
 </Project>

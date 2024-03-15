@@ -23,7 +23,7 @@ public static class ConfigureSwaggerExtension
             {
                 Name = "Authorization",
                 Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
+                Scheme = "Bearer",
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
                 Description = "Authorization token"
