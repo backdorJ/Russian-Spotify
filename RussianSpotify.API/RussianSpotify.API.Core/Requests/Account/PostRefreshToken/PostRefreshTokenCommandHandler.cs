@@ -48,7 +48,7 @@ public class PostRefreshTokenCommandHandler : IRequestHandler<PostRefreshTokenCo
 
         user.AccessToken = newAccessToken;
         user.RefreshToken = newRefreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(10);
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
         
         await _userManager.UpdateAsync(user);
 

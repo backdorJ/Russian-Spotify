@@ -8,15 +8,8 @@ namespace RussianSpotify.API.Core.Requests.Account.PostRegister;
 /// </summary>
 public class PostRegisterCommand: PostRegisterRequest, IRequest<PostRegisterResponse>
 {
-    public PostRegisterCommand(PostRegisterRequest request)
+    public PostRegisterCommand(PostRegisterRequest request) : base(request)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        UserName = request.UserName;
-        Password = request.Password;
-        PasswordConfirm = request.PasswordConfirm;
-        Email = request.Email;
     }
 
     public PostRegisterCommand()

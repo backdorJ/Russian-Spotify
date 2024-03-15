@@ -13,7 +13,7 @@ public class NotIncludedException : ApplicationBaseException
     /// <param name="message"></param>
     /// <param name="statusCode"></param>
     public NotIncludedException(string message, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
-        : base($"Забыли incled на файл: {message}", statusCode)
+        : base($"Забыли include на файл: {message}", statusCode)
     {
     }
 

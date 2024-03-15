@@ -26,8 +26,11 @@ namespace RussianSpotify.API.WEB.Controllers;
 public class AccountController : ControllerBase
 {
     private readonly IMediator _mediator;
-
-    /// <inheritdoc cref="ControllerBase"/>
+    
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="mediator"></param>
     public AccountController(IMediator mediator) => _mediator = mediator;
 
     /// <summary>

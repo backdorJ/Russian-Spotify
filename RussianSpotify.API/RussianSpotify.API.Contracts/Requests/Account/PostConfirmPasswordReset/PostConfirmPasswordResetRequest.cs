@@ -2,6 +2,20 @@ namespace RussianSpotify.Contracts.Requests.Account.PostConfirmPasswordReset;
 
 public class PostConfirmPasswordResetRequest
 {
+    public PostConfirmPasswordResetRequest(PostConfirmPasswordResetRequest request)
+    {
+        if (request is null)
+            throw new ArgumentNullException(nameof(request));
+
+        NewPassword = request.NewPassword;
+        Email = request.Email;
+        VerificationCodeFromUser = request.VerificationCodeFromUser;
+    }
+
+    public PostConfirmPasswordResetRequest()
+    {
+    }
+    
     /// <summary>
     /// Email пользователя
     /// </summary>

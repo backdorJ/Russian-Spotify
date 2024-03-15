@@ -2,6 +2,19 @@ namespace RussianSpotify.Contracts.Requests.Account.PostConfirmEmail;
 
 public class PostConfirmEmailRequest
 {
+    public PostConfirmEmailRequest(PostConfirmEmailRequest request)
+    {
+        if (request is null)
+            throw new ArgumentNullException(nameof(request));
+
+        Email = request.Email;
+        EmailVerificationCodeFromUser = request.EmailVerificationCodeFromUser;
+    }
+    
+    public PostConfirmEmailRequest()
+    {
+    }
+    
     /// <summary>
     /// Почта пользователя
     /// </summary>

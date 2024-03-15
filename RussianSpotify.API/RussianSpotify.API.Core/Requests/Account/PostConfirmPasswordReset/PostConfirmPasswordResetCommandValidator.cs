@@ -3,6 +3,9 @@ using RussianSpotify.API.Core.Enums;
 
 namespace RussianSpotify.API.Core.Requests.Account.PostConfirmPasswordReset;
 
+/// <summary>
+/// Валидатор для <see cref="PostConfirmPasswordResetCommand"/>
+/// </summary>
 public class PostConfirmPasswordResetCommandValidator :
     AbstractValidator<PostConfirmPasswordResetCommand>
 {

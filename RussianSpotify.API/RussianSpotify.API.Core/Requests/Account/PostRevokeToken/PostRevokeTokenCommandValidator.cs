@@ -3,6 +3,9 @@ using RussianSpotify.API.Core.Enums;
 
 namespace RussianSpotify.API.Core.Requests.Account.PostRevokeToken;
 
+/// <summary>
+/// Валидатор для <see cref="PostRevokeTokenCommand"/>
+/// </summary>
 public class PostRevokeTokenCommandValidator : AbstractValidator<PostRevokeTokenCommand>
 {
     public PostRevokeTokenCommandValidator()

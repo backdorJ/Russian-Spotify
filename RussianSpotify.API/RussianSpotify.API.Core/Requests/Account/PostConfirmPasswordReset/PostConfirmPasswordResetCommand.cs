@@ -3,16 +3,13 @@ using RussianSpotify.Contracts.Requests.Account.PostConfirmPasswordReset;
 
 namespace RussianSpotify.API.Core.Requests.Account.PostConfirmPasswordReset;
 
+/// <summary>
+/// Команда на подтверждение сброса пароля
+/// </summary>
 public class PostConfirmPasswordResetCommand : PostConfirmPasswordResetRequest, IRequest
 {
-    public PostConfirmPasswordResetCommand(PostConfirmPasswordResetRequest request)
+    public PostConfirmPasswordResetCommand(PostConfirmPasswordResetRequest request) : base(request)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        NewPassword = request.NewPassword;
-        Email = request.Email;
-        VerificationCodeFromUser = request.VerificationCodeFromUser;
     }
 
     public PostConfirmPasswordResetCommand()

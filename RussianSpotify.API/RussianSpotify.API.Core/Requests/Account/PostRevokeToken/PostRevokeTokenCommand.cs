@@ -3,14 +3,13 @@ using RussianSpotify.Contracts.Requests.Account.PostRevokeToken;
 
 namespace RussianSpotify.API.Core.Requests.Account.PostRevokeToken;
 
+/// <summary>
+/// Команда для обнуления Refresh токена
+/// </summary>
 public class PostRevokeTokenCommand : PostRevokeTokenRequest, IRequest
 {
-    public PostRevokeTokenCommand(PostRevokeTokenRequest request)
+    public PostRevokeTokenCommand(PostRevokeTokenRequest request) : base(request)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        Email = request.Email;
     }
 
     public PostRevokeTokenCommand()

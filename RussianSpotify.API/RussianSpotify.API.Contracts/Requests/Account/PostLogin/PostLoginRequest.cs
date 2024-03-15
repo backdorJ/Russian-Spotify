@@ -5,6 +5,19 @@ namespace RussianSpotify.Contracts.Requests.Account.PostLogin;
 /// </summary>
 public class PostLoginRequest
 {
+    public PostLoginRequest(PostLoginRequest request)
+    {
+        if (request is null)
+            throw new ArgumentNullException(nameof(request));
+
+        Email = request.Email;
+        Password = request.Password;
+    }
+
+    public PostLoginRequest()
+    {
+    }
+    
     /// <summary>
     /// Почта пользователя
     /// </summary>

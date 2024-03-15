@@ -8,13 +8,8 @@ namespace RussianSpotify.API.Core.Requests.Account.PostConfirmEmail;
 /// </summary>
 public class PostConfirmEmailCommand : PostConfirmEmailRequest, IRequest
 {
-    public PostConfirmEmailCommand(PostConfirmEmailRequest request)
+    public PostConfirmEmailCommand(PostConfirmEmailRequest request) : base(request)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        Email = request.Email;
-        EmailVerificationCodeFromUser = request.EmailVerificationCodeFromUser;
     }
 
     public PostConfirmEmailCommand()

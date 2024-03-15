@@ -5,6 +5,9 @@ using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace RussianSpotify.API.Core.Services;
 
+/// <summary>
+/// Отвечает за отправку писем на почту
+/// </summary>
 public class EmailSender : IEmailSender
 {
     private readonly IConfiguration _configuration;

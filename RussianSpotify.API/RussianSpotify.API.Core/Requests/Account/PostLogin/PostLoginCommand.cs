@@ -8,13 +8,8 @@ namespace RussianSpotify.API.Core.Requests.Account.PostLogin;
 /// </summary>
 public class PostLoginCommand:  PostLoginRequest, IRequest<PostLoginResponse>
 {
-    public PostLoginCommand(PostLoginRequest request)
+    public PostLoginCommand(PostLoginRequest request) : base(request)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        Email = request.Email;
-        Password = request.Password;
     }
 
     public PostLoginCommand()

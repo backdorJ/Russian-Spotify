@@ -24,7 +24,9 @@ public class GetExternalLoginCallbackCommandHandler :
 
     private readonly SignInManager<User> _signInManager;
 
-    public GetExternalLoginCallbackCommandHandler(IJwtGenerator jwtGenerator, UserManager<User> userManager, SignInManager<User> signInManager)
+    public GetExternalLoginCallbackCommandHandler(IJwtGenerator jwtGenerator,
+        UserManager<User> userManager,
+        SignInManager<User> signInManager)
     {
         _jwtGenerator = jwtGenerator;
         _userManager = userManager;
