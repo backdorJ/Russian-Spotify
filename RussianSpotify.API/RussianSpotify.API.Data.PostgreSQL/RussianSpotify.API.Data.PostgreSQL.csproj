@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>RussianSpotift.API.Data.PostgreSQL</RootNamespace>
+        <UserSecretsId>2cca20f4-ac24-48ed-ba8f-0dc6ee029e39</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,10 +27,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\RussianSpotify.API.Core\RussianSpotify.API.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>

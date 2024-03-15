@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
-using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotift.API.Data.PostgreSQL.Seeder;
@@ -12,9 +11,14 @@ public class DbSeeder : IDbSeeder
 {
     private static readonly IReadOnlyDictionary<Guid, string> BaseRoles = new Dictionary<Guid, string>()
     {
-        [BaseRoleIds.AdminId] = "Админ",
-        [BaseRoleIds.AuthorId] = "Автор",
-        [BaseRoleIds.UserId] = "Пользователь"
+        [RussianSpotify.API.Core.DefaultSettings.BaseRoles.AdminId] =
+            RussianSpotify.API.Core.DefaultSettings.BaseRoles.AdminRoleName,
+
+        [RussianSpotify.API.Core.DefaultSettings.BaseRoles.AuthorId] =
+            RussianSpotify.API.Core.DefaultSettings.BaseRoles.AuthorRoleName,
+
+        [RussianSpotify.API.Core.DefaultSettings.BaseRoles.UserId] =
+            RussianSpotify.API.Core.DefaultSettings.BaseRoles.UserRoleName
     };
 
     /// <inheritdoc />
@@ -34,14 +38,14 @@ public class DbSeeder : IDbSeeder
 
         var rolesToSeed = BaseRoles
             .Where(x => !existsRolesInDb.Contains(x.Key))
-            .Select(x => new Role { Id = x.Key, Name = x.Value })
+            .Select(x => new Role { Id = x.Key, Name = x.Value, NormalizedName = x.Value.ToUpper() })
             .ToList();
-        
+
         rolesToSeed.ForEach(x =>
         {
-            if (!BaseRoleIds.RolePrivileges.TryGetValue(x.Id, out var privileges))
+            if (!RussianSpotify.API.Core.DefaultSettings.BaseRoles.RolePrivileges.TryGetValue(x.Id, out var privileges))
                 throw new ArgumentException("Не найдена для данной роли привилегий");
-            
+
             x.UpdatePrivileges(privileges);
         });
 
@@ -52,18 +56,18 @@ public class DbSeeder : IDbSeeder
     {
         var existsRolesInDb = await dbContext.Roles
             .Include(x => x.Privileges)
-            .Where(x => BaseRoleIds.RolePrivileges.Keys.Contains(x.Id))
+            .Where(x => RussianSpotify.API.Core.DefaultSettings.BaseRoles.RolePrivileges.Keys.Contains(x.Id))
             .ToListAsync(cancellationToken);
-        
+
         existsRolesInDb.ForEach(x =>
         {
-            if (!BaseRoleIds.RolePrivileges.TryGetValue(x.Id, out var privileges))
+            if (!RussianSpotify.API.Core.DefaultSettings.BaseRoles.RolePrivileges.TryGetValue(x.Id, out var privileges))
                 throw new ArgumentException("Не найдена для данной роли привилегий");
 
             var currentPriviles = x.Privileges.Select(y => y.Privilege).ToList();
             currentPriviles.AddRange(privileges);
             currentPriviles = currentPriviles.Distinct().ToList();
-            
+
             x.UpdatePrivileges(currentPriviles);
         });
     }
