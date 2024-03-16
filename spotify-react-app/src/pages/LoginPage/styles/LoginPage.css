@@ -1,0 +1,90 @@
+body {
+    background-color: #120F0F;
+    font-family: "Inter", sans-serif;
+}
+
+p, a {
+    color: white;
+    font-size: 12px;
+}
+
+.signup-section {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.signup-prompt-text-style {
+    flex: 0 0 auto;
+    font-weight: 700;
+    font-size: 17px;
+    font-family: "Inter", sans-serif;
+    align-self: center;
+    color: white;
+    white-space: pre-wrap;
+}
+
+.form-page {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container {
+    box-sizing: border-box;
+    width: 35%;
+}
+
+.login-page .form-container {
+    padding-top: 5%;
+}
+
+.signup-for-button-style {
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.3s ease;
+    flex: 0 0 auto;
+    border: 1px solid white;
+    border-radius: 500px;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: "Inter", sans-serif;
+    background: transparent;
+    box-sizing: border-box;
+    display: block;
+    height: 48px;
+    margin: 10px 0;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    width: 70%;
+}
+
+.signup-for-button-style:hover {
+    transition: all 0.3s ease;
+    background: mediumpurple;
+    color: black;
+    border-color: black;
+}
+
+@media only screen and (max-width: 767px) {
+    .form-container {
+        box-sizing: border-box;
+        padding-top: 5%;
+        width: 85%;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .form-container {
+        box-sizing: border-box;
+        padding-top: 5%;
+        width: 60%;
+    }
+}

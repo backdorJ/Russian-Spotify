@@ -1,0 +1,230 @@
+.auth-form-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.rounded-button {
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.3s linear;
+    flex: 0 0 auto;
+    border-radius: 500px;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    box-sizing: border-box;
+    gap: 9px;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    color: white;
+}
+
+.rounded-button:hover {
+    transition: all 0.3s linear;
+    border-color: black;
+    background-color: white;
+}
+
+.rounded-blue-button {
+    border: 1px solid dodgerblue;
+    background: dodgerblue;
+}
+
+.rounded-blue-button:hover {
+    color: #1976d2;
+}
+
+.rounded-blue-button:hover .vk-button-svg {
+    transition: all 0.3s linear;
+    fill: #1976d2;
+}
+
+.rounded-red-button {
+    border: 1px solid #FC3F1D;
+    background: #FC3F1D;
+    margin-top: 10px;
+}
+
+.rounded-red-button:hover {
+    color: #FC3F1D;
+}
+
+.rounded-red-button:hover .yandex-button-svg {
+    transition: all 0.3s linear;
+    fill: #FC3F1D;
+}
+
+.rounded-white-button {
+    border: 1px solid white;
+    margin-top: 10px;
+    color: dimgray;
+}
+
+.rounded-white-button:hover {
+    background-color: dimgray;
+    color: white;
+}
+
+.svg-container {
+    display: flex;
+    width: 24px;
+    height: 24px;
+}
+
+.separator-line {
+    flex: 0 0 auto;
+    border: 1px solid gainsboro;
+    box-sizing: border-box;
+    align-self: flex-start;
+    width: 40%;
+    height: 2px;
+    margin-top: 22px;
+}
+
+.border-separator-horizontal {
+    flex: 0 0 auto;
+    border: 1px solid gainsboro;
+    box-sizing: border-box;
+    align-self: flex-end;
+    width: 40%;
+    height: 2px;
+    margin-top: -2px;
+}
+
+.header-text-styles {
+    flex: 0 0 auto;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    align-self: center;
+    margin-top: -5px;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.login-section-controls {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.password-reset-section {
+    flex: 0 0 auto;
+    padding-bottom: 24px;
+    margin-top: 24px;
+}
+
+.password-reset-link-text-style {
+    -webkit-tap-highlight-color: transparent;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: Helvetica, sans-serif;
+    color: white;
+    text-decoration-line: underline;
+    white-space: pre-wrap;
+}
+
+.login-section {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-top: 24px;
+    justify-content: center;
+}
+
+.login-section a, .login-section p {
+    font-size: 16px;
+}
+
+.remember-me-label {
+    font-weight: 400;
+    font-size: 13px;
+    font-family: "Inter", sans-serif;
+    margin-left: 11px;
+    color: white;
+}
+
+.switch {
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(106, 105, 105);
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+
+input:checked + .slider {
+    background-color: mediumpurple;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px mediumpurple;
+}
+
+input:checked + .slider:before {
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.login-section1 {
+    flex: 0 0 auto;
+    padding-top: 56px;
+    width: 30%;
+}
+
+.border-separator {
+    flex: 0 0 auto;
+    border: 1px solid white;
+    box-sizing: border-box;
+    height: 2px;
+    margin-top: 22px;
+}
