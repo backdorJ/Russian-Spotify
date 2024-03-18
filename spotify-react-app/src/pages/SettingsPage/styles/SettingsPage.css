@@ -17,10 +17,6 @@
     font-size: 36px;
 }
 
-.settings__header__navbar {
-
-}
-
 .settings__header__navbar__list {
     display: flex;
     list-style-type: none;
@@ -33,6 +29,7 @@
     text-transform: capitalize;
     border-radius: 10px;
     padding: 10px 15px;
+    cursor: pointer;
 }
 
 .settings__header__navbar__list > li:hover {
@@ -43,17 +40,11 @@
     margin-right: 5px;
 }
 
-.settings__header__navbar__list > li:first-child {
-    /*border-top-left-radius: 10px;*/
-}
-
-.settings__header__navbar__list > li:last-child {
-    /*border-top-right-radius: 10px;*/
-
-}
-
-.settings__general {
-    margin: 20px;
+.settings__chosen-page {
+    width: 80%;
+    background-color: #202020;
+    padding: 20px 40px;
+    border-radius: 10px;
 }
 
 .settings__general__language {
@@ -95,15 +86,6 @@
     flex-direction: column;
 }
 
-.settings__personal__editable {
-    display: flex;
-    align-items: center;
-}
-
-.settings__personal__main {
-    width: 70%;
-}
-
 .settings__personal__main > div:not(:last-child) {
     margin-bottom: 20px;
 }
@@ -142,9 +124,9 @@
 }
 
 .settings__personal__main__edit {
-    width: 30%;
     display: flex;
-    justify-content: center;
+    justify-content: end;
+    margin-top: 60px;
 }
 
 .settings__personal__main__edit__button {
@@ -155,20 +137,15 @@
     border-radius: 5px;
     color: #a7a7a7;
     font-size: 20px;
+    margin-bottom: 20px;
     transition: .1s;
 }
 
 .settings__personal__main__edit__button:hover {
     background-color: #464646;
-    color: #aaaaaa;
     transform: scale(1.1);
     transition: .1s;
 }
-
-.settings__personal__main__edit__button:hover + .settings__personal__user-info__main__display {
-    background-color: #aaaaaa;
-}
-
 
 
 

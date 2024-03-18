@@ -22,10 +22,12 @@ export default function SettingsPage(props: any) {
                     </ul>
                 </div>
             </div>
-            {
-                settingsPages.filter(i => i.id === chosenPage).map(i => (
-                    <i.component/>
-                ))}
+            <div className="settings__chosen-page">
+                {
+                    settingsPages.filter(i => i.id === chosenPage).map(i => (
+                        <i.component/>
+                    ))}
+            </div>
         </div>
     )
 }
