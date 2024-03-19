@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RussianSpotify.API.WEB", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RussianSpotify.API.UnitTests", "RussianSpotify.API.UnitTests\RussianSpotify.API.UnitTests.csproj", "{05DD671B-5053-4439-9F40-CD87E306741D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RussianSpotify.Data.S3", "RussianSpotify.Data.S3\RussianSpotify.Data.S3.csproj", "{E4F0A066-46B2-408D-ADEF-43C13F055FB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,7 @@ Global
 		{97570CDB-4ED6-44E8-8CDD-0B8A82705246} = {6E7523E3-058B-42E1-A8FE-731D58E46BC6}
 		{46226861-3380-411E-8B53-3E5FCDEC7C78} = {6E7523E3-058B-42E1-A8FE-731D58E46BC6}
 		{05DD671B-5053-4439-9F40-CD87E306741D} = {65A9F672-FC50-4C38-BE3D-25AC7817003C}
+		{E4F0A066-46B2-408D-ADEF-43C13F055FB9} = {6E7523E3-058B-42E1-A8FE-731D58E46BC6}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{93621E9D-982B-478A-8811-ACB7C67693F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -47,5 +50,9 @@ Global
 		{05DD671B-5053-4439-9F40-CD87E306741D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05DD671B-5053-4439-9F40-CD87E306741D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05DD671B-5053-4439-9F40-CD87E306741D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4F0A066-46B2-408D-ADEF-43C13F055FB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4F0A066-46B2-408D-ADEF-43C13F055FB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4F0A066-46B2-408D-ADEF-43C13F055FB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4F0A066-46B2-408D-ADEF-43C13F055FB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

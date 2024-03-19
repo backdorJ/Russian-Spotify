@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Common.Behaviors;
+using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Services;
 
 namespace RussianSpotify.API.Core;
@@ -24,12 +25,10 @@ public static class AddCoreLayoutExtension
             => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly() });
-        
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
         services.AddScoped<IJwtGenerator, JwtGenerator>();
-
         services.AddScoped<IEmailSender, EmailSender>();
+        services.AddScoped<IUserContext, UserContext>();
 
         return services;
     }

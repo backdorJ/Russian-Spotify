@@ -12,11 +12,19 @@ public class ApplicationBaseException : Exception
     /// <summary>
     /// Конструктор
     /// </summary>
-    /// <param name="message"></param>
     public ApplicationBaseException()
     {
     }
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="message">Сообщение об ошибку</param>
+    public ApplicationBaseException(string message)
+    {
+        
+    }
+    
     /// <summary>
     /// Конструктор
     /// </summary>

@@ -2,6 +2,7 @@ using RussianSpotift.API.Data.PostgreSQL;
 using RussianSpotify.API.Core;
 using RussianSpotify.API.WEB.Configurations;
 using RussianSpotify.API.WEB.Middlewares;
+using RussianSpotify.Data.S3;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -21,6 +22,12 @@ builder.Services.AddDbContextWithIdentity(configuration.GetConnectionString("Def
 
 // Добавлена аутентификация и jwt bearer
 builder.Services.AddAuthenticationWithJwtAndExternalServices(configuration);
+
+// Добавлен S3 Storage
+builder.Services.AddS3Storage(builder.Configuration.GetSection("S3").Get<S3Options>()!);
+
+// Response Compression 
+builder.Services.AddResponseCompression();
 
 // Настройка CORS
 builder.Services.AddCors(opt
@@ -45,6 +52,7 @@ using var scoped = app.Services.CreateScope();
 var migrator = scoped.ServiceProvider.GetRequiredService<Migrator>();
 await migrator.MigrateAsync();
 
+app.UseResponseCompression();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

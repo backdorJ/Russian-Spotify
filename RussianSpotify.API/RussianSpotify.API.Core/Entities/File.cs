@@ -5,6 +5,22 @@ namespace RussianSpotify.API.Core.Entities;
 /// </summary>
 public class File
 {
+    public File(
+        string fileName,
+        string contentType,
+        string address,
+        long size)
+    {
+        FileName = fileName;
+        ContentType = contentType;
+        Address = address;
+        Size = size;
+    }
+    
+    public File()
+    {
+    }
+    
     /// <summary>
     /// Ид файла
     /// </summary>
