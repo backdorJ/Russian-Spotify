@@ -20,7 +20,7 @@ export default function SettingsPersonal(props: any) {
             </div>
             <div className="settings__personal__main__edit">
                 <button
-                    onClick={() => setShowModal(prev => !prev) }
+                    onClick={() => setShowModal(prev => !prev)}
                     className="settings__personal__main__edit__button">
                     Edit your info
                 </button>

@@ -26,7 +26,8 @@ export default function SettingsPage(props: any) {
                 {
                     settingsPages.filter(i => i.id === chosenPage).map(i => (
                         <i.component/>
-                    ))}
+                    ))
+                }
             </div>
         </div>
     )

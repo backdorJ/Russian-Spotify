@@ -33,8 +33,7 @@ export default function EditUserInfoModal(props: any) {
                             value={Email}
                             className="edit-profile__field edit-profile__field-disabled"
                             placeholder="Type new email"
-                            disabled
-                        />
+                            disabled/>
                         <h3>
                             Name:
                         </h3>
@@ -44,8 +43,7 @@ export default function EditUserInfoModal(props: any) {
                             value={name}
                             onChange={e => setName(e.target.value)}
                             className="edit-profile__field"
-                            placeholder="Type profile name"
-                        />
+                            placeholder="Type profile name"/>
                     </div>
                     <div className="edit-profile__form__right">
                         <h3>
@@ -59,8 +57,7 @@ export default function EditUserInfoModal(props: any) {
                                 value={password1}
                                 onChange={e => setPassword1(e.target.value)}
                                 className="edit-profile__field"
-                                placeholder="Type new password"
-                            />
+                                placeholder="Type new password"/>
                             <input
                                 type="password"
                                 id="edit-profile__password"
@@ -68,8 +65,7 @@ export default function EditUserInfoModal(props: any) {
                                 value={password2}
                                 onChange={e => setPassword2(e.target.value)}
                                 className="edit-profile__field"
-                                placeholder="Repeat new password"
-                            />
+                                placeholder="Repeat new password"/>
                         </div>
                     </div>
                 </form>
