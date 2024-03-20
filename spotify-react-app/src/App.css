@@ -8,6 +8,7 @@
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'proxima_nova_rgbold';
     src: url('https://litmus.com/fonts/Emails/proximanova-bold-webfont.eot');
@@ -34,6 +35,15 @@
 
 }
 
+.app {
+    width: 100%;
+    display: flex;
+}
+
+.app__main {
+    width: 100%;
+}
+
 body {
     margin: 0;
     color: #FFFFFF;
@@ -44,4 +54,14 @@ h1, h2, h3, h4, h5, h6, p, a {
     font-family: proxima_nova_rgregular, sans-serif;
     margin: 0;
     padding: 0;
+    cursor: default;
+    line-height: normal;
+}
+
+button, select, option {
+    cursor: pointer;
+}
+
+select {
+    outline: none;
 }

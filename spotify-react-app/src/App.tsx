@@ -7,8 +7,13 @@ import NavBar from "./commonComponents/NavBar/NavBar";
 function App() {
     return (
         <BrowserRouter>
-            <NavBar/>
-            <AppRouter/>
+            <div className="app">
+                <div style={{minWidth: "280px", height: "1080px", backgroundColor: "gray"}}></div>
+                <div className="app__main">
+                    <NavBar/>
+                    <AppRouter/>
+                </div>
+            </div>
         </BrowserRouter>
     );
 }
