@@ -81,8 +81,6 @@ export default function HomePage(props: any) {
 
     const updateWindowWidth = () => {
         setWindowWidth(window.innerWidth)
-        console.log(window.innerWidth)
-        console.log(1)
     }
 
     return (
