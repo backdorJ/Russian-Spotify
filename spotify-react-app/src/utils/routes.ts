@@ -4,15 +4,7 @@ import SettingsPage from "../pages/SettingsPage/SettingsPage";
 import registerPage from "../pages/RegisterPage/RegisterPage";
 import loginPage from "../pages/LoginPage/LoginPage";
 
-export default [
-    {
-        path: routeNames.HOME_PAGE,
-        element: HomePage
-    },
-    {
-        path: routeNames.SETTINGS_PAGE,
-        element: SettingsPage
-    },
+export const routes = [
     {
         path: routeNames.REGISTRATION_PAGE,
         element: registerPage
@@ -20,5 +12,16 @@ export default [
     {
         path: routeNames.LOGIN_PAGE,
         element: loginPage
+    }
+]
+
+export const authRoutes = [
+    {
+        path: routeNames.HOME_PAGE,
+        element: HomePage
+    },
+    {
+        path: routeNames.SETTINGS_PAGE,
+        element: SettingsPage
     }
 ]

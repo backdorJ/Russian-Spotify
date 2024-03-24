@@ -1,5 +1,5 @@
 import "./styles/AuthForm.css";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import InputLoginWidget from "../InputLoginWidget/InputLoginWidget";
 import {VkButtonSvg} from "../../../../assets/mock/loginpage/buttons-SVGs/VkButtonSvg";
 import {YandexButtonSvg} from "../../../../assets/mock/loginpage/buttons-SVGs/YandexButtonSvg";
@@ -8,10 +8,14 @@ import {login} from "../../../../http/authApi";
 import UserLoginDto from "../../../../utils/dto/user/userLoginDto";
 import {Link, useNavigate} from "react-router-dom";
 import routeNames from "../../../../utils/routeNames";
+import {SpotifyContext} from "../../../../index";
+import {observer} from "mobx-react-lite";
+import User from "../../../../models/User";
 
-const AuthForm = () => {
+const AuthForm = observer(() => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const userStore = useContext(SpotifyContext)
     const navigate = useNavigate()
 
     let handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -20,7 +24,7 @@ const AuthForm = () => {
         login(user)
             .then(success => {
                 if (success) {
-                    alert("Logged in successfully!")
+                    userStore.login(new User())
                     navigate(routeNames.HOME_PAGE)
                 } else
                     alert("Something went wrong. Try again")
@@ -88,6 +92,6 @@ const AuthForm = () => {
             </form>
         </div>
     )
-}
+})
 
 export default AuthForm;

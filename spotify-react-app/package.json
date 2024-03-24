@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -14,6 +15,8 @@
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
     "env": "^0.0.2",
+    "mobx": "^6.12.1",
+    "mobx-react-lite": "^4.0.6",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
