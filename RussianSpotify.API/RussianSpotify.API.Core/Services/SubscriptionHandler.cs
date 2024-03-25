@@ -7,15 +7,21 @@ using RussianSpotify.Contracts.Requests.Subscription.GetSubscription;
 
 namespace RussianSpotify.API.Core.Services;
 
+/// <inheritdoc/>
 public class SubscriptionHandler : ISubscriptionHandler
 {
     private readonly IDbContext _context;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="context"></param>
     public SubscriptionHandler(IDbContext context)
     {
         _context = context;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> Subscribe(Guid userId, int length)
     {
         if (length < 1)
@@ -52,13 +58,14 @@ public class SubscriptionHandler : ISubscriptionHandler
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> Unsubscribe(Guid userId)
     {
         var subscription = await _context.Subscribes
             .FirstOrDefaultAsync(i => i.UserId == userId);
 
         if (subscription is null)
-            throw new NotFoundException("This user is not subscribed");
+            throw new SubscriptionNotFoundException("This user is not subscribed");
 
         if (subscription.DateEnd < DateTime.UtcNow)
             throw new SubscriptionConflictException("This user does not have active subscription");
@@ -68,6 +75,7 @@ public class SubscriptionHandler : ISubscriptionHandler
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task<GetSubscriptionResponse> GetSubscription(Guid userId)
     {
         var subscription = await _context.Subscribes

@@ -28,7 +28,15 @@ public class SubscriptionController : ControllerBase
     /// </summary>
     /// <param name="request"><see cref="PostSubscribeRequest"/>, содержащий информацию о запросе</param>
     /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Всё хорошо</response>
+    /// <response code="400">Ошибка в ввёдённых данных</response>
+    /// <response code="409">Конфликт с состоянием сущностей</response>
+    /// <response code="500">Внутренняя ошибка сервера</response>
     [HttpPost]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(409)]
+    [ProducesResponseType(500)]
     public async Task SubscribeAsync(PostSubscribeRequest request, CancellationToken cancellationToken)
     {
         var postSubscribeCommand = new PostSubscribeCommand(request);
@@ -39,7 +47,15 @@ public class SubscriptionController : ControllerBase
     /// Эндпоинт, отвечающий за отмену подписки
     /// </summary>
     /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Всё хорошо</response>
+    /// <response code="404">Подписка не найдена</response>
+    /// <response code="409">Конфликт с состоянием сущностей</response>
+    /// <response code="500">Внутренняя ошибка сервера</response>
     [HttpPatch]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(409)]
+    [ProducesResponseType(500)]
     public async Task UnsubscribeAsync(CancellationToken cancellationToken)
     {
         var postUnsubscribeCommand = new PostUnsubscribeCommand();
@@ -51,7 +67,13 @@ public class SubscriptionController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns><see cref="GetSubscriptionResponse"/>, содержащий информацию о подписке пользователя</returns>
+    /// <response code="200">Всё хорошо</response>
+    /// <response code="404">Подписка не найдена</response>
+    /// <response code="500">Внутренняя ошибка сервера</response>
     [HttpGet]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
     public async Task<GetSubscriptionResponse> GetInfoAsync(CancellationToken cancellationToken)
     {
         var getSubscriptionQuery = new GetSubscriptionQuery();
