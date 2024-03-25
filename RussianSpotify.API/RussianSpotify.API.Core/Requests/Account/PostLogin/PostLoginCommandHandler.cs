@@ -56,6 +56,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
         
         var authClaims = new List<Claim>
         {
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName!),
             new(ClaimTypes.Email, request.Email),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

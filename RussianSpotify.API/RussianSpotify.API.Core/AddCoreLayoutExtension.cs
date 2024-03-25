@@ -29,6 +29,7 @@ public static class AddCoreLayoutExtension
         services.AddScoped<IJwtGenerator, JwtGenerator>();
         services.AddScoped<IEmailSender, EmailSender>();
         services.AddScoped<IUserContext, UserContext>();
+        services.AddScoped<ISubscriptionHandler, SubscriptionHandler>();
 
         return services;
     }
