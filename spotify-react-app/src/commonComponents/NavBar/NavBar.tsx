@@ -2,21 +2,30 @@
 import arrow from "../../assets/arrow.png"
 // @ts-ignore
 import settings_icon from "../../assets/setting.png"
+// @ts-ignore
+import logout_icon from "../../assets/logout_icon.png"
 import "./NavBar.css"
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import wideOpenElements from "../../utils/navbar/wideOpenElements";
 import routeNames from "../../utils/routeNames";
+import {SpotifyContext} from "../../index";
 
 export default function NavBar(props: any) {
     const [isOpen, setIsOpen] = useState(false)
     const [wideHeight, setWideHeight] = useState(10)
     const navigate = useNavigate()
+    const userStore = useContext(SpotifyContext)
     let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
     let username = "hayley marjoram"
 
     return (
-        <div className="navbar">
+        userStore.isAuth &&
+        <div
+            onMouseEnter={() => setIsOpen(prev => true)}
+            onMouseLeave={() => setIsOpen(prev => false)}
+            onClick={() => setIsOpen(false)}
+            className="navbar">
             <div className="navbar__account">
                 <div
                     className="navbar__account__main">
@@ -31,8 +40,11 @@ export default function NavBar(props: any) {
                         {username}
                     </p>
                     <div className="navbar__account__main__arrow__div">
-                        <img onClick={() => setIsOpen(prev => !prev)} src={arrow} alt="show"
-                             className="navbar__account__main__arrow"/>
+                        <img
+                            src={arrow}
+                            style={{rotate: isOpen ? '180deg' : '0deg'}}
+                            alt="show"
+                            className="navbar__account__main__arrow"/>
                     </div>
                 </div>
                 {
@@ -40,10 +52,20 @@ export default function NavBar(props: any) {
                     <div className="navbar__account__wide">
                         {wideOpenElements.map(element => (
                             <WideOpenElement
+                                onClickEvent={() => navigate(element.navigateTo)}
                                 icon={element.icon}
                                 title={element.title}
                                 navigateTo={element.navigateTo}/>
                         ))}
+                        <WideOpenElement
+                            onClickEvent={() => {
+                                userStore.logout()
+                                localStorage.removeItem('token')
+                                navigate(routeNames.LOGIN_PAGE)
+                            }}
+                            icon={logout_icon}
+                            title="Log out"
+                        />
                     </div>
                 }
             </div>
@@ -52,12 +74,11 @@ export default function NavBar(props: any) {
 }
 
 function WideOpenElement(props: any) {
-    const {icon, title, navigateTo} = props
-    const navigate = useNavigate()
+    const {onClickEvent, icon, title} = props
 
     return (
         <div
-            onClick={() => navigate(navigateTo)}
+            onClick={onClickEvent}
             className="navbar__account__wide__element">
             <div className="navbar__account__wide__element__image__div">
                 <img src={icon} alt={title}

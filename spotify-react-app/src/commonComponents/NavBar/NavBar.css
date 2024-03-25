@@ -7,6 +7,10 @@
     padding: 10px 15px;
 }
 
+.navbar p {
+    font-size: 16px;
+}
+
 .navbar__account {
     display: flex;
     flex-direction: column;
@@ -67,6 +71,7 @@
 
 .navbar__account__main__arrow {
     width: inherit;
+    transition: .5s;
 }
 
 .navbar__account__wide {
@@ -74,6 +79,10 @@
     flex-direction: column;
     margin-top: 5px;
     padding: 0 5px 5px 5px;
+}
+
+.navbar__account__wide > div:not(:last-child) {
+    margin-bottom: 5px;
 }
 
 .navbar__account__wide__element {
@@ -103,4 +112,5 @@
 
 .navbar__account__wide__element__text {
     font-family: 'proxima_nova_rgbold', sans-serif;
+    cursor: pointer;
 }
