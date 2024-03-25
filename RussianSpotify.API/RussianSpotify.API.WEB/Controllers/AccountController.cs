@@ -41,11 +41,9 @@ public class AccountController : ControllerBase
     /// <returns>JWT токен</returns>
     /// <response code="200">Если всё хорошо</response>
     /// <response code="400">Если у пользователя некорректные данные, которые не прошли валидацию</response>
-    /// <response code="401">Если у пользователя некорректные данные(неверная почта или пароль)</response>
     [HttpPost("Login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<PostLoginResponse> Login([FromBody] PostLoginRequest request, CancellationToken cancellationToken)
     {
         var command = new PostLoginCommand(request);

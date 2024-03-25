@@ -33,9 +33,9 @@ builder.Services.AddResponseCompression();
 builder.Services.AddCors(opt
     => opt.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyHeader();
-        policy.AllowAnyMethod();
-        policy.AllowAnyOrigin();
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
     })
 );
 
@@ -53,6 +53,10 @@ var migrator = scoped.ServiceProvider.GetRequiredService<Migrator>();
 await migrator.MigrateAsync();
 
 app.UseResponseCompression();
+
+// // Specific
+// AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -62,10 +66,10 @@ if (app.Environment.IsDevelopment())
 // Добавлено использование middleware для обработки исключений
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseHttpsRedirection();
-
 // Настройка CORS
 app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
