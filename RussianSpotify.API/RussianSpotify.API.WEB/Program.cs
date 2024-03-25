@@ -1,7 +1,9 @@
 using RussianSpotift.API.Data.PostgreSQL;
 using RussianSpotify.API.Core;
+using RussianSpotify.API.Core.Models;
 using RussianSpotify.API.WEB.Configurations;
 using RussianSpotify.API.WEB.Middlewares;
+using RussianSpotify.API.Worker;
 using RussianSpotify.Data.S3;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenWithAuth();
+builder.Services.AddHangfireWorker();
 
 // Добавлен медиатр
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
@@ -65,6 +68,7 @@ if (app.Environment.IsDevelopment())
 
 // Добавлено использование middleware для обработки исключений
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseHangfireWorker(builder.Configuration.GetSection("Hangfire").Get<HangfireOptions>()!);
 
 // Настройка CORS
 app.UseCors("AllowAll");

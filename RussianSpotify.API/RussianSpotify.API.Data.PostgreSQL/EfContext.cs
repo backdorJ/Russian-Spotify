@@ -46,6 +46,9 @@ public class EfContext
     public DbSet<Bucket> Buckets { get; set; } = default!;
 
     /// <inheritdoc />
+    public DbSet<EmailNotification> EmailNotifications { get; set; }
+
+    /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new RoleConfiguration());
@@ -57,7 +60,8 @@ public class EfContext
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new FileConfiguration());
         builder.ApplyConfiguration(new BucketConfiguration());
-
+        builder.ApplyConfiguration(new EmailNotificationConfiguration());
+        
         base.OnModelCreating(builder);
     }
 }
