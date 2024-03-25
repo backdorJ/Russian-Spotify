@@ -1,13 +1,23 @@
 namespace RussianSpotify.Contracts.Requests.Subscription.PostSubscribe;
 
-public class PostSubscribeRequestHttp
+/// <summary>
+/// Запрос для оформления подписки
+/// </summary>
+public class PostSubscribeRequest
 {
-    public int SubscriptionLength { get; set; }
-
-    protected PostSubscribeRequestHttp(PostSubscribeRequestHttp postSubscribeRequestHttp)
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="postSubscribeRequest">Запрос</param>
+    protected PostSubscribeRequest(PostSubscribeRequest postSubscribeRequest)
     {
-        SubscriptionLength = postSubscribeRequestHttp.SubscriptionLength;
+        SubscriptionLength = postSubscribeRequest.SubscriptionLength;
     }
 
-    public PostSubscribeRequestHttp() { }
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    public PostSubscribeRequest() { }
+    
+    public int SubscriptionLength { get; set; }
 }

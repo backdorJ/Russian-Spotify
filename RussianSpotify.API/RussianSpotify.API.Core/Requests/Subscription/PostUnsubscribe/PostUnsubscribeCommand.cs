@@ -1,6 +1,10 @@
+using MediatR;
+
 namespace RussianSpotify.API.Core.Requests.Subscription.PostUnsubscribe;
 
-public class PostUnsubscribeCommand
+/// <summary>
+/// Команда для отмены подписки
+/// </summary>
+public class PostUnsubscribeCommand : IRequest
 {
-    
 }

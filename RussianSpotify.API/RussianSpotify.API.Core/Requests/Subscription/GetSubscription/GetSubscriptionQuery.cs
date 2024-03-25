@@ -1,6 +1,11 @@
+using MediatR;
+using RussianSpotify.Contracts.Requests.Subscription.GetSubscription;
+
 namespace RussianSpotify.API.Core.Requests.Subscription.GetSubscription;
 
-public class GetSubscriptionQuery
+/// <summary>
+/// Запрос на получение <see cref="GetSubscriptionResponse"/>
+/// </summary>
+public class GetSubscriptionQuery : IRequest<GetSubscriptionResponse>
 {
-    
 }
