@@ -3,6 +3,10 @@ body {
     font-family: "Inter", sans-serif;
 }
 
+* {
+    text-decoration: none;
+}
+
 p, a {
     color: white;
     font-size: 12px;
