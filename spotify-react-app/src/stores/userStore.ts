@@ -2,36 +2,28 @@ import User from "../models/User";
 import {makeAutoObservable, makeObservable} from "mobx";
 
 export default class UserStore {
-    user: User = new User()
-    isAuth: boolean = false;
+    _user: User = new User()
+    _isAuth: boolean = false
 
     constructor() {
-        makeObservable(this)
+        makeAutoObservable(this)
     }
 
     login(user: User) {
-        this.isAuth = true
-        this.user = user
+        this._isAuth = true
+        this._user = user
     }
 
     logout() {
-        this.isAuth = false
-        this.user = new User()
+        this._isAuth = false
+        this._user = new User()
     }
 
-    setIsAuth(state: boolean) {
-        this.isAuth = state
+    get isAuth() {
+        return this._isAuth
     }
 
-    getIsAuth() {
-        return this.isAuth
-    }
-
-    setUser(user: User) {
-        this.user = user;
-    }
-
-    getUser() {
-        return this.user;
+    get user() {
+        return this._user;
     }
 }

@@ -7,7 +7,7 @@ import DiscoveryCard from "./components/DiscoveryCard";
 import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import PlaylistNormal from "./components/PlaylistNormal";
 
-export default function HomePage(props: any) {
+const HomePage = (props: any) => {
     const [playlistsLittleLoaded, setPlaylistsLittleLoaded] = useState(playlistsLittle)
     const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
     const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
@@ -133,3 +133,5 @@ export default function HomePage(props: any) {
         </div>
     )
 }
+
+export default HomePage

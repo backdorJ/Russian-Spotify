@@ -18,7 +18,10 @@ const App = observer(() => {
     return (
         <BrowserRouter>
             <div className="app">
-                <div style={{minWidth: "280px", height: "1080px", backgroundColor: "gray"}}></div>
+                {
+                    userStore.isAuth &&
+                    <div style={{minWidth: "280px", height: "1080px", backgroundColor: "gray"}}></div>
+                }
                 <div className="app__main">
                     <NavBar/>
                     <AppRouter/>

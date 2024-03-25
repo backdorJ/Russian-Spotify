@@ -5,23 +5,26 @@ import registerPage from "../pages/RegisterPage/RegisterPage";
 import loginPage from "../pages/LoginPage/LoginPage";
 
 export const routes = [
+]
+
+export const notAuthRoutes = [
     {
         path: routeNames.REGISTRATION_PAGE,
-        element: registerPage
+        Component: registerPage
     },
     {
         path: routeNames.LOGIN_PAGE,
-        element: loginPage
+        Component: loginPage
     }
 ]
 
 export const authRoutes = [
     {
         path: routeNames.HOME_PAGE,
-        element: HomePage
+        Component: HomePage
     },
     {
         path: routeNames.SETTINGS_PAGE,
-        element: SettingsPage
+        Component: SettingsPage
     }
 ]
