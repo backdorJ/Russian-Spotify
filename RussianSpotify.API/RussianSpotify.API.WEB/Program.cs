@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Internal;
 using RussianSpotift.API.Data.PostgreSQL;
 using RussianSpotify.API.Core;
 using RussianSpotify.API.WEB.Configurations;
@@ -44,6 +46,17 @@ builder.Services.AddPostgreSQLLayout();
 
 // Добавлен слой Core
 builder.Services.AddCoreLayout();
+builder.Services.AddDistributedMemoryCache(options =>
+{
+    options.Clock = new SystemClock(); // Устанавливаем часы, используемые для временных меток
+    options.ExpirationScanFrequency = TimeSpan.FromHours(2); // Частота сканирования для проверки просроченных записей
+});
+
+builder.Services.Configure<MemoryCacheOptions>(options =>
+{
+    options.ExpirationScanFrequency = TimeSpan.FromHours(2); // Частота сканирования для проверки просроченных записей
+    options.SizeLimit = 1000; // Максимальное количество элементов в кэше
+});
 
 var app = builder.Build();
 

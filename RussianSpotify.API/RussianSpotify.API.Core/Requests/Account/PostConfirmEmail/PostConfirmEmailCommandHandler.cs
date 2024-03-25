@@ -28,10 +28,10 @@ public class PostConfirmEmailCommandHandler :
         if (user is null)
             throw new NotFoundUserException(AuthErrorMessages.UserNotFound);
 
-        var verififcationResult =
+        var verificationResult =
             await _userManager.ConfirmEmailAsync(user, request.EmailVerificationCodeFromUser);
 
-        if (!verififcationResult.Succeeded)
+        if (!verificationResult.Succeeded)
             throw new WrongConfirmationTokenException(AuthErrorMessages.WrongConfirmationToken);
 
         user.EmailConfirmed = true;
