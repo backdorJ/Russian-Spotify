@@ -1,10 +1,10 @@
 import User from "../models/User";
 import {getSubscription} from "../http/subApi";
+import {getUser} from "../http/authApi";
 
 const loadUser = async () => {
-    let user = new User()
-    if (localStorage.getItem('token'))
-        user = new User()
+    let user = await getUser()
+
 
     let subscription = await getSubscription()
     if (subscription.isFound)

@@ -18,7 +18,6 @@ export default function NavBar(props: any) {
     const [isOpen, setIsOpen] = useState(false)
     const navigate = useNavigate()
     let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
-    let username = "hayley marjoram"
     console.log(userStore.user._subEndDate)
     console.log(userStore.user.isSubscribed)
 
@@ -49,7 +48,7 @@ export default function NavBar(props: any) {
                     <p
                         onClick={() => navigate(routeNames.ACCOUNT_PAGE)}
                         className="navbar__account__main__name">
-                        {username}
+                        {userStore.user.username}
                     </p>
                     <div className="navbar__account__main__arrow__div">
                         <img
