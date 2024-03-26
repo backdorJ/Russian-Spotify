@@ -35,8 +35,8 @@ public static class Entry
 
         app.UseHangfireServer();
         
-        AddJon<SendEndSubscribeNotification>(options.CronForSendNotificationSubscribe);
-        AddJon<EmailNotificator>(options.CronForSendEmailNotificator);
+        AddJob<SendEndSubscribeNotification>(options.CronForSendNotificationSubscribe);
+        AddJob<EmailNotificator>(options.CronForSendEmailNotificator);
         
         return app;
     }
@@ -46,7 +46,7 @@ public static class Entry
     /// </summary>
     /// <param name="cron">Крон</param>
     /// <typeparam name="T">Задача</typeparam>
-    private static void AddJon<T>(string cron)
+    private static void AddJob<T>(string cron)
         where T : IWorker
         => RecurringJob.AddOrUpdate<T>(
             typeof(T).FullName,
