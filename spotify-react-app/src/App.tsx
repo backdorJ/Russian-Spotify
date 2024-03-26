@@ -6,13 +6,17 @@ import NavBar from "./commonComponents/NavBar/NavBar";
 import {SpotifyContext} from "./index";
 import User from "./models/User";
 import {observer} from "mobx-react-lite";
+import MakeSubscriptionModal from "./commonComponents/NavBar/components/makeSubscriptionModal/makeSubscriptionModal";
+import {getSubscription} from "./http/subApi";
+import loadUser from "./hooks/loadUser";
 
 const App = observer(() => {
     const userStore = useContext(SpotifyContext)
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-        if (localStorage.getItem('token'))
-            userStore.login(new User())
+        loadUser()
+            .then(user => userStore.login(user))
     }, []);
 
     return (
@@ -23,9 +27,10 @@ const App = observer(() => {
                     <div style={{minWidth: "280px", height: "1080px", backgroundColor: "gray"}}></div>
                 }
                 <div className="app__main">
-                    <NavBar/>
+                    <NavBar setShowSubModal={setShowModal} />
                     <AppRouter/>
                 </div>
+                <MakeSubscriptionModal show={showModal} onHide={() => setShowModal(false)}/>
             </div>
         </BrowserRouter>
     );
