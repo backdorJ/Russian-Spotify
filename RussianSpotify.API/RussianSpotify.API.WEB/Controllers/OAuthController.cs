@@ -14,7 +14,7 @@ namespace RussianSpotify.API.WEB.Controllers;
 [ApiController]
 [Route("api/[controller]/")]
 [AllowAnonymous]
-public class OAuthAccountController : ControllerBase
+public class OAuthController : ControllerBase
 {
     private readonly IMediator _mediator;
     
@@ -22,7 +22,7 @@ public class OAuthAccountController : ControllerBase
     /// Конструктор
     /// </summary>
     /// <param name="mediator"></param>
-    public OAuthAccountController(IMediator mediator) => _mediator = mediator;
+    public OAuthController(IMediator mediator) => _mediator = mediator;
 
     /// <summary>
     /// Редирект пользователя на логин страницу стороннего сервиса
@@ -38,7 +38,7 @@ public class OAuthAccountController : ControllerBase
     public IActionResult ExternalLogin([FromQuery] string provider,
         [FromServices] SignInManager<User> signInManager)
     {
-        var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "OAuthAccount");
+        var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "OAuth");
         var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return Challenge(properties, provider);
     }
