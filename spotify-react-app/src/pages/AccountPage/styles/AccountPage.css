@@ -1,0 +1,150 @@
+body {
+    background-color: #120F0F;
+    font-family: "Inter", sans-serif;
+}
+
+* {
+    text-decoration: none;
+}
+
+p, a {
+    color: white;
+    font-size: 12px;
+}
+
+.account-page-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.account-page-header img{
+    width: 35px;
+    height: 35px;
+    margin: 2%;
+}
+
+.account-page-content {
+    background: rgba(43, 43, 43, 0.5);
+    box-shadow: 0 5px 10px 5px mediumpurple;
+    padding: 2%;
+    border-radius: 5%;
+    width: 55%;
+    margin: auto;
+    margin-bottom: 5%;
+}
+
+.account-page-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.user-info {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    margin: 2% 20% 10% 20%;
+    width: 100%;
+}
+
+.nickname-subscription {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nickname-container {
+    margin-top: 3%;
+    display: flex;
+}
+
+.nickname {
+    font-size: 65px;
+    font-weight: bolder;
+}
+
+.subscription-info {
+    text-align: center;
+    margin: 5%;
+}
+
+.subscription-info p {
+    margin: 5%;
+}
+
+.subscription {
+    background: rgba(147, 112, 219, 0.75);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.no-subscription {
+    background: rgba(255, 0, 0, 0.75);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.user-image-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.user-image {
+    border: 3px solid mediumpurple;
+    padding: 2%;
+    border-radius: 50%;
+    width: 260px;
+}
+
+.favorite-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.account-page-content h3 {
+    color: white;
+    font-size: 20px;
+    margin: 2%;
+}
+
+.home-page__latest-albums__cards {
+    margin: 2%;
+}
+
+.home-page__discovery__cards {
+    margin: 2%;
+}
+
+.cards-container {
+    display: flex;
+    align-items: center;
+}
+
+
+.arrow-button {
+    background-color: rgba(43, 43, 43, 100);
+    color: #aaaaff;
+    border: none;
+    border-radius: 50%;
+    width: 75px;
+    height: 60px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 25px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.arrow-button:hover {
+    background-color: #555;
+    transform: scale(1.1);
+}
+
+.card {
+    transition: all 0.1ms ease;
+}
+
