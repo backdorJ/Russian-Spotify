@@ -2,16 +2,17 @@ import "../AccountPage/styles/AccountPage.css"
 // @ts-ignore
 import settings_icon from "../../assets/setting.png"
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import DiscoveryCard from "../HomePage/components/DiscoveryCard";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import PlaylistLittle from "../HomePage/components/PlaylistLittle";
 import PlaylistNormal from "../HomePage/components/PlaylistNormal";
 import playlistsLittle from "../../utils/mocks/homepage/playlistsLittle";
 import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
+import {SpotifyContext} from "../../index";
 
 const AccountPage = () => {
-
+    const userStore = useContext(SpotifyContext)
     const navigate = useNavigate()
     const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
     const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
@@ -57,7 +58,7 @@ const AccountPage = () => {
                     <div className="user-info">
                         <div className="nickname-subscription">
                             <div className="nickname-container">
-                                <p className="nickname">{nickname}</p>
+                                <p className="nickname">{userStore.user.username}</p>
                             </div>
                             <div className="subscription-info">
                                 {subscription1 ? (

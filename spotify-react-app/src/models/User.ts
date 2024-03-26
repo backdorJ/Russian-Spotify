@@ -26,6 +26,8 @@ export default class User {
         newUser._id = id;
         newUser._email = email;
         newUser._username = username;
+
+        return newUser
     }
 
     initSubscription(startDate: Date, endDate: Date) {
