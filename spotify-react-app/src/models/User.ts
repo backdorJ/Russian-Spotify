@@ -1,14 +1,20 @@
 import {throws} from "assert";
+import {makeAutoObservable} from "mobx";
 
 export default class User {
-    id: number;
-    email: string;
-    username: string;
+    _id: number;
+    _email: string;
+    _username: string;
+    _subStartDate: Date;
+    _subEndDate: Date;
 
     constructor() {
-        this.id = 0
-        this.email = ""
-        this.username = ""
+        this._id = 0
+        this._email = ""
+        this._username = ""
+        this._subStartDate = new Date()
+        this._subEndDate = new Date()
+        makeAutoObservable(this)
     }
 
     static init(id: number, email: string, username: string) {
@@ -17,20 +23,34 @@ export default class User {
 
         let newUser = new User()
 
-        newUser.id = id;
-        newUser.email = email;
-        newUser.username = username;
+        newUser._id = id;
+        newUser._email = email;
+        newUser._username = username;
     }
 
-    getId() {
-        return this.id;
+    initSubscription(startDate: Date, endDate: Date) {
+        this._subStartDate = new Date(startDate)
+        this._subEndDate = new Date(endDate)
+        console.log(endDate)
+        console.log(this._subEndDate)
     }
 
-    getEmail() {
-        return this.email
+    get isSubscribed() {
+        let nowDate = new Date(Date.now())
+        return (this._subEndDate > nowDate)
     }
 
-    getUsername() {
-        return this.username
+    get id() {
+        return this._id;
     }
+
+    get email() {
+        return this._email
+    }
+
+    get username() {
+        return this._username
+    }
+
+
 }

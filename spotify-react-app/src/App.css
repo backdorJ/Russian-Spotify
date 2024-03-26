@@ -50,12 +50,16 @@ body {
     background-color: #120F0F;
 }
 
-h1, h2, h3, h4, h5, h6, p, a {
+h1, h2, h3, h4, h5, h6, p, a, span {
     font-family: proxima_nova_rgregular, sans-serif;
     margin: 0;
     padding: 0;
     cursor: default;
-    line-height: normal;
+}
+
+ul, ol, li {
+    margin: 0;
+    padding: 0;
 }
 
 button, select, option {
