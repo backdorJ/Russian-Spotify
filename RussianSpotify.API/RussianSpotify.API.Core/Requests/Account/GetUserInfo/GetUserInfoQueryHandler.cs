@@ -17,6 +17,11 @@ public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, GetUser
 
     private readonly IUserContext _userContext;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="userManager">UserManager{User} из Identity</param>
+    /// <param name="userContext">UserContext <see cref="IUserContext"/></param>
     public GetUserInfoQueryHandler(UserManager<User> userManager, IUserContext userContext)
     {
         _userManager = userManager;

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Account.GetUserInfo;
 using RussianSpotify.Contracts.Requests.Account.GetUserInfo;
-using RussianSpotify.Contracts.Requests.Account.PostLogin;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
