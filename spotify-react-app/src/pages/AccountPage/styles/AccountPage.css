@@ -59,6 +59,7 @@ p, a {
 }
 
 .nickname {
+    text-transform: capitalize;
     font-size: 65px;
     font-weight: bolder;
 }
