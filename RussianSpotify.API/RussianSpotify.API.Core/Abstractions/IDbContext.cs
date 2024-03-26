@@ -54,5 +54,10 @@ public interface IDbContext
     /// </summary>
     public DbSet<Bucket> Buckets { get; set; }
 
+    /// <summary>
+    /// Уведомления
+    /// </summary>
+    public DbSet<EmailNotification> EmailNotifications { get; set; }
+
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

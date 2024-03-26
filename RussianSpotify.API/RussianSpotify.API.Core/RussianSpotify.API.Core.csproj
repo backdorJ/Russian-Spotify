@@ -29,6 +29,13 @@
       <ProjectReference Include="..\RussianSpotify.API.Contracts\RussianSpotify.API.Contracts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Templates\HTML\SendEndSubscribeNotification.html" />
+      <EmbeddedResource Include="Templates\HTML\SendEndSubscribeNotification.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
 
 
 

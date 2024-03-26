@@ -30,6 +30,7 @@ public static class AddCoreLayoutExtension
         services.AddScoped<IEmailSender, EmailSender>();
         services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<ISubscriptionHandler, SubscriptionHandler>();
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
         return services;
     }

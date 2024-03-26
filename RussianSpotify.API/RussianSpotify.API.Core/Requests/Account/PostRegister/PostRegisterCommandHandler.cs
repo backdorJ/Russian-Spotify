@@ -49,7 +49,7 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, P
         
         var emailVerificationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-        await _emailSender.SendEmail(request.Email,
+        await _emailSender.SendEmailAsync(request.Email,
             EmailMessages.ConfirmEmailMessage(emailVerificationCode), cancellationToken);
         
         return new PostRegisterResponse { Email = request.Email };
