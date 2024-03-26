@@ -44,10 +44,9 @@ public class GetExternalLoginCallbackCommandHandler :
         if (info is null)
             throw new ExternalLoginInfoNotFoundException(AuthErrorMessages.ExternalLoginInfoNotFound);
 
-        var claims = info.Principal.Claims.ToList();
-        
-        var jwt = _jwtGenerator.GenerateToken(claims);
-        var refreshToken = _jwtGenerator.GenerateRefreshToken();
+        var claims = info.Principal.Claims
+            .Where(x => !x.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))
+            .ToList();
 
         var email = claims.GetClaimValueOf(ClaimTypes.Email);
         if (email is null)
@@ -75,6 +74,11 @@ public class GetExternalLoginCallbackCommandHandler :
             await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName);
         }
 
+        claims.Add(new(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            
+        var jwt = _jwtGenerator.GenerateToken(claims);
+        var refreshToken = _jwtGenerator.GenerateRefreshToken();
+        
         user.AccessToken = jwt;
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
