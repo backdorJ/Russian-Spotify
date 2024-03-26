@@ -5,9 +5,10 @@ using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Requests.Account.PostRegister;
 using RussianSpotify.Contracts.Requests.Account.PostRegister;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostRegister;
+namespace RussianSpotify.API.Core.Requests.Auth.PostRegister;
 
 /// <summary>
 /// Обработчик для <see cref="PostRegisterCommand"/>
@@ -49,6 +50,7 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, P
         
         var emailVerificationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
+        // TODO: настроить RussianSpotify.API.Core/Models/EmailTemplateHelper, чтобы он генерил сообщение
         await _emailSender.SendEmailAsync(request.Email,
             EmailMessages.ConfirmEmailMessage(emailVerificationCode), cancellationToken);
         

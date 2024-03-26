@@ -2,7 +2,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Account.GetUserInfo;
+using RussianSpotify.API.Core.Requests.Account.PatchUpdateUserInfo;
 using RussianSpotify.Contracts.Requests.Account.GetUserInfo;
+using RussianSpotify.Contracts.Requests.Account.PatchUpdateUserInfo;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -37,5 +39,12 @@ public class AccountController : ControllerBase
     {
         var command = new GetUserInfoQuery();
         return await _mediator.Send(command);
+    }
+
+    [HttpPatch("UpdateUserInfo")]
+    public async Task UpdateUserInfo(PatchUpdateUserInfoRequest request)
+    {
+        var command = new PatchUpdateUserInfoCommand(request);
+        await _mediator.Send(command);
     }
 }
