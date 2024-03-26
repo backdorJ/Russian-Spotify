@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const $host = axios.create({
-    baseURL: process.env.SPOTIFY_API
+    baseURL: process.env.REACT_APP_SPOTIFY_API
 })
 
 const $authHost = axios.create({
-    baseURL: process.env.SPITOFY_API
+    baseURL: process.env.REACT_APP_SPOTIFY_API
 })
 
 function authInterceptor(config: any) {

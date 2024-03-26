@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Account.GetUserInfo;
 using RussianSpotify.Contracts.Requests.Account.GetUserInfo;
+using RussianSpotify.Contracts.Requests.Account.PostLogin;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -19,10 +20,7 @@ public class AccountController : ControllerBase
     /// Конструктор
     /// </summary>
     /// <param name="mediator">Медиатор из библиотеки MediatR</param>
-    public AccountController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
+    public AccountController(IMediator mediator) => _mediator = mediator;
 
     /// <summary>
     /// Возвращает GetUserInfoResponse(Email, UserName)

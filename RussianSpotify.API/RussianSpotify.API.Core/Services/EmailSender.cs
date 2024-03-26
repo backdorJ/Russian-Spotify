@@ -16,7 +16,7 @@ public class EmailSender : IEmailSender
         => _configuration = configuration;
 
     /// <inheritdoc cref="IEmailSender"/>
-    public async Task SendEmail(string to, string message, CancellationToken cancellationToken)
+    public async Task SendEmailAsync(string to, string message, CancellationToken cancellationToken)
     {
         var emailConfiguration = _configuration.GetSection("EmailSettings");
         
@@ -32,8 +32,48 @@ public class EmailSender : IEmailSender
         
         var body = bodyBuilder.ToMessageBody();
         
-        emailMessage.Body = body;  
+        emailMessage.Body = body;
+
+        await SendEmailAsync(
+            emailMessage: emailMessage,
+            emailConfiguration: emailConfiguration,
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task SendEmailAsync(
+        string to,
+        string message,
+        string subject,
+        CancellationToken cancellationToken)
+    {
+        var emailConfiguration = _configuration.GetSection("EmailSettings");
         
+        using var emailMessage = new MimeMessage();
+        emailMessage.From.Add(new MailboxAddress(emailConfiguration["FromName"],
+            emailConfiguration["EmailAddress"]));
+
+        emailMessage.To.Add(new MailboxAddress("", to));
+
+        emailMessage.Subject = subject;
+        
+        var bodyBuilder = new BodyBuilder { HtmlBody = message };
+        
+        var body = bodyBuilder.ToMessageBody();
+        
+        emailMessage.Body = body;
+        
+        await SendEmailAsync(
+            emailMessage: emailMessage,
+            emailConfiguration: emailConfiguration,
+            cancellationToken);
+    }
+
+    private async Task SendEmailAsync(
+        MimeMessage emailMessage,
+        IConfigurationSection emailConfiguration,
+        CancellationToken cancellationToken)
+    {
         using var client = new SmtpClient();
             
         await client.ConnectAsync(emailConfiguration["SMTPServerHost"],

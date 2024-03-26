@@ -40,7 +40,7 @@ public class PostResetPasswordCommandHandler :
 
         var passwordResetVerificationCode =  await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        await _emailSender.SendEmail(request.Email,
+        await _emailSender.SendEmailAsync(request.Email,
             EmailMessages.ConfirmPasswordResetMessage(passwordResetVerificationCode), cancellationToken);
 
         return new PostResetPasswordResponse { Email = request.Email, NewPassword = request.NewPassword };

@@ -194,6 +194,32 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("RussianSpotify.API.Core.Entities.EmailNotification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmailTo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Head")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("SentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailNotifications");
+                });
+
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.File", b =>
                 {
                     b.Property<Guid>("Id")

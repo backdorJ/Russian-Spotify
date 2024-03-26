@@ -2,12 +2,20 @@ import "./styles/InputRegisterWidget.css";
 import {useEffect, useState} from "react";
 import {ShowHideSvg} from "../../../../assets/mock/loginpage/buttons-SVGs/ShowHideSvg";
 
-const InputRegisterWidget = () => {
+export default function InputRegisterWidget(props: any) {
     const [isPassword1Visible, setIsPassword1Visible] = useState(false);
     const [isPassword2Visible, setIsPassword2Visible] = useState(false);
-    const [password1, setPassword1] = useState('')
-    const [password2, setPassword2] = useState('')
     const [fadeProp, setFadeProp] = useState({fade: 'fade-out'})
+    const {
+        username,
+        setUsername,
+        email,
+        setEmail,
+        password1,
+        setPassword1,
+        password2,
+        setPassword2
+    } = props
 
     const togglePassword1Visibility = () => {
         setIsPassword1Visible(prev => !prev)
@@ -36,8 +44,13 @@ const InputRegisterWidget = () => {
                     <label htmlFor="username" className="form-labels-style">
                         Username
                     </label>
-                    <input id="username" placeholder="Username" type="text" maxLength={12} minLength={5}
-                           className="input-container input-style-f62::placeholder" required/>
+                    <input
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        id="username"
+                        placeholder="Username"
+                        type="text" maxLength={12} minLength={5}
+                        className="input-container input-style-f62::placeholder" required/>
                 </div>
             </div>
             <div className="input-field-container">
@@ -45,8 +58,13 @@ const InputRegisterWidget = () => {
                     <label htmlFor="email address" className="form-labels-style">
                         Email address
                     </label>
-                    <input id="email address" placeholder="Email address" type="text"
-                           className="input-container input-style-f62::placeholder" required/>
+                    <input
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        id="email address"
+                        placeholder="Email address"
+                        type="text"
+                        className="input-container input-style-f62::placeholder" required/>
                 </div>
             </div>
             <div className="input-field-container">
@@ -55,9 +73,11 @@ const InputRegisterWidget = () => {
                         Password
                     </label>
                     <div className="password-input-container">
-                        <input id="password1" placeholder="Password" type={isPassword1Visible ? 'text' : 'password'}
-                               value={password1} onChange={(e) => setPassword1(e.target.value)}
-                               className="input-container input-style-f62::placeholder" required/>
+                        <input
+                            id="password1"
+                            placeholder="Password" type={isPassword1Visible ? 'text' : 'password'}
+                            value={password1} onChange={(e) => setPassword1(e.target.value)}
+                            className="input-container input-style-f62::placeholder" required/>
                         <div className="svg-container1">
                             <button onClick={togglePassword1Visibility} className="button-switch-type" type="button">
                                 <ShowHideSvg/>
@@ -90,5 +110,3 @@ const InputRegisterWidget = () => {
         </div>
     );
 }
-
-export default InputRegisterWidget;

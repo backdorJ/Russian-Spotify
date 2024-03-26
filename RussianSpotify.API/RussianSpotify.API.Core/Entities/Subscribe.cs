@@ -13,12 +13,12 @@ public class Subscribe
     /// <summary>
     /// Начало подписки
     /// </summary>
-    public DateTime? DateStart { get; protected set; }
+    public DateTime? DateStart { get; set; }
 
     /// <summary>
     /// Конец подписки
     /// </summary>
-    public DateTime? DateEnd { get; protected set; }
+    public DateTime? DateEnd { get; set; }
 
     /// <summary>
     /// Пользователь
