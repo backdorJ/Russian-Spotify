@@ -62,7 +62,7 @@ public class SendEndSubscribeNotificationQueryHandler : IRequestHandler<SendEndS
             ["{username}"] = subscribe.User.UserName ?? subscribe.User.Email!,
         };
 
-        var emailNotfication = await EmailTemplateHelper
+        var emailNotification = await EmailTemplateHelper
             .GetEmailNotificationAsync(
                 placeholders: placeholders,
                 template: Templates.SendEndSubscribeNotification,
@@ -70,6 +70,6 @@ public class SendEndSubscribeNotificationQueryHandler : IRequestHandler<SendEndS
                 emailTo: subscribe.User.Email!,
                 cancellationToken: cancellationToken);
 
-        await _dbContext.EmailNotifications.AddAsync(emailNotfication, cancellationToken);
+        await _dbContext.EmailNotifications.AddAsync(emailNotification, cancellationToken);
     }
 }

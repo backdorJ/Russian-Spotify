@@ -4,6 +4,8 @@ using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Extensions;
+using RussianSpotify.API.Core.Models;
 using RussianSpotify.API.Core.Requests.Account.PostLogin;
 using RussianSpotify.Contracts.Requests.Account.PostLogin;
 
@@ -45,9 +47,18 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
         if (!user.EmailConfirmed)
         {
             var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var messageTemplate =
+                await EmailTemplateHelper.GetEmailTemplateAsync(Templates.SendEmailConfirmationMessage,
+                    cancellationToken);
+
+            var placeholders = new Dictionary<string, string> { ["{confirmationToken}"] = confirmationToken };
+
+            var message = messageTemplate.ReplacePlaceholders(placeholders);
+            
             await _emailSender.SendEmailAsync(user.Email!,
-                EmailMessages.ConfirmEmailMessage(confirmationToken), cancellationToken);
-            // TODO: настроить RussianSpotify.API.Core/Models/EmailTemplateHelper, чтобы он генерил сообщение
+                message, cancellationToken);
+            
             throw new NotConfirmedEmailException(AuthErrorMessages.NotConfirmedEmail);
         }
 

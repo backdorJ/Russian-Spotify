@@ -1,13 +1,13 @@
 using System.Reflection;
 using RussianSpotify.API.Core.Entities;
-using File = System.IO.File;
+using RussianSpotify.API.Core.Extensions;
 
 namespace RussianSpotify.API.Core.Models;
 
 /// <summary>
 /// Хелпер по работе с уведмолениями
 /// </summary>
-public class EmailTemplateHelper
+public static class EmailTemplateHelper
 {
     private const string TemplatePath = "RussianSpotify.API.Core.Templates.HTML";
 
@@ -27,18 +27,28 @@ public class EmailTemplateHelper
         string emailTo,
         CancellationToken cancellationToken)
     {
-        await using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{TemplatePath}.{template}")
-                                 ?? throw new FileNotFoundException($"Шаблон Email сообщения с названием {template} не найден");
-        using var reader = new StreamReader(stream);
+        var content = await GetEmailTemplateAsync(template, cancellationToken);
 
-        var content = await reader.ReadToEndAsync(cancellationToken);
-
-        foreach (var (key, value) in placeholders)
-            content = content.Replace(key, value);
-
+        content = content.ReplacePlaceholders(placeholders);
+        
         return EmailNotification.CreateNotification(
             body: content,
             head: head,
             emailTo: emailTo);
+    }
+
+    /// <summary>
+    /// Возвращает html шаблон
+    /// </summary>
+    /// <param name="template">имя html шаблона</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Считанный из файла html шаблон</returns>
+    public static async Task<string> GetEmailTemplateAsync(string template, CancellationToken cancellationToken)
+    {
+        await using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{TemplatePath}.{template}")
+                                 ?? throw new FileNotFoundException($"Шаблон Email сообщения с названием {template} не найден");
+        using var reader = new StreamReader(stream);
+
+        return await reader.ReadToEndAsync(cancellationToken);
     }
 }
