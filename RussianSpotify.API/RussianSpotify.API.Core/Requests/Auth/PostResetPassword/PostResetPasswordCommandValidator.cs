@@ -1,7 +1,7 @@
 using FluentValidation;
 using RussianSpotify.API.Core.Enums;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostResetPassword;
+namespace RussianSpotify.API.Core.Requests.Auth.PostResetPassword;
 
 /// <summary>
 /// Валидатор для <see cref="PostResetPasswordCommand"/>

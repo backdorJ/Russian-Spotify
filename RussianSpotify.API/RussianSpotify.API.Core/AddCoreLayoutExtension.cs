@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Common.Behaviors;
-using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Services;
 
 namespace RussianSpotify.API.Core;
@@ -31,6 +30,7 @@ public static class AddCoreLayoutExtension
         services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<ISubscriptionHandler, SubscriptionHandler>();
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IUserClaimsManager, UserClaimsManager>();
 
         return services;
     }

@@ -1,7 +1,7 @@
 using MediatR;
 using RussianSpotify.Contracts.Requests.Account.PostResetPassword;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostResetPassword;
+namespace RussianSpotify.API.Core.Requests.Auth.PostResetPassword;
 
 /// <summary>
 /// Команда для сброса пароля

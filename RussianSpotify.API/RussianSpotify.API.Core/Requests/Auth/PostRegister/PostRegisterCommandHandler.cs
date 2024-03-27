@@ -5,9 +5,12 @@ using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Extensions;
+using RussianSpotify.API.Core.Models;
+using RussianSpotify.API.Core.Requests.Account.PostRegister;
 using RussianSpotify.Contracts.Requests.Account.PostRegister;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostRegister;
+namespace RussianSpotify.API.Core.Requests.Auth.PostRegister;
 
 /// <summary>
 /// Обработчик для <see cref="PostRegisterCommand"/>
@@ -47,10 +50,18 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, P
         
         await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName.ToUpper());
         
-        var emailVerificationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        
+        var messageTemplate =
+            await EmailTemplateHelper.GetEmailTemplateAsync(Templates.SendEmailConfirmationMessage,
+                cancellationToken);
 
-        await _emailSender.SendEmailAsync(request.Email,
-            EmailMessages.ConfirmEmailMessage(emailVerificationCode), cancellationToken);
+        var placeholders = new Dictionary<string, string> { ["{confirmationToken}"] = confirmationToken };
+
+        var message = messageTemplate.ReplacePlaceholders(placeholders);
+            
+        await _emailSender.SendEmailAsync(user.Email,
+            message, cancellationToken);
         
         return new PostRegisterResponse { Email = request.Email };
     }

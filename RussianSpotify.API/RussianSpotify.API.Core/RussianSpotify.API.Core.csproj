@@ -34,6 +34,18 @@
       <EmbeddedResource Include="Templates\HTML\SendEndSubscribeNotification.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
+      <None Remove="Templates\HTML\SendEmailConfirmationMessage.html" />
+      <EmbeddedResource Include="Templates\HTML\SendEmailConfirmationMessage.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="Templates\HTML\SendPasswordResetConfirmationMessage.html" />
+      <EmbeddedResource Include="Templates\HTML\SendPasswordResetConfirmationMessage.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="Templates\HTML\SendUserInfoUpdatedNotification.html" />
+      <EmbeddedResource Include="Templates\HTML\SendUserInfoUpdatedNotification.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 

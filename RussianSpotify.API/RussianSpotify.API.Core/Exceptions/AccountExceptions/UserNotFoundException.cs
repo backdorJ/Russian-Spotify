@@ -3,7 +3,7 @@ using System.Net;
 namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
 
 /// <summary>
-/// Если user не найден по id
+/// Если user не найден
 /// </summary>
 public class UserNotFoundException : ApplicationBaseException
 {
