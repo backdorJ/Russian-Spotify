@@ -6,15 +6,21 @@ using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotify.API.Core.Services;
 
+/// <inheritdoc cref="IUserClaimsManager"/>
 public class UserClaimsManager : IUserClaimsManager
 {
     private readonly UserManager<User> _userManager;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="userManager">UserManager{User} из Identity</param>
     public UserClaimsManager(UserManager<User> userManager)
     {
         _userManager = userManager;
     }
 
+    /// <inheritdoc cref="IUserClaimsManager"/>
     public async Task<List<Claim>> GetUserClaimsAsync(User user,
         CancellationToken cancellationToken = default)
     {

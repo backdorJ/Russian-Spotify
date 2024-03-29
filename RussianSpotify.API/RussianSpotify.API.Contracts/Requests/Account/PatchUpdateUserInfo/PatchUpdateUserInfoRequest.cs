@@ -5,6 +5,10 @@ namespace RussianSpotify.Contracts.Requests.Account.PatchUpdateUserInfo;
 /// </summary>
 public class PatchUpdateUserInfoRequest
 {
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="request">PatchUpdateUserInfoRequest</param>
     public PatchUpdateUserInfoRequest(PatchUpdateUserInfoRequest request)
     {
         if (request is null)

@@ -24,6 +24,13 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
 
     private readonly IEmailSender _emailSender;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="userManager">UserManager{User} из Identity</param>
+    /// <param name="jwtGenerator">Генератор JWT</param>
+    /// <param name="claimsManager">ClaimsManager <see cref="IUserClaimsManager"/> </param>
+    /// <param name="emailSender">EmailSender <see cref="IEmailSender"/> </param>
     public PostLoginCommandHandler(UserManager<User> userManager,
         IJwtGenerator jwtGenerator, IUserClaimsManager claimsManager, IEmailSender emailSender)
     {
