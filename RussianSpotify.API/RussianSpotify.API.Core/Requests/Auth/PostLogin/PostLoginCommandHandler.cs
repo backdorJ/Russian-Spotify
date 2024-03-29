@@ -1,14 +1,15 @@
-using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.JsonWebTokens;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Extensions;
+using RussianSpotify.API.Core.Models;
+using RussianSpotify.API.Core.Requests.Account.PostLogin;
 using RussianSpotify.Contracts.Requests.Account.PostLogin;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostLogin;
+namespace RussianSpotify.API.Core.Requests.Auth.PostLogin;
 
 /// <summary>
 /// Обработчик для <see cref="PostLoginCommand"/>
@@ -16,18 +17,27 @@ namespace RussianSpotify.API.Core.Requests.Account.PostLogin;
 public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLoginResponse>
 {
     private readonly UserManager<User> _userManager;
-
-    private readonly SignInManager<User> _signInManager;
-
+    
     private readonly IJwtGenerator _jwtGenerator;
 
+    private readonly IUserClaimsManager _claimsManager;
+
+    private readonly IEmailSender _emailSender;
+
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="userManager">UserManager{User} из Identity</param>
+    /// <param name="jwtGenerator">Генератор JWT</param>
+    /// <param name="claimsManager">ClaimsManager <see cref="IUserClaimsManager"/> </param>
+    /// <param name="emailSender">EmailSender <see cref="IEmailSender"/> </param>
     public PostLoginCommandHandler(UserManager<User> userManager,
-        SignInManager<User> signInManager,
-        IJwtGenerator jwtGenerator)
+        IJwtGenerator jwtGenerator, IUserClaimsManager claimsManager, IEmailSender emailSender)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
         _jwtGenerator = jwtGenerator;
+        _claimsManager = claimsManager;
+        _emailSender = emailSender;
     }
 
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
@@ -42,38 +52,36 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
             throw new NotFoundUserException(AuthErrorMessages.UserNotFound);
 
         if (!user.EmailConfirmed)
-            throw new NotConfirmedEmailException(AuthErrorMessages.NotConfirmedEmail);
-        
-        var passwordSignInResult =
-            await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
-        
-        if (!passwordSignInResult.Succeeded)
-            throw new WrongPasswordException(AuthErrorMessages.WrongPassword);
-
-        await _signInManager.SignInAsync(user, isPersistent: false, "Bearer JWT");
-
-        var userRoles = await _userManager.GetRolesAsync(user);
-        
-        var authClaims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.UserName!),
-            new(ClaimTypes.Email, request.Email),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+            var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-        foreach (var role in userRoles) 
-            authClaims.Add(new Claim(ClaimTypes.Role, role));
+            var messageTemplate =
+                await EmailTemplateHelper.GetEmailTemplateAsync(Templates.SendEmailConfirmationMessage,
+                    cancellationToken);
+
+            var placeholders = new Dictionary<string, string> { ["{confirmationToken}"] = confirmationToken };
+
+            var message = messageTemplate.ReplacePlaceholders(placeholders);
+            
+            await _emailSender.SendEmailAsync(user.Email!,
+                message, cancellationToken);
+            
+            throw new NotConfirmedEmailException(AuthErrorMessages.NotConfirmedEmail);
+        }
+
+        var isCorrectPassword = await _userManager.CheckPasswordAsync(user, request.Password);
+
+        if (!isCorrectPassword)
+            throw new WrongPasswordException(AuthErrorMessages.WrongPassword);
         
-        var jwt = _jwtGenerator.GenerateToken(authClaims);
-        var refreshToken = _jwtGenerator.GenerateRefreshToken();
+        var userClaims = await _claimsManager.GetUserClaimsAsync(user, cancellationToken);
 
-        user.AccessToken = jwt;
-        user.RefreshToken = refreshToken;
+        user.AccessToken = _jwtGenerator.GenerateToken(userClaims);
+        user.RefreshToken = _jwtGenerator.GenerateRefreshToken();
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
 
         await _userManager.UpdateAsync(user);
         
-        return new PostLoginResponse { AccessToken = jwt, RefreshToken = refreshToken};
+        return new PostLoginResponse { AccessToken = user.AccessToken, RefreshToken = user.RefreshToken};
     }
 }

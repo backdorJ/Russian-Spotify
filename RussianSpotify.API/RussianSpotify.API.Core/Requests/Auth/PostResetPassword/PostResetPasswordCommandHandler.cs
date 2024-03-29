@@ -4,9 +4,11 @@ using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Extensions;
+using RussianSpotify.API.Core.Models;
 using RussianSpotify.Contracts.Requests.Account.PostResetPassword;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostResetPassword;
+namespace RussianSpotify.API.Core.Requests.Auth.PostResetPassword;
 
 /// <summary>
 /// Обработчик для <see cref="PostResetPasswordCommand"/>
@@ -38,10 +40,17 @@ public class PostResetPasswordCommandHandler :
         if (isEqualsOldAndNewPasswords)
             throw new EqualsOldAndNewPasswordsException(AuthErrorMessages.EqualsOldAndNewPasswords);
 
-        var passwordResetVerificationCode =  await _userManager.GeneratePasswordResetTokenAsync(user);
+        var confirmationToken =  await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        await _emailSender.SendEmailAsync(request.Email,
-            EmailMessages.ConfirmPasswordResetMessage(passwordResetVerificationCode), cancellationToken);
+        var messageTemplate =
+            await EmailTemplateHelper.GetEmailTemplateAsync(Templates.SendPasswordResetConfirmationMessage,
+                cancellationToken);
+
+        var placeholders = new Dictionary<string, string> { ["{confirmationToken}"] = confirmationToken };
+
+        var message = messageTemplate.ReplacePlaceholders(placeholders);
+        
+        await _emailSender.SendEmailAsync(request.Email, message, cancellationToken);
 
         return new PostResetPasswordResponse { Email = request.Email, NewPassword = request.NewPassword };
     }

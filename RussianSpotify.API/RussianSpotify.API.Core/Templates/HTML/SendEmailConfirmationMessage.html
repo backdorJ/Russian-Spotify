@@ -38,6 +38,16 @@
             text-align: center;
         }
 
+        .code {
+            font-family: monospace;
+            font-size: 32px;
+            font-weight: bold;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #8B00FF;
+        }
+
         .code-min {
             font-weight: bold;
             color: #8B00FF;
@@ -47,13 +57,15 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1 class="title">Уведомление</h1>
+        <h1 class="title">Подтверждение почты</h1>
     </div>
     <br>
     <div class="message">
         <p>Здравствуйте, это <span class="code-min">Russian Spotify</span>!</p>
-        <p>Уважаемый <span class="code-min">{username}</span> у вас осталось <span class="code-min"> 7 </span> дней до окончания подписки,
-            вам стоит ее продлить</p>
+        <p>Для подтверждения почты введите этот код:</p>
+        <p class="code">
+            {confirmationToken}
+        </p>
     </div>
 </div>
 </body>
