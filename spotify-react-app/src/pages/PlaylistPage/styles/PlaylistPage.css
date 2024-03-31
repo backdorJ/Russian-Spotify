@@ -1,0 +1,109 @@
+.playlist-page-wrapper {
+    width: 100%;
+    height: 100%
+}
+
+.playlist-page {
+    position: relative;
+    width: 100%;
+}
+
+.playlist-page-background {
+    position: absolute;
+    width: inherit;
+    height: 600px;
+    background: linear-gradient(#DEF628, #121212)
+}
+
+.playlist-page__main {
+    display: flex;
+    padding: 80px 40px 30px 40px;
+}
+
+.playlist-page__main__img-wrapper {
+    width: 300px;
+    height: 300px;
+}
+
+.playlist-page__main__img {
+    width: inherit;
+    height: inherit;
+}
+
+.playlist-page__main__info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: end;
+    transition: .1s;
+    margin-left: 30px;
+}
+
+.playlist-page__main__info span:hover {
+    color: #cbc237;
+    transition: .1s;
+}
+
+.playlist-page__main__info__name {
+    font-size: 122px;
+    margin-bottom: 30px;
+    line-height: 110px;
+}
+
+.playlist-page__main__info__singers {
+    font-size: 20px;
+    color: #FFFFFF70;
+}
+
+.playlist-page__main__info__singers > span {
+    color: #FFFFFF;
+}
+
+.playlist-page__main__info__additional {
+    font-size: 18px;
+    color: #FFFFFF70;
+}
+
+.playlist-page__main__info__additional > span {
+    color: #FFFFFF;
+}
+
+.playlist-page__songs {
+    height: 1000px;
+    padding: 30px 40px 80px 40px;
+    background: linear-gradient(rgba(18, 18, 18, 0.19), #121212);
+}
+
+.playlist-page__songs__header {
+
+}
+
+.playlist-page__songs__header__buttons {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.playlist-page__songs__header__buttons div, .playlist-page__songs__header__buttons img {
+    transition: 0.1s;
+}
+
+.playlist-page__songs__header__buttons div:hover, .playlist-page__songs__header__buttons img:hover {
+    transform: scale(1.05);
+    transition: 0.1s;
+}
+
+.playlist-page__songs__header__buttons__play {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #65D36E;
+    border-radius: 36px;
+    margin-right: 35px;
+}
+
+.playlist-page__songs__header__buttons__like {
+    margin-right: 30px;
+}
