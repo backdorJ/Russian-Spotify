@@ -5,6 +5,7 @@ using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Exceptions.AuthExceptions;
 using RussianSpotify.API.Core.Extensions;
 using RussianSpotify.API.Core.Models;
 using RussianSpotify.Contracts.Requests.Account.PostRegister;
@@ -41,6 +42,9 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, P
             EmailConfirmed = false
         };
 
+        if (request.Role.Equals(BaseRoles.AdminRoleName, StringComparison.OrdinalIgnoreCase))
+            throw new UserCannotBeAdminException("User can not be register as Admin");
+        
         var result = await _userManager.CreateAsync(user, request.Password);
         
         if (!result.Succeeded)
