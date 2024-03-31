@@ -1,5 +1,5 @@
 .playlist-page-wrapper {
-    width: 100%;
+    width: inherit;
     height: 100%
 }
 
@@ -69,7 +69,7 @@
 }
 
 .playlist-page__songs {
-    height: 1000px;
+    /*height: 1000px;*/
     padding: 30px 40px 80px 40px;
     background: linear-gradient(rgba(18, 18, 18, 0.19), #121212);
 }

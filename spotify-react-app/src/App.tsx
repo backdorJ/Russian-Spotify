@@ -24,7 +24,7 @@ const App = observer(() => {
             <div className="app">
                 {
                     userStore.isAuth &&
-                    <div style={{minWidth: "280px", height: "1080px", backgroundColor: "gray"}}></div>
+                    <div style={{minWidth: "280px", height: "1080px", backgroundColor: "gray", position: "relative"}}></div>
                 }
                 <div className="app__main">
                     <NavBar setShowSubModal={setShowModal} />

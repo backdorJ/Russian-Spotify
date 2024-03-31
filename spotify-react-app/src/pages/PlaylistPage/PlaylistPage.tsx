@@ -7,12 +7,14 @@ import play_icon from "../../assets/mock/playlistpage/player_triangle.png"
 import like_icon from "../../assets/mock/playlistpage/like.png"
 // @ts-ignore
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {SpotifyContext} from "../../index";
 
 const PlaylistPage = () => {
     const userStore = useContext(SpotifyContext)
-
+    const [backgroundWidth, setBackgroundWidth] = useState(0)
+    const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
+    const sidebarWidth = 280
     const playlistName = "Chill Mix"
     const singer1 = "Julia Wong"
     const singer2 = "ayokay"
@@ -21,9 +23,24 @@ const PlaylistPage = () => {
     const madeBy = userStore.user.username
     const playlistTime = "2hr 01min"
 
+    const updateWindowWidth = () => {
+        setWindowWidth(document.body.clientWidth)
+    }
+
+    useEffect(() => {
+        window.onresize = updateWindowWidth
+        return function () {
+            window.onresize = null
+        }
+    }, []);
+
+    useEffect(() => {
+        setBackgroundWidth(windowWidth - sidebarWidth)
+    }, [windowWidth]);
+
     return (
         <div className="playlist-page-wrapper">
-            <div className="playlist-page-background"></div>
+            <div style={{width: backgroundWidth + 'px'}} className="playlist-page-background"></div>
             <div className="playlist-page">
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
