@@ -8,11 +8,16 @@ import User from "./models/User";
 import {observer} from "mobx-react-lite";
 import MakeSubscriptionModal from "./commonComponents/NavBar/components/makeSubscriptionModal/makeSubscriptionModal";
 import {getSubscription} from "./http/subApi";
-import loadUser from "./hooks/loadUser";
+import loadUser from "./functions/loadUser";
 
 const App = observer(() => {
     const userStore = useContext(SpotifyContext)
     const [showModal, setShowModal] = useState(false)
+
+    if (showModal)
+        document.getElementById("body")!.style.overflowY = 'hidden';
+    else
+        document.getElementById("body")!.style.overflowY = 'visible';
 
     useEffect(() => {
         loadUser()

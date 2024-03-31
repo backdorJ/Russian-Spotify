@@ -1,10 +1,10 @@
 import EditUserInfoModal from "./modals/editUserInfoModal/editUserInfoModal";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import {SpotifyContext} from "../../../index";
 
 export default function SettingsPersonal(props: any) {
+    const userStore = useContext(SpotifyContext)
     const [showModal, setShowModal] = useState(false)
-    let username = "irekkkarimov"
-    let email = "irek@gmail.com"
 
     if (showModal)
         document.getElementById("body")!.style.overflowY = 'hidden';
@@ -14,8 +14,8 @@ export default function SettingsPersonal(props: any) {
     return (
         <div className="settings__personal">
             <div className="settings__personal__main">
-                <UserInfoElement header="Username" text="Your username" value={username}/>
-                <UserInfoElement header="Email" text="Your email" value={email}/>
+                <UserInfoElement header="Username" text="Your username" value={userStore.user.username}/>
+                <UserInfoElement header="Email" text="Your email" value={userStore.user.email}/>
                 <UserInfoElement header="Password" text="Your password" value="********"/>
             </div>
             <div className="settings__personal__main__edit">

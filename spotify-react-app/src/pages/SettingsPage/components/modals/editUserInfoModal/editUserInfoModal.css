@@ -35,7 +35,7 @@ body.active-modal {
     transform: translate(-50%, -50%);
     line-height: 1.4;
     background: #120F0F;
-    padding: 20px 30px;
+    padding: 20px 30px 50px 30px;
     border-radius: 10px;
     max-width: fit-content;
     min-height: 330px;
@@ -62,12 +62,12 @@ body.active-modal {
     flex-direction: column;
 }
 
-.edit-profile__form__right__fields {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+/*.edit-profile__form__right__fields {*/
+/*    height: 100%;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: space-between;*/
+/*}*/
 
 .edit-profile__form h3 {
     margin-bottom: 5px;
