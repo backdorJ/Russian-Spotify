@@ -61,17 +61,23 @@ public class PatchUpdateUserInfoCommandHandler
         if (user is null)
             throw new NotFoundUserException($"User with id: {userId}");
 
-        user.UserName ??= request.UserName;
+        user.UserName = request.UserName ?? user.UserName;
+        
         var changePasswordResult = IdentityResult.Success;
 
-        if (!string.IsNullOrWhiteSpace(request.NewPassword))
+        if (!string.IsNullOrWhiteSpace(request.NewPassword)
+            && !string.IsNullOrWhiteSpace(request.NewPasswordConfirm)
+            && request.NewPasswordConfirm!.Equals(request.NewPassword, StringComparison.Ordinal))
         {
-            if (!string.IsNullOrWhiteSpace(request.NewPasswordConfirm)
-                && !string.IsNullOrWhiteSpace(request.CurrentPassword)
-                && request.NewPasswordConfirm!.Equals(request.NewPassword, StringComparison.Ordinal))
-
-                changePasswordResult =
-                    await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+                if (string.IsNullOrWhiteSpace(user.PasswordHash))
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    changePasswordResult = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
+                }
+                else
+                    changePasswordResult =
+                        await _userManager.ChangePasswordAsync(user,
+                            request.CurrentPassword!, request.NewPassword);
         }
 
         if (!changePasswordResult.Succeeded)
