@@ -7,6 +7,7 @@ using RussianSpotify.API.Core.Requests.Account.PostLogin;
 using RussianSpotify.API.Core.Requests.Account.PostRefreshToken;
 using RussianSpotify.API.Core.Requests.Account.PostRegister;
 using RussianSpotify.API.Core.Requests.Account.PostRevokeToken;
+using RussianSpotify.API.Core.Requests.Auth.PostRegister;
 using RussianSpotify.API.Core.Requests.Auth.PostResetPassword;
 using RussianSpotify.Contracts.Requests.Account.PostConfirmEmail;
 using RussianSpotify.Contracts.Requests.Account.PostConfirmPasswordReset;
@@ -15,6 +16,7 @@ using RussianSpotify.Contracts.Requests.Account.PostRefreshToken;
 using RussianSpotify.Contracts.Requests.Account.PostRegister;
 using RussianSpotify.Contracts.Requests.Account.PostResetPassword;
 using RussianSpotify.Contracts.Requests.Account.PostRevokeToken;
+using RussianSpotify.Contracts.Requests.Auth.PostRegister;
 
 namespace RussianSpotify.API.WEB.Controllers;
 

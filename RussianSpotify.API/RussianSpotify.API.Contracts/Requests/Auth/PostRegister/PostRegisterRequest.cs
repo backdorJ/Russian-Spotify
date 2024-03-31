@@ -1,4 +1,4 @@
-namespace RussianSpotify.Contracts.Requests.Account.PostRegister;
+namespace RussianSpotify.Contracts.Requests.Auth.PostRegister;
 
 /// <summary>
 /// Запрос на регистрацию
@@ -14,6 +14,7 @@ public class PostRegisterRequest
         Password = request.Password;
         PasswordConfirm = request.PasswordConfirm;
         Email = request.Email;
+        Role = request.Role;
     }
     
     public PostRegisterRequest()
@@ -39,4 +40,9 @@ public class PostRegisterRequest
     /// Почта
     /// </summary>
     public string Email { get; set; } = default!;
+
+    /// <summary>
+    /// Роль пользователя
+    /// </summary>
+    public string Role { get; set; } = default!;
 }
