@@ -20,19 +20,19 @@ public class ExceptionMiddleware : IMiddleware
         {
             context.Response.StatusCode = (int)exception.ResponseStatusCode;
 
-            await context.Response.WriteAsJsonAsync(exception.Message);
+            await context.Response.WriteAsJsonAsync(new { message = exception.Message });
         }
         catch (ValidationException exception)
         {
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-            await context.Response.WriteAsJsonAsync(exception.Message);
+            await context.Response.WriteAsJsonAsync(new { message = exception.Message });
         }
         catch (Exception exception)
         {
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            await context.Response.WriteAsJsonAsync(exception.Message);
+            await context.Response.WriteAsJsonAsync(new { message = exception.Message });
         }
     }
 }
