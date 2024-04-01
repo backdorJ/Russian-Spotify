@@ -15,11 +15,8 @@ namespace RussianSpotify.API.WEB.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class FileController : ControllerBase
+public class FileController : FileBaseController
 {
-    private const string DefaultContentType = "application/octet-stream";
-    private const string DefaultContentDisposition = "attachment";
-    
     /// <summary>
     /// Загрузить файл
     /// </summary>
@@ -56,32 +53,5 @@ public class FileController : ControllerBase
         var file = await mediator.Send(new DownloadFileQuery(id), cancellationToken);
 
         return GetFileStreamResult(file, Response.Headers);
-    }
-    
-    private static FileStreamResult GetFileStreamResult(
-        BaseFileStreamResponse file,
-        IHeaderDictionary headers,
-        bool inline = false)
-    {
-        if (file is null)
-            throw new ArgumentNullException(nameof(file));
-
-        var cd = new ContentDispositionHeaderValue(inline ? "inline" : DefaultContentDisposition);
-        cd.SetHttpFileName(file.FileName);
-        headers[HeaderNames.ContentDisposition] = cd.ToString();
-
-        if (file.Content.CanSeek)
-            file.Content.Seek(0, SeekOrigin.Begin);
-
-        return new FileStreamResult(file.Content, file.ContentType);
-    }
-    
-    private static IEnumerable<UploadRequestItem> GetEnumerableFiles(List<IFormFile>? files)
-    {
-        foreach (var file in files ?? new List<IFormFile>())
-        {
-            using var stream = file.OpenReadStream();
-            yield return new UploadRequestItem(stream, file.FileName, file.ContentType);
-        }
     }
 }
