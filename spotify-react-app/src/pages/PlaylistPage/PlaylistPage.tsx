@@ -27,13 +27,6 @@ const PlaylistPage = () => {
     const madeBy = userStore.user.username
     const playlistTime = "2hr 01min"
 
-    // const swapLikedIcon = (toHover: boolean) => {
-    //     if (toHover)
-    //         setDeactiveLiked(like_icon_hover)
-    //     else
-    //         setDeactiveLiked(like_icon)
-    // }
-
     const updateWindowWidth = () => {
         setWindowWidth(document.body.clientWidth)
     }
