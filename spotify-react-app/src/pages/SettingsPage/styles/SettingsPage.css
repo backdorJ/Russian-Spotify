@@ -11,10 +11,12 @@
 .settings__header {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .settings__header > h2 {
     font-size: 36px;
+    margin-bottom: 10px;
 }
 
 .settings__header__navbar__list {

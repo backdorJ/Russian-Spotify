@@ -1,13 +1,48 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import './editUserInfoModal.css'
+import {SpotifyContext} from "../../../../../index";
+import UserEditDto from "../../../../../utils/dto/user/userEditDto";
+import {edit} from "../../../../../http/authApi";
+import loadUser from "../../../../../functions/loadUser";
+import {useNavigate} from "react-router-dom";
+import {observer} from "mobx-react-lite";
 
 
-export default function EditUserInfoModal(props: any) {
+const EditUserInfoModal = observer((props: any) => {
+    const userStore = useContext(SpotifyContext)
     const {show, onHide} = props
-    const [name, setName] = useState("irekkkarimov")
-    const [password1, setPassword1] = useState("")
-    const [password2, setPassword2] = useState("")
-    let Email = "irek@gmail.com"
+    const [username, setUsername] = useState(userStore.user.username)
+    const [oldPassword, setOldPassword] = useState("")
+    const [newPassword, setNewPassword] = useState("")
+
+    const handleEdit = () => {
+        if (username === "" || oldPassword === "" || newPassword === "") {
+            alert("All fields must be filled!")
+            return
+        }
+
+        let userEditDto = new UserEditDto(username, oldPassword, newPassword, newPassword)
+        edit(userEditDto)
+            .then(status => {
+                if (status) {
+                    alert("Personal data was successfully changed!")
+                    loadUser()
+                        .then(user => userStore.login(user))
+                        .then(_ => {
+                            reset()
+                            onHide()
+                        })
+                }
+                else
+                    alert("Something went wrong! Please try again")
+            })
+    }
+
+    const reset = () => {
+        setUsername(userStore.user.username)
+        setOldPassword("")
+        setNewPassword("")
+    }
 
 
     return (
@@ -30,43 +65,47 @@ export default function EditUserInfoModal(props: any) {
                             type="text"
                             id="edit-profile__email"
                             name="email"
-                            value={Email}
+                            value={userStore.user.email}
                             className="edit-profile__field edit-profile__field-disabled"
                             placeholder="Type new email"
                             disabled/>
                         <h3>
-                            Name:
+                            Username:
                         </h3>
                         <input
                             type="text"
                             id="edit-profile__name"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
                             className="edit-profile__field"
-                            placeholder="Type profile name"/>
+                            placeholder="Type profile name"
+                            required/>
                     </div>
                     <div className="edit-profile__form__right">
                         <h3>
-                            Password:
+                            Old password:
                         </h3>
-                        <div className="edit-profile__form__right__fields">
-                            <input
-                                type="password"
-                                id="edit-profile__password"
-                                name="password"
-                                value={password1}
-                                onChange={e => setPassword1(e.target.value)}
-                                className="edit-profile__field"
-                                placeholder="Type new password"/>
-                            <input
-                                type="password"
-                                id="edit-profile__password"
-                                name="password"
-                                value={password2}
-                                onChange={e => setPassword2(e.target.value)}
-                                className="edit-profile__field"
-                                placeholder="Repeat new password"/>
-                        </div>
+                        <input
+                            type="password"
+                            id="edit-profile__password"
+                            name="password"
+                            value={oldPassword}
+                            onChange={e => setOldPassword(e.target.value)}
+                            className="edit-profile__field"
+                            placeholder="Type new password"
+                            required/>
+                        <h3>
+                            New password:
+                        </h3>
+                        <input
+                            type="password"
+                            id="edit-profile__password"
+                            name="password"
+                            value={newPassword}
+                            onChange={e => setNewPassword(e.target.value)}
+                            className="edit-profile__field"
+                            placeholder="Repeat new password"
+                            required/>
                     </div>
                 </form>
                 <div className="modal-buttons">
@@ -80,12 +119,14 @@ export default function EditUserInfoModal(props: any) {
                     </button>
                     <button
                         className="submit-modal"
-                        // onClick={submitProfileForm}
+                        onClick={handleEdit}
                     >
-                        Save
+                        Update
                     </button>
                 </div>
             </div>
         </>
     );
-}
+})
+
+export default EditUserInfoModal

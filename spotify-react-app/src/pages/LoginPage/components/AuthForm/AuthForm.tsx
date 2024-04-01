@@ -11,6 +11,7 @@ import routeNames from "../../../../utils/routeNames";
 import {SpotifyContext} from "../../../../index";
 import {observer} from "mobx-react-lite";
 import User from "../../../../models/User";
+import loadUser from "../../../../functions/loadUser";
 
 const AuthForm = observer(() => {
     const [email, setEmail] = useState("")
@@ -24,8 +25,9 @@ const AuthForm = observer(() => {
         login(user)
             .then(success => {
                 if (success) {
-                    userStore.login(new User())
-                    navigate(routeNames.HOME_PAGE)
+                    loadUser()
+                        .then(user => userStore.login(user))
+                        .then(_ => navigate(routeNames.HOME_PAGE))
                 } else
                     alert("Something went wrong. Try again")
             })
