@@ -6,6 +6,8 @@ import play_icon from "../../assets/mock/playlistpage/player_triangle.png"
 // @ts-ignore
 import like_icon from "../../assets/mock/playlistpage/like.png"
 // @ts-ignore
+import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg.svg"
+// @ts-ignore
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 import {useContext, useEffect, useState} from "react";
 import {SpotifyContext} from "../../index";
@@ -16,6 +18,7 @@ const PlaylistPage = () => {
     const userStore = useContext(SpotifyContext)
     const [backgroundWidth, setBackgroundWidth] = useState(0)
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
+    const [isHover, setIsHover] = useState(false)
     const playlistName = "Chill Mix"
     const singer1 = "Julia Wong"
     const singer2 = "ayokay"
@@ -23,6 +26,13 @@ const PlaylistPage = () => {
     const songCount = 34
     const madeBy = userStore.user.username
     const playlistTime = "2hr 01min"
+
+    // const swapLikedIcon = (toHover: boolean) => {
+    //     if (toHover)
+    //         setDeactiveLiked(like_icon_hover)
+    //     else
+    //         setDeactiveLiked(like_icon)
+    // }
 
     const updateWindowWidth = () => {
         setWindowWidth(document.body.clientWidth)
@@ -69,9 +79,23 @@ const PlaylistPage = () => {
                             <div className="playlist-page__songs__header__buttons__play">
                                 <img src={play_icon} alt="Play"/>
                             </div>
-                            <img className="playlist-page__songs__header__buttons__like" src={like_icon} alt="Like"/>
-                            <img className="playlist-page__songs__header__buttons__options" src={options_icon}
-                                 alt="Options"/>
+                            <div className="playlist-page__songs__header__buttons__like-wrapper">
+                                <img
+                                    onMouseEnter={() => setIsHover(true)}
+                                    className={`playlist-page__songs__header__buttons__like ${isHover ? "img-hidden" : "img-not-hidden"}`}
+                                    src={like_icon}
+                                    alt="Like"/>
+                                <img
+                                    onMouseEnter={() => setIsHover(true)}
+                                    onMouseLeave={() => setIsHover(false)}
+                                    className={`playlist-page__songs__header__buttons__like ${isHover ? "img-not-hidden" : "img-hidden"}`}
+                                    src={like_icon_hover}
+                                    alt="Like"/>
+                            </div>
+                            <img
+                                className="playlist-page__songs__header__buttons__options"
+                                src={options_icon}
+                                alt="Options"/>
                         </div>
                     </div>
                     <div className="playlist-page__songs__list">
@@ -99,19 +123,22 @@ const PlaylistPage = () => {
                                 name="Slow Grenade"
                                 artists={['Ellie Goulding', 'Lauv']}
                                 album="Brightest Blue"
-                                length="3:37"/>
+                                length="3:37"
+                                isLiked={true}/>
                             <SongCard
                                 id="1"
                                 name="Slow Grenade"
                                 artists={['Ellie Goulding', 'Lauv']}
                                 album="Brightest Blue"
-                                length="3:37"/>
+                                length="3:37"
+                                isLiked={false}/>
                             <SongCard
                                 id="1"
                                 name="Slow Grenade"
                                 artists={['Ellie Goulding', 'Lauv']}
                                 album="Brightest Blue"
-                                length="3:37"/>
+                                length="3:37"
+                                isLiked={true}/>
                         </div>
                     </div>
                 </div>

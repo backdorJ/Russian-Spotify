@@ -1,9 +1,13 @@
 // @ts-ignore
 import song_img from "../../../assets/mock/playlistpage/songs/slow_grenade_img.png"
+// @ts-ignore
+import not_liked_icon from "../../../assets/mock/playlistpage/like.png"
+// @ts-ignore
+import liked_icon from "../../../assets/mock/playlistpage/songs/liked.png"
 import {Fragment} from "react";
 
 const SongCard = (props: any) => {
-    const {id, name, artists, album, length} = props
+    const {id, name, artists, album, length, isLiked} = props
     let artistCount = artists.length
     let artistsArray = [...artists]
     let artistsMapped = artistsArray.map((artist, index) => {
@@ -34,6 +38,13 @@ const SongCard = (props: any) => {
             </div>
             <div className="playlist-page__songs__list__main__song-card__added">
 
+            </div>
+            <div className="playlist-page__songs__list__main__song-card__liked">
+                {
+                    isLiked
+                        ? <img src={liked_icon} alt="Dislike"/>
+                        : <img src={not_liked_icon} alt="Like"/>
+                }
             </div>
             <div className="playlist-page__songs__list__main__song-card__length">
                 <p>{length}</p>
