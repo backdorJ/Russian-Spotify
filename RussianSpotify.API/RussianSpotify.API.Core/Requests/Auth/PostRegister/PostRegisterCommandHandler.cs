@@ -5,9 +5,9 @@ using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Exceptions.AuthExceptions;
 using RussianSpotify.API.Core.Extensions;
 using RussianSpotify.API.Core.Models;
-using RussianSpotify.API.Core.Requests.Account.PostRegister;
 using RussianSpotify.Contracts.Requests.Account.PostRegister;
 
 namespace RussianSpotify.API.Core.Requests.Auth.PostRegister;
@@ -42,13 +42,19 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, P
             EmailConfirmed = false
         };
 
+        if (request.Role.Equals(BaseRoles.AdminRoleName, StringComparison.OrdinalIgnoreCase))
+            throw new UserCannotBeAdminException("User can not be register as Admin");
+        
         var result = await _userManager.CreateAsync(user, request.Password);
         
         if (!result.Succeeded)
             throw new RegisterUserException(
                 string.Join("\n", result.Errors.Select(error => error.Description)));
         
-        await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName.ToUpper());
+        var addToRoleResult = await _userManager.AddToRoleAsync(user, request.Role.ToUpper());
+
+        if (!addToRoleResult.Succeeded)
+            await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName.ToUpper());
         
         var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         
