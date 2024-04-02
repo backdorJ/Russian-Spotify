@@ -43,10 +43,7 @@ public class SongController : FileBaseController
             throw new ArgumentNullException(nameof(request));
 
         return await _mediator.Send(
-            new GetAllSongQuery(
-                request is null
-                    ? new GetAllSongRequest()
-                    : request),
+            new GetAllSongQuery(request),
             cancellationToken);
     }
 

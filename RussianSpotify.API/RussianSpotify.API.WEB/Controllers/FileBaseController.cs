@@ -10,7 +10,6 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// </summary>
 public class FileBaseController : ControllerBase
 {
-    private const string DefaultContentType = "application/octet-stream";
     private const string DefaultContentDisposition = "attachment";
     
     /// <summary>
@@ -36,6 +35,22 @@ public class FileBaseController : ControllerBase
             file.Content.Seek(0, SeekOrigin.Begin);
 
         return new FileStreamResult(file.Content, file.ContentType);
+    }
+
+    /// <summary>
+    /// Отправить файл в байтах
+    /// </summary>
+    /// <param name="file">Файл</param>
+    /// <returns>Файл в байтах</returns>
+    protected static FileContentResult GetFileBytes(BaseFileBytesResponse file)
+    {
+        if (file is null)
+            throw new ArgumentNullException(nameof(file));
+
+        return new FileContentResult(fileContents: file.Content, contentType: file.ContentType)
+        {
+            FileDownloadName = file.FileName,
+        };
     }
     
     /// <summary>

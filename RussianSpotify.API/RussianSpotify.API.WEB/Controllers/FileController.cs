@@ -1,10 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using RussianSpotify.API.Core.Requests.File.DownloadFile;
+using RussianSpotify.API.Core.Requests.File.GetImageById;
 using RussianSpotify.API.Core.Requests.File.UploadFile;
-using RussianSpotify.Contracts.Requests;
 using RussianSpotify.Contracts.Requests.File.UploadFile;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -53,5 +52,23 @@ public class FileController : FileBaseController
         var file = await mediator.Send(new DownloadFileQuery(id), cancellationToken);
 
         return GetFileStreamResult(file, Response.Headers);
+    }
+
+    /// <summary>
+    /// Получить изображение по ИД
+    /// </summary>
+    /// <param name="id">Ид изображения</param>
+    /// <param name="mediator"></param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Бинарные данные</returns>
+    [HttpGet("image/{id}")]
+    public async Task<FileContentResult> GetImageByIdAsync(
+        [FromRoute] Guid id,
+        [FromServices] IMediator mediator,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetImageByIdQuery(id), cancellationToken);
+
+        return GetFileBytes(file: result);
     }
 }
