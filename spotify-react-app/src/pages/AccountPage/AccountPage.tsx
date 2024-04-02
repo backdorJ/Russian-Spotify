@@ -79,6 +79,10 @@ const AccountPage = () => {
                         </div>
                     </div>
                     <div className="favorite-container">
+                        <h3>Любимые треки</h3>
+                        <div className="music-container">
+                            
+                        </div>
                         <h3>Любимые альбомы & плейлисты</h3>
                         <div className="cards-container">
                             <button className="arrow-button arrow-button-left"
