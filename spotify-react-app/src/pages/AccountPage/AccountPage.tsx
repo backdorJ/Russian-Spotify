@@ -20,6 +20,21 @@ const AccountPage = () => {
     const endsubdate = userStore.user._subEndDate.getDate()
     const endsubmonth = userStore.user._subEndDate.getMonth()
     const endsubyear = userStore.user._subEndDate.getFullYear()
+    const lipoviiArrayOfMusic = [{
+        id: 1,
+        name: 'Hello',
+        imageId: 1,
+        duration: 206,
+        category: 'pop',
+        authors: ['Adele']
+    }, {
+        id: 2,
+        name: 'Саламалейкум мои братьям',
+        imageId: 2,
+        duration: 150,
+        category: 'kavkaz',
+        authors: ['Islam Itlyashev', 'Oleg Gazmanov']
+    }, {id: 3, name: 'Гимн .NET', imageId: 3, duration: 300, category: 'russian', authors: ['Irek Karimov']}]
 
     const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
 
@@ -80,8 +95,20 @@ const AccountPage = () => {
                     </div>
                     <div className="favorite-container">
                         <h3>Любимые треки</h3>
-                        <div className="music-container">
-                            
+                        <div className="musics-container">
+                            <div className="music-container-wrapper">
+                                {lipoviiArrayOfMusic.map((music) => (
+                                    <div key={music.id} className="music-container">
+                                        <div className="music-name-authors">
+                                            <span>{music.name}</span>
+                                            <span>{music.authors.map(author => <a href="">{author},</a>)}</span>
+                                        </div>
+                                        <div className="music-duration">
+                                            <span>{Math.floor(music.duration / 60)}:{music.duration % 60}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         <h3>Любимые альбомы & плейлисты</h3>
                         <div className="cards-container">
