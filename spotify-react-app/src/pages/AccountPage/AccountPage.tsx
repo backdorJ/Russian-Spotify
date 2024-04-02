@@ -16,10 +16,10 @@ const AccountPage = () => {
     const navigate = useNavigate()
     const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
     const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
-    const nickname = "Irek"
     const image = "https://sun9-21.userapi.com/impg/PhIuCK3TG1PTeAdwj0oMDxoADArLLJztpyzFEg/bAieR_Fic2I.jpg?size=153x153&quality=96&sign=eddeef8abc5207ce6ee23de1131750a6&type=album"
-    const subscription = "Осталось 5 дней, пополняй"
-    const subscription1 = ""
+    const endsubdate = userStore.user._subEndDate.getDate()
+    const endsubmonth = userStore.user._subEndDate.getMonth()
+    const endsubyear = userStore.user._subEndDate.getFullYear()
 
     const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
 
@@ -61,12 +61,12 @@ const AccountPage = () => {
                                 <p className="nickname">{userStore.user.username}</p>
                             </div>
                             <div className="subscription-info">
-                                {subscription1 ? (
-                                    <div className="subscription">
-                                        <p>{subscription1}</p>
+                                {userStore.user.isSubscribed ? (
+                                    <div className="subscribed">
+                                        <p>{`${endsubdate}.${endsubmonth}.${endsubyear}`}</p>
                                     </div>
                                 ) : (
-                                    <div className="no-subscription">
+                                    <div className="not-subscribed">
                                         <p>Подписка отсутствует</p>
                                     </div>
                                 )}

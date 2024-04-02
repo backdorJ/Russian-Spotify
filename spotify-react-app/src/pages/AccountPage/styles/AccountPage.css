@@ -73,14 +73,14 @@ p, a {
     margin: 5%;
 }
 
-.subscription {
+.subscribed {
     background: rgba(147, 112, 219, 0.75);
     border-radius: 10px;
     display: flex;
     justify-content: center;
 }
 
-.no-subscription {
+.not-subscribed {
     background: rgba(255, 0, 0, 0.75);
     border-radius: 10px;
     display: flex;
