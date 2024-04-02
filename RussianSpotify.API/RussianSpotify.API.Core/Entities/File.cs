@@ -47,7 +47,12 @@ public class File
     public string? ContentType { get; protected set; }
 
     /// <summary>
-    /// Песни
+    /// Песня
     /// </summary>
-    public List<Song> Songs { get; protected set; }
+    public Song? Song { get; protected set; }
+
+    /// <summary>
+    /// Альбом
+    /// </summary>
+    public Album? Album { get; set; }
 }

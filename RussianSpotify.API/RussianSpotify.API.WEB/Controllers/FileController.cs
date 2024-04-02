@@ -1,10 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using RussianSpotify.API.Core.Requests.File.DownloadFile;
+using RussianSpotify.API.Core.Requests.File.GetImageById;
 using RussianSpotify.API.Core.Requests.File.UploadFile;
-using RussianSpotify.Contracts.Requests;
 using RussianSpotify.Contracts.Requests.File.UploadFile;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -15,11 +14,8 @@ namespace RussianSpotify.API.WEB.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class FileController : ControllerBase
+public class FileController : FileBaseController
 {
-    private const string DefaultContentType = "application/octet-stream";
-    private const string DefaultContentDisposition = "attachment";
-    
     /// <summary>
     /// Загрузить файл
     /// </summary>
@@ -57,31 +53,22 @@ public class FileController : ControllerBase
 
         return GetFileStreamResult(file, Response.Headers);
     }
-    
-    private static FileStreamResult GetFileStreamResult(
-        BaseFileStreamResponse file,
-        IHeaderDictionary headers,
-        bool inline = false)
+
+    /// <summary>
+    /// Получить изображение по ИД
+    /// </summary>
+    /// <param name="id">Ид изображения</param>
+    /// <param name="mediator"></param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Бинарные данные</returns>
+    [HttpGet("image/{id}")]
+    public async Task<FileContentResult> GetImageByIdAsync(
+        [FromRoute] Guid id,
+        [FromServices] IMediator mediator,
+        CancellationToken cancellationToken)
     {
-        if (file is null)
-            throw new ArgumentNullException(nameof(file));
+        var result = await mediator.Send(new GetImageByIdQuery(id), cancellationToken);
 
-        var cd = new ContentDispositionHeaderValue(inline ? "inline" : DefaultContentDisposition);
-        cd.SetHttpFileName(file.FileName);
-        headers[HeaderNames.ContentDisposition] = cd.ToString();
-
-        if (file.Content.CanSeek)
-            file.Content.Seek(0, SeekOrigin.Begin);
-
-        return new FileStreamResult(file.Content, file.ContentType);
-    }
-    
-    private static IEnumerable<UploadRequestItem> GetEnumerableFiles(List<IFormFile>? files)
-    {
-        foreach (var file in files ?? new List<IFormFile>())
-        {
-            using var stream = file.OpenReadStream();
-            yield return new UploadRequestItem(stream, file.FileName, file.ContentType);
-        }
+        return GetFileBytes(file: result);
     }
 }

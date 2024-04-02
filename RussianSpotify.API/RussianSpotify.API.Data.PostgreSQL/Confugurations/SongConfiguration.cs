@@ -27,10 +27,7 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
             .HasMany(x => x.Authors)
             .WithMany(y => y.Songs);
 
-        builder
-            .HasOne(x => x.File)
-            .WithMany(y => y.Songs)
-            .HasForeignKey(y => y.FileId)
-            .HasPrincipalKey(x => x.Id);
+        builder.HasMany(x => x.Files)
+            .WithOne(y => y.Song);
     }
 }

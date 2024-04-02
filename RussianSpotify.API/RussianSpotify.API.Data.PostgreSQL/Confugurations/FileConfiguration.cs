@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RussianSpotify.API.Core.Entities;
 using File = RussianSpotify.API.Core.Entities.File;
 
 namespace RussianSpotift.API.Data.PostgreSQL.Confugurations;
@@ -23,10 +24,10 @@ public class FileConfiguration : IEntityTypeConfiguration<File>
             .Property(p => p.Size)
             .IsRequired();
 
-        builder
-            .HasMany(x => x.Songs)
-            .WithOne(y => y.File)
-            .HasForeignKey(y => y.FileId)
-            .HasPrincipalKey(x => x.Id);
+        builder.HasOne(x => x.Song)
+            .WithMany(y => y.Files);
+
+        builder.HasOne(x => x.Album)
+            .WithOne(y => y.Image);
     }
 }

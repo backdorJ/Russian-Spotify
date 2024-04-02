@@ -24,6 +24,16 @@ public class Album
     public string AlbumName { get; protected set; } = default!;
 
     /// <summary>
+    /// Картинка
+    /// </summary>
+    public File? Image { get; set; }
+
+    /// <summary>
+    /// ИД картинки
+    /// </summary>
+    public Guid? ImageId { get; set; }
+
+    /// <summary>
     /// Ид автора
     /// </summary>
     public Guid AuthorId { get; protected set; }

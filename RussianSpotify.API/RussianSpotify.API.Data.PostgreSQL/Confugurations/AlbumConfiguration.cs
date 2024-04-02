@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RussianSpotify.API.Core.Entities;
+using File = RussianSpotify.API.Core.Entities.File;
 
 namespace RussianSpotift.API.Data.PostgreSQL.Confugurations;
 
@@ -16,6 +17,9 @@ public class AlbumConfiguration : IEntityTypeConfiguration<Album>
         builder
             .Property(p => p.ReleaseDate);
 
+        builder.HasOne(x => x.Image)
+            .WithOne(y => y.Album);
+        
         builder
             .HasOne(x => x.Author)
             .WithMany(y => y.AuthorAlbums)

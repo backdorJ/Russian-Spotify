@@ -44,7 +44,7 @@ public class FileContent
     /// <summary>
     /// Тип контента
     /// </summary>
-    public string? ContentType { get; set; }
+    public string ContentType { get; set; }
 
     /// <summary>
     /// Название бакета

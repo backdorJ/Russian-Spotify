@@ -55,14 +55,19 @@ public class Song
     public Category Category { get; protected set; }
 
     /// <summary>
-    /// Файл
+    /// Файлы тут музыка и картинка
     /// </summary>
-    public File File { get; protected set; }
+    public List<File> Files { get; set; }
+
+    /// <summary>
+    /// Картинка
+    /// </summary>
+    public File? Image { get; protected set; }
 
     /// <summary>
     /// ИД файла
     /// </summary>
-    public Guid FileId { get; protected set; }
+    public Guid? ImageId { get; protected set; }
 
     /// <summary>
     /// Корзины
