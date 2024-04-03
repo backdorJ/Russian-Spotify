@@ -5,6 +5,13 @@ namespace RussianSpotify.Contracts.Requests.Subscription.GetSubscription;
 /// </summary>
 public class GetSubscriptionResponse
 {
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    /// <summary>
+    /// Дата начала подписки
+    /// </summary>
+    public DateTime? StartDate { get; set; }
+    
+    /// <summary>
+    /// Дата окончания подписки
+    /// </summary>
+    public DateTime? EndDate { get; set; }
 }

@@ -88,11 +88,12 @@ public class SubscriptionHandler : ISubscriptionHandler
         var subscription = await _context.Subscribes
             .FirstOrDefaultAsync(i => i.UserId == userId);
 
-        if (subscription is null)
-            throw new SubscriptionNotFoundException("This user is not subscribed");
-
-        if (subscription.DateStart is null || subscription.DateEnd is null)
-            throw new SubscriptionInternalException("DateStart or DateEnd is null");
+        if (subscription?.DateStart is null || subscription.DateEnd is null)
+            return new GetSubscriptionResponse
+            {
+                StartDate = null,
+                EndDate = null
+            };
 
         var getSubscriptionResponse = new GetSubscriptionResponse
         {
