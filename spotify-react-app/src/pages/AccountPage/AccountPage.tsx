@@ -12,8 +12,6 @@ import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import {SpotifyContext} from "../../index";
 import LikeIcon from "../../assets/mock/common/LikeIcon";
 import PlayIcon from "../../assets/mock/common/PlayIcon";
-import User from "../../models/User";
-
 const AccountPage = () => {
     const userStore = useContext(SpotifyContext)
     const navigate = useNavigate()

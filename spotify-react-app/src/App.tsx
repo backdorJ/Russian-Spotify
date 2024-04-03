@@ -19,10 +19,10 @@ const App = observer(() => {
     else
         document.getElementById("body")!.style.overflowY = 'visible';
 
-    useEffect(() => {
-        loadUser()
-            .then(user => userStore.login(user))
-    }, []);
+    // useEffect(() => {
+    //     loadUser()
+    //         .then(user => userStore.login(user))
+    // }, []);
 
     return (
         <BrowserRouter>
