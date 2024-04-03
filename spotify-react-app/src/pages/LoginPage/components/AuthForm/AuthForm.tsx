@@ -36,7 +36,7 @@ const AuthForm = observer(() => {
     return (
         <div className="auth-form-container">
             <Link
-                to='https://localhost:7177/api/OAuthAccount/ExternalLogin?provider=Vkontakte'
+                to={`${process.env.REACT_APP_SPOTIFY_API}api/OAuth/ExternalLogin?provider=Vkontakte`}
                 className="rounded-button rounded-blue-button">
                 <div className="svg-container">
                     <VkButtonSvg/>
@@ -44,7 +44,7 @@ const AuthForm = observer(() => {
                 Continue with VK
             </Link>
             <Link
-                to="https://localhost:7177/api/OAuthAccount/ExternalLogin?provider=Yandex"
+                to={`${process.env.REACT_APP_SPOTIFY_API}api/OAuth/ExternalLogin?provider=Yandex`}
                 className="rounded-button rounded-red-button">
                 <div className="svg-container">
                     <YandexButtonSvg/>
@@ -52,7 +52,7 @@ const AuthForm = observer(() => {
                 Continue with Yandex
             </Link>
             <Link
-                to="https://localhost:7177/api/OAuthAccount/ExternalLogin?provider=Google"
+                to={`${process.env.REACT_APP_SPOTIFY_API}api/OAuth/ExternalLogin?provider=Google`}
                 className="rounded-button rounded-white-button">
                 <div className="svg-container">
                     <GoogleButtonSvg/>

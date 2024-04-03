@@ -15,7 +15,7 @@ const AppRouter = observer(() => {
         <Routes>
             {
                 !userStore.isAuth && notAuthRoutes.map(({path, Component}) => (
-                    <Route path={path} element=<Component/> key={path}/>
+                    <Route path={path} element={<Component/>} key={path}/>
                 ))
             }
             {
