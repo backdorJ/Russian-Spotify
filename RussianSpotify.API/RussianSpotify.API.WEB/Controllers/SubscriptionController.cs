@@ -37,7 +37,7 @@ public class SubscriptionController : ControllerBase
     [ProducesResponseType(400)]
     [ProducesResponseType(409)]
     [ProducesResponseType(500)]
-    public async Task SubscribeAsync(PostSubscribeRequest request, CancellationToken cancellationToken)
+    public async Task SubscribeAsync([FromBody] PostSubscribeRequest request, CancellationToken cancellationToken)
     {
         var postSubscribeCommand = new PostSubscribeCommand(request);
         await _mediator.Send(postSubscribeCommand, cancellationToken);
@@ -68,7 +68,6 @@ public class SubscriptionController : ControllerBase
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns><see cref="GetSubscriptionResponse"/>, содержащий информацию о подписке пользователя</returns>
     /// <response code="200">Всё хорошо</response>
-    /// <response code="404">Подписка не найдена</response>
     /// <response code="500">Внутренняя ошибка сервера</response>
     [HttpGet]
     [ProducesResponseType(200)]
