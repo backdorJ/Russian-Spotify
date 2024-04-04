@@ -50,7 +50,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Requests\Music\AddMusic\"/>
+        <Folder Include="Requests\Music\PatchEditSong\" />
     </ItemGroup>
 
 

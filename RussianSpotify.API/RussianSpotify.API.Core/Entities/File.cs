@@ -20,6 +20,11 @@ public class File
     public File()
     {
     }
+
+    public void SetSong(Song song)
+    {
+        Song = song;
+    }
     
     /// <summary>
     /// Ид файла

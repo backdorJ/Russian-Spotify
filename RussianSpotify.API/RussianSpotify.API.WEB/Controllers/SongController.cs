@@ -3,6 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
+using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
+using RussianSpotify.API.Core.Requests.Music.PatchAddSongImageCommand;
+using RussianSpotify.API.Core.Requests.Music.PostAddSong;
+using RussianSpotify.Contracts.Requests.Music.AddSong;
+using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
+using RussianSpotify.Contracts.Requests.Music.AddSongImage;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -70,5 +76,46 @@ public class SongController : FileBaseController
             file: result,
             headers: Response.Headers,
             inline: true);
+    }
+
+    /// <summary>
+    /// Добавить новую песню (информацию)
+    /// </summary>
+    /// <param name="addSongRequest">Запрос с информацией</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpPost]
+    [Route("AddSong")]
+    public async Task AddSongAsync([FromBody] AddSongRequest addSongRequest, CancellationToken cancellationToken)
+    {
+        var command = new PostAddSongCommand(addSongRequest);
+        await _mediator.Send(command, cancellationToken);
+    }
+
+    /// <summary>
+    /// Добавить картинку (существующую в бд) к песне
+    /// </summary>
+    /// <param name="addSongImageRequest">Запрос с информацией</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpPatch]
+    [Route("AddSongImage")]
+    public async Task AddSongImageAsync([FromBody] AddSongImageRequest addSongImageRequest,
+        CancellationToken cancellationToken)
+    {
+        var command = new PatchAddSongImageCommand(addSongImageRequest);
+        await _mediator.Send(command, cancellationToken);
+    }
+
+    /// <summary>
+    /// Добавить автора песни
+    /// </summary>
+    /// <param name="addSongAuthorRequest">Запрос с информацией</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpPatch]
+    [Route("AddSongAuthor")]
+    public async Task AddSongAuthorAsync([FromBody] AddSongAuthorRequest addSongAuthorRequest,
+        CancellationToken cancellationToken)
+    {
+        var command = new PatchAddSongAuthorCommand(addSongAuthorRequest);
+        await _mediator.Send(command, cancellationToken);
     }
 }
