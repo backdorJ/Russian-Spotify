@@ -27,7 +27,7 @@ public class FileConfiguration : IEntityTypeConfiguration<File>
         builder.HasOne(x => x.Song)
             .WithMany(y => y.Files);
 
-        builder.HasOne(x => x.Album)
+        builder.HasOne(x => x.Playlist)
             .WithOne(y => y.Image);
     }
 }

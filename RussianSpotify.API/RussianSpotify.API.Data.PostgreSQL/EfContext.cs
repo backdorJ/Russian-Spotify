@@ -13,6 +13,15 @@ namespace RussianSpotift.API.Data.PostgreSQL;
 public class EfContext
     : IdentityDbContext<User, Role, Guid>, IDbContext
 {
+
+    /// <summary>
+    /// Пустой конструктор
+    /// </summary>
+    public EfContext()
+    {
+        
+    }
+    
     /// <summary>
     /// Конструктор
     /// </summary>
@@ -28,7 +37,7 @@ public class EfContext
     public DbSet<RolePrivilege> Privileges { get; set; } = default!;
 
     /// <inheritdoc />
-    public DbSet<Album> Albums { get; set; } = default!;
+    public DbSet<Playlist> Albums { get; set; } = default!;
 
     /// <inheritdoc /> 
     public DbSet<Song> Songs { get; set; } = default!;
@@ -55,7 +64,7 @@ public class EfContext
         builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new RolePrivilegeConfiguration());
         builder.ApplyConfiguration(new SubscribeConfiguration());
-        builder.ApplyConfiguration(new AlbumConfiguration());
+        builder.ApplyConfiguration(new PlaylistConfiguration());
         builder.ApplyConfiguration(new SongConfiguration());
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new FileConfiguration());
@@ -63,5 +72,11 @@ public class EfContext
         builder.ApplyConfiguration(new EmailNotificationConfiguration());
         
         base.OnModelCreating(builder);
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.UseNpgsql();
     }
 }
