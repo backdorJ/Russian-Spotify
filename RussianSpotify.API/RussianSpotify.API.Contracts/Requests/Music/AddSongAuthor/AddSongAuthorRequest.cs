@@ -1,18 +1,35 @@
 namespace RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
 
+/// <summary>
+/// Запрос на добавление автора песни
+/// </summary>
 public class AddSongAuthorRequest
 {
+    /// <summary>
+    /// Пустой конструктор
+    /// </summary>
     public AddSongAuthorRequest()
     {
         
     }
     
-    public AddSongAuthorRequest(AddSongAuthorRequest request)
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="request">Запрос</param>
+    protected AddSongAuthorRequest(AddSongAuthorRequest request)
     {
         AuthorId = request.AuthorId;
         SongId = request.SongId;
     }
 
-    public Guid AuthorId { get; set; }
-    public Guid SongId { get; set; }
+    /// <summary>
+    /// Id автора
+    /// </summary>
+    public Guid AuthorId { get; }
+    
+    /// <summary>
+    /// Id песни
+    /// </summary>
+    public Guid SongId { get; }
 }

@@ -6,29 +6,38 @@ using RussianSpotify.API.Core.Exceptions.SongExceptions;
 
 namespace RussianSpotify.API.Core.Requests.Music.PostAddSong;
 
+/// <summary>
+/// Обработчик команды на добавление новой песни
+/// </summary>
 public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="dbContext">Конекст базы данных</param>
+    /// <param name="userContext">Контекст текущего пользователя</param>
     public PostAddSongCommandHandler(IDbContext dbContext, IUserContext userContext)
     {
         _dbContext = dbContext;
         _userContext = userContext;
     }
 
+    /// <inheritdoc/>
     public async Task Handle(PostAddSongCommand request, CancellationToken cancellationToken)
     {
         var category = _dbContext.Categories.FirstOrDefault(i => (int)i.CategoryName == request.Category);
 
         if (category is null)
-            throw new WrongCategoryException("Category not found");
+            throw new SongBadCategoryException("Category not found");
 
         if (string.IsNullOrEmpty(request.SongName) || string.IsNullOrWhiteSpace(request.SongName))
-            throw new SongBadRequest("Wrong song name was provided");
+            throw new SongBadRequestException("Wrong song name was provided");
 
         if (request.Duration < 0)
-            throw new SongBadRequest("Wrong song duration was provided");
+            throw new SongBadRequestException("Wrong song duration was provided");
 
         var newSong = new Song(request.SongName, request.Duration, category);
 
@@ -39,7 +48,7 @@ public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
                     cancellationToken: cancellationToken);
 
             if (image is null)
-                throw new SongBadRequest("Image not found");
+                throw new SongBadRequestException("Image not found");
 
             newSong.SetImage(image);
         }
@@ -53,8 +62,8 @@ public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
             .FirstOrDefaultAsync(i => i.Id == userId, cancellationToken);
 
         if (userFromDb is null)
-            throw new SongAuthorNotFound("Current user not found");
-        
+            throw new BadSongAuthorException("Current user not found");
+
         newSong.AddAuthor(userFromDb);
         await _dbContext.Songs.AddAsync(newSong, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);

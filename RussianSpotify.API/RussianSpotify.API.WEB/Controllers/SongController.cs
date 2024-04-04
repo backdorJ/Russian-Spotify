@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
-using RussianSpotify.API.Core.Requests.Music.PatchAddSongImageCommand;
+using RussianSpotify.API.Core.Requests.Music.PatchAddSongImage;
 using RussianSpotify.API.Core.Requests.Music.PostAddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
@@ -83,8 +83,14 @@ public class SongController : FileBaseController
     /// </summary>
     /// <param name="addSongRequest">Запрос с информацией</param>
     /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Все хорошо</response>
+    /// <response code="400">Ошибка в запросе</response>
+    /// <response code="500">Внутрення ошибка сервера</response>
     [HttpPost]
     [Route("AddSong")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
     public async Task AddSongAsync([FromBody] AddSongRequest addSongRequest, CancellationToken cancellationToken)
     {
         var command = new PostAddSongCommand(addSongRequest);
@@ -96,8 +102,14 @@ public class SongController : FileBaseController
     /// </summary>
     /// <param name="addSongImageRequest">Запрос с информацией</param>
     /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Все хорошо</response>
+    /// <response code="400">Ошибка в запросе</response>
+    /// <response code="500">Внутрення ошибка сервера</response>
     [HttpPatch]
     [Route("AddSongImage")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
     public async Task AddSongImageAsync([FromBody] AddSongImageRequest addSongImageRequest,
         CancellationToken cancellationToken)
     {
@@ -110,8 +122,14 @@ public class SongController : FileBaseController
     /// </summary>
     /// <param name="addSongAuthorRequest">Запрос с информацией</param>
     /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Все хорошо</response>
+    /// <response code="400">Ошибка в запросе</response>
+    /// <response code="500">Внутрення ошибка сервера</response>
     [HttpPatch]
     [Route("AddSongAuthor")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
     public async Task AddSongAuthorAsync([FromBody] AddSongAuthorRequest addSongAuthorRequest,
         CancellationToken cancellationToken)
     {

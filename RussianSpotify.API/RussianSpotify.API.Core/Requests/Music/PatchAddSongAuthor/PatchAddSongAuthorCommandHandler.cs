@@ -7,39 +7,48 @@ using RussianSpotify.API.Core.Exceptions.SongExceptions;
 
 namespace RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
 
+/// <summary>
+/// Обработчик запроса на добавление автора песни
+/// </summary>
 public class PatchAddSongAuthorCommandHandler : IRequestHandler<PatchAddSongAuthorCommand>
 {
-    private readonly IDbContext _context;
+    private readonly IDbContext _dbContext;
     private readonly UserManager<User> _userManager;
 
-    public PatchAddSongAuthorCommandHandler(IDbContext context, UserManager<User> userManager)
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="dbContext">Контекст базы данных</param>
+    /// <param name="userManager">Сервис для работы с пользователями</param>
+    public PatchAddSongAuthorCommandHandler(IDbContext dbContext, UserManager<User> userManager)
     {
-        _context = context;
+        _dbContext = dbContext;
         _userManager = userManager;
     }
 
+    /// <inheritdoc/>
     public async Task Handle(PatchAddSongAuthorCommand request, CancellationToken cancellationToken)
     {
-        var songFromDb = await _context.Songs
+        var songFromDb = await _dbContext.Songs
             .FirstOrDefaultAsync(i => i.Id == request.SongId, cancellationToken);
 
         if (songFromDb is null)
-            throw new SongNotFoundException("Song not found");
+            throw new SongBadRequestException("Song not found");
 
-        var userFromDb = await _context.Users
+        var userFromDb = await _dbContext.Users
             .FirstOrDefaultAsync(i => i.Id == request.AuthorId, cancellationToken);
 
         if (userFromDb is null)
-            throw new SongAuthorNotFound("User not found");
+            throw new BadSongAuthorException("User not found");
 
         const string roleToSearch = "автор";
         var userRoles = await _userManager.GetRolesAsync(userFromDb);
         var ifContainsAuthorRole = userRoles.Select(i => i.ToLower()).Contains(roleToSearch.ToLower());
 
         if (!ifContainsAuthorRole)
-            throw new SongBadRequest("User is not Author");
+            throw new SongBadRequestException("User is not Author");
 
         songFromDb.AddAuthor(userFromDb);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }
