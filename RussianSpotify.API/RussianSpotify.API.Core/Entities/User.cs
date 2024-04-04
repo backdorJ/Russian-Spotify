@@ -12,7 +12,7 @@ public class User : IdentityUser<Guid>
     /// </summary>
     public User()
     {
-        AuthorAlbums = new();
+        Playlists = new();
         Songs = new();
     }
 
@@ -57,9 +57,9 @@ public class User : IdentityUser<Guid>
     public Subscribe? Subscribe { get; protected set; }
 
     /// <summary>
-    /// Альбомы авторов
+    /// Понравившиеся плейлисты
     /// </summary>
-    public List<Album>? AuthorAlbums { get; protected set; }
+    public List<Playlist>? Playlists { get; protected set; }
 
     /// <summary>
     /// Песни пользователя

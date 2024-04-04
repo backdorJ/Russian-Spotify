@@ -10,16 +10,14 @@ import {useNavigate} from "react-router-dom";
 import wideOpenElements from "../../utils/navbar/wideOpenElements";
 import routeNames from "../../utils/routeNames";
 import {SpotifyContext} from "../../index";
-import MakeSubscriptionModal from "./components/makeSubscriptionModal/makeSubscriptionModal";
+import {observer} from "mobx-react-lite";
 
-export default function NavBar(props: any) {
+const NavBar = observer((props: any) => {
     const userStore = useContext(SpotifyContext)
     const {setShowSubModal} = props
     const [isOpen, setIsOpen] = useState(false)
     const navigate = useNavigate()
     let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
-    console.log(userStore.user._subEndDate)
-    console.log(userStore.user.isSubscribed)
 
     let subscribedStyles = {
         border: "2px solid mediumpurple",
@@ -77,19 +75,24 @@ export default function NavBar(props: any) {
                             icon={logout_icon}
                             title="Log out"
                         />
-                        <WideOpenElement
+                        {
+                            !userStore.user.isSubscribed &&
+                            <WideOpenElement
                             onClickEvent={() => {
                                 setShowSubModal(true)
                             }}
                             icon={subscription_icon}
                             title="Subscribe"
                         />
+                        }
                     </div>
                 }
             </div>
         </div>
     )
-}
+})
+
+export default NavBar
 
 function WideOpenElement(props: any) {
     const {onClickEvent, icon, title} = props

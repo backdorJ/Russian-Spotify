@@ -52,7 +52,7 @@ public class File
     public Song? Song { get; protected set; }
 
     /// <summary>
-    /// Альбом
+    /// Плейлист
     /// </summary>
-    public Album? Album { get; set; }
+    public Playlist? Playlist { get; set; }
 }

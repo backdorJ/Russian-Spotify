@@ -3,14 +3,15 @@ namespace RussianSpotify.API.Core.Entities;
 /// <summary>
 /// Альбом  
 /// </summary>
-public class Album
+public class Playlist
 {
     /// <summary>
     /// Конструктор
     /// </summary>
-    public Album()
+    public Playlist()
     {
         Songs = new List<Song>();
+        Users = new List<User>();
     }
     
     /// <summary>
@@ -19,9 +20,9 @@ public class Album
     public Guid Id { get; protected set; }
 
     /// <summary>
-    /// Название альбома
+    /// Название плейлиста
     /// </summary>
-    public string AlbumName { get; protected set; } = default!;
+    public string PlaylistName { get; protected set; } = default!;
 
     /// <summary>
     /// Картинка
@@ -52,4 +53,14 @@ public class Album
     /// Песни
     /// </summary>
     public List<Song>? Songs { get; protected set; }
+
+    /// <summary>
+    /// Лайкнувшие пользователи
+    /// </summary>
+    public List<User>? Users { get; protected set; }
+
+    /// <summary>
+    /// Является ли альбомом
+    /// </summary>
+    public bool IsAlbum { get; set; }
 }

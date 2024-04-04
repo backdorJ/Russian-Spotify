@@ -27,7 +27,7 @@ public interface IDbContext
     /// <summary>
     /// Альбомы
     /// </summary>
-    public DbSet<Album> Albums { get; set; }
+    public DbSet<Playlist> Albums { get; set; }
 
     /// <summary>
     /// Песни

@@ -28,16 +28,11 @@ public class Song
     /// Длительность
     /// </summary>
     public double Duration { get; protected set; }
-
-    /// <summary>
-    /// Ид альбома
-    /// </summary>
-    public Guid? AlbumId { get; protected set; }
     
     /// <summary>
-    /// Nav-prop Альбома
+    /// Плейлисты, которым принадлежит песни
     /// </summary>
-    public Album? Album { get; protected set; }
+    public List<Playlist> Playlists { get; protected set; }
 
     /// <summary>
     /// Авторы
@@ -55,7 +50,7 @@ public class Song
     public Category Category { get; protected set; }
 
     /// <summary>
-    /// Файлы тут музыка и картинка
+    /// Файлы (тут музыка и картинка)
     /// </summary>
     public List<File> Files { get; set; }
 
@@ -65,7 +60,7 @@ public class Song
     public File? Image { get; protected set; }
 
     /// <summary>
-    /// ИД файла
+    /// ИД файла картинки
     /// </summary>
     public Guid? ImageId { get; protected set; }
 

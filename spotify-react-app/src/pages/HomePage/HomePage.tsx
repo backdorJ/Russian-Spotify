@@ -6,8 +6,9 @@ import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import DiscoveryCard from "./components/DiscoveryCard";
 import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import PlaylistNormal from "./components/PlaylistNormal";
+import {observer} from "mobx-react-lite";
 
-const HomePage = (props: any) => {
+const HomePage = observer((props: any) => {
     const [playlistsLittleLoaded, setPlaylistsLittleLoaded] = useState(playlistsLittle)
     const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
     const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
@@ -132,6 +133,6 @@ const HomePage = (props: any) => {
             </div>
         </div>
     )
-}
+})
 
 export default HomePage
