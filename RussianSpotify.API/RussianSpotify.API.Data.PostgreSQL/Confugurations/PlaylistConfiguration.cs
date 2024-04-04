@@ -22,7 +22,7 @@ public class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
         
         builder
             .HasOne(x => x.Author)
-            .WithMany(y => y.Playlists)
+            .WithMany(y => y.AuthorPlaylists)
             .HasForeignKey(x => x.AuthorId)
             .HasPrincipalKey(y => y.Id)
             .OnDelete(DeleteBehavior.Cascade);

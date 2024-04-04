@@ -61,6 +61,8 @@ public class User : IdentityUser<Guid>
     /// </summary>
     public List<Playlist>? Playlists { get; protected set; }
 
+    public List<Playlist> AuthorPlaylists { get; set; }
+
     /// <summary>
     /// Песни пользователя
     /// </summary>

@@ -37,7 +37,7 @@ public class EfContext
     public DbSet<RolePrivilege> Privileges { get; set; } = default!;
 
     /// <inheritdoc />
-    public DbSet<Playlist> Albums { get; set; } = default!;
+    public DbSet<Playlist> Playlists { get; set; } = default!;
 
     /// <inheritdoc /> 
     public DbSet<Song> Songs { get; set; } = default!;
