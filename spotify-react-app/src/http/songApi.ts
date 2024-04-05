@@ -39,11 +39,11 @@ export const getSong: (song: Song, nextSong : Song | null, user: User) => Promis
     if(!user.isSubscribed)
         return new Player();
 
-    const response = await $authHost.get(`api/Song/${song.songId}`);
-
-    if(response.status === 200 && response.data !== undefined) {
+    // const response = await $authHost.get(`api/Song/${song.songId}`);
+    // console.log(response.data);
+    // if(response.status === 200 && response.data !== undefined) {
         return Player.init(song, nextSong, `${process.env.REACT_APP_SPOTIFY_API}api/Song/${song.songId}`);
-    }
+    // }
 
-    return new Player();
+    // return new Player();
 }

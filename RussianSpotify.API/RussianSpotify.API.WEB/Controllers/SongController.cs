@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
@@ -34,6 +35,7 @@ public class SongController : FileBaseController
     [ProducesResponseType(404)]
     [ProducesResponseType(409)]
     [ProducesResponseType(500)]
+    [Authorize]
     public async Task<GetAllSongResponse> GetAllSongsAsync(
         [FromQuery] GetAllSongRequest request,
         CancellationToken cancellationToken)
@@ -57,6 +59,7 @@ public class SongController : FileBaseController
     [ProducesResponseType(409)]
     [ProducesResponseType(500)]
     [HttpGet("{songId}")]
+    [AllowAnonymous]
     public async Task<FileStreamResult> GetContentSongByIdAsync(
         [FromRoute] Guid songId,
         CancellationToken cancellationToken)

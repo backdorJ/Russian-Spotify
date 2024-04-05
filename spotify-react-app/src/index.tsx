@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <UserContext.Provider value={new UserStore()}>
             <PlayerContext.Provider value={new PlayerStore()}>
                 <App/>
             </PlayerContext.Provider>
         </UserContext.Provider>
-    </React.StrictMode>
+    // </React.StrictMode>
 );

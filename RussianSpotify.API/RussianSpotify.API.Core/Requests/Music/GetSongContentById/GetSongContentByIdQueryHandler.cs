@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Exceptions;
+using RussianSpotify.API.Core.Exceptions.SubscriptionExceptions;
 using RussianSpotify.Contracts.Requests.Music.GetSongContentById;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetSongContentById;
@@ -14,6 +15,10 @@ public class GetSongContentByIdQueryHandler : IRequestHandler<GetSongContentById
 {
     private readonly IDbContext _dbContext;
     private readonly IS3Service _s3Service;
+    private readonly IUserContext _userContext;
+    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly ISubscriptionHandler _subscriptionHandler;
+    
 
     /// <summary>
     /// Конструктор
@@ -22,10 +27,14 @@ public class GetSongContentByIdQueryHandler : IRequestHandler<GetSongContentById
     /// <param name="s3Service">Сервис S3</param>
     public GetSongContentByIdQueryHandler(
         IDbContext dbContext,
-        IS3Service s3Service)
+        IUserContext userContext,
+        IS3Service s3Service, IDateTimeProvider dateTimeProvider, ISubscriptionHandler subscriptionHandler)
     {
         _dbContext = dbContext;
         _s3Service = s3Service;
+        _dateTimeProvider = dateTimeProvider;
+        _subscriptionHandler = subscriptionHandler;
+        _userContext = userContext;
     }
 
     /// <inheritdoc />
@@ -36,6 +45,16 @@ public class GetSongContentByIdQueryHandler : IRequestHandler<GetSongContentById
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
+        // var userId = _userContext.CurrentUserId;
+        //
+        // if (userId is null)
+        //     throw new CurrentUserIdNotFound("NameIdentifier не был найден в Claims");
+        //
+        // var userSubscription = await _subscriptionHandler.GetSubscription(userId.Value);
+        //
+        // if (userSubscription.EndDate < _dateTimeProvider.CurrentDate)
+           // throw new UserSubscriptionHasExpiredException("Срок действия подписки истёк");
+        
         var songFromDb = await _dbContext.Songs
             .Include(x => x.Files)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)

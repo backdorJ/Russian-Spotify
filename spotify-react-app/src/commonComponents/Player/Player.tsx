@@ -1,15 +1,31 @@
 import React, {useContext} from 'react';
 import {PlayerContext} from "../../index";
-import ReactPlayer from "react-player";
+import "./styles/Player.css"
 
 /** Музыкальный плеер снизу экрана */
 const Player = () => {
     const playerStore = useContext(PlayerContext);
 
+    const handleNextTrack = () => {
+        // Ваша логика для переключения на следующий трек
+    };
+
+    const handlePreviousTrack = () => {
+        // Ваша логика для переключения на предыдущий трек
+    };
+
     // TODO: Стилизовать, настроить controls
     return (
         <>
-            <ReactPlayer url={playerStore.Player.currentSongUrl} controls={true}/>
+            <div className="audio-player-container">
+                <audio controls={true} className="audio-player">
+                    <source src={playerStore.Player.currentSongUrl}/>
+                </audio>
+                <div className="audio-controls">
+                    <button onClick={handlePreviousTrack}>Previous</button>
+                    <button onClick={handleNextTrack}>Next</button>
+                </div>
+            </div>
         </>
     );
 };

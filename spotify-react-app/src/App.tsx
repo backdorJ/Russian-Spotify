@@ -4,7 +4,6 @@ import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./commonComponents/AppRouter/AppRouter";
 import NavBar from "./commonComponents/NavBar/NavBar";
 import {PlayerContext, UserContext} from "./index";
-import User from "./models/User";
 import {observer} from "mobx-react-lite";
 import MakeSubscriptionModal from "./commonComponents/NavBar/components/makeSubscriptionModal/makeSubscriptionModal";
 import {getSubscription} from "./http/subApi";
@@ -14,6 +13,14 @@ import Player from "./commonComponents/Player/Player";
 const App = observer(() => {
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
+
+    const [isSubscribed, setIsSubscribed] = useState(false);
+
+    useEffect(() => {
+        getSubscription()
+            .then(x => {
+                setIsSubscribed(new Date(x.endDate) > new Date())});
+    }, []);
 
     const [showModal, setShowModal] = useState(false)
 
@@ -27,8 +34,8 @@ const App = observer(() => {
             .then(user => userStore.login(user))
     }, []);
 
-    console.log(playerStore.Player.currentSongUrl);
 
+    console.log(isSubscribed);
     return (
         <BrowserRouter>
             <div className="app">
@@ -43,7 +50,7 @@ const App = observer(() => {
                 <MakeSubscriptionModal show={showModal} onHide={() => setShowModal(false)}/>
             </div>
             {
-                playerStore.Player.currentSong !== null && <Player />
+                userStore.isAuth && isSubscribed && playerStore.Player.currentSong !== null && <Player />
             }
         </BrowserRouter>
     );
