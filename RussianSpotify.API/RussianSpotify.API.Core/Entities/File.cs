@@ -54,7 +54,7 @@ public class File
     /// <summary>
     /// Песня
     /// </summary>
-    public Song? Song { get; protected set; }
+    public Song? Song { get; set; }
 
     /// <summary>
     /// Плейлист

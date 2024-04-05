@@ -1,6 +1,15 @@
-namespace RussianSpotify.API.Core.Requests.Music.PatchRemoveSongAuthor;
+using MediatR;
+using RussianSpotify.Contracts.Requests.Music.DeleteSong;
+using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 
-public class PatchRemoveSongAuthorCommand
+namespace RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
+
+/// <summary>
+/// Команда на удаление автора песни
+/// </summary>
+public class DeleteSongAuthorCommand : DeleteSongAuthorRequest, IRequest
 {
-    
+    public DeleteSongAuthorCommand(DeleteSongAuthorRequest request) : base(request)
+    {
+    }
 }

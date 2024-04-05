@@ -594,7 +594,8 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                 {
                     b.HasOne("RussianSpotify.API.Core.Entities.Song", "Song")
                         .WithMany("Files")
-                        .HasForeignKey("SongId");
+                        .HasForeignKey("SongId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Song");
                 });

@@ -16,24 +16,25 @@ public class PatchAddSongAuthorCommandHandler : IRequestHandler<PatchAddSongAuth
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
     private readonly UserManager<User> _userManager;
-    private readonly ISongHelper _songHelper;
 
     /// <summary>
     /// Конструктор
     /// </summary>
     /// <param name="dbContext">Контекст базы данных</param>
     /// <param name="userManager">Сервис для работы с пользователями</param>
-    public PatchAddSongAuthorCommandHandler(IDbContext dbContext, UserManager<User> userManager, IUserContext userContext, ISongHelper songHelper)
+    /// <param name="userContext">Контекст текущего пользователя</param>
+    public PatchAddSongAuthorCommandHandler(IDbContext dbContext, UserManager<User> userManager,
+        IUserContext userContext)
     {
         _dbContext = dbContext;
         _userManager = userManager;
         _userContext = userContext;
-        _songHelper = songHelper;
     }
 
     /// <inheritdoc/>
     public async Task Handle(PatchAddSongAuthorCommand request, CancellationToken cancellationToken)
     {
+        // Достаем песню из бд
         var songFromDb = await _dbContext.Songs
             .Include(i => i.Authors)
             .FirstOrDefaultAsync(i => i.Id == request.SongId, cancellationToken);
@@ -41,19 +42,22 @@ public class PatchAddSongAuthorCommandHandler : IRequestHandler<PatchAddSongAuth
         if (songFromDb is null)
             throw new SongBadRequestException("Song not found");
 
+        // Проверка, является ли текущий пользователь автором данной песни
         var currentUserId = _userContext.CurrentUserId;
         if (currentUserId is null)
             throw new SongInternalException("Current User Id not found");
-        
-        if (!await _songHelper.IsAuthorAsync(songFromDb, currentUserId.Value, cancellationToken))
+
+        if (songFromDb.Authors.All(i => i.Id != currentUserId))
             throw new SongForbiddenException("User is not Author of this Song");
-            
+
+        // Достаем нового автора из бд
         var userFromDb = await _dbContext.Users
             .FirstOrDefaultAsync(i => i.Id == request.AuthorId, cancellationToken);
 
         if (userFromDb is null)
             throw new BadSongAuthorException("User not found");
 
+        // Проверка, является ли добавляемый пользовател автором
         const string roleToSearch = "автор";
         var userRoles = await _userManager.GetRolesAsync(userFromDb);
         var ifContainsAuthorRole = userRoles.Select(i => i.ToLower()).Contains(roleToSearch.ToLower());
@@ -61,6 +65,7 @@ public class PatchAddSongAuthorCommandHandler : IRequestHandler<PatchAddSongAuth
         if (!ifContainsAuthorRole)
             throw new SongBadRequestException("User is not Author");
 
+        // Вносим изменения в бд
         songFromDb.AddAuthor(userFromDb);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }

@@ -26,10 +26,10 @@ public class AddSongAuthorRequest
     /// <summary>
     /// Id автора
     /// </summary>
-    public Guid AuthorId { get; }
+    public Guid AuthorId { get; set; }
     
     /// <summary>
     /// Id песни
     /// </summary>
-    public Guid SongId { get; }
+    public Guid SongId { get; set; }
 }

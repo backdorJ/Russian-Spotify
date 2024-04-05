@@ -25,7 +25,8 @@ public class FileConfiguration : IEntityTypeConfiguration<File>
             .IsRequired();
 
         builder.HasOne(x => x.Song)
-            .WithMany(y => y.Files);
+            .WithMany(y => y.Files)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Playlist)
             .WithOne(y => y.Image);

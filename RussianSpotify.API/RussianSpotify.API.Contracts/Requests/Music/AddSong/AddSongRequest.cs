@@ -22,6 +22,7 @@ public class AddSongRequest
         Duration = request.Duration;
         Category = request.Category;
         ImageId = request.ImageId;
+        SongFileId = request.SongFileId;
     }
 
     /// <summary>
@@ -43,4 +44,9 @@ public class AddSongRequest
     /// Id картинки
     /// </summary>
     public Guid? ImageId { get; }
+
+    /// <summary>
+    /// Id файла песни
+    /// </summary>
+    public Guid? SongFileId { get; set; }
 }
