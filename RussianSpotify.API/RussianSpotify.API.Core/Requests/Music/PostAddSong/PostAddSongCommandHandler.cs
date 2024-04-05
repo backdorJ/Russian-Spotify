@@ -13,22 +13,27 @@ public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
+    private readonly IFileHelper _fileHelper;
 
     /// <summary>
     /// Конструктор
     /// </summary>
     /// <param name="dbContext">Конекст базы данных</param>
     /// <param name="userContext">Контекст текущего пользователя</param>
-    public PostAddSongCommandHandler(IDbContext dbContext, IUserContext userContext)
+    /// <param name="fileHelper">Сервис для работы с файлами</param>
+    public PostAddSongCommandHandler(IDbContext dbContext, IUserContext userContext, IFileHelper fileHelper)
     {
         _dbContext = dbContext;
         _userContext = userContext;
+        _fileHelper = fileHelper;
     }
 
     /// <inheritdoc/>
     public async Task Handle(PostAddSongCommand request, CancellationToken cancellationToken)
     {
-        var category = _dbContext.Categories.FirstOrDefault(i => (int)i.CategoryName == request.Category);
+        var category =
+            await _dbContext.Categories
+                .FirstOrDefaultAsync(i => (int)i.CategoryName == request.Category, cancellationToken);
 
         if (category is null)
             throw new SongBadCategoryException("Category not found");
@@ -43,14 +48,17 @@ public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
 
         if (request.ImageId is not null)
         {
-            var image = await _dbContext.Files
+            var imageFromDb = await _dbContext.Files
                 .FirstOrDefaultAsync(i => i.Id == request.ImageId.Value,
                     cancellationToken: cancellationToken);
 
-            if (image is null)
+            if (imageFromDb is null)
                 throw new SongBadRequestException("Image not found");
+            
+            if (!_fileHelper.IsImage(imageFromDb))
+                throw new SongBadImageException("File's content type is not Image");
 
-            newSong.SetImage(image);
+            newSong.Image = imageFromDb;
         }
 
         var userId = _userContext.CurrentUserId;

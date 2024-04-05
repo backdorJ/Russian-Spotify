@@ -27,9 +27,9 @@ public class Song
         Authors.Add(author);
     }
 
-    public void SetImage(File image)
+    public void RemoveAuthor(User author)
     {
-        Image = image;
+        Authors.Remove(author);
     }
 
     /// <summary>
@@ -40,12 +40,12 @@ public class Song
     /// <summary>
     /// Имя песни
     /// </summary>
-    public string SongName { get; protected set; }
+    public string SongName { get; set; }
 
     /// <summary>
     /// Длительность
     /// </summary>
-    public double Duration { get; protected set; }
+    public double Duration { get; set; }
 
     /// <summary>
     /// Плейлисты, которым принадлежит песни
@@ -65,7 +65,7 @@ public class Song
     /// <summary>
     /// Nav-prop категории
     /// </summary>
-    public Category Category { get; protected set; }
+    public Category Category { get; set; }
 
     /// <summary>
     /// Файлы (тут музыка и картинка)
@@ -75,7 +75,7 @@ public class Song
     /// <summary>
     /// Картинка
     /// </summary>
-    public File? Image { get; protected set; }
+    public File? Image { get; set; }
 
     /// <summary>
     /// ИД файла картинки

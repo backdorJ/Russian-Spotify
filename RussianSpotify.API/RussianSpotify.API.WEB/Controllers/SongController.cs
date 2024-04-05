@@ -5,10 +5,12 @@ using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongImage;
+using RussianSpotify.API.Core.Requests.Music.PatchEditSong;
 using RussianSpotify.API.Core.Requests.Music.PostAddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.AddSongImage;
+using RussianSpotify.Contracts.Requests.Music.EditSong;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -134,6 +136,19 @@ public class SongController : FileBaseController
         CancellationToken cancellationToken)
     {
         var command = new PatchAddSongAuthorCommand(addSongAuthorRequest);
+        await _mediator.Send(command, cancellationToken);
+    }
+
+    /// <summary>
+    /// Обновить данные о песне
+    /// </summary>
+    /// <param name="editSongRequest">Запрос с информацией</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpPatch]
+    [Route("UpdateSong")]
+    public async Task UpdateSongAsync([FromBody] EditSongRequest editSongRequest, CancellationToken cancellationToken)
+    {
+        var command = new PatchEditSongCommand(editSongRequest);
         await _mediator.Send(command, cancellationToken);
     }
 }

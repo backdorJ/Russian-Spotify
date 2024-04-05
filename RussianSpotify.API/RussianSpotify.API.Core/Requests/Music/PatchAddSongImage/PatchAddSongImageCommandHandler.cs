@@ -11,14 +11,17 @@ namespace RussianSpotify.API.Core.Requests.Music.PatchAddSongImage;
 public class PatchAddSongImageCommandHandler : IRequestHandler<PatchAddSongImage.PatchAddSongImageCommand>
 {
     private readonly IDbContext _dbContext;
+    private readonly IFileHelper _fileHelper;
 
     /// <summary>
     /// Конструктор
     /// </summary>
     /// <param name="dbContext">Контекст базы данных</param>
-    public PatchAddSongImageCommandHandler(IDbContext dbContext)
+    /// <param name="fileHelper">Сервис для работы с файлами</param>
+    public PatchAddSongImageCommandHandler(IDbContext dbContext, IFileHelper fileHelper)
     {
         _dbContext = dbContext;
+        _fileHelper = fileHelper;
     }
 
     /// <inheritdoc/>
@@ -36,13 +39,10 @@ public class PatchAddSongImageCommandHandler : IRequestHandler<PatchAddSongImage
         if (imageFromDb is null)
             throw new SongBadImageException("File not found");
 
-        if (imageFromDb.ContentType is null)
-            throw new SongInternalException("File's content type not set");
-
-        if (!imageFromDb.ContentType.StartsWith("image/"))
-            throw new SongBadRequestException("File is not an image");
+        if (!_fileHelper.IsImage(imageFromDb))
+            throw new SongBadImageException("File's content type is not Image");
         
-        songFromDb.SetImage(imageFromDb);
+        songFromDb.Image = imageFromDb;
         imageFromDb.SetSong(songFromDb);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }

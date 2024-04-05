@@ -47,10 +47,12 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </EmbeddedResource>
 
+
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Requests\Music\PatchEditSong\" />
+        <Folder Include="Requests\Music\DeleteSong\"/>
+        <Folder Include="Requests\Music\PatchRemoveSongAuthor\"/>
     </ItemGroup>
 
 
