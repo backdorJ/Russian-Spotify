@@ -10,12 +10,12 @@ import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg
 // @ts-ignore
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 import {useContext, useEffect, useState} from "react";
-import {SpotifyContext} from "../../index";
+import {UserContext} from "../../index";
 import SongCard from "./components/SongCard";
 
 const PlaylistPage = () => {
     const sidebarWidth = 280
-    const userStore = useContext(SpotifyContext)
+    const userStore = useContext(UserContext)
     const [backgroundWidth, setBackgroundWidth] = useState(0)
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
     const [isHover, setIsHover] = useState(false)

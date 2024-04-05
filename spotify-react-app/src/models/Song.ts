@@ -18,6 +18,9 @@ export default class Song {
     /** Список имён авторов песни */
     authors: string[];
 
+    /** Следущая песня */
+    nextSong: Song| null;
+
     constructor() {
         this.songId = "";
         this.songName = "";
@@ -25,6 +28,7 @@ export default class Song {
         this.duration = 0;
         this.category = "";
         this.authors = [];
+        this.nextSong = null;
     }
 
     static init(id: string,
@@ -32,7 +36,8 @@ export default class Song {
                 imageId: string,
                 duration: number,
                 category: string,
-                authors: string[]) {
+                authors: string[],
+                nextSong: Song | null) {
 
         let newSong = new Song();
 
@@ -42,6 +47,7 @@ export default class Song {
         newSong.duration = duration;
         newSong.category = category;
         newSong.authors = authors;
+        newSong.nextSong = nextSong;
 
         return newSong;
     }

@@ -1,6 +1,6 @@
 import Song from "../models/Song";
 import {$authHost} from "./index";
-import SongFile from "../models/SongFile";
+import Player from "../models/Player";
 import User from "../models/User";
 
 /** Возвращает список песен
@@ -18,31 +18,32 @@ export const getSongs: (pageNumber:number, songCount: number) => Promise<Song[]>
     let result: Song[] = [];
     for(let i: number = 0; i < response.data.totalCount; ++i){
         const songItem = response.data.entities[i];
-        console.log(songItem);
 
         result[i] = Song.init(songItem.songId, songItem.songName, songItem.imageId,
-            songItem.duration, songItem.category, songItem.authors);
+            songItem.duration, songItem.category, songItem.authors, null);
     }
+
+    for(let i = 0; i < response.data.totalCount - 1; ++i)
+        result[i].nextSong = result[i + 1];
 
     return result;
 }
 
-// TODO: FIX + прикрутить к плееру
-/** Возвращает SongFile с api для прослушивания песни
- * @param songId - id песни из бд
+/** Возвращает Player с api для прослушивания песни
+ * @param song - песня, которая будет сейчас играть
+ * @param nextSong - песня, которая будет играть следующей
  * @param user - для проверки наличия актуальной подписки
  * */
-export const getSong: (songId: string, user: User) =>  Promise<SongFile>
-        = async (songId, user) => {
+export const getSong: (song: Song, nextSong : Song | null, user: User) => Promise<Player>
+        = async (song, nextSong, user) => {
     if(!user.isSubscribed)
-        return new SongFile();
+        return new Player();
 
-    const response = await $authHost.get(`api/Song/${songId}`);
+    const response = await $authHost.get(`api/Song/${song.songId}`);
 
-    if(response.status === 200 && response.data !== undefined)
-        return SongFile.init(response.data.file.content,
-            response.data.file.name,
-            response.data.file.contentType);
+    if(response.status === 200 && response.data !== undefined) {
+        return Player.init(song, nextSong, `${process.env.REACT_APP_SPOTIFY_API}api/Song/${song.songId}`);
+    }
 
-    return new SongFile();
+    return new Player();
 }

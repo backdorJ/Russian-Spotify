@@ -10,7 +10,6 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// <summary>
 /// Контроллер, который отвечает за работу с музыкой
 /// </summary>
-[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class SongController : FileBaseController

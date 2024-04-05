@@ -8,15 +8,14 @@ import {login} from "../../../../http/authApi";
 import UserLoginDto from "../../../../utils/dto/user/userLoginDto";
 import {Link, useNavigate} from "react-router-dom";
 import routeNames from "../../../../utils/routeNames";
-import {SpotifyContext} from "../../../../index";
+import {UserContext} from "../../../../index";
 import {observer} from "mobx-react-lite";
-import User from "../../../../models/User";
 import loadUser from "../../../../functions/loadUser";
 
 const AuthForm = observer(() => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const userStore = useContext(SpotifyContext)
+    const userStore = useContext(UserContext)
     const navigate = useNavigate()
 
     let handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -29,6 +28,7 @@ const AuthForm = observer(() => {
                         .then(user => userStore.login(user))
                         .then(_ => navigate(routeNames.HOME_PAGE))
                 } else
+                    // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
                     alert("Something went wrong. Try again")
             })
     }

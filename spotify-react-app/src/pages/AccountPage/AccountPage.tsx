@@ -5,20 +5,15 @@ import {useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import DiscoveryCard from "../HomePage/components/DiscoveryCard";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
-import PlaylistLittle from "../HomePage/components/PlaylistLittle";
 import PlaylistNormal from "../HomePage/components/PlaylistNormal";
-import playlistsLittle from "../../utils/mocks/homepage/playlistsLittle";
 import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
-import {SpotifyContext} from "../../index";
-import LikeIcon from "../../assets/mock/common/LikeIcon";
-import PlayIcon from "../../assets/mock/common/PlayIcon";
-import User from "../../models/User";
+import {UserContext} from "../../index";
 import Song from "../../models/Song";
 import {getSongs} from "../../http/songApi";
-import {getImage} from "../../http/fileApi";
+import FavoriteMusic from "./components/FavoriteMusic";
 
 const AccountPage = () => {
-    const userStore = useContext(SpotifyContext)
+    const userStore = useContext(UserContext)
     const navigate = useNavigate()
     const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
     const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
@@ -63,20 +58,6 @@ const AccountPage = () => {
     const nextPlaylist = () => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, 3, playlistsNormalLoaded);
     const prevPlaylist = () => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, -3, playlistsNormalLoaded);
 
-    const [menuOpen, setMenuOpen] = useState(false);
-    let timeoutId: NodeJS.Timeout;
-
-    const handleMouseEnter = () => {
-        clearTimeout(timeoutId);
-        setMenuOpen(true);
-    };
-
-    const handleMouseLeave = () => {
-        timeoutId = setTimeout(() => {
-            setMenuOpen(false);
-        }, 100);
-    };
-
     return (
         <div className="account-page">
             <header className="account-page-header">
@@ -108,42 +89,7 @@ const AccountPage = () => {
                         </div>
                     </div>
                     <div className="favorite-container">
-                        <h3>Любимые треки</h3>
-                        <div className="music-container">
-                            <div className="music-container-wrapper">
-                                {favoriteSongs.map((music) => (
-                                    <div key={music.songId} className="music-card-button">
-                                        <div className="play-icon-container">
-                                            <PlayIcon/>
-                                        </div>
-                                        <div className="music-image-container">
-                                            <img className="music-image" alt="music-image"
-                                                 src={getImage(music.imageId)}/>
-                                        </div>
-                                        <div className="music-name-authors">
-                                            <span>{music.songName}</span>
-                                            <span>{music.authors.map((author, index) => <a
-                                                href={'artist/' + author} className="artist-link">{author}{index < music.authors.length - 1 ? ', ' : ''}</a>)}</span>
-                                        </div>
-                                        <div className="music-duration">
-                                            <span>{Math.floor(music.duration / 60)}:{(music.duration % 60).toString().padStart(2, '0')}</span>
-                                        </div>
-                                        <div className="like-icon-container">
-                                            <LikeIcon/>
-                                        </div>
-                                        <button className="music-more-button" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>⋮</button>
-                                        {menuOpen && (
-                                            <div className="music-menu" onMouseEnter={handleMouseEnter}
-                                                 onMouseLeave={handleMouseLeave}>
-                                                <button>Воспроизвести следующей</button>
-                                                <button>Удалить из плейлиста</button>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                            <button className="show-all-music-button">Показать все</button>
-                        </div>
+                        <FavoriteMusic favoriteSongs={favoriteSongs}/>
                         <h3>Любимые альбомы & плейлисты</h3>
                         <div className="cards-container">
                             <button className="arrow-button arrow-button-left"
