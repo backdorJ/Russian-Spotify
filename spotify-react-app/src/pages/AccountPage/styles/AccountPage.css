@@ -32,7 +32,7 @@ p, a {
     background: rgba(43, 43, 43, 0.5);
     box-shadow: 0 5px 10px 5px mediumpurple;
     padding: 2%;
-    border-radius: 5%;
+    border-radius: 50px;
     width: 55%;
     margin: auto auto 5%;
 }
@@ -47,7 +47,7 @@ p, a {
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
-    margin: 2% 20% 10% 20%;
+    margin: 2% 2% 10% 2%;
     width: 100%;
 }
 
@@ -107,6 +107,7 @@ p, a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .account-page-content h3 {
@@ -165,7 +166,6 @@ p, a {
 .music-container-wrapper {
     display: flex;
     flex-direction: column;
-    width: 100%;
     align-items: center;
 }
 
@@ -197,7 +197,6 @@ p, a {
 .music-image-container {
     display: flex;
     width: 6%;
-    
 }
 
 .music-image {
@@ -214,6 +213,7 @@ p, a {
 
 .music-duration {
     align-self: center;
+    margin: 0 4px;
 }
 
 .music-more-button {
@@ -254,7 +254,7 @@ p, a {
     border: solid 1px mediumpurple;
     align-self: flex-end;
     margin-top: 2%;
-    margin-right: 10%;
+    margin-right: 15%;
     font-size: 12px;
 }
 
@@ -274,9 +274,20 @@ p, a {
     background: #120F0F;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding: 1%;
-    border-radius: 5%;
+    border-radius: 5px;
     animation: fadeIn 0.3s ease;
 }
+
+.home-page__playlist-normal__image-div {
+    width: 250px;
+    height: 250px;
+}
+
+.home-page__discovery-card__image-div {
+    width: 250px;
+    height: 250px;
+}
+
 
 @keyframes fadeIn {
     from {
@@ -306,3 +317,253 @@ p, a {
     background-color: mediumpurple;
 }
 
+@media only screen and (max-width: 767px) {
+    p, a {
+        color: white;
+        font-size: 10px;
+    }
+    
+    .account-page-header img {
+        width: 20px;
+        height: 20px;
+        margin: 3%;
+    }
+
+    .account-page-content {
+        width: 95%;
+        box-shadow: none;
+    }
+
+    .user-info {
+        margin: 2% 2% 10% 2%;
+        width: 100%;
+    }
+
+    .nickname-container {
+        margin-top: 5%;
+    }
+
+    .nickname {
+        font-size: 40px;
+    }
+
+    .subscription-info p {
+        margin: 5%;
+        font-size: 10px;
+    }
+
+    .user-image {
+        border: 3px solid mediumpurple;
+        padding: 2%;
+        border-radius: 50%;
+        width: 130px;
+    }
+
+    .favorite-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .account-page-content h3 {
+        color: white;
+        font-size: 20px;
+        margin: 2%;
+    }
+
+    .home-page__latest-albums__cards {
+        margin: 2%;
+    }
+
+    .home-page__discovery__cards {
+        margin: 2%;
+    }
+
+    .cards-container {
+        display: flex;
+        align-items: center;
+    }
+    
+    .arrow-button {
+        width: 45px;
+        height: 30px;
+        font-size: 18px;
+    }
+
+    .arrow-button:hover {
+        background-color: #555;
+        transform: scale(1.1);
+    }
+
+    .card {
+        transition: all 0.1ms ease;
+    }
+
+    .music-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 1%;
+        flex-direction: column;
+    }
+
+    .music-container-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+    .music-card-button span { 
+        font-size: 13px;
+    }
+    
+
+    .music-image-container {
+        display: flex;
+        width: 15%;
+        margin: 4px;
+    }
+
+    .music-image {
+        width: 30px;
+        height: 30px;
+    }
+
+    .music-name-authors {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        flex: 0.9;
+    }
+
+    .music-duration {
+        align-self: center;
+    }
+
+    .music-more-button {
+        background: none;
+        color: white;
+        border: none;
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .like-icon-container {
+        display: flex;
+        margin: 2px;
+    }
+
+    .play-icon-container {
+        display: flex;
+        margin-right: 1%;
+   
+    }
+
+    .artist-link:hover {
+        cursor: pointer;
+        color: #222222;
+    }
+
+    .show-all-music-button {
+        -webkit-tap-highlight-color: transparent;
+        transition: all 0.3s ease;
+        border-radius: 500px;
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 1%;
+        background: none;
+        color: white;
+        border: solid 1px mediumpurple;
+        align-self: flex-end;
+        margin-top: 2%;
+        margin-right: 10%;
+        font-size: 12px;
+    }
+
+    .show-all-music-button:hover {
+        transition: all 0.3s ease;
+        background: mediumpurple;
+        color: black;
+        border-color: black;
+        transform: scale(1.08);
+    }
+
+    .music-menu {
+        position: absolute;
+        z-index: 999;
+        top: 100%;
+        right: 0;
+        background: #120F0F;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        padding: 1%;
+        border-radius: 5px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .home-page__playlist-normal__image-div {
+        width: 25px;
+        height: 25px;
+    }
+
+    .home-page__discovery-card__image-div {
+        width: 25px;
+        height: 25px;
+    }
+
+    .home-page__discovery-card__text__role > p {
+        font-size: 12px;
+    }
+
+    .home-page__discovery-card__text__name > p {
+        font-size: 12px;
+    }
+
+    .home-page__playlist-normal__text__title > p {
+        font-size: 12px;
+    }
+
+    .home-page__playlist-normal__text__description > p {
+        font-size: 12px;
+        color: #FFFFFF50;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .account-page-content {
+        width: 85%;
+    }
+
+    .account-page-header img {
+        margin: 3%;
+    }
+    
+    .user-image {
+        width: 200px;
+    }
+
+    .arrow-button {
+        width: 50px;
+        height: 40px;
+        font-size: 20px;
+        margin: 4px 2px;
+    }
+
+    .home-page__playlist-normal__image-div {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 13px;
+    }
+
+    .home-page__discovery-card__image-div {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+    }
+}

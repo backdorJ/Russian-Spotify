@@ -96,9 +96,11 @@ const AccountPage = () => {
                         <div className="nickname-subscription">
                             <div className="nickname-container">
                                 <p className="nickname">{userStore.user.username}</p>
+                                <p className="nickname">Irek</p>
                             </div>
                             <div className="subscription-info">
                                 {userStore.user.isSubscribed ? (
+                                    
                                     <div className="subscribed">
                                         <p>{`${endsubdate}.${endsubmonth}.${endsubyear}`}</p>
                                     </div>
@@ -139,6 +141,7 @@ const AccountPage = () => {
                                         <div className="like-icon-container">
                                             <LikeIcon/>
                                         </div>
+                                        {/*TODO нажатие на кнопку также убирает меню*/}
                                         <button className="music-more-button" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>⋮</button>
                                         {menuOpen && (
                                             <div className="music-menu" onMouseEnter={handleMouseEnter}
