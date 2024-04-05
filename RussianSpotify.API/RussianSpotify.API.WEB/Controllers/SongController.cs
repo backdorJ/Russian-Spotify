@@ -1,17 +1,19 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RussianSpotify.API.Core.Requests.Music.DeleteSong;
+using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
-using RussianSpotify.API.Core.Requests.Music.PatchAddSongImage;
 using RussianSpotify.API.Core.Requests.Music.PatchEditSong;
 using RussianSpotify.API.Core.Requests.Music.PostAddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
-using RussianSpotify.Contracts.Requests.Music.AddSongImage;
+using RussianSpotify.Contracts.Requests.Music.DeleteSong;
 using RussianSpotify.Contracts.Requests.Music.EditSong;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
+using RussianSpotify.Contracts.Requests.Music.RemoveSongAuthor;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -100,26 +102,6 @@ public class SongController : FileBaseController
     }
 
     /// <summary>
-    /// Добавить картинку (существующую в бд) к песне
-    /// </summary>
-    /// <param name="addSongImageRequest">Запрос с информацией</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <response code="200">Все хорошо</response>
-    /// <response code="400">Ошибка в запросе</response>
-    /// <response code="500">Внутрення ошибка сервера</response>
-    [HttpPatch]
-    [Route("AddSongImage")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
-    public async Task AddSongImageAsync([FromBody] AddSongImageRequest addSongImageRequest,
-        CancellationToken cancellationToken)
-    {
-        var command = new PatchAddSongImageCommand(addSongImageRequest);
-        await _mediator.Send(command, cancellationToken);
-    }
-
-    /// <summary>
     /// Добавить автора песни
     /// </summary>
     /// <param name="addSongAuthorRequest">Запрос с информацией</param>
@@ -151,4 +133,32 @@ public class SongController : FileBaseController
         var command = new PatchEditSongCommand(editSongRequest);
         await _mediator.Send(command, cancellationToken);
     }
+
+    /// <summary>
+    /// Удалить автора песни
+    /// </summary>
+    /// <param name="deleteSongAuthorRequest">Запрос с информацией</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpDelete]
+    [Route("RemoveAuthor")]
+    public async Task RemoveAuthor([FromBody] DeleteSongAuthorRequest deleteSongAuthorRequest,
+        CancellationToken cancellationToken)
+    {
+        var command = new DeleteSongAuthorCommand(deleteSongAuthorRequest);
+        await _mediator.Send(command, cancellationToken);
+    }
+
+    /// <summary>
+    /// Удалить песню
+    /// </summary>
+    /// <param name="deleteSongRequest">Запрос с информацией</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpDelete]
+    [Route("DeleteSong")]
+    public async Task DeleteSong([FromBody] DeleteSongRequest deleteSongRequest, CancellationToken cancellationToken)
+    {
+        var command = new DeleteSongCommand(deleteSongRequest);
+        await _mediator.Send(command, cancellationToken);
+    }
+    
 }
