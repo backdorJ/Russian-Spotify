@@ -35,7 +35,6 @@ const App = observer(() => {
     }, []);
 
 
-    console.log(isSubscribed);
     return (
         <BrowserRouter>
             <div className="app">

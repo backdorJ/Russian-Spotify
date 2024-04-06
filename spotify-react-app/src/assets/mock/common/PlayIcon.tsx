@@ -10,8 +10,7 @@ const PlayIcon: FC<ISong> = ({song}) => {
 
     /** Обновление плеера(текущей песни) */
     const handlePlay = () => {
-        getSong(song, song.nextSong, userStore.user)
-            .then(x => playerStore.Player = x);
+        playerStore.Player = getSong(song, userStore.user);
     }
 
     return (

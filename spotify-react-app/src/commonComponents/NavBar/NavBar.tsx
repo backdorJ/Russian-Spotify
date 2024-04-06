@@ -72,6 +72,7 @@ export default function NavBar(props: any) {
                             onClickEvent={() => {
                                 userStore.logout()
                                 localStorage.removeItem('token')
+                                localStorage.removeItem('refresh');
                                 navigate(routeNames.LOGIN_PAGE)
                             }}
                             icon={logout_icon}

@@ -1,31 +1,94 @@
-.audio-player-container {
+.player-wrapper {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #333;
-    padding: 10px;
-}
-
-.audio-player {
-    width: 100%;
-}
-
-.audio-controls {
+    background-color: #333; /* Тёмно-тёмно-серый фон */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+    justify-content: center; /* Распределение элементов по горизонтали */
+    align-items: center; /* Выравнивание элементов по вертикали */
+    padding: 10px 0;
 }
 
-.audio-controls button {
-    background-color: #fff;
-    color: #333;
-    border: none;
-    padding: 5px 10px;
+.player {
+    display: flex;
+    flex-direction: row;
+    margin: 2px 25%;
+    padding-left: 5px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #444; /* Цвет кнопок */
+    cursor: pointer;
+    margin-right: 10px; /* Отступ между кнопками */
+}
+
+.player-music-image-container {
+    display: flex;
+    align-items: center; /* Выравнивание изображения по вертикали */
+    margin-left: 20px; /* Отступ между кнопками и изображением */
+}
+
+.player-music-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.progress__container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center; /* Выравнивание прогресс-бара по вертикали */
+    width: calc(550px + 8 * (100vw - 320px) / 380);
+    background: #555;
+    height: 5px;
+    margin: 15px 20px 0 30px;
+}
+
+.player-content {
+    align-items: center;
+    justify-content: center;
+}
+
+.song-name {
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.progress {
+    height: 5px;
+    background-color: mediumpurple; /* Цвет прогресс бара */
+    width: 0;
+    box-shadow: 0 0 10px mediumpurple;
+}
+
+.volume-button {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.like-button {
+    display: flex;
+    align-items: center;
+}
+
+.player-artist-link:hover {
+    color: mediumpurple;
     cursor: pointer;
 }
-
-.audio-controls button:hover {
-    background-color: #ddd;
-}
-

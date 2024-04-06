@@ -1,7 +1,7 @@
+using System.Net.Http.Headers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.Ocsp;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
@@ -68,9 +68,11 @@ public class SongController : FileBaseController
             new GetSongContentByIdQuery(songId),
             cancellationToken);
 
-        return GetFileStreamResult(
-            file: result,
-            headers: Response.Headers,
-            inline: true);
+        Response.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment").ToString();
+        Response.ContentLength = result.Content.Length;
+        Response.Headers.AcceptRanges = "bytes";
+        Response.Headers.CacheControl = "max-age=14400";
+        
+        return new FileStreamResult(result.Content, result.ContentType);
     }
 }

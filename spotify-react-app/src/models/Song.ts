@@ -18,6 +18,8 @@ export default class Song {
     /** Список имён авторов песни */
     authors: string[];
 
+    prevSong: Song | null;
+
     /** Следущая песня */
     nextSong: Song| null;
 
@@ -29,6 +31,7 @@ export default class Song {
         this.category = "";
         this.authors = [];
         this.nextSong = null;
+        this.prevSong = null;
     }
 
     static init(id: string,
@@ -37,7 +40,8 @@ export default class Song {
                 duration: number,
                 category: string,
                 authors: string[],
-                nextSong: Song | null) {
+                nextSong: Song | null,
+                prevSong: Song | null) {
 
         let newSong = new Song();
 
@@ -48,6 +52,7 @@ export default class Song {
         newSong.category = category;
         newSong.authors = authors;
         newSong.nextSong = nextSong;
+        newSong.prevSong = prevSong;
 
         return newSong;
     }

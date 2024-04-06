@@ -26,7 +26,6 @@ const Song : FC<ISong> = ({song}) => {
         }, 100);
     };
 
-    // TODO: Связать песню(её кнопки) с состоянием песни
     return (
         <div key={song.songId} className="music-card-button">
             <div className="play-icon-container">

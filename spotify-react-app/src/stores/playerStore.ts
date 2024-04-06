@@ -5,7 +5,7 @@ import {makeAutoObservable} from "mobx";
 export default class PlayerStore {
     _player: Player = new Player();
 
-    _isPlaying: boolean = false;
+    _isPlaying: boolean = true;
 
     constructor() {
         makeAutoObservable(this)
