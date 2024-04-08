@@ -7,9 +7,6 @@ import DiscoveryCard from "../HomePage/components/DiscoveryCard";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import PlaylistNormal from "../HomePage/components/PlaylistNormal";
 import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
-import {SpotifyContext} from "../../index";
-import LikeIcon from "../../assets/mock/common/LikeIcon";
-import PlayIcon from "../../assets/mock/common/PlayIcon";
 import {UserContext} from "../../index";
 import Song from "../../models/Song";
 import {getSongs} from "../../http/songApi";
@@ -29,10 +26,10 @@ const AccountPage = () => {
     const [favoriteSongs, setFavoriteSongs] = useState(new Array<Song>());
 
     // Получение списка любимых песен
-    useEffect(() => {
-        getSongs(1, 5)
-            .then(x => setFavoriteSongs(x));
-    }, []);
+    // useEffect(() => {
+    //     getSongs(1, 5)
+    //         .then(x => setFavoriteSongs(x));
+    // }, []);
 
     const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
 
