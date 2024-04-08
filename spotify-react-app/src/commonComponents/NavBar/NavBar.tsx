@@ -78,13 +78,16 @@ export default function NavBar(props: any) {
                             icon={logout_icon}
                             title="Log out"
                         />
-                        <WideOpenElement
-                            onClickEvent={() => {
-                                setShowSubModal(true)
-                            }}
-                            icon={subscription_icon}
-                            title="Subscribe"
-                        />
+                        {
+                            !userStore.user.isSubscribed &&
+                            <WideOpenElement
+                                onClickEvent={() => {
+                                    setShowSubModal(true)
+                                }}
+                                icon={subscription_icon}
+                                title="Subscribe"
+                            />
+                        }
                     </div>
                 }
             </div>
