@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using RussianSpotify.API.Core.Requests.Account.PostConfirmEmail;
 using RussianSpotify.API.Core.Requests.Account.PostConfirmPasswordReset;
 using RussianSpotify.API.Core.Requests.Account.PostLogin;
 using RussianSpotify.API.Core.Requests.Account.PostRefreshToken;
-using RussianSpotify.API.Core.Requests.Account.PostRegister;
 using RussianSpotify.API.Core.Requests.Account.PostRevokeToken;
 using RussianSpotify.API.Core.Requests.Auth.PostRegister;
 using RussianSpotify.API.Core.Requests.Auth.PostResetPassword;
@@ -33,7 +33,10 @@ public class AuthController : ControllerBase
     /// Конструктор
     /// </summary>
     /// <param name="mediator"></param>
-    public AuthController(IMediator mediator) => _mediator = mediator;
+    public AuthController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
 
     /// <summary>
     /// Логинит пользователя и возвращает JWT токен, если пользователь залогинился
@@ -48,10 +51,12 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<PostLoginResponse> Login([FromBody] PostLoginRequest request, CancellationToken cancellationToken)
+    public async Task<PostLoginResponse> Login([FromBody] PostLoginRequest request,
+        CancellationToken cancellationToken)
     {
         var command = new PostLoginCommand(request);
-        return await _mediator.Send(command, cancellationToken);
+        var response = await _mediator.Send(command, cancellationToken);
+        return response;
     }
 
     /// <summary>

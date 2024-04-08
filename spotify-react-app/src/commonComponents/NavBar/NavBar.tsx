@@ -9,11 +9,11 @@ import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import wideOpenElements from "../../utils/navbar/wideOpenElements";
 import routeNames from "../../utils/routeNames";
-import {SpotifyContext} from "../../index";
+import {UserContext} from "../../index";
 import MakeSubscriptionModal from "./components/makeSubscriptionModal/makeSubscriptionModal";
 
 export default function NavBar(props: any) {
-    const userStore = useContext(SpotifyContext)
+    const userStore = useContext(UserContext)
     const {setShowSubModal} = props
     const [isOpen, setIsOpen] = useState(false)
     const navigate = useNavigate()
@@ -72,6 +72,7 @@ export default function NavBar(props: any) {
                             onClickEvent={() => {
                                 userStore.logout()
                                 localStorage.removeItem('token')
+                                localStorage.removeItem('refresh');
                                 navigate(routeNames.LOGIN_PAGE)
                             }}
                             icon={logout_icon}

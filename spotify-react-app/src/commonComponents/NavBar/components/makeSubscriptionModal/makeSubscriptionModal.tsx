@@ -1,13 +1,13 @@
 import React, {useContext, useState} from "react";
 import "./makeSubscriptionModal.css"
-import {SpotifyContext} from "../../../../index";
+import {UserContext} from "../../../../index";
 import subscriptionOptions from "../../../../utils/subscription/subscriptionOptions";
 import {subscribe} from "../../../../http/subApi";
 import MakeSubscriptionDto from "../../../../utils/dto/subscription/makeSubscriptionDto";
 
 
 const MakeSubscriptionModal = (props: any) => {
-    const userStore = useContext(SpotifyContext)
+    const userStore = useContext(UserContext)
     const {show, onHide} = props
     const [length, setLength] = useState(1)
 
