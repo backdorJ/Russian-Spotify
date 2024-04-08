@@ -1,0 +1,82 @@
+.sidebar {
+    min-width: 280px;
+    width: 280px;
+    height: inherit;
+    background-color: #090707;
+    position: relative;
+    padding: 40px 20px 0 20px;
+}
+
+.sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px;
+    border-bottom: 1px solid #FFFFFF1F;
+}
+
+.sidebar__nav__main__element:hover, .sidebar__nav__playlists__element:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+    transition: .05s;
+}
+
+.sidebar__nav__main {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.sidebar__nav__main__element {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: .05s;
+}
+
+.sidebar__nav__main__element > img {
+    width: 27px;
+    margin-right: 15px;
+}
+
+.sidebar__nav__main__element > p {
+    text-transform: capitalize;
+    font-size: 20px;
+    color: #FFFFFF80;
+    font-family: 'proxima_nova_rgbold', sans-serif, sans-serif;
+}
+
+.sidebar__nav__main > div:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.sidebar__nav__playlists {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+}
+
+.sidebar__nav__playlists__element {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: .05s;
+}
+
+.sidebar__nav__playlists__element > img {
+    width: 27px;
+    margin-right: 15px;
+}
+
+.sidebar__nav__playlists__element > p {
+    text-transform: capitalize;
+    font-size: 20px;
+    color: #FFFFFF80;
+    font-family: 'proxima_nova_rgbold', sans-serif, sans-serif;
+}
+
+.sidebar__nav__playlists > div:not(:last-child) {
+    margin-bottom: 2px;
+}
+
+.sidebar__playlists {
+
+}

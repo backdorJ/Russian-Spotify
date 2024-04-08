@@ -9,6 +9,7 @@ import MakeSubscriptionModal from "./commonComponents/NavBar/components/makeSubs
 import {getSubscription} from "./http/subApi";
 import loadUser from "./functions/loadUser";
 import Player from "./commonComponents/Player/Player";
+import SideBar from "./commonComponents/SideBar/SideBar";
 
 const App = observer(() => {
     const userStore = useContext(UserContext);
@@ -19,7 +20,8 @@ const App = observer(() => {
     useEffect(() => {
         getSubscription()
             .then(x => {
-                setIsSubscribed(new Date(x.endDate) > new Date())});
+                setIsSubscribed(new Date(x.endDate) > new Date())
+            });
     }, []);
 
     const [showModal, setShowModal] = useState(false)
@@ -40,16 +42,16 @@ const App = observer(() => {
             <div className="app">
                 {
                     userStore.isAuth &&
-                    <div style={{minWidth: "280px", height: "1080px", backgroundColor: "gray", position: "relative"}}></div>
+                    <SideBar/>
                 }
                 <div className="app__main">
-                    <NavBar setShowSubModal={setShowModal} />
+                    <NavBar setShowSubModal={setShowModal}/>
                     <AppRouter/>
                 </div>
                 <MakeSubscriptionModal show={showModal} onHide={() => setShowModal(false)}/>
             </div>
             {
-                userStore.isAuth && isSubscribed && playerStore.Player.currentSong !== null && <Player />
+                userStore.isAuth && isSubscribed && playerStore.Player.currentSong !== null && <Player/>
             }
         </BrowserRouter>
     );
