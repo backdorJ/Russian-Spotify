@@ -17,10 +17,6 @@ export const notAuthRoutes = [
     {
         path: routeNames.LOGIN_PAGE,
         Component: loginPage
-    },
-    {
-        path: routeNames.ACCOUNT_PAGE,
-        Component: AccountPage
     }
 ]
 
@@ -28,6 +24,10 @@ export const authRoutes = [
     {
         path: routeNames.HOME_PAGE,
         Component: HomePage
+    },
+    {
+        path: routeNames.ACCOUNT_PAGE,
+        Component: AccountPage
     },
     {
         path: routeNames.SETTINGS_PAGE,
