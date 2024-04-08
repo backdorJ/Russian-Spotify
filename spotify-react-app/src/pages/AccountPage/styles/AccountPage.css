@@ -71,10 +71,11 @@ p, a {
 .subscription-info {
     text-align: center;
     margin: 5%;
+    max-width: 110px;
 }
 
 .subscription-info p {
-    margin: 5%;
+    margin: 5px;
 }
 
 .subscribed {
@@ -93,7 +94,6 @@ p, a {
 
 .user-image-container {
     display: flex;
-    justify-content: flex-end;
 }
 
 .user-image {
