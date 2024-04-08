@@ -63,6 +63,7 @@ public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
                 throw new SongBadImageException("File's content type is not Image");
 
             newSong.Image = imageFromDb;
+            newSong.Files.Add(imageFromDb);
         }
 
         // Если был введен Id файла песни, то связываем файл с песней
@@ -78,7 +79,7 @@ public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
             if (!_fileHelper.IsAudio(fileFromDb))
                 throw new SongBadFileException("File's content type is not Audio");
 
-            fileFromDb.Song = newSong;
+            newSong.Files.Add(fileFromDb);
         }
 
         // Достаем пользователя и добавляем как автора песни

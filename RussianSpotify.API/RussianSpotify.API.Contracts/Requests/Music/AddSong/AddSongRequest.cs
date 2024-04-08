@@ -11,7 +11,7 @@ public class AddSongRequest
     public AddSongRequest()
     {
     }
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>
@@ -28,22 +28,22 @@ public class AddSongRequest
     /// <summary>
     /// Название песни
     /// </summary>
-    public string SongName { get; } = null!;
-    
+    public string SongName { get; set; } = null!;
+
     /// <summary>
     /// Длительность песни в секундах
     /// </summary>
-    public double Duration { get; }
-    
+    public double Duration { get; set; }
+
     /// <summary>
     /// Номер категории
     /// </summary>
-    public int Category { get; }
-    
+    public int Category { get; set; }
+
     /// <summary>
     /// Id картинки
     /// </summary>
-    public Guid? ImageId { get; }
+    public Guid? ImageId { get; set; }
 
     /// <summary>
     /// Id файла песни
