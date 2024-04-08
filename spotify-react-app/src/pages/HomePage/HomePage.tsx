@@ -1,21 +1,24 @@
 import './styles/HomePage.css'
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import playlistsLittle from "../../utils/mocks/homepage/playlistsLittle";
 import PlaylistLittle from "./components/PlaylistLittle";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import DiscoveryCard from "./components/DiscoveryCard";
 import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import PlaylistNormal from "./components/PlaylistNormal";
+import {UserContext} from "../../index";
 import {observer} from "mobx-react-lite";
 
+
 const HomePage = observer((props: any) => {
+    const userStore = useContext(UserContext);
     const [playlistsLittleLoaded, setPlaylistsLittleLoaded] = useState(playlistsLittle)
     const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
     const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [currentTimeMode, setCurrentTimeMode] = useState('good day')
     let sidebarWidth = 280
-    let username = 'Irek'
+    let username = userStore.user.username;
     let currentTime = new Date()
 
     useEffect(() => {

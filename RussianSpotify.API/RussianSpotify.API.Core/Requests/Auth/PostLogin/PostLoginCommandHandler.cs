@@ -23,7 +23,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
     private readonly IUserClaimsManager _claimsManager;
 
     private readonly IEmailSender _emailSender;
-
+    
     /// <summary>
     /// Конструктор
     /// </summary>

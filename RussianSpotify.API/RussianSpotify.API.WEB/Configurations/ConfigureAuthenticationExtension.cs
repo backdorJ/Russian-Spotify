@@ -45,11 +45,6 @@ public static class ConfigureAuthenticationExtension
         {
             config.ClientId = configuration["Authentication:VK:AppId"]!;
             config.ClientSecret = configuration["Authentication:VK:AppSecret"]!;
-            // config.ClaimsIssuer = "Vkontakte";
-            // config.CallbackPath = new PathString("/signin-vkontakte-token");
-            // config.AuthorizationEndpoint = "https://oauth.vk.com/authorize";
-            // config.TokenEndpoint = "https://oauth.vk.com/access_token";
-            // config.SaveTokens = true;
             config.Scope.Add("email");
         }).AddGoogle(config =>
         {

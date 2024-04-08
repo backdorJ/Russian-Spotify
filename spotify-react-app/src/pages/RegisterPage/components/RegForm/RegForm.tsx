@@ -26,6 +26,7 @@ const RegForm = () => {
                     alert("Registered successfully! Please check your Email to confirm it")
                     navigate(routeNames.HOME_PAGE)
                 } else
+                    // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
                     alert("Something went wrong. Try again")
             })
     }

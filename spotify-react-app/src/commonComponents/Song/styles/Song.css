@@ -1,0 +1,107 @@
+.music-card-button {
+    background: none;
+    border: none;
+    border-radius: 7px;
+    width: 80%;
+    display: flex;
+    margin: 0.5%;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.music-card-button span {
+    color: white;
+    align-self: flex-start;
+}
+
+.music-card-button:hover {
+    border: 2px dimgray;
+    transition: all 0.3s ease;
+    background: mediumpurple;
+    transform: scale(1.005);
+}
+
+.play-icon-container {
+    display: flex;
+    margin-right: 1%;
+}
+
+.music-image-container {
+    display: flex;
+    width: 6%;
+}
+
+.music-image {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.music-name-authors {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    flex: 0.9;
+}
+
+.music-duration {
+    align-self: center;
+}
+
+.music-more-button {
+    background: none;
+    color: white;
+    border: none;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.artist-link:hover {
+    cursor: pointer;
+    color: #222222;
+}
+
+.like-icon-container {
+    display: flex;
+}
+
+.music-menu {
+    position: absolute;
+    z-index: 999;
+    top: 100%;
+    right: 0;
+    background: #120F0F;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 1%;
+    border-radius: 5%;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.music-menu button {
+    display: block;
+    width: 100%;
+    padding: 3% 1%;
+    background: none;
+    text-align: center;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 2%;
+}
+
+.music-menu button:hover {
+    transform: scale(1.1);
+    background-color: mediumpurple;
+}

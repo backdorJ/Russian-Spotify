@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,6 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// <summary>
 /// Контроллер, который отвечает за работу с музыкой
 /// </summary>
-[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class SongController : FileBaseController
@@ -45,6 +45,7 @@ public class SongController : FileBaseController
     [ProducesResponseType(404)]
     [ProducesResponseType(409)]
     [ProducesResponseType(500)]
+    [Authorize]
     public async Task<GetAllSongResponse> GetAllSongsAsync(
         [FromQuery] GetAllSongRequest request,
         CancellationToken cancellationToken)
@@ -68,6 +69,7 @@ public class SongController : FileBaseController
     [ProducesResponseType(409)]
     [ProducesResponseType(500)]
     [HttpGet("{songId}")]
+    [AllowAnonymous]
     public async Task<FileStreamResult> GetContentSongByIdAsync(
         [FromRoute] Guid songId,
         CancellationToken cancellationToken)
@@ -76,10 +78,12 @@ public class SongController : FileBaseController
             new GetSongContentByIdQuery(songId),
             cancellationToken);
 
-        return GetFileStreamResult(
-            file: result,
-            headers: Response.Headers,
-            inline: true);
+        Response.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment").ToString();
+        Response.ContentLength = result.Content.Length;
+        Response.Headers.AcceptRanges = "bytes";
+        Response.Headers.CacheControl = "max-age=14400";
+        
+        return new FileStreamResult(result.Content, result.ContentType);
     }
 
     /// <summary>

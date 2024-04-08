@@ -1,0 +1,44 @@
+.music-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1%;
+    flex-direction: column;
+}
+
+.music-container-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+
+.show-all-music-button {
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.3s ease;
+    border-radius: 500px;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 1%;
+    background: none;
+    color: white;
+    border: solid 1px mediumpurple;
+    align-self: flex-end;
+    margin-top: 2%;
+    margin-right: 10%;
+    font-size: 12px;
+}
+
+.show-all-music-button:hover {
+    transition: all 0.3s ease;
+    background: mediumpurple;
+    color: black;
+    border-color: black;
+    transform: scale(1.08);
+}

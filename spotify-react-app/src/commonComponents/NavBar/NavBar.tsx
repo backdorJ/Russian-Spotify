@@ -9,8 +9,11 @@ import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import wideOpenElements from "../../utils/navbar/wideOpenElements";
 import routeNames from "../../utils/routeNames";
+import {UserContext} from "../../index";
+import MakeSubscriptionModal from "./components/makeSubscriptionModal/makeSubscriptionModal";
 import {SpotifyContext} from "../../index";
 import {observer} from "mobx-react-lite";
+
 
 const NavBar = observer((props: any) => {
     const userStore = useContext(SpotifyContext)
@@ -70,6 +73,7 @@ const NavBar = observer((props: any) => {
                             onClickEvent={() => {
                                 userStore.logout()
                                 localStorage.removeItem('token')
+                                localStorage.removeItem('refresh');
                                 navigate(routeNames.LOGIN_PAGE)
                             }}
                             icon={logout_icon}

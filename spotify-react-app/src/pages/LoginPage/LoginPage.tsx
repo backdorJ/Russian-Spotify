@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import "./styles/LoginPage.css"
 import AuthForm from "./components/AuthForm/AuthForm";
 import Header from "../../commonComponents/Header/Header";
-import {SpotifyContext} from "../../index";
+import {UserContext} from "../../index";
 import {observer} from "mobx-react-lite";
 
 

@@ -1,9 +1,9 @@
 import EditUserInfoModal from "./modals/editUserInfoModal/editUserInfoModal";
 import {useContext, useState} from "react";
-import {SpotifyContext} from "../../../index";
+import {UserContext} from "../../../index";
 
 export default function SettingsPersonal(props: any) {
-    const userStore = useContext(SpotifyContext)
+    const userStore = useContext(UserContext)
     const [showModal, setShowModal] = useState(false)
 
     if (showModal)
