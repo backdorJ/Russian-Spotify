@@ -1,7 +1,7 @@
 /**Проверка протухший ли JWT или нет
  * @param jwt - JWT
  * */
-export const isJwtDied : (jwt : string | null) => boolean = (jwt): boolean => {
+export const isJwtDyingOrDead : (jwt : string | null) => boolean = (jwt): boolean => {
     if (jwt === null || jwt == undefined || jwt == '')
         return false;
 
@@ -10,6 +10,7 @@ export const isJwtDied : (jwt : string | null) => boolean = (jwt): boolean => {
     const payload = JSON.parse(base64UrlDecode(encodedPayload));
 
     let tokenExpiryTime = new Date(Number(payload.exp) * 1000);
+    tokenExpiryTime.setHours(tokenExpiryTime.getHours() - 1)
 
     return tokenExpiryTime < new Date();
 }
