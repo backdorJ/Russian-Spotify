@@ -96,11 +96,9 @@ const AccountPage = () => {
                         <div className="nickname-subscription">
                             <div className="nickname-container">
                                 <p className="nickname">{userStore.user.username}</p>
-                                <p className="nickname">Irek</p>
                             </div>
                             <div className="subscription-info">
                                 {userStore.user.isSubscribed ? (
-                                    
                                     <div className="subscribed">
                                         <p>{`${endsubdate}.${endsubmonth}.${endsubyear}`}</p>
                                     </div>
