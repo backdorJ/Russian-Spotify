@@ -62,6 +62,7 @@ public class FileController : FileBaseController
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Бинарные данные</returns>
     [HttpGet("image/{id}")]
+    [AllowAnonymous]
     public async Task<FileContentResult> GetImageByIdAsync(
         [FromRoute] Guid id,
         [FromServices] IMediator mediator,

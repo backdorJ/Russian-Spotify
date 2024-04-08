@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import './editUserInfoModal.css'
-import {SpotifyContext} from "../../../../../index";
+import {UserContext} from "../../../../../index";
 import UserEditDto from "../../../../../utils/dto/user/userEditDto";
 import {edit} from "../../../../../http/authApi";
 import loadUser from "../../../../../functions/loadUser";
@@ -9,7 +9,7 @@ import {observer} from "mobx-react-lite";
 
 
 const EditUserInfoModal = observer((props: any) => {
-    const userStore = useContext(SpotifyContext)
+    const userStore = useContext(UserContext)
     const {show, onHide} = props
     const [username, setUsername] = useState(userStore.user.username)
     const [oldPassword, setOldPassword] = useState("")
