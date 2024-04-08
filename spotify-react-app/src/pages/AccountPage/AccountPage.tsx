@@ -26,10 +26,10 @@ const AccountPage = () => {
     const [favoriteSongs, setFavoriteSongs] = useState(new Array<Song>());
 
     // Получение списка любимых песен
-    // useEffect(() => {
-    //     getSongs(1, 5)
-    //         .then(x => setFavoriteSongs(x));
-    // }, []);
+    useEffect(() => {
+        getSongs(1, 5)
+            .then(x => setFavoriteSongs(x));
+    }, []);
 
     const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
 
