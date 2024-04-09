@@ -26,12 +26,12 @@ export const authRoutes = [
         Component: HomePage
     },
     {
-        path: routeNames.SETTINGS_PAGE,
-        Component: SettingsPage
-    },
-    {
         path: routeNames.ACCOUNT_PAGE,
         Component: AccountPage
+    },
+    {
+        path: routeNames.SETTINGS_PAGE,
+        Component: SettingsPage
     },
     {
         path: routeNames.PLAYLIST_PAGE,
