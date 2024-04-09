@@ -5,7 +5,6 @@ import {register} from "../../../../http/authApi";
 import UserRegisterDto from "../../../../utils/dto/user/userRegisterDto";
 import routeNames from "../../../../utils/routeNames";
 import {useNavigate} from "react-router-dom";
-import EmailConfirmationModal from "./EmailConfirmationModal";
 
 const RegForm = () => {
     const [username, setUsername] = useState('')
@@ -13,9 +12,7 @@ const RegForm = () => {
     const [password1, setPassword1] = useState('')
     const [password2, setPassword2] = useState('')
     const [role, setRole] = useState('user')
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isUser, setAsUser] = useState(false);
-    const navigate = useNavigate()
 
     let handleRegister = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (password1 !== password2) {
@@ -24,23 +21,16 @@ const RegForm = () => {
         }
         e.preventDefault()
         let user = new UserRegisterDto(username, email, password1, password2, role)
-        register(user)
-            .then(success => {
-                if (success) {
-                    alert("Registered successfully! Please check your Email to confirm it")
-                    navigate(routeNames.HOME_PAGE)
-                } else
-                    // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
-                    alert("Something went wrong. Try again")
-            })
-    }
-
-    const openModal = () => {
-        setIsModalOpen(true);
-    }
-
-    const closeModal = () => {
-        setIsModalOpen(false);
+        // register(user)
+        //     .then(success => {
+        //         if (success) {
+        //             alert("Registered successfully! Please check your Email to confirm it")
+        //             navigate(routeNames.HOME_PAGE)
+        //         } else
+        //             // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
+        //             alert("Something went wrong. Try again")
+        //     })
+        console.log(true)
     }
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +78,7 @@ const RegForm = () => {
                     </button>
                 </div>
             </form>
-            <EmailConfirmationModal isOpen={isModalOpen} onClose={closeModal} />
+
         </div>
         
     )
