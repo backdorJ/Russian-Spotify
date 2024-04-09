@@ -3,7 +3,7 @@ namespace RussianSpotify.API.Core.Entities;
 /// <summary>
 /// Песня
 /// </summary>
-public class Song
+public class npSong
 {
     /// <summary>
     /// Конструктор

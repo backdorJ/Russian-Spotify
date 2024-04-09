@@ -10,13 +10,16 @@ import {getSubscription} from "./http/subApi";
 import loadUser from "./functions/loadUser";
 import Player from "./commonComponents/Player/Player";
 import SideBar from "./commonComponents/SideBar/SideBar";
+import CreatePlaylistModal from "./commonComponents/SideBar/components/CreatePlaylistModal/CreatePlaylistModal";
 
 const App = observer(() => {
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
-
+    const [showSubscriptionModal, setShowSubscriptionModal] = useState(false)
+    const [showCreatePlaylistModal, setShowCreatePlaylistModal] = useState(false)
     const [isSubscribed, setIsSubscribed] = useState(false);
 
+    // TODO: чек useEffect ниже
     useEffect(() => {
         getSubscription()
             .then(x => {
@@ -24,13 +27,13 @@ const App = observer(() => {
             });
     }, []);
 
-    const [showModal, setShowModal] = useState(false)
 
-    if (showModal)
+    if (showSubscriptionModal)
         document.getElementById("body")!.style.overflowY = 'hidden';
     else
         document.getElementById("body")!.style.overflowY = 'visible';
 
+    // TODO: тут идет запрос на подписку в loadUser, и с юзера можешь брать подписку
     useEffect(() => {
         loadUser()
             .then(user => userStore.login(user))
@@ -42,13 +45,14 @@ const App = observer(() => {
             <div className="app">
                 {
                     userStore.isAuth &&
-                    <SideBar/>
+                    <SideBar setCreatePlaylistModal={setShowCreatePlaylistModal}/>
                 }
                 <div className="app__main">
-                    <NavBar setShowSubModal={setShowModal}/>
+                    <NavBar setShowSubModal={setShowSubscriptionModal}/>
                     <AppRouter/>
                 </div>
-                <MakeSubscriptionModal show={showModal} onHide={() => setShowModal(false)}/>
+                <MakeSubscriptionModal show={showSubscriptionModal} onHide={() => setShowSubscriptionModal(false)}/>
+                <CreatePlaylistModal show={showCreatePlaylistModal} onHide={() => setShowCreatePlaylistModal(false)}/>
             </div>
             {
                 userStore.isAuth && isSubscribed && playerStore.Player.currentSong !== null && <Player/>

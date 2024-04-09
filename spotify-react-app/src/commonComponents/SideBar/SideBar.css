@@ -1,10 +1,16 @@
+.sidebar-wrapper {
+    min-width: 280px;
+    width: 280px;
+    height: inherit;
+}
+
 .sidebar {
     min-width: 280px;
     width: 280px;
     height: inherit;
     background-color: #090707;
-    position: relative;
     padding: 40px 20px 0 20px;
+    position: fixed;
 }
 
 .sidebar__nav {
