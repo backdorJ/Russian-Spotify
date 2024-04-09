@@ -4,10 +4,12 @@ import {UserContext} from "../../../../index";
 import subscriptionOptions from "../../../../utils/subscription/subscriptionOptions";
 import {subscribe} from "../../../../http/subApi";
 import MakeSubscriptionDto from "../../../../utils/dto/subscription/makeSubscriptionDto";
+import loadUser from "../../../../functions/loadUser";
+import {observer} from "mobx-react-lite";
 
 
-const MakeSubscriptionModal = (props: any) => {
-    const userStore = useContext(UserContext)
+const MakeSubscriptionModal = observer((props: any) => {
+    const userStore = useContext(SpotifyContext)
     const {show, onHide} = props
     const [length, setLength] = useState(1)
 
@@ -23,10 +25,13 @@ const MakeSubscriptionModal = (props: any) => {
             subscribe(makeSubscriptionDto)
                 .then(success => {
                     if (success) {
-                        alert(`You've successfully subscribed!`)
+                        loadUser()
+                            .then(response => userStore.login(response))
+                            .then(_ => alert(`You've successfully subscribed!`))
                         onHide()
                     }
-                    alert("Something went wrong! Please try again")
+                    else
+                        alert("Something went wrong! Please try again")
                 })
         }
     }
@@ -80,6 +85,6 @@ const MakeSubscriptionModal = (props: any) => {
             </div>
         </>
     )
-}
+})
 
 export default MakeSubscriptionModal

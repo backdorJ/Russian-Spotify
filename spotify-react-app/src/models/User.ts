@@ -33,11 +33,12 @@ export default class User {
     initSubscription(startDate: Date, endDate: Date) {
         this._subStartDate = new Date(startDate)
         this._subEndDate = new Date(endDate)
-        console.log(endDate)
-        console.log(this._subEndDate)
     }
 
     get isSubscribed() {
+        if (this._subEndDate === null)
+            return false
+
         let nowDate = new Date(Date.now())
         return (this._subEndDate > nowDate)
     }

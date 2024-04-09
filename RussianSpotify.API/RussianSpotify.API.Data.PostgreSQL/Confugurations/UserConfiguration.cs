@@ -26,11 +26,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasPrincipalKey<User>(x => x.Id);
 
         builder
-            .HasMany(x => x.AuthorAlbums)
+            .HasMany(x => x.AuthorPlaylists)
             .WithOne(y => y.Author)
             .HasForeignKey(y => y.AuthorId)
             .HasPrincipalKey(x => x.Id)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasMany(i => i.Playlists)
+            .WithMany(i => i.Users);
 
         builder
             .HasMany(x => x.Songs)

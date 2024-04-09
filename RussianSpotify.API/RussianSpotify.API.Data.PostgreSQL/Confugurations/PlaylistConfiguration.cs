@@ -5,33 +5,33 @@ using File = RussianSpotify.API.Core.Entities.File;
 
 namespace RussianSpotift.API.Data.PostgreSQL.Confugurations;
 
-public class AlbumConfiguration : IEntityTypeConfiguration<Album>
+public class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
 {
     /// <inheritdoc />
-    public void Configure(EntityTypeBuilder<Album> builder)
+    public void Configure(EntityTypeBuilder<Playlist> builder)
     {
         builder
-            .Property(x => x.AlbumName)
+            .Property(x => x.PlaylistName)
             .IsRequired();
 
         builder
             .Property(p => p.ReleaseDate);
 
         builder.HasOne(x => x.Image)
-            .WithOne(y => y.Album);
+            .WithOne(y => y.Playlist);
         
         builder
             .HasOne(x => x.Author)
-            .WithMany(y => y.AuthorAlbums)
+            .WithMany(y => y.AuthorPlaylists)
             .HasForeignKey(x => x.AuthorId)
             .HasPrincipalKey(y => y.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasMany(x => x.Songs)
-            .WithOne(y => y.Album)
-            .HasForeignKey(y => y.AlbumId)
-            .HasPrincipalKey(x => x.Id)
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithMany(y => y.Playlists);
+
+        builder.HasMany(i => i.Users)
+            .WithMany(i => i.Playlists);
     }
 }

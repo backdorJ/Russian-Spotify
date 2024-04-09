@@ -31,6 +31,7 @@ public static class AddCoreLayoutExtension
         services.AddScoped<ISubscriptionHandler, SubscriptionHandler>();
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IUserClaimsManager, UserClaimsManager>();
+        services.AddScoped<IFileHelper, FileHelper>();
 
         return services;
     }
