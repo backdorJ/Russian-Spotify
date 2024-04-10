@@ -33,5 +33,7 @@ public class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
 
         builder.HasMany(i => i.Users)
             .WithMany(i => i.Playlists);
+        
+        builder.Property(x => x.PlaysNumber).HasDefaultValue(0);
     }
 }

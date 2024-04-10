@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
+using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PatchEditSong;
@@ -15,6 +16,7 @@ using RussianSpotify.Contracts.Requests.Music.DeleteSong;
 using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.EditSong;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
+using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -58,6 +60,25 @@ public class SongController : FileBaseController
             cancellationToken);
     }
 
+    /// <summary>
+    /// Получить музыку по фильтру
+    /// </summary>
+    /// <param name="request">GetSongsByFilterRequest(Название фильтра,
+    /// значение фильтра, страница, кол-во песен на странице)</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>GetSongsByFilterResponse песни по фильтру и общее количество песен по этом фильтру</returns>
+    [Authorize]
+    [HttpGet("GetSongsByFilter")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<GetSongsByFilterResponse> GetSongsByFilter([FromQuery] GetSongsByFilterRequest request,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetSongsByFilterQuery(request);
+        return await _mediator.Send(query, cancellationToken);
+    }
+    
     /// <summary>
     /// Отправить песню в виде стрима
     /// </summary>

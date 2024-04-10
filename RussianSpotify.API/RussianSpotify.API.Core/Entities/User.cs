@@ -32,6 +32,16 @@ public class User : IdentityUser<Guid>
     public DateTime? RefreshTokenExpiryTime { get; set; }
     
     /// <summary>
+    /// Id фото в профиле юзера
+    /// </summary>
+    public Guid? UserPhotoId { get; set; }
+    
+    /// <summary>
+    /// Фото в профиле юзера
+    /// </summary>
+    public File? UserPhoto { get; set; }
+    
+    /// <summary>
     /// День рождения пользователя
     /// </summary>
     public DateTime? Birthday { get; protected set; }

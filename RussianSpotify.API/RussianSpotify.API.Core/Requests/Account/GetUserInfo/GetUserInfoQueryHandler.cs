@@ -44,6 +44,11 @@ public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, GetUser
         if (user is null)
             throw new NotFoundUserException($"User with id: {userId}");
 
-        return new GetUserInfoResponse { Email = user.Email!, UserName = user.UserName! };
+        return new GetUserInfoResponse 
+        { 
+            Email = user.Email!,
+            UserName = user.UserName!,
+            UserPhotoId = user.UserPhotoId
+        };
     }
 }
