@@ -9,7 +9,7 @@ import {observer} from "mobx-react-lite";
 
 
 const MakeSubscriptionModal = observer((props: any) => {
-    const userStore = useContext(SpotifyContext)
+    const userStore = useContext(UserContext)
     const {show, onHide} = props
     const [length, setLength] = useState(1)
 
