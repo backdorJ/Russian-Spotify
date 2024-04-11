@@ -14,6 +14,7 @@ public class User : IdentityUser<Guid>
     {
         Playlists = new();
         Songs = new();
+        Bucket = new();
     }
 
     /// <summary>
@@ -59,7 +60,7 @@ public class User : IdentityUser<Guid>
     /// <summary>
     /// Корзина
     /// </summary>
-    public Bucket? Bucket { get; protected set; }
+    public Bucket? Bucket { get; set; }
     
     /// <summary>
     /// Подписка
