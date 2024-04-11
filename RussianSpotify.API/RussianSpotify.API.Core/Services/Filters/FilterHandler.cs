@@ -19,7 +19,7 @@ public class FilterHandler : IFilterHandler
         if (filter is null)
             throw new BadRequestException("Такого фильтра не существует");
 
-        var instance = Activator.CreateInstance(filter, []) as IFilter<T>;
+        var instance = Activator.CreateInstance(filter, new object[] { }) as IFilter<T>;
 
         return await instance!.FilterAsync(queryable, filterValue, cancellationToken);
     }

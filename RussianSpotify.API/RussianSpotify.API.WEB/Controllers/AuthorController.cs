@@ -12,8 +12,15 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// <param name="mediator"></param>
 [ApiController]
 [Route("api/[controller]")]
-public class AuthorController(IMediator mediator) : ControllerBase
+public class AuthorController : ControllerBase
 {
+    private readonly IMediator _mediator;
+
+    public AuthorController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+    
     /// <summary>
     /// Возвращает информацию об авторе
     /// </summary>
@@ -28,6 +35,6 @@ public class AuthorController(IMediator mediator) : ControllerBase
     public async Task<GetAuthorResponse> Author([FromQuery] GetAuthorRequest request, CancellationToken cancellationToken)
     {
         var query = new GetAuthorQuery(request);
-        return await mediator.Send(query, cancellationToken);
+        return await _mediator.Send(query, cancellationToken);
     }
 }
