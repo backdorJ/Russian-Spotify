@@ -9,6 +9,7 @@ using RussianSpotify.API.Core.Requests.Music.GetAllFavouriteSongs;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetFavouritePlaylistById;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
+using RussianSpotify.API.Core.Requests.Music.GetSongInfoById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PatchEditSong;
 using RussianSpotify.API.Core.Requests.Music.PostAddPlaylistToFavourite;
@@ -25,6 +26,7 @@ using RussianSpotify.Contracts.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
 using RussianSpotify.Contracts.Requests.Music.GetAllFavouriteSongs;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
 using RussianSpotify.Contracts.Requests.Music.GetFavouritePlaylistById;
+using RussianSpotify.Contracts.Requests.Music.GetSongInfoById;
 using RussianSpotify.Contracts.Requests.Music.PostCreatePlaylist;
 using RussianSpotify.Contracts.Requests.Music.PutPlaylist;
 
@@ -254,7 +256,7 @@ public class SongController : FileBaseController
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Любимые песни</returns>
     [HttpGet("FavouriteSongs")]
-    public async Task<List<GetAllFavouriteSongsResponse>> GetAllFavouriteSongsAsync(
+    public async Task<GetAllFavouriteSongsResponse> GetAllFavouriteSongsAsync(
         [FromQuery] GetAllFavouriteSongsRequest request,
         CancellationToken cancellationToken)
         => await _mediator.Send(new GetAllFavouriteSongsQuery(request), cancellationToken);
@@ -280,7 +282,7 @@ public class SongController : FileBaseController
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Запрос на получение любимых альбомов/песен</returns>
     [HttpGet("AllFavouritePlaylists")]
-    public async Task<List<GetAllFavouriteAlbumAndPlaylistResponse>> GetAllFavouritePlaylists(
+    public async Task<GetAllFavouriteAlbumAndPlaylistResponse> GetAllFavouritePlaylistsAsync(
         CancellationToken cancellationToken)
         => await _mediator.Send(new GetAllFavouriteAlbumAndPlaylistQuery(), cancellationToken);
 
@@ -295,4 +297,16 @@ public class SongController : FileBaseController
         [FromRoute] Guid playlistId,
         CancellationToken cancellationToken)
         => await _mediator.Send(new GetFavouritePlaylistByIdQuery(playlistId: playlistId), cancellationToken);
+
+    /// <summary>
+    /// Получить подробную информацию о конкретной песней
+    /// </summary>
+    /// <param name="id">ИД песни</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Подробная информация песни</returns>
+    [HttpGet("SongInfo/{id}")]
+    public async Task<GetSongInfoByIdResponse> GetSongByIdAsync(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+        => await _mediator.Send(new GetSongInfoByIdQuery(id), cancellationToken);
 }

@@ -5,28 +5,21 @@ namespace RussianSpotify.Contracts.Requests.Music.GetAllFavouriteAlbumAndPlaylis
 /// </summary>
 public class GetAllFavouriteAlbumAndPlaylistResponse
 {
-    /// <summary>
-    /// Название плейлиста/альбома
-    /// </summary>
-    public string PlaylistName { get; set; } = default!;
+    public GetAllFavouriteAlbumAndPlaylistResponse(
+        List<GetAllFavouriteAlbumAndPlaylistResponseItem> entities,
+        int totalCount)
+    {
+        Entities = entities;
+        TotalCount = totalCount;
+    }
 
     /// <summary>
-    /// ИД картинки
+    /// Список альбомов/плейлиство
     /// </summary>
-    public Guid? ImageId { get; set; }
+    public List<GetAllFavouriteAlbumAndPlaylistResponseItem> Entities { get; set; }
 
     /// <summary>
-    /// Это альбом
+    /// Общее кол-во
     /// </summary>
-    public bool IsAlbum { get; set; }
-
-    /// <summary>
-    /// Автор
-    /// </summary>
-    public string? AuthorName { get; set; }
-
-    /// <summary>
-    /// Дата релиза
-    /// </summary>
-    public DateTime ReleaseDate { get; set; }
+    public int TotalCount { get; set; }
 }
