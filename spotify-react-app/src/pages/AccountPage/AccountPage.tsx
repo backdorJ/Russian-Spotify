@@ -11,7 +11,7 @@ import {UserContext} from "../../index";
 import Song from "../../models/Song";
 import {getSongs} from "../../http/songApi";
 import FavoriteMusic from "./components/FavoriteMusic";
-
+        
 const AccountPage = () => {
     const userStore = useContext(UserContext)
     const navigate = useNavigate()
@@ -21,7 +21,7 @@ const AccountPage = () => {
     const endsubdate = userStore.user._subEndDate.getDate()
     const endsubmonth = userStore.user._subEndDate.getMonth()
     const endsubyear = userStore.user._subEndDate.getFullYear()
-
+    const formattedDate = `${endsubdate.toString().padStart(2, '0')}:${endsubmonth.toString().padStart(2, '0')}:${endsubyear.toString().padStart(4, '0')}`;
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState(new Array<Song>());
 
@@ -73,7 +73,7 @@ const AccountPage = () => {
                             <div className="subscription-info">
                                 {userStore.user.isSubscribed ? (
                                     <div className="subscribed">
-                                        <p>{`${endsubdate}.${endsubmonth}.${endsubyear}`}</p>
+                                        <p>Дата окончания подписки: {formattedDate}</p>
                                     </div>
                                 ) : (
                                     <div className="not-subscribed">
