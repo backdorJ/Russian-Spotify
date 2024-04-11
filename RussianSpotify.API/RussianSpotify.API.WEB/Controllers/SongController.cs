@@ -99,6 +99,9 @@ public class SongController : FileBaseController
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Список GetPlaylistsByFilterResponse альбомы по фильтру</returns>
     [HttpGet("GetPlaylistsByFilter")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<List<GetPlaylistsByFilterResponse>> GetPlaylistsByFilter(
         [FromQuery] GetPlaylistsByFilterRequest request,
         CancellationToken cancellationToken)
