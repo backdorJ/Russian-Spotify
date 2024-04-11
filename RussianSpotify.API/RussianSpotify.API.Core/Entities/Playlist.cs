@@ -22,7 +22,7 @@ public class Playlist
     /// <summary>
     /// Название плейлиста
     /// </summary>
-    public string PlaylistName { get; protected set; } = default!;
+    public string PlaylistName { get; set; } = default!;
 
     /// <summary>
     /// Картинка
@@ -42,22 +42,22 @@ public class Playlist
     /// <summary>
     /// Nav-prop автора
     /// </summary>
-    public User? Author { get; protected set; }
+    public User? Author { get; set; }
 
     /// <summary>
     /// Дата опубликования
     /// </summary>
-    public DateTime ReleaseDate { get; protected set; }
+    public DateTime ReleaseDate { get; set; }
 
     /// <summary>
     /// Песни
     /// </summary>
-    public List<Song>? Songs { get; protected set; }
+    public List<Song>? Songs { get; set; }
 
     /// <summary>
     /// Лайкнувшие пользователи
     /// </summary>
-    public List<User>? Users { get; protected set; }
+    public List<User>? Users { get; set; }
 
     /// <summary>
     /// Является ли альбомом

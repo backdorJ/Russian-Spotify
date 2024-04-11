@@ -8,20 +8,20 @@ public class Bucket
     /// <summary>
     /// Ид пользователя
     /// </summary>
-    public Guid Id { get; protected set; }
+    public Guid Id { get; set; }
     
     /// <summary>
     /// Пользователь
     /// </summary>
-    public User User { get; protected set; }
+    public User User { get; set; }
 
     /// <summary>
     /// Ид пользователя
     /// </summary>
-    public Guid UserId { get; protected set; }
-    
+    public Guid UserId { get; set; }
+
     /// <summary>
     /// Песни
     /// </summary>
-    public List<Song> Songs { get; protected set; } 
+    public List<Song> Songs { get; set; } = new();
 }
