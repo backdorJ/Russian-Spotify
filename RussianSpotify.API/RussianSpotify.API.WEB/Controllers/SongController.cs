@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +7,8 @@ using RussianSpotify.API.Core.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
 using RussianSpotify.API.Core.Requests.Music.GetAllFavouriteSongs;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetFavouritePlaylistById;
+using RussianSpotify.API.Core.Requests.Music.GetPlaylistsByFilter;
+using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.GetSongInfoById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
@@ -27,6 +28,8 @@ using RussianSpotify.Contracts.Requests.Music.GetAllFavouriteSongs;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
 using RussianSpotify.Contracts.Requests.Music.GetFavouritePlaylistById;
 using RussianSpotify.Contracts.Requests.Music.GetSongInfoById;
+using RussianSpotify.Contracts.Requests.Music.GetPlaylistsByFilter;
+using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 using RussianSpotify.Contracts.Requests.Music.PostCreatePlaylist;
 using RussianSpotify.Contracts.Requests.Music.PutPlaylist;
 
@@ -72,6 +75,43 @@ public class SongController : FileBaseController
             cancellationToken);
     }
 
+    /// <summary>
+    /// Получить музыку по фильтру(Доступные фильтры: AuthorSongs)
+    /// </summary>
+    /// <param name="request">GetSongsByFilterRequest(Название фильтра,
+    /// значение фильтра, страница, кол-во песен на странице)</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>GetSongsByFilterResponse песни по фильтру и общее количество песен по этом фильтру</returns>
+    [HttpGet("GetSongsByFilter")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<GetSongsByFilterResponse> GetSongsByFilter([FromQuery] GetSongsByFilterRequest request,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetSongsByFilterQuery(request);
+        return await _mediator.Send(query, cancellationToken);
+    }
+
+    /// <summary>
+    /// Получить альбомы по фильтру(Доступные фильтры: AuthorPlaylists)
+    /// </summary>
+    /// <param name="request">GetPlaylistsByFilterRequest(Название фильтра,
+    /// значение фильтра, страница, кол-во альбомов на странице)</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Список GetPlaylistsByFilterResponse альбомы по фильтру</returns>
+    [HttpGet("GetPlaylistsByFilter")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<List<GetPlaylistsByFilterResponse>> GetPlaylistsByFilter(
+        [FromQuery] GetPlaylistsByFilterRequest request,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetPlaylistsByFilterQuery(request);
+        return await _mediator.Send(query, cancellationToken);
+    }
+    
     /// <summary>
     /// Отправить песню в виде стрима
     /// </summary>

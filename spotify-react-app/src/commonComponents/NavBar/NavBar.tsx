@@ -81,12 +81,12 @@ const NavBar = observer((props: any) => {
                         {
                             !userStore.user.isSubscribed &&
                             <WideOpenElement
-                            onClickEvent={() => {
-                                setShowSubModal(true)
-                            }}
-                            icon={subscription_icon}
-                            title="Subscribe"
-                        />
+                                onClickEvent={() => {
+                                    setShowSubModal(true)
+                                }}
+                                icon={subscription_icon}
+                                title="Subscribe"
+                            />
                         }
                     </div>
                 }

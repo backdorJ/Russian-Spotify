@@ -72,6 +72,10 @@ public class GetSongContentByIdQueryHandler : IRequestHandler<GetSongContentById
             cancellationToken: cancellationToken)
             ?? throw new EntityNotFoundException<Entities.File>(songFromDb.Files.First().Address);
 
+        songFromDb.PlaysNumber++;
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
         return new GetSongContentByIdResponse(
             songFromS3.Content,
             songFromS3.FileName,

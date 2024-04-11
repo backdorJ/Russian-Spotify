@@ -35,8 +35,13 @@
 
 }
 
+#root {
+    height: inherit;
+}
+
 .app {
     width: 100%;
+    height: inherit;
     display: flex;
 }
 
@@ -44,11 +49,20 @@
     width: 100%;
 }
 
+html {
+    height: 100%;
+}
+
 body {
+    height: 100%;
     margin: 0;
     color: #FFFFFF;
     background-color: #120F0F;
 }
+
+/*body > iframe {*/
+/*    display: none;*/
+/*}*/
 
 h1, h2, h3, h4, h5, h6, p, a, span {
     font-family: proxima_nova_rgregular, sans-serif;
@@ -68,4 +82,8 @@ button, select, option {
 
 select {
     outline: none;
+}
+
+.required-red {
+    color: #bd4646;
 }

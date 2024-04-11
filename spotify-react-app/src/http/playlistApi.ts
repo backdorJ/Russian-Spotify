@@ -68,4 +68,9 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
         playlist.songs[i].nextSong = playlist.songs[i + 1];
 
     return playlist;
+
+
+export const addPlaylist = async (playlistName: string, fileId: string) => {
+    // TODO: make post add playlist
+    // TODO: make two options: with fileId and without it
 }

@@ -27,5 +27,7 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
 
         builder.HasMany(x => x.Files)
             .WithOne(y => y.Song);
+
+        builder.Property(x => x.PlaysNumber).HasDefaultValue(0);
     }
 }

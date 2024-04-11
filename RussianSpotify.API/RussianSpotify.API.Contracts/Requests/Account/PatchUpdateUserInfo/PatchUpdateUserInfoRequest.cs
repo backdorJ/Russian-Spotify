@@ -18,6 +18,7 @@ public class PatchUpdateUserInfoRequest
         NewPassword = request.NewPassword;
         NewPasswordConfirm = request.NewPasswordConfirm;
         CurrentPassword = request.CurrentPassword;
+        FilePhotoId = request.FilePhotoId;
     }
 
     public PatchUpdateUserInfoRequest()
@@ -43,4 +44,9 @@ public class PatchUpdateUserInfoRequest
     /// Подтверждение нового пароля
     /// </summary>
     public string? NewPasswordConfirm { get; set; }
+    
+    /// <summary>
+    /// Id файла фотографии
+    /// </summary>
+    public Guid? FilePhotoId { get; set; }
 }

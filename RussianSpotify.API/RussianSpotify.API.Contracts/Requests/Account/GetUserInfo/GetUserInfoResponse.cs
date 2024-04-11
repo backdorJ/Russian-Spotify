@@ -14,4 +14,9 @@ public class GetUserInfoResponse
     /// Почта
     /// </summary>
     public string Email { get; set; } = default!;
+
+    /// <summary>
+    /// Id фото в профиле юзера
+    /// </summary>
+    public Guid? UserPhotoId { get; set; } = default!;
 }

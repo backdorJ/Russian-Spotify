@@ -48,6 +48,11 @@ public class Playlist
     /// Дата опубликования
     /// </summary>
     public DateTime ReleaseDate { get; set; }
+    
+    /// <summary>
+    /// Количество прослушиваний плейлиста
+    /// </summary>
+    public uint PlaysNumber { get; set; }
 
     /// <summary>
     /// Песни
