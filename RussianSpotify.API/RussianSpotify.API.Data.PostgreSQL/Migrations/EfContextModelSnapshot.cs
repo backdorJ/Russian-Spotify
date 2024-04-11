@@ -275,6 +275,11 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<long>("PlaysNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -348,6 +353,11 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
                     b.Property<Guid?>("ImageId")
                         .HasColumnType("uuid");
+
+                    b.Property<long>("PlaysNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
 
                     b.Property<string>("SongName")
                         .IsRequired()
@@ -456,6 +466,9 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<Guid?>("UserPhotoId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -464,6 +477,8 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("UserPhotoId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -654,6 +669,15 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RussianSpotify.API.Core.Entities.User", b =>
+                {
+                    b.HasOne("RussianSpotify.API.Core.Entities.File", "UserPhoto")
+                        .WithMany()
+                        .HasForeignKey("UserPhotoId");
+
+                    b.Navigation("UserPhoto");
                 });
 
             modelBuilder.Entity("SongUser", b =>

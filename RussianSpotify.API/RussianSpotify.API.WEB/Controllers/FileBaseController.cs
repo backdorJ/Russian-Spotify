@@ -11,25 +11,35 @@ namespace RussianSpotify.API.WEB.Controllers;
 public class FileBaseController : ControllerBase
 {
     private const string DefaultContentDisposition = "attachment";
-    
+
     /// <summary>
     /// Отправить файл на фронт
     /// </summary>
     /// <param name="file">Файл</param>
     /// <param name="headers">Заголовки</param>
     /// <param name="inline">В строку</param>
+    /// <param name="customHeaders">Добавить кастомные заголовки</param>
     /// <returns>Файл</returns>
-    protected static FileStreamResult GetFileStreamResult(
+    protected FileStreamResult GetFileStreamResult(
         BaseFileStreamResponse file,
         IHeaderDictionary headers,
-        bool inline = false)
+        bool inline = false,
+        bool customHeaders = false)
     {
         if (file is null)
             throw new ArgumentNullException(nameof(file));
-
+        
         var cd = new ContentDispositionHeaderValue(inline ? "inline" : DefaultContentDisposition);
         cd.SetHttpFileName(file.FileName);
         headers[HeaderNames.ContentDisposition] = cd.ToString();
+
+        if (customHeaders)
+        {
+            Response.Headers.ContentDisposition = new ContentDispositionHeaderValue(DefaultContentDisposition).ToString();
+            Response.ContentLength = file.Content.Length;
+            Response.Headers.AcceptRanges = "bytes";
+            Response.Headers.CacheControl = "max-age=14400";
+        }
 
         if (file.Content.CanSeek)
             file.Content.Seek(0, SeekOrigin.Begin);

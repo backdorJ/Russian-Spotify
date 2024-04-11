@@ -46,6 +46,11 @@ public class Song
     /// Длительность
     /// </summary>
     public double Duration { get; set; }
+    
+    /// <summary>
+    /// Количество прослушиваний
+    /// </summary>
+    public uint PlaysNumber { get; set; }
 
     /// <summary>
     /// Плейлисты, которым принадлежит песни

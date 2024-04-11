@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RussianSpotify.API.Core.Entities;
-using File = RussianSpotify.API.Core.Entities.File;
 
 namespace RussianSpotift.API.Data.PostgreSQL.Confugurations;
 
@@ -33,5 +32,7 @@ public class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
 
         builder.HasMany(i => i.Users)
             .WithMany(i => i.Playlists);
+        
+        builder.Property(x => x.PlaysNumber).HasDefaultValue(0);
     }
 }
