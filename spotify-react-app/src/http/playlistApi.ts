@@ -34,41 +34,42 @@ export const getFavouritePlaylists: (pageNumber: number, pageSize: number) => Pr
 export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playlist> =
     async (playlistId): Promise<Playlist> => {
 
-    if (playlistId === undefined)
-        return new Playlist();
+        if (playlistId === undefined)
+            return new Playlist();
 
-    const response = await $authHost.get(`api/Song/FavouritePlaylist/${playlistId}`);
+        const response = await $authHost.get(`api/Song/FavouritePlaylist/${playlistId}`);
 
-    if (response.status !== 200 || response.data === undefined)
-        return new Playlist();
+        if (response.status !== 200 || response.data === undefined)
+            return new Playlist();
 
-    var playlist = Playlist.init(
-        playlistId,
-        response.data.playlistName,
-        response.data.imageId,
-        response.data.authorName,
-        response.data.releaseDate,
-        new Array<Song>(),
-        response.data.isAlbum,
-        response.data.songsIds
-    );
+        var playlist = Playlist.init(
+            playlistId,
+            response.data.playlistName,
+            response.data.imageId,
+            response.data.authorName,
+            response.data.releaseDate,
+            new Array<Song>(),
+            response.data.isAlbum,
+            response.data.songsIds
+        );
 
-    const songsIds = response.data.songsIds;
+        const songsIds = response.data.songsIds;
 
-    for (let i = 0; i < songsIds.length; i++){
-        const song = await getSongInfo(songsIds[i]);
+        for (let i = 0; i < songsIds.length; i++) {
+            const song = await getSongInfo(songsIds[i]);
 
-        playlist.songs.push(song);
-    }
+            playlist.songs.push(song);
+        }
 
-    for(let i = 1; i < playlist.songs.length; ++i)
-        playlist.songs[i].prevSong = playlist.songs[i-1];
+        for (let i = 1; i < playlist.songs.length; ++i)
+            playlist.songs[i].prevSong = playlist.songs[i - 1];
 
-    for(let i = 0; i < playlist.songs.length - 1; ++i)
-        playlist.songs[i].nextSong = playlist.songs[i + 1];
+        for (let i = 0; i < playlist.songs.length - 1; ++i)
+            playlist.songs[i].nextSong = playlist.songs[i + 1];
 
-    return playlist;
+        return playlist;
 
+}
 
 export const addPlaylist = async (playlistName: string, fileId: string) => {
     // TODO: make post add playlist
