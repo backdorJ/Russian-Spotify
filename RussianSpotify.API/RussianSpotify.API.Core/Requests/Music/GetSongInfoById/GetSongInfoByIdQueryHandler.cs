@@ -8,6 +8,9 @@ using RussianSpotify.Contracts.Requests.Music.GetSongInfoById;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetSongInfoById;
 
+/// <summary>
+/// Обработчик для <see cref="GetSongInfoByIdQuery"/>
+/// </summary>
 public class GetSongInfoByIdQueryHandler
     : IRequestHandler<GetSongInfoByIdQuery, GetSongInfoByIdResponse>
 {

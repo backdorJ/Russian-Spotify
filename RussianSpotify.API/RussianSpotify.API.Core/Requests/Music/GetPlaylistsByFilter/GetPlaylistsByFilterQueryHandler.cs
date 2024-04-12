@@ -5,6 +5,9 @@ using RussianSpotify.Contracts.Requests.Music.GetPlaylistsByFilter;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistsByFilter;
 
+/// <summary>
+/// Обработчик для <see cref="GetPlaylistsByFilterQuery"/>
+/// </summary>
 public class GetPlaylistsByFilterQueryHandler 
     : IRequestHandler<GetPlaylistsByFilterQuery, List<GetPlaylistsByFilterResponse>>
 {
