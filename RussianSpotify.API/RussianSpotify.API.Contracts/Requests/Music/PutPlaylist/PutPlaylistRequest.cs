@@ -27,7 +27,7 @@ public class PutPlaylistRequest
     /// <summary>
     /// ИД фото
     /// </summary>
-    public Guid? ImageId { get; set; }
+    public Guid? ImageId { get; set; }  
 
     /// <summary>
     /// ИД песней
