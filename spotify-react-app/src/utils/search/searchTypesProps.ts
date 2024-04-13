@@ -2,16 +2,19 @@ export default [
     {
         value: 1,
         title: 'songs',
-        color: '#FFFFFF'
+        color: '#b28a20',
+        highlight: '#eac14e'
     },
     {
         value: 2,
         title: 'playlists',
-        color: '#FFFFFF'
+        color: '#217019',
+        highlight: '#5abb4e'
     },
     {
         value: 3,
         title: 'authors',
-        color: '#FFFFFF'
+        color: '#5d1f85',
+        highlight: '#9e57cb'
     }
 ]

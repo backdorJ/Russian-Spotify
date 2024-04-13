@@ -13,36 +13,42 @@ export default [
     {
         imageUrl: electronica_mix_pic,
         title: 'Electronic Mix',
+        author: 'Irek Karimov',
         description: 'A blend of music for Dan & Hayley, updates everyday',
         playlistId: 1
     },
     {
         imageUrl: blend,
         title: 'Dan & Hayley',
+        author: 'Irek Karimov',
         description: 'A blend of music for Dan & Hayley, updates everyday',
         playlistId: 2
     },
     {
         imageUrl: your_top_songs_pic,
         title: 'Top Songs 2022',
+        author: 'Irek Karimov',
         description: 'A blend of music for Dan & Hayley, updates everyday',
         playlistId: 3
     },
     {
         imageUrl: serotonin_pic,
         title: 'Serotonin',
+        author: 'Irek Karimov',
         description: 'A blend of music for Dan & Hayley, updates everyday',
         playlistId: 4
     },
     {
         imageUrl: discover_weekly_pic,
         title: 'Discover Weekly',
+        author: 'Irek Karimov',
         description: 'A blend of music for Dan & Hayley, updates everyday',
         playlistId: 5
     },
     {
         imageUrl: discover_weekly_pic,
         title: 'Discover Weekly',
+        author: 'Irek Karimov',
         description: 'A blend of music for Dan & Hayley, updates everyday',
         playlistId: 6
     }
