@@ -13,8 +13,7 @@ const SearchPlaylistCard = (props: any) => {
                 <h2>{playlist.title}</h2>
                 <div className="search-playlist__right__bottom">
                     <p className="search-playlist__right__bottom__description">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam amet asperiores
-                        consectetur consequuntur dicta doloremque, earum harum id illum labore laudantium
+                        {playlist.description}
                     </p>
                     <p className="search-playlist__right__bottom__author">
                         By <span>{playlist.author}</span>
