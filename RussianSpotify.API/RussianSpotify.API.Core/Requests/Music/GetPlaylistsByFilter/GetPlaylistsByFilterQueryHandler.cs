@@ -5,7 +5,10 @@ using RussianSpotify.Contracts.Requests.Music.GetPlaylistsByFilter;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistsByFilter;
 
-public class GetPlaylistsByFilterQueryHandler
+/// <summary>
+/// Обработчик для <see cref="GetPlaylistsByFilterQuery"/>
+/// </summary>
+public class GetPlaylistsByFilterQueryHandler 
     : IRequestHandler<GetPlaylistsByFilterQuery, List<GetPlaylistsByFilterResponse>>
 {
     private readonly IDbContext _dbContext;
@@ -16,9 +19,8 @@ public class GetPlaylistsByFilterQueryHandler
         _dbContext = dbContext;
         _filterHandler = filterHandler;
     }
-
-    public async Task<List<GetPlaylistsByFilterResponse>> Handle(GetPlaylistsByFilterQuery request,
-        CancellationToken cancellationToken)
+    
+    public async Task<List<GetPlaylistsByFilterResponse>> Handle(GetPlaylistsByFilterQuery request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));

@@ -26,7 +26,7 @@ public class GetSongsByFilterQueryHandler
         _filterHandler = filterHandler;
         _dbContext = dbContext;
     }
-    
+
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task<GetSongsByFilterResponse> Handle(GetSongsByFilterQuery request,
         CancellationToken cancellationToken)

@@ -8,7 +8,7 @@ namespace RussianSpotify.API.Core.Requests.Music.GetAllFavouriteSongs;
 /// Запрос на получение любимой музыки
 /// </summary>
 public class GetAllFavouriteSongsQuery
-    : GetAllFavouriteSongsRequest, IRequest<List<GetAllFavouriteSongsResponse>>, IPaginationFilter
+    : GetAllFavouriteSongsRequest, IRequest<GetAllFavouriteSongsResponse>, IPaginationFilter
 {
     /// <summary>
     /// Конструтктор

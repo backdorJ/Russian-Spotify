@@ -1,34 +1,25 @@
 namespace RussianSpotify.Contracts.Requests.Music.GetAllFavouriteSongs;
 
+/// <summary>
+/// Ответ на запрос о любимых песнях
+/// </summary>
 public class GetAllFavouriteSongsResponse
 {
-    /// <summary>
-    /// ИД песни
-    /// </summary>
-    public Guid SongId { get; set; }
+    public GetAllFavouriteSongsResponse(
+        List<GetAllFavouriteSongsResponseItem>? entities,
+        int totalCount)
+    {
+        Entities = entities;
+        TotalCount = totalCount;
+    }
     
     /// <summary>
-    /// Название музыки
+    /// Любимые песни
     /// </summary>
-    public string? SongName { get; set; }
+    public List<GetAllFavouriteSongsResponseItem>? Entities { get; set; }
 
     /// <summary>
-    /// ИД картинки
+    /// Общее кол-во
     /// </summary>
-    public Guid? ImageId { get; set; }
-
-    /// <summary>
-    /// Длительность
-    /// </summary>
-    public double Duration { get; set; }
-
-    /// <summary>
-    /// Категория
-    /// </summary>
-    public string? Category { get; set; }
-
-    /// <summary>
-    /// Авторы
-    /// </summary>
-    public List<string?> Authors { get; set; }
+    public int TotalCount { get; set; }
 }

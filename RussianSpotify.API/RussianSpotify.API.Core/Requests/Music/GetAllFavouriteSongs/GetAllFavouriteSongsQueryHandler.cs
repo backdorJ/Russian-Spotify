@@ -12,7 +12,7 @@ namespace RussianSpotify.API.Core.Requests.Music.GetAllFavouriteSongs;
 /// Обработчик для <see cref="GetAllFavouriteSongsQuery"/>
 /// </summary>
 public class GetAllFavouriteSongsQueryHandler
-    : IRequestHandler<GetAllFavouriteSongsQuery, List<GetAllFavouriteSongsResponse>>
+    : IRequestHandler<GetAllFavouriteSongsQuery, GetAllFavouriteSongsResponse>
 {
     private readonly IUserContext _userContext;
     private readonly IDbContext _dbContext;
@@ -29,21 +29,26 @@ public class GetAllFavouriteSongsQueryHandler
         _userContext = userContext;
         _dbContext = dbContext;
     }
-
+    
     /// <inheritdoc />
-    public async Task<List<GetAllFavouriteSongsResponse>> Handle(
+    public async Task<GetAllFavouriteSongsResponse> Handle(
         GetAllFavouriteSongsQuery request,
         CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
-        var songsCurrentUser = _dbContext.Users.AsQueryable();
-
-        return await songsCurrentUser
+        var songsCurrentUser = _dbContext.Users
             .Where(x => x.Id == _userContext.CurrentUserId)
+            .AsQueryable();
+
+        var totalCount = await songsCurrentUser
             .SelectMany(x => x.Bucket!.Songs)
-            .Select(x => new GetAllFavouriteSongsResponse
+            .CountAsync(cancellationToken);
+        
+        var result =  await songsCurrentUser
+            .SelectMany(x => x.Bucket!.Songs)
+            .Select(x => new GetAllFavouriteSongsResponseItem
             {
                 SongId = x.Id,
                 SongName = x.SongName,
@@ -56,5 +61,7 @@ public class GetAllFavouriteSongsQueryHandler
             })
             .SkipTake(request)
             .ToListAsync(cancellationToken);
+
+        return new GetAllFavouriteSongsResponse(result, totalCount);
     }
 }

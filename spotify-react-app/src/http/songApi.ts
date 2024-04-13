@@ -20,7 +20,7 @@ export const getSongs: (pageNumber:number, songCount: number) => Promise<Song[]>
         const songItem = response.data.entities[i];
 
         result[i] = Song.init(songItem.songId, songItem.songName, songItem.imageId,
-            songItem.duration, songItem.category, songItem.authors, null, null);
+            songItem.duration, songItem.category, songItem.authors, null, null, null);
     }
 
     for(let i = 1; i < response.data.totalCount; ++i)
@@ -53,3 +53,62 @@ export const getSong: (song: Song, user: User) => Player
 
     return Player.init(song, `${process.env.REACT_APP_SPOTIFY_API}api/Song/${song.songId}`);
 }
+
+/** Возвращает любимые песни
+ * @param pageNumber - номер страницы
+ * @param pageSize - кол-во на странице
+ * */
+export const getFavouriteSongs: (pageNumber: number, pageSize: number) => Promise<Song[]> =
+    async (pageNumber, pageSize): Promise<Song[]> => {
+
+    const response = await $authHost.get(`api/Song/FavouriteSongs?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+
+    if (response.status !== 200 || response.data === undefined)
+        return new Array<Song>();
+
+    let result: Song[] = [];
+
+    for (let i = 0; i < response.data.entities.length; i++){
+        const song = response.data.entities[i];
+
+        result[i] = Song.init(
+            song.songId,
+            song.songName,
+            song.imageId,
+            song.duration,
+            song.category,
+            song.authors,
+            null,
+            null,
+            null)
+    }
+
+    for(let i = 1; i < response.data.entities.length; ++i)
+        result[i].prevSong = result[i-1];
+
+    for(let i = 0; i < response.data.entities.length - 1; ++i)
+        result[i].nextSong = result[i + 1];
+
+    return result;
+    }
+
+    export const getSongInfo: (songId: string) => Promise<Song> =
+        async (songId) : Promise<Song> => {
+
+        const response = await $authHost.get(`api/Song/SongInfo/${songId}`);
+
+        if (response.status !== 200 || response === undefined)
+            return new Song();
+
+        return Song.init(
+            response.data.id,
+            response.data.songName,
+            response.data.imageId,
+            response.data.duration,
+            response.data.category,
+            response.data.authors,
+            null,
+            null,
+            response.data.isHave,
+        );
+    }
