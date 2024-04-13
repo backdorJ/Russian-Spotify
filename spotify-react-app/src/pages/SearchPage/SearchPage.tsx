@@ -15,6 +15,7 @@ import SearchAuthorCard from "./components/SearchAuthorCard";
 
 const SearchPage = () => {
     const [search, setSearch] = useState('')
+    const [isSearched, setIsSearched] = useState(false)
     const [searchType, setSearchType] = useState(1)
     const [songs, setSongs] = useState(new Array<SongModel>())
     const [playlists, setPlaylists] = useState(new Array<any>())
@@ -26,16 +27,19 @@ const SearchPage = () => {
             setPlaylists([])
             getSongs(1, 10)
                 .then(response => setSongs(prev => [...response]))
+                .then(() => setIsSearched(true))
         }
         if (searchType === 2) {
             setSongs([])
             setAuthors([])
             setPlaylists(playlistsNormal)
+            setIsSearched(true)
         }
         if (searchType === 3) {
             setSongs([])
             setPlaylists([])
             setAuthors(discoveryCards)
+            setIsSearched(true)
         }
     }
 
@@ -58,6 +62,7 @@ const SearchPage = () => {
                     <div className="search__header__field__right">
                         <div
                             onClick={handleSearch}
+                            style={{backgroundColor: isSearched ? '#595959' : '#2c2c2c'}}
                             className="search__header__field__right__submit">
                             <p>Search</p>
                         </div>
@@ -71,7 +76,10 @@ const SearchPage = () => {
                                 color={i.color}
                                 highlight={i.highlight}
                                 isSelected={i.value == searchType}
-                                onClick={() => setSearchType(i.value)}/>
+                                onClick={() => {
+                                    setSearchType(i.value)
+                                    setIsSearched(false)
+                                }}/>
                         ))
                     }
                 </div>
