@@ -10,11 +10,23 @@ namespace RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 /// <summary>
 /// Обработчик для <see cref="GetSongsByFilterQuery"/>
 /// </summary>
-/// <param name="dbContext">Контекст БД</param>
-/// <param name="filterHandler">Фильтр хэндлер</param>
-public class GetSongsByFilterQueryHandler(IDbContext dbContext, IFilterHandler filterHandler)
+public class GetSongsByFilterQueryHandler
     : IRequestHandler<GetSongsByFilterQuery, GetSongsByFilterResponse>
 {
+    private readonly IDbContext _dbContext;
+    private readonly IFilterHandler _filterHandler;
+
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="filterHandler">Фильтр хэндлер</param>
+    /// <param name="dbContext">Контекст БД</param>
+    public GetSongsByFilterQueryHandler(IFilterHandler filterHandler, IDbContext dbContext)
+    {
+        _filterHandler = filterHandler;
+        _dbContext = dbContext;
+    }
+    
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task<GetSongsByFilterResponse> Handle(GetSongsByFilterQuery request,
         CancellationToken cancellationToken)
@@ -22,10 +34,10 @@ public class GetSongsByFilterQueryHandler(IDbContext dbContext, IFilterHandler f
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
-        var query = dbContext.Songs.AsQueryable();
+        var query = _dbContext.Songs.AsQueryable();
 
         var filteredSongs =
-            await filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
+            await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
         
         var totalCount = await filteredSongs.CountAsync(cancellationToken);
 

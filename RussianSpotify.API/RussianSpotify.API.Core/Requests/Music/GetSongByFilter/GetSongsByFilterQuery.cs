@@ -8,5 +8,15 @@ namespace RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 /// Запрос на получение песен по фильтру
 /// </summary>
 /// <param name="request">GetSongsByFilterRequest реквест, который приходит с фронта</param>
-public class GetSongsByFilterQuery(GetSongsByFilterRequest request) 
-    : GetSongsByFilterRequest(request), IRequest<GetSongsByFilterResponse>, IPaginationFilter;
+public class GetSongsByFilterQuery
+    : GetSongsByFilterRequest, IRequest<GetSongsByFilterResponse>, IPaginationFilter
+{
+    ///<summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="request">GetSongsByFilterRequest реквест, который приходит с фронта</param>
+    public GetSongsByFilterQuery(GetSongsByFilterRequest request)
+        : base(request)
+    {
+    }
+}

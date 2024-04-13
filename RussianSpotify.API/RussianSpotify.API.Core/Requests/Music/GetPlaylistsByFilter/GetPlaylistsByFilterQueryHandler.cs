@@ -5,19 +5,29 @@ using RussianSpotify.Contracts.Requests.Music.GetPlaylistsByFilter;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistsByFilter;
 
-public class GetPlaylistsByFilterQueryHandler(IDbContext dbContext, IFilterHandler filterHandler) 
+public class GetPlaylistsByFilterQueryHandler
     : IRequestHandler<GetPlaylistsByFilterQuery, List<GetPlaylistsByFilterResponse>>
 {
-    public async Task<List<GetPlaylistsByFilterResponse>> Handle(GetPlaylistsByFilterQuery request, CancellationToken cancellationToken)
+    private readonly IDbContext _dbContext;
+    private readonly IFilterHandler _filterHandler;
+
+    public GetPlaylistsByFilterQueryHandler(IDbContext dbContext, IFilterHandler filterHandler)
+    {
+        _dbContext = dbContext;
+        _filterHandler = filterHandler;
+    }
+
+    public async Task<List<GetPlaylistsByFilterResponse>> Handle(GetPlaylistsByFilterQuery request,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
-        var query = dbContext.Playlists.AsQueryable();
+        var query = _dbContext.Playlists.AsQueryable();
 
         var filteredPlaylists =
-            await filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
-        
+            await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
+
         return await filteredPlaylists
             .Select(x => new GetPlaylistsByFilterResponse
             {
