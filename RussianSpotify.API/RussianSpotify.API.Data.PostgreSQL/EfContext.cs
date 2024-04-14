@@ -77,6 +77,7 @@ public class EfContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
+        optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.UseNpgsql();
     }
 }

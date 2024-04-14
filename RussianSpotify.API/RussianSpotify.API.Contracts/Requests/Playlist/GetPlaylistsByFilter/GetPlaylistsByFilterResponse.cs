@@ -1,24 +1,11 @@
-﻿namespace RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
+﻿using RussianSpotify.Contracts.Requests.Playlist.GetAllFavouriteAlbumAndPlaylist;
 
-public class GetPlaylistsByFilterResponse
+namespace RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
+
+public class GetPlaylistsByFilterResponse : GetAllFavouriteAlbumAndPlaylistResponse
 {
-    /// <summary>
-    /// Название альбома
-    /// </summary>
-    public string PlaylistName { get; set; } = default!;
-
-    /// <summary>
-    /// ИД картинки
-    /// </summary>
-    public Guid? ImageId { get; set; }
-
-    /// <summary>
-    /// Автор
-    /// </summary>
-    public string? AuthorName { get; set; }
-
-    /// <summary>
-    /// Дата релиза
-    /// </summary>
-    public DateTime ReleaseDate { get; set; }
+    public GetPlaylistsByFilterResponse(List<GetAllFavouriteAlbumAndPlaylistResponseItem> entities, int totalCount)
+        : base(entities, totalCount)
+    {
+    }
 }

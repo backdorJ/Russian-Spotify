@@ -11,6 +11,7 @@ import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import SearchPlaylistCard from "./components/SearchPlaylistCard";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import SearchAuthorCard from "./components/SearchAuthorCard";
+import {getFavouritePlaylists, getPlaylistsByNameFilter} from "../../http/playlistApi";
 
 
 const SearchPage = () => {
@@ -32,7 +33,8 @@ const SearchPage = () => {
         if (searchType === 2) {
             setSongs([])
             setAuthors([])
-            setPlaylists(playlistsNormal)
+            getPlaylistsByNameFilter(search, 1, 10)
+                .then(response => setPlaylists(prev => [...response]))
             setIsSearched(true)
         }
         if (searchType === 3) {

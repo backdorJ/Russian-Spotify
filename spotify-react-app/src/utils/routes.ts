@@ -35,7 +35,7 @@ export const authRoutes = [
         Component: SettingsPage
     },
     {
-        path: routeNames.PLAYLIST_PAGE,
+        path: routeNames.PLAYLIST_PAGE_ROUTE,
         Component: PlaylistPage
     },
     {

@@ -42,7 +42,7 @@ export const getSongs: (pageNumber: number, songCount: number) => Promise<Song[]
  * @param song - песня, которая будет сейчас играть
  * @param user - для проверки наличия актуальной подписки
  * */
-export const getSong: (song: Song, user: User) => Player
+export const    getSong: (song: Song, user: User) => Player
     = (song, user) => {
     if (!user.isSubscribed)
         return new Player();
@@ -122,7 +122,7 @@ export const getSongsByNameFilter = async (filter: string, pageNumber: number, p
             pageSize: pageSize.toString()
         }))
 
-    return response.data.entities.map((i: {
+    let songs = response.data.entities.map((i: {
         songId: string;
         songName: string;
         imageId: string;
@@ -140,4 +140,15 @@ export const getSongsByNameFilter = async (filter: string, pageNumber: number, p
         null,
         null,
         i.isHave))
+
+    for (let i = 1; i < songs.length; ++i)
+        songs[i].prevSong = songs[i - 1];
+
+    for (let i = 0; i < songs.length - 1; ++i)
+        songs[i].nextSong = songs[i + 1];
+
+    if (songs.length > 1)
+        songs[songs.length - 1].nextSong = songs[0]
+
+    return songs
 }

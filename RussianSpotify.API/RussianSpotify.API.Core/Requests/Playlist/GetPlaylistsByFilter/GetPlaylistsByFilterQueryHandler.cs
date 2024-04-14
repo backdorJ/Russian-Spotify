@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
+using RussianSpotify.Contracts.Requests.Playlist.GetAllFavouriteAlbumAndPlaylist;
 using RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 
 namespace RussianSpotify.API.Core.Requests.Playlist.GetPlaylistsByFilter;
@@ -9,7 +10,7 @@ namespace RussianSpotify.API.Core.Requests.Playlist.GetPlaylistsByFilter;
 /// Обработчик для <see cref="GetPlaylistsByFilterQuery"/>
 /// </summary>
 public class GetPlaylistsByFilterQueryHandler 
-    : IRequestHandler<GetPlaylistsByFilterQuery, List<GetPlaylistsByFilterResponse>>
+    : IRequestHandler<GetPlaylistsByFilterQuery, GetPlaylistsByFilterResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IFilterHandler _filterHandler;
@@ -20,7 +21,7 @@ public class GetPlaylistsByFilterQueryHandler
         _filterHandler = filterHandler;
     }
     
-    public async Task<List<GetPlaylistsByFilterResponse>> Handle(GetPlaylistsByFilterQuery request, CancellationToken cancellationToken)
+    public async Task<GetPlaylistsByFilterResponse> Handle(GetPlaylistsByFilterQuery request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -30,14 +31,20 @@ public class GetPlaylistsByFilterQueryHandler
         var filteredPlaylists =
             await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
 
-        return await filteredPlaylists
-            .Select(x => new GetPlaylistsByFilterResponse
+        var totalCount = await filteredPlaylists.CountAsync(cancellationToken: cancellationToken);
+        
+        var resultPlaylists = await filteredPlaylists
+            .Select(x => new GetAllFavouriteAlbumAndPlaylistResponseItem()
             {
+                Id = x.Id,
                 PlaylistName = x.PlaylistName,
                 ImageId = x.ImageId,
                 AuthorName = x.Author!.UserName,
-                ReleaseDate = x.ReleaseDate
+                ReleaseDate = x.ReleaseDate,
+                IsAlbum = x.IsAlbum
             })
             .ToListAsync(cancellationToken);
+
+        return new GetPlaylistsByFilterResponse(resultPlaylists, totalCount);
     }
 }

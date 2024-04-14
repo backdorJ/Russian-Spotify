@@ -36,4 +36,6 @@ public class AuthorController : ControllerBase
         var query = new GetAuthorQuery(request);
         return await _mediator.Send(query, cancellationToken);
     }
+    
+    public async Task<GetAuthorResponse> GetAllAuthorsByFilter([FromQuery] )
 }

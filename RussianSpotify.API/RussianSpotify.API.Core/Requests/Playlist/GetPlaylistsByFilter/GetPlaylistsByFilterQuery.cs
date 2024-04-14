@@ -7,7 +7,7 @@ namespace RussianSpotify.API.Core.Requests.Playlist.GetPlaylistsByFilter;
 /// Запрос на получение плейлистов по фильтру
 /// </summary>
 public class GetPlaylistsByFilterQuery
-    : GetPlaylistsByFilterRequest, IRequest<List<GetPlaylistsByFilterResponse>>
+    : GetPlaylistsByFilterRequest, IRequest<GetPlaylistsByFilterResponse>
 {
     public GetPlaylistsByFilterQuery(GetPlaylistsByFilterRequest request)
         : base(request)

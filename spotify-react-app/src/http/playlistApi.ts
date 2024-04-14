@@ -1,35 +1,35 @@
 import Playlist from "../models/Playlist";
 import {$authHost} from "./index";
 import Song from "../models/Song";
-import {getSong, getSongInfo} from "./songApi";
+import {getSongInfo} from "./songApi";
 
 // Получить любимые плейлисты/альбомы
 export const getFavouritePlaylists: (pageNumber: number, pageSize: number) => Promise<Playlist[]> =
     async (pageNumber, pageSize): Promise<Playlist[]> => {
 
-    const response = await $authHost.get(`api/Playlist/AllFavouritePlaylists?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+        const response = await $authHost.get(`api/Playlist/AllFavouritePlaylists?pageNumber=${pageNumber}&pageSize=${pageSize}`);
 
-    if (response.status !== 200 || response.data === undefined)
-        return new Array<Playlist>();
+        if (response.status !== 200 || response.data === undefined)
+            return new Array<Playlist>();
 
-    let result: Array<Playlist> = [];
+        let result: Array<Playlist> = [];
 
-    for (let i = 0; i < response.data.entities.length; i++){
-        const playlist = response.data.entities[i];
+        for (let i = 0; i < response.data.entities.length; i++) {
+            const playlist = response.data.entities[i];
 
-        result[i] = Playlist.init(
-            playlist.id,
-            playlist.playlistName,
-            playlist.imageId,
-            playlist.authorName,
-            playlist.releaseDate,
-            new Array<Song>(),
-            playlist.isAlbum,
-            null);
+            result[i] = Playlist.init(
+                playlist.id,
+                playlist.playlistName,
+                playlist.imageId,
+                playlist.authorName,
+                playlist.releaseDate,
+                new Array<Song>(),
+                playlist.isAlbum,
+                null);
+        }
+
+        return result;
     }
-
-    return result;
-}
 
 export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playlist> =
     async (playlistId): Promise<Playlist> => {
@@ -42,7 +42,7 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
         if (response.status !== 200 || response.data === undefined)
             return new Playlist();
 
-        var playlist = Playlist.init(
+        let playlist = Playlist.init(
             playlistId,
             response.data.playlistName,
             response.data.imageId,
@@ -68,6 +68,34 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
             playlist.songs[i].nextSong = playlist.songs[i + 1];
 
         return playlist;
+    }
+
+export const getPlaylistsByNameFilter = async (filter: string, pageNumber: number, pageSize: number) => {
+    const response = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
+        new URLSearchParams({
+            filterName: 'PlaylistName',
+            filterValue: filter,
+            pageNumber: pageNumber.toString(),
+            pageSize: pageSize.toString()
+        }))
+
+    return response.data.entities.map((i: {
+        id: string;
+        playlistName: string;
+        imageId: string;
+        authorName: string;
+        releaseDate: Date;
+        isAlbum: boolean;
+    }) => Playlist.init(
+        i.id,
+        i.playlistName,
+        i.imageId,
+        i.authorName,
+        i.releaseDate,
+        new Array<Song>(),
+        i.isAlbum,
+        new Array<string>()
+    ))
 }
 
 export const addPlaylist = async (playlistName: string, fileId: string) => {

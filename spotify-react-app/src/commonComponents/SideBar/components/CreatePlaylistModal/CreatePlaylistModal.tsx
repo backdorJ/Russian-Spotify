@@ -32,7 +32,7 @@ const CreatePlaylistModal = (props: any) => {
                 alert(`Playlist ${createPlaylistDto.name} was successfully created!`)
                 onHide()
                 reset()
-                navigate(routeNames.PLAYLIST_PAGE)
+                navigate(routeNames.PLAYLIST_PAGE_ROUTE)
             })
     }
 

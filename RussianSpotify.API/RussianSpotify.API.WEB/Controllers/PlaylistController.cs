@@ -42,7 +42,7 @@ public class PlaylistController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<List<GetPlaylistsByFilterResponse>> GetPlaylistsByFilter(
+    public async Task<GetPlaylistsByFilterResponse> GetPlaylistsByFilter(
         [FromQuery] GetPlaylistsByFilterRequest request,
         CancellationToken cancellationToken)
     {
