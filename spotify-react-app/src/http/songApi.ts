@@ -10,7 +10,7 @@ import User from "../models/User";
 export const getSongs: (pageNumber:number, songCount: number) => Promise<Song[]> =
     async (pageNumber, songCount): Promise<Song[]> => {
     const response =
-        await $authHost.get(`api/Song?pageNumber=${pageNumber}&pageSize=${songCount}`);
+        await $authHost.get(`api/Song?pageNumber=${pageNumber}&pageSize=${songCount}&isFavourite=false`);
 
     if(response.status !== 200 || response.data === undefined)
         return new Array<Song>();
@@ -61,7 +61,7 @@ export const getSong: (song: Song, user: User) => Player
 export const getFavouriteSongs: (pageNumber: number, pageSize: number) => Promise<Song[]> =
     async (pageNumber, pageSize): Promise<Song[]> => {
 
-    const response = await $authHost.get(`api/Song/FavouriteSongs?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+    const response = await $authHost.get(`api/Song?pageNumber=${pageNumber}&pageSize=${pageSize}&isFavourite=true`);
 
     if (response.status !== 200 || response.data === undefined)
         return new Array<Song>();

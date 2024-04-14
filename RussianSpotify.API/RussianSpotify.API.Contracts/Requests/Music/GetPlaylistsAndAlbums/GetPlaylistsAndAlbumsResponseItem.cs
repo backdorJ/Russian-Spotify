@@ -1,9 +1,9 @@
-namespace RussianSpotify.Contracts.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
+namespace RussianSpotify.Contracts.Requests.Music.GetPlaylistsAndAlbums;
 
 /// <summary>
-/// Элемент списка для <see cref="GetAllFavouriteAlbumAndPlaylistResponse"/>
+/// Элемент списка для <see cref="GetPlaylistsAndAlbumsResponse"/>
 /// </summary>
-public class GetAllFavouriteAlbumAndPlaylistResponseItem
+public class GetPlaylistsAndAlbumsResponseItem
 {
     /// <summary>
     /// ИД плейлиста/альбома
