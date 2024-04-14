@@ -1,0 +1,42 @@
+.email-confirmation-page {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.email-confirmation-page-container {
+    margin: 100px auto;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.email-confirmation-page h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.email-confirmation-page p {
+    font-size: 14px;
+    color: #555;
+}
+
+.email-confirmation-page input[type="text"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.confirm-button {
+    width: 75%;
+}
+
+.input-form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

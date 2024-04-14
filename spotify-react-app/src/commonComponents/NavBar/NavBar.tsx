@@ -18,8 +18,6 @@ export default function NavBar(props: any) {
     const [isOpen, setIsOpen] = useState(false)
     const navigate = useNavigate()
     let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
-    console.log(userStore.user._subEndDate)
-    console.log(userStore.user.isSubscribed)
 
     let subscribedStyles = {
         border: "2px solid mediumpurple",

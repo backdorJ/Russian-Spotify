@@ -4,5 +4,6 @@ export default {
     SETTINGS_PAGE: '/settings',
     LOGIN_PAGE: '/login',
     REGISTRATION_PAGE: '/register',
+    EMAIL_CONFIRMATION_PAGE: '/email-confirmation',
     PLAYLIST_PAGE: '/playlist'
 }

@@ -5,6 +5,7 @@ import registerPage from "../pages/RegisterPage/RegisterPage";
 import loginPage from "../pages/LoginPage/LoginPage";
 import AccountPage from "../pages/AccountPage/AccountPage";
 import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
+import EmailConfirmationPage from "../pages/EmailConfirmationPage/EmailConfirmationPage";
 
 export const routes = [
 ]
@@ -17,6 +18,10 @@ export const notAuthRoutes = [
     {
         path: routeNames.LOGIN_PAGE,
         Component: loginPage
+    },
+    {
+        path: routeNames.EMAIL_CONFIRMATION_PAGE,
+        Component: EmailConfirmationPage
     }
 ]
 
