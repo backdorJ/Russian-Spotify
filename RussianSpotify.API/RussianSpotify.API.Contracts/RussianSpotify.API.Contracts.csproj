@@ -12,16 +12,6 @@
         <HintPath>..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.13\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
       </Reference>
 
-
-
-
-
-
-
-    <ItemGroup>
-      <Folder Include="Requests\Playlist\" />
-    </ItemGroup>
-
     </ItemGroup>
 
 

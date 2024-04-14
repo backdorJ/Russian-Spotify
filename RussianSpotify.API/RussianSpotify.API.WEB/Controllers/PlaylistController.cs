@@ -17,6 +17,7 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// <summary>
 /// Контроллер, отвечающий за работу с плейлистами
 /// </summary>
+[Route("api/[controller]")]
 public class PlaylistController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -31,7 +32,7 @@ public class PlaylistController : ControllerBase
     }
     
     /// <summary>
-    /// Получить альбомы по фильтру(Доступные фильтры: AuthorPlaylists)
+    /// Получить альбомы по фильтру(Доступные фильтры: AuthorPlaylists, PlaylistName)
     /// </summary>
     /// <param name="request">GetPlaylistsByFilterRequest(Название фильтра,
     /// значение фильтра, страница, кол-во альбомов на странице)</param>
