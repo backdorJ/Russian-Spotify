@@ -29,7 +29,7 @@ public class GetPlaylistsByFilterQueryHandler
 
         var filteredPlaylists =
             await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
-        
+
         return await filteredPlaylists
             .Select(x => new GetPlaylistsByFilterResponse
             {

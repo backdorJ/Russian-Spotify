@@ -15,7 +15,7 @@ export default [
     {
         icon: search_icon,
         title: 'search',
-        navigateTo: routeNames.HOME_PAGE
+        navigateTo: routeNames.SEARCH_PAGE
     },
     {
         icon: library_icon,

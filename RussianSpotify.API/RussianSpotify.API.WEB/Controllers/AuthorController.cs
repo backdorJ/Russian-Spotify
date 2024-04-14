@@ -9,7 +9,6 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// <summary>
 /// Контроллер, отвечающий за действия связанные с авторами
 /// </summary>
-/// <param name="mediator"></param>
 [ApiController]
 [Route("api/[controller]")]
 public class AuthorController : ControllerBase

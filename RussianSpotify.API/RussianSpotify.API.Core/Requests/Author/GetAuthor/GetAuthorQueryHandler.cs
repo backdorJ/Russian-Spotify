@@ -21,7 +21,7 @@ public class GetAuthorQueryHandler
         _dbContext = dbContext;
         _roleManager = roleManager;
     }
-    
+
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task<GetAuthorResponse> Handle(GetAuthorQuery request, CancellationToken cancellationToken)
     {

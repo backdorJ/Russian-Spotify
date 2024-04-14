@@ -12,6 +12,5 @@ public class GetPlaylistsByFilterQuery
     public GetPlaylistsByFilterQuery(GetPlaylistsByFilterRequest request)
         : base(request)
     {
-        
     }
 }
