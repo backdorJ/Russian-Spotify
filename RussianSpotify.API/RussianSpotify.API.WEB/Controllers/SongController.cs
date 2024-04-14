@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
-using RussianSpotify.API.Core.Requests.Music.GetPlaylistsByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.GetSongInfoById;
@@ -19,7 +18,6 @@ using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.EditSong;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
 using RussianSpotify.Contracts.Requests.Music.GetSongInfoById;
-using RussianSpotify.Contracts.Requests.Music.GetPlaylistsByFilter;
 using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -79,25 +77,6 @@ public class SongController : FileBaseController
         CancellationToken cancellationToken)
     {
         var query = new GetSongsByFilterQuery(request);
-        return await _mediator.Send(query, cancellationToken);
-    }
-
-    /// <summary>
-    /// Получить альбомы по фильтру(Доступные фильтры: AuthorPlaylists)
-    /// </summary>
-    /// <param name="request">GetPlaylistsByFilterRequest(Название фильтра,
-    /// значение фильтра, страница, кол-во альбомов на странице)</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Список GetPlaylistsByFilterResponse альбомы по фильтру</returns>
-    [HttpGet("GetPlaylistsByFilter")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<List<GetPlaylistsByFilterResponse>> GetPlaylistsByFilter(
-        [FromQuery] GetPlaylistsByFilterRequest request,
-        CancellationToken cancellationToken)
-    {
-        var query = new GetPlaylistsByFilterQuery(request);
         return await _mediator.Send(query, cancellationToken);
     }
     
