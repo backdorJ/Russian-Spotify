@@ -11,26 +11,51 @@ export default [
     {
         imageUrl: bon_iver_pic,
         name: 'Bon Iver',
-        artistId: 1
+        artistId: 1,
+        playlists: [
+            'Hello World!',
+            'C# is the best language',
+        ],
+        playlistCount: 5
     },
     {
         imageUrl: sza_pic,
         name: 'SZA',
-        artistId: 2
+        artistId: 2,
+        playlists: [
+            'Wild Cards',
+            'Beautiful Sea',
+        ],
+        playlistCount: 5
     },
     {
         imageUrl: pheobe_pic,
         name: 'Pheobe Bridgers',
-        artistId: 3
+        artistId: 3,
+        playlists: [
+            'Meeting each other',
+            'PUBG Highlights',
+        ],
+        playlistCount: 3
     },
     {
         imageUrl: peggy_pic,
         name: 'Peggy Gou',
-        artistId: 4
+        artistId: 4,
+        playlists: [
+            'Hello World!',
+            'C# is the best language',
+        ],
+        playlistCount: 5
     },
     {
         imageUrl: peggy_pic,
         name: 'Peggy Gou',
-        artistId: 5
+        artistId: 5,
+        playlists: [
+            'Hello World!',
+            'C# is the best language',
+        ],
+        playlistCount: 5
     }
 ]

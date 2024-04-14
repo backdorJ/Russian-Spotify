@@ -9,9 +9,12 @@ import PlaylistNormal from "../HomePage/components/PlaylistNormal";
 import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import {UserContext} from "../../index";
 import Song from "../../models/Song";
-import {getSongs} from "../../http/songApi";
+import {getFavouriteSongs} from "../../http/songApi";
 import FavoriteMusic from "./components/FavoriteMusic";
-
+import Playlist from "../../models/Playlist";
+import {getFavouritePlaylists} from "../../http/playlistApi";
+import FavouritePlaylist from "./components/FavouritePlaylist";
+        
 const AccountPage = () => {
     const userStore = useContext(UserContext)
     const navigate = useNavigate()
@@ -21,19 +24,21 @@ const AccountPage = () => {
     const endsubdate = userStore.user._subEndDate.getDate()
     const endsubmonth = userStore.user._subEndDate.getMonth()
     const endsubyear = userStore.user._subEndDate.getFullYear()
-
+    const formattedDate = `${endsubdate.toString().padStart(2, '0')}:${endsubmonth.toString().padStart(2, '0')}:${endsubyear.toString().padStart(4, '0')}`;
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState(new Array<Song>());
+    const [favouritePlaylists, setFavouritePlaylists] = useState(new Array<Playlist>())
 
     // Получение списка любимых песен
     useEffect(() => {
-        getSongs(1, 5)
-            .then(x => setFavoriteSongs(x));
+        getFavouriteSongs(1, 5)
+            .then(r => setFavoriteSongs(r))
+
+        getFavouritePlaylists(1, 5)
+            .then(p => setFavouritePlaylists(p))
     }, []);
 
     const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
-
-    const visiblePlaylistsNormal = playlistsNormalLoaded.slice(currentStartPlaylistIndex, currentStartPlaylistIndex + 3);
 
     const [currentStartDiscoveryIndex, setCurrentStartDiscoveryIndex] = useState(0);
 
@@ -73,7 +78,7 @@ const AccountPage = () => {
                             <div className="subscription-info">
                                 {userStore.user.isSubscribed ? (
                                     <div className="subscribed">
-                                        <p>{`${endsubdate}.${endsubmonth}.${endsubyear}`}</p>
+                                        <p>Дата окончания подписки: {formattedDate}</p>
                                     </div>
                                 ) : (
                                     <div className="not-subscribed">
@@ -89,30 +94,7 @@ const AccountPage = () => {
                         </div>
                     </div>
                     <div className="favorite-container">
-                        <FavoriteMusic favoriteSongs={favoriteSongs}/>
-                        <h3>Любимые альбомы & плейлисты</h3>
-                        <div className="cards-container">
-                            <button className="arrow-button arrow-button-left"
-                                    onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, -3, playlistsNormalLoaded)}
-                                    disabled={!canScroll(currentStartPlaylistIndex, -3, playlistsNormalLoaded)}>&lt;</button>
-                            <div className="home-page__latest-albums__cards ">
-                                {
-                                    visiblePlaylistsNormal.map(i => (
-                                        <div className="card">
-                                            <PlaylistNormal
-                                                imageUrl={i.imageUrl}
-                                                title={i.title}
-                                                description={i.description}
-                                                playlistId={i.playlistId}
-                                                key={i.playlistId}/>
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                            <button className="arrow-button arrow-button-right"
-                                    onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, 3, playlistsNormalLoaded)}
-                                    disabled={!canScroll(currentStartPlaylistIndex, 3, playlistsNormalLoaded)}>&gt;</button>
-                        </div>
+                        <FavouritePlaylist favouritePlaylists={favouritePlaylists} />
                         <h3>Любимые исполнители</h3>
                         <div className="cards-container">
                             <button className="arrow-button arrow-button-left"
@@ -135,6 +117,7 @@ const AccountPage = () => {
                                     onClick={() => scroll(setCurrentStartDiscoveryIndex, currentStartDiscoveryIndex, 3, discoveryCardsLoaded)}
                                     disabled={!canScroll(currentStartDiscoveryIndex, 3, discoveryCardsLoaded)}>&gt;</button>
                         </div>
+                        <FavoriteMusic favoriteSongs={favoriteSongs}/>
                     </div>
                 </div>
             </div>

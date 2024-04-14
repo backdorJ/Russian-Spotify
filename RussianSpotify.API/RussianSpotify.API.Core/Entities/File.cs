@@ -20,6 +20,11 @@ public class File
     public File()
     {
     }
+
+    public void SetSong(Song song)
+    {
+        Song = song;
+    }
     
     /// <summary>
     /// Ид файла
@@ -49,10 +54,10 @@ public class File
     /// <summary>
     /// Песня
     /// </summary>
-    public Song? Song { get; protected set; }
+    public Song? Song { get; set; }
 
     /// <summary>
-    /// Альбом
+    /// Плейлист
     /// </summary>
-    public Album? Album { get; set; }
+    public Playlist? Playlist { get; set; }
 }

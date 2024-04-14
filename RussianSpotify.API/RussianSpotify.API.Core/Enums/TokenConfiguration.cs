@@ -13,5 +13,5 @@ public static class TokenConfiguration
     /// <summary>
     /// Время жизни JWT в минутах
     /// </summary>
-    public const int AccessTokenExpiryMinutes = 60;
+    public const int AccessTokenExpiryMinutes = 300;
 }
