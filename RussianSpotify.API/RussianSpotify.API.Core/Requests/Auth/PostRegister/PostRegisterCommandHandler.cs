@@ -4,6 +4,7 @@ using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
+using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
 using RussianSpotify.API.Core.Exceptions.AuthExceptions;
 using RussianSpotify.API.Core.Extensions;
@@ -15,15 +16,23 @@ namespace RussianSpotify.API.Core.Requests.Auth.PostRegister;
 /// <summary>
 /// Обработчик для <see cref="PostRegisterCommand"/>
 /// </summary>
-public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, PostRegisterResponse>
+public class PostRegisterCommandHandler
+    : IRequestHandler<PostRegisterCommand, PostRegisterResponse>
 {
     private readonly UserManager<User> _userManager;
-
     private readonly IEmailSender _emailSender;
-    
-    public PostRegisterCommandHandler(UserManager<User> userManager, IEmailSender emailSender)
-        => (_userManager, _emailSender) = (userManager, emailSender);
+    private readonly IRoleManager _roleManager;
 
+    public PostRegisterCommandHandler(
+        UserManager<User> _userManager,
+        IEmailSender _emailSender,
+        IRoleManager _roleManager)
+    {
+        _userManager = _userManager;
+        _emailSender = _emailSender;
+        _roleManager = _roleManager;
+    }
+    
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task<PostRegisterResponse> Handle(PostRegisterCommand request, CancellationToken cancellationToken)
     {
@@ -34,6 +43,13 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, P
 
         if (user is not null)
             throw new EmailAlreadyRegisteredException(AuthErrorMessages.UserWithSameEmail);
+
+        if (request.Role == BaseRoles.AuthorRoleName)
+        {
+            var authorWithSameName = await _userManager.FindByNameAsync(request.UserName);
+            if (authorWithSameName is not null && _roleManager.IsInRole(authorWithSameName, BaseRoles.AuthorRoleName))
+                throw new BadRequestException($"Автор с именем: {request.UserName} уже существует");
+        }
 
         user = new User
         {

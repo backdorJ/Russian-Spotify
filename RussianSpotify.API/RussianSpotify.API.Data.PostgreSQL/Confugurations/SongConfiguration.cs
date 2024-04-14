@@ -18,10 +18,8 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
             .IsRequired();
 
         builder
-            .HasOne(x => x.Album)
-            .WithMany(y => y.Songs)
-            .HasForeignKey(x => x.AlbumId)
-            .HasPrincipalKey(y => y.Id);
+            .HasMany(x => x.Playlists)
+            .WithMany(y => y.Songs);
 
         builder
             .HasMany(x => x.Authors)
@@ -29,5 +27,7 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
 
         builder.HasMany(x => x.Files)
             .WithOne(y => y.Song);
+
+        builder.Property(x => x.PlaysNumber).HasDefaultValue(0);
     }
 }

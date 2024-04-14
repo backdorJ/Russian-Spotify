@@ -6,6 +6,7 @@ import loginPage from "../pages/LoginPage/LoginPage";
 import AccountPage from "../pages/AccountPage/AccountPage";
 import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
 import EmailConfirmationPage from "../pages/EmailConfirmationPage/EmailConfirmationPage";
+import SearchPage from "../pages/SearchPage/SearchPage";
 
 export const routes = [
 ]
@@ -31,15 +32,19 @@ export const authRoutes = [
         Component: HomePage
     },
     {
-        path: routeNames.SETTINGS_PAGE,
-        Component: SettingsPage
-    },
-    {
         path: routeNames.ACCOUNT_PAGE,
         Component: AccountPage
     },
     {
+        path: routeNames.SETTINGS_PAGE,
+        Component: SettingsPage
+    },
+    {
         path: routeNames.PLAYLIST_PAGE,
         Component: PlaylistPage
+    },
+    {
+        path: routeNames.SEARCH_PAGE,
+        Component: SearchPage
     }
 ]

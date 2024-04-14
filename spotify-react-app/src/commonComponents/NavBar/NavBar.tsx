@@ -9,10 +9,12 @@ import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import wideOpenElements from "../../utils/navbar/wideOpenElements";
 import routeNames from "../../utils/routeNames";
-import {UserContext} from "../../index";
 import MakeSubscriptionModal from "./components/makeSubscriptionModal/makeSubscriptionModal";
+import {UserContext} from "../../index";
+import {observer} from "mobx-react-lite";
 
-export default function NavBar(props: any) {
+
+const NavBar = observer((props: any) => {
     const userStore = useContext(UserContext)
     const {setShowSubModal} = props
     const [isOpen, setIsOpen] = useState(false)
@@ -76,19 +78,24 @@ export default function NavBar(props: any) {
                             icon={logout_icon}
                             title="Log out"
                         />
-                        <WideOpenElement
-                            onClickEvent={() => {
-                                setShowSubModal(true)
-                            }}
-                            icon={subscription_icon}
-                            title="Subscribe"
-                        />
+                        {
+                            !userStore.user.isSubscribed &&
+                            <WideOpenElement
+                                onClickEvent={() => {
+                                    setShowSubModal(true)
+                                }}
+                                icon={subscription_icon}
+                                title="Subscribe"
+                            />
+                        }
                     </div>
                 }
             </div>
         </div>
     )
-}
+})
+
+export default NavBar
 
 function WideOpenElement(props: any) {
     const {onClickEvent, icon, title} = props

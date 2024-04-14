@@ -62,6 +62,8 @@ public class PatchUpdateUserInfoCommandHandler
             throw new NotFoundUserException($"User with id: {userId}");
 
         user.UserName = request.UserName ?? user.UserName;
+
+        user.UserPhotoId = request.FilePhotoId ?? user.UserPhotoId;
         
         var changePasswordResult = IdentityResult.Success;
 
@@ -96,7 +98,7 @@ public class PatchUpdateUserInfoCommandHandler
         
         await _userManager.UpdateAsync(user);
         await _emailSender.SendEmailAsync(user.Email!, message, cancellationToken);
-
+        
         return new PatchUpdateUserInfoResponse { AccessToken = user.AccessToken, RefreshToken = user.RefreshToken };
     }
 }

@@ -5,3 +5,7 @@ export const getImage: (imageId: string) => string
     =  (imageId) => {
     return `${process.env.REACT_APP_SPOTIFY_API}api/File/image/${imageId}`;
 }
+
+export const uploadFile = async (file: string) => {
+    // TODO: make file upload to backend
+}

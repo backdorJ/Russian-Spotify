@@ -140,33 +140,34 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RussianSpotify.API.Core.Entities.Album", b =>
+            modelBuilder.Entity("PlaylistSong", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("PlaylistsId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AlbumName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("AuthorId")
+                    b.Property<Guid>("SongsId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ImageId")
+                    b.HasKey("PlaylistsId", "SongsId");
+
+                    b.HasIndex("SongsId");
+
+                    b.ToTable("PlaylistSong");
+                });
+
+            modelBuilder.Entity("PlaylistUser", b =>
+                {
+                    b.Property<Guid>("PlaylistsId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                    b.HasKey("PlaylistsId", "UsersId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("UsersId");
 
-                    b.HasIndex("ImageId")
-                        .IsUnique();
-
-                    b.ToTable("Albums");
+                    b.ToTable("PlaylistUser");
                 });
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Bucket", b =>
@@ -255,6 +256,43 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.ToTable("Files");
                 });
 
+            modelBuilder.Entity("RussianSpotify.API.Core.Entities.Playlist", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsAlbum")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PlaylistName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("PlaysNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ImageId")
+                        .IsUnique();
+
+                    b.ToTable("Playlists");
+                });
+
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -307,9 +345,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AlbumId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
@@ -319,13 +354,16 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Property<Guid?>("ImageId")
                         .HasColumnType("uuid");
 
+                    b.Property<long>("PlaysNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
                     b.Property<string>("SongName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AlbumId");
 
                     b.HasIndex("CategoryId");
 
@@ -428,6 +466,9 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<Guid?>("UserPhotoId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -436,6 +477,8 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("UserPhotoId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -521,21 +564,34 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RussianSpotify.API.Core.Entities.Album", b =>
+            modelBuilder.Entity("PlaylistSong", b =>
                 {
-                    b.HasOne("RussianSpotify.API.Core.Entities.User", "Author")
-                        .WithMany("AuthorAlbums")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("RussianSpotify.API.Core.Entities.Playlist", null)
+                        .WithMany()
+                        .HasForeignKey("PlaylistsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RussianSpotify.API.Core.Entities.File", "Image")
-                        .WithOne("Album")
-                        .HasForeignKey("RussianSpotify.API.Core.Entities.Album", "ImageId");
+                    b.HasOne("RussianSpotify.API.Core.Entities.Song", null)
+                        .WithMany()
+                        .HasForeignKey("SongsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Navigation("Author");
+            modelBuilder.Entity("PlaylistUser", b =>
+                {
+                    b.HasOne("RussianSpotify.API.Core.Entities.Playlist", null)
+                        .WithMany()
+                        .HasForeignKey("PlaylistsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Image");
+                    b.HasOne("RussianSpotify.API.Core.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Bucket", b =>
@@ -553,9 +609,27 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                 {
                     b.HasOne("RussianSpotify.API.Core.Entities.Song", "Song")
                         .WithMany("Files")
-                        .HasForeignKey("SongId");
+                        .HasForeignKey("SongId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Song");
+                });
+
+            modelBuilder.Entity("RussianSpotify.API.Core.Entities.Playlist", b =>
+                {
+                    b.HasOne("RussianSpotify.API.Core.Entities.User", "Author")
+                        .WithMany("AuthorPlaylists")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RussianSpotify.API.Core.Entities.File", "Image")
+                        .WithOne("Playlist")
+                        .HasForeignKey("RussianSpotify.API.Core.Entities.Playlist", "ImageId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.RolePrivilege", b =>
@@ -571,11 +645,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Song", b =>
                 {
-                    b.HasOne("RussianSpotify.API.Core.Entities.Album", "Album")
-                        .WithMany("Songs")
-                        .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("RussianSpotify.API.Core.Entities.Category", "Category")
                         .WithMany("Songs")
                         .HasForeignKey("CategoryId")
@@ -585,8 +654,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.HasOne("RussianSpotify.API.Core.Entities.File", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId");
-
-                    b.Navigation("Album");
 
                     b.Navigation("Category");
 
@@ -604,6 +671,15 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("RussianSpotify.API.Core.Entities.User", b =>
+                {
+                    b.HasOne("RussianSpotify.API.Core.Entities.File", "UserPhoto")
+                        .WithMany()
+                        .HasForeignKey("UserPhotoId");
+
+                    b.Navigation("UserPhoto");
+                });
+
             modelBuilder.Entity("SongUser", b =>
                 {
                     b.HasOne("RussianSpotify.API.Core.Entities.User", null)
@@ -619,11 +695,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RussianSpotify.API.Core.Entities.Album", b =>
-                {
-                    b.Navigation("Songs");
-                });
-
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Category", b =>
                 {
                     b.Navigation("Songs");
@@ -631,7 +702,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.File", b =>
                 {
-                    b.Navigation("Album");
+                    b.Navigation("Playlist");
                 });
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Role", b =>
@@ -646,7 +717,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.User", b =>
                 {
-                    b.Navigation("AuthorAlbums");
+                    b.Navigation("AuthorPlaylists");
 
                     b.Navigation("Bucket");
 

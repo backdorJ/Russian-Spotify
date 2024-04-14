@@ -5,5 +5,7 @@ export default {
     LOGIN_PAGE: '/login',
     REGISTRATION_PAGE: '/register',
     EMAIL_CONFIRMATION_PAGE: '/email-confirmation',
-    PLAYLIST_PAGE: '/playlist'
+    PLAYLIST_PAGE: '/playlist',
+    SEARCH_PAGE: '/search',
+    PLAYLIST_PAGE: '/playlist/:id'
 }

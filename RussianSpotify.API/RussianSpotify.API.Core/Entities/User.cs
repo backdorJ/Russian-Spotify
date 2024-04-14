@@ -12,8 +12,9 @@ public class User : IdentityUser<Guid>
     /// </summary>
     public User()
     {
-        AuthorAlbums = new();
+        Playlists = new();
         Songs = new();
+        Bucket = new();
     }
 
     /// <summary>
@@ -30,6 +31,16 @@ public class User : IdentityUser<Guid>
     /// Время жизни Refresh Token
     /// </summary>
     public DateTime? RefreshTokenExpiryTime { get; set; }
+    
+    /// <summary>
+    /// Id фото в профиле юзера
+    /// </summary>
+    public Guid? UserPhotoId { get; set; }
+    
+    /// <summary>
+    /// Фото в профиле юзера
+    /// </summary>
+    public File? UserPhoto { get; set; }
     
     /// <summary>
     /// День рождения пользователя
@@ -49,7 +60,7 @@ public class User : IdentityUser<Guid>
     /// <summary>
     /// Корзина
     /// </summary>
-    public Bucket? Bucket { get; protected set; }
+    public Bucket? Bucket { get; set; }
     
     /// <summary>
     /// Подписка
@@ -57,9 +68,11 @@ public class User : IdentityUser<Guid>
     public Subscribe? Subscribe { get; protected set; }
 
     /// <summary>
-    /// Альбомы авторов
+    /// Понравившиеся плейлисты
     /// </summary>
-    public List<Album>? AuthorAlbums { get; protected set; }
+    public List<Playlist>? Playlists { get; protected set; }
+
+    public List<Playlist> AuthorPlaylists { get; set; }
 
     /// <summary>
     /// Песни пользователя

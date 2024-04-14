@@ -10,22 +10,28 @@ import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg
 // @ts-ignore
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 import {useContext, useEffect, useState} from "react";
-import {UserContext} from "../../index";
+import {PlayerContext, UserContext} from "../../index";
 import SongCard from "./components/SongCard";
+import {useParams} from "react-router-dom";
+import {getPlaylistInfo} from "../../http/playlistApi";
+import Playlist from "../../models/Playlist";
+import {getImage} from "../../http/fileApi";
+import {getSong} from "../../http/songApi";
+import Song from "../../models/Song";
 
 const PlaylistPage = () => {
+    const { id } = useParams();
     const sidebarWidth = 280
-    const userStore = useContext(UserContext)
+    const userStore = useContext(UserContext);
+    const playerStore = useContext(PlayerContext);
     const [backgroundWidth, setBackgroundWidth] = useState(0)
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
     const [isHover, setIsHover] = useState(false)
-    const playlistName = "Chill Mix"
-    const singer1 = "Julia Wong"
-    const singer2 = "ayokay"
-    const singer3 = "Khalid"
-    const songCount = 34
-    const madeBy = userStore.user.username
-    const playlistTime = "2hr 01min"
+    const [playlistInfo, setPlaylistInfo] = useState(new Playlist())
+
+    useEffect(() => {
+        getPlaylistInfo(id).then(r => setPlaylistInfo(r));
+    }, [])
 
     const updateWindowWidth = () => {
         setWindowWidth(document.body.clientWidth)
@@ -46,23 +52,35 @@ const PlaylistPage = () => {
         setBackgroundWidth(windowWidth - sidebarWidth)
     }, [windowWidth]);
 
+    const formatDuration = (totalSeconds: number) => {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+
+        return `${minutes}m ${seconds}s`;
+    };
+
+    /** Обновление плеера(текущей песни) */
+    const handlePlay = (song: Song) => {
+        playerStore.Player = getSong(song, userStore.user);
+    }
+
     return (
         <div className="playlist-page-wrapper">
             <div style={{width: backgroundWidth + 'px'}} className="playlist-page-background"></div>
             <div className="playlist-page">
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
-                        <img src={mainImg} alt="" className="playlist-page__main__img"/>
+                        <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>
                     </div>
                     <div className="playlist-page__main__info">
                         <h1 className="playlist-page__main__info__name">
-                            {playlistName}
+                            {playlistInfo.playlistName}
                         </h1>
                         <p className="playlist-page__main__info__singers">
-                            <span>{singer1}</span>, <span>{singer2}</span>, <span>{singer3}</span> and more
+                            <span>{playlistInfo.authorName}</span>
                         </p>
                         <p className="playlist-page__main__info__additional">
-                            Made by <span>{madeBy}</span> ◦ {songCount} songs, {playlistTime}
+                            Made by <span>{playlistInfo.authorName}</span> ◦ {playlistInfo.songs.length} songs, {formatDuration(playlistInfo.songs.reduce((sum, current) => sum + current.duration, 0))}
                         </p>
                     </div>
                 </div>
@@ -70,7 +88,7 @@ const PlaylistPage = () => {
                     <div className="playlist-page__songs__header">
                         <div className="playlist-page__songs__header__buttons">
                             <div className="playlist-page__songs__header__buttons__play">
-                                <img src={play_icon} alt="Play"/>
+                                <img onClick={() => handlePlay(playlistInfo.songs[0])} src={play_icon} alt="Play"/>
                             </div>
                             <div className="playlist-page__songs__header__buttons__like-wrapper">
                                 <img
@@ -111,27 +129,20 @@ const PlaylistPage = () => {
                         </div>
                         <div className="playlist-page__songs__list__divider"></div>
                         <div className="playlist-page__songs__list__main">
-                            <SongCard
-                                id="1"
-                                name="Slow Grenade"
-                                artists={['Ellie Goulding', 'Lauv']}
-                                album="Brightest Blue"
-                                length="3:37"
-                                isLiked={true}/>
-                            <SongCard
-                                id="1"
-                                name="Slow Grenade"
-                                artists={['Ellie Goulding', 'Lauv']}
-                                album="Brightest Blue"
-                                length="3:37"
-                                isLiked={false}/>
-                            <SongCard
-                                id="1"
-                                name="Slow Grenade"
-                                artists={['Ellie Goulding', 'Lauv']}
-                                album="Brightest Blue"
-                                length="3:37"
-                                isLiked={true}/>
+                            {
+                                playlistInfo.songs.map((song, index) => {
+                                    return <SongCard
+                                        song={song}
+                                        handlePlay={handlePlay}
+                                        id={index + 1}
+                                        name={song.songName}
+                                        album={playlistInfo.playlistName}
+                                        artists={playlistInfo.songs.map(x => x.authors)}
+                                        length={formatDuration(song.duration)}
+                                        isLiked={song.isHave}
+                                    />
+                                })
+                            }
                         </div>
                     </div>
                 </div>
