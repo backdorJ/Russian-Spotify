@@ -1,12 +1,12 @@
-namespace RussianSpotify.Contracts.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
+namespace RussianSpotify.Contracts.Requests.Music.GetPlaylistsAndAlbums;
 
 /// <summary>
 /// Ответ на запрос о получение любимых альбомов/плейлистов
 /// </summary>
-public class GetAllFavouriteAlbumAndPlaylistResponse
+public class GetPlaylistsAndAlbumsResponse
 {
-    public GetAllFavouriteAlbumAndPlaylistResponse(
-        List<GetAllFavouriteAlbumAndPlaylistResponseItem> entities,
+    public GetPlaylistsAndAlbumsResponse(
+        List<GetPlaylistsAndAlbumsResponseItem> entities,
         int totalCount)
     {
         Entities = entities;
@@ -16,7 +16,7 @@ public class GetAllFavouriteAlbumAndPlaylistResponse
     /// <summary>
     /// Список альбомов/плейлиство
     /// </summary>
-    public List<GetAllFavouriteAlbumAndPlaylistResponseItem> Entities { get; set; }
+    public List<GetPlaylistsAndAlbumsResponseItem> Entities { get; set; }
 
     /// <summary>
     /// Общее кол-во

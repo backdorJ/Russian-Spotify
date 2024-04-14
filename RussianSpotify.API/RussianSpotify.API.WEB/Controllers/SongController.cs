@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
-using RussianSpotify.API.Core.Requests.Music.GetAllFavouriteSongs;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetPlaylistsByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
@@ -18,7 +17,6 @@ using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.DeleteSong;
 using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.EditSong;
-using RussianSpotify.Contracts.Requests.Music.GetAllFavouriteSongs;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
 using RussianSpotify.Contracts.Requests.Music.GetSongInfoById;
 using RussianSpotify.Contracts.Requests.Music.GetPlaylistsByFilter;
@@ -249,18 +247,6 @@ public class SongController : FileBaseController
         [FromRoute] Guid songId,
         CancellationToken cancellationToken)
         => await _mediator.Send(new PostAddSongToFavouriteCommand(songId), cancellationToken);
-
-    /// <summary>
-    /// Получить все любимые песни
-    /// </summary>
-    /// <param name="request">Запрос</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Любимые песни</returns>
-    [HttpGet("FavouriteSongs")]
-    public async Task<GetAllFavouriteSongsResponse> GetAllFavouriteSongsAsync(
-        [FromQuery] GetAllFavouriteSongsRequest request,
-        CancellationToken cancellationToken)
-        => await _mediator.Send(new GetAllFavouriteSongsQuery(request), cancellationToken);
 
     /// <summary>
     /// Получить подробную информацию о конкретной песней

@@ -1,30 +1,37 @@
 using RussianSpotify.Contracts.Models;
 
-namespace RussianSpotify.Contracts.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
+namespace RussianSpotify.Contracts.Requests.Music.GetPlaylistsAndAlbums;
 
 /// <summary>
 /// Запрос на получение любимых плейлистов/альбомов
 /// </summary>
-public class GetAllFavouriteAlbumAndPlaylistRequest
+public class GetPlaylistsAndAlbumsRequest
 {
     private int _pageNumber;
     private int _pageSize;
 
-    public GetAllFavouriteAlbumAndPlaylistRequest()
+    public GetPlaylistsAndAlbumsRequest()
     {
         _pageNumber = DefaultsPagination.PageNumber;
         _pageSize = DefaultsPagination.PageSize;
+        IsFavourite = false;
     }
 
     /// <summary>
     /// Конструктор
     /// </summary>
     /// <param name="request">Запрос</param>
-    public GetAllFavouriteAlbumAndPlaylistRequest(GetAllFavouriteAlbumAndPlaylistRequest request)
+    public GetPlaylistsAndAlbumsRequest(GetPlaylistsAndAlbumsRequest request)
     {
         PageNumber = request.PageNumber;
         PageSize = request.PageSize;
+        IsFavourite = request.IsFavourite;
     }
+
+    /// <summary>
+    /// Любимые
+    /// </summary>
+    public bool IsFavourite { get; set; }
 
     /// <summary>
     /// Размер страницы

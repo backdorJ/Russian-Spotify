@@ -2,15 +2,15 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Extensions;
-using RussianSpotify.Contracts.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
+using RussianSpotify.Contracts.Requests.Music.GetPlaylistsAndAlbums;
 
-namespace RussianSpotify.API.Core.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
+namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistsAndAlbums;
 
 /// <summary>
-/// Обработчик для <see cref="GetAllFavouriteAlbumAndPlaylistQuery"/>
+/// Обработчик для <see cref="GetPlaylistsAndAlbumsQuery"/>
 /// </summary>
-public class GetAllFavouriteAlbumAndPlaylistQueryHandler
-    : IRequestHandler<GetAllFavouriteAlbumAndPlaylistQuery, GetAllFavouriteAlbumAndPlaylistResponse>
+public class GetPlaylistsAndAlbumsQueryHandler
+    : IRequestHandler<GetPlaylistsAndAlbumsQuery, GetPlaylistsAndAlbumsResponse>
 {
     private readonly IUserContext _userContext;
     private readonly IDbContext _dbContext;
@@ -20,7 +20,7 @@ public class GetAllFavouriteAlbumAndPlaylistQueryHandler
     /// </summary>
     /// <param name="userContext">Контекст пользователя</param>
     /// <param name="dbContext">Контекст БД</param>
-    public GetAllFavouriteAlbumAndPlaylistQueryHandler(
+    public GetPlaylistsAndAlbumsQueryHandler(
         IUserContext userContext,
         IDbContext dbContext)
     {
@@ -29,23 +29,26 @@ public class GetAllFavouriteAlbumAndPlaylistQueryHandler
     }
 
     /// <inheritdoc />
-    public async Task<GetAllFavouriteAlbumAndPlaylistResponse> Handle(
-        GetAllFavouriteAlbumAndPlaylistQuery request,
+    public async Task<GetPlaylistsAndAlbumsResponse> Handle(
+        GetPlaylistsAndAlbumsQuery request,
         CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
-        var playlists = _dbContext.Playlists
-            .Where(x => x.Users!
-                .Select(y => y.Id)
-                .Contains(_userContext.CurrentUserId!.Value))
-            .AsQueryable();
+        var playlists = request.IsFavourite
+            ? _dbContext.Playlists
+                .Where(x => x.Users!
+                    .Select(y => y.Id)
+                    .Contains(_userContext.CurrentUserId!.Value))
+                .AsQueryable()
+            : _dbContext.Playlists
+                .AsQueryable();
 
         var totalCount = await playlists.CountAsync(cancellationToken);
         
         var result = await playlists
-            .Select(x => new GetAllFavouriteAlbumAndPlaylistResponseItem
+            .Select(x => new GetPlaylistsAndAlbumsResponseItem
             {
                 Id = x.Id,
                 PlaylistName = x.PlaylistName,
@@ -57,6 +60,6 @@ public class GetAllFavouriteAlbumAndPlaylistQueryHandler
             .SkipTake(request)
             .ToListAsync(cancellationToken);
 
-        return new GetAllFavouriteAlbumAndPlaylistResponse(result, totalCount);
+        return new GetPlaylistsAndAlbumsResponse(result, totalCount);
     }
 }

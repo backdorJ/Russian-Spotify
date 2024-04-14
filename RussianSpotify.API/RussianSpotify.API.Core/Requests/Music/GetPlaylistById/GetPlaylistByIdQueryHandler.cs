@@ -5,13 +5,13 @@ using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.Contracts.Requests.Music.GetFavouritePlaylistById;
 
-namespace RussianSpotify.API.Core.Requests.Music.GetFavouritePlaylistById;
+namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistById;
 
 /// <summary>
-/// Обработчик для <see cref="GetFavouritePlaylistByIdQuery"/>
+/// Обработчик для <see cref="GetPlaylistByIdQuery"/>
 /// </summary>
-public class GetFavouritePlaylistByIdQueryHandler
-    : IRequestHandler<GetFavouritePlaylistByIdQuery, GetFavouritePlaylistByIdResponse>
+public class GetPlaylistByIdQueryHandler
+    : IRequestHandler<GetPlaylistByIdQuery, GetFavouritePlaylistByIdResponse>
 {
     private readonly IUserContext _userContext;
     private readonly IDbContext _dbContext;
@@ -21,7 +21,7 @@ public class GetFavouritePlaylistByIdQueryHandler
     /// </summary>
     /// <param name="userContext">Контекст пользователя</param>
     /// <param name="dbContext">Контекст БД</param>
-    public GetFavouritePlaylistByIdQueryHandler(IUserContext userContext, IDbContext dbContext)
+    public GetPlaylistByIdQueryHandler(IUserContext userContext, IDbContext dbContext)
     {
         _userContext = userContext;
         _dbContext = dbContext;
@@ -29,7 +29,7 @@ public class GetFavouritePlaylistByIdQueryHandler
 
     /// <inheritdoc />
     public async Task<GetFavouritePlaylistByIdResponse> Handle(
-        GetFavouritePlaylistByIdQuery request,
+        GetPlaylistByIdQuery request,
         CancellationToken cancellationToken)
     {
         if (request is null)
@@ -38,7 +38,6 @@ public class GetFavouritePlaylistByIdQueryHandler
         var playlist = await _dbContext.Playlists
             .Include(x => x.Author)
             .Include(x => x.Songs)
-            .Where(x => x.Users!.Select(y => y.Id).Contains(_userContext.CurrentUserId!.Value))
             .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
             ?? throw new EntityNotFoundException<Playlist>(request.PlaylistId);
 
