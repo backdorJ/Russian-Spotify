@@ -101,6 +101,7 @@ p, a {
     padding: 2%;
     border-radius: 50%;
     width: 260px;
+    height: 260px;
 }
 
 .favorite-container {
