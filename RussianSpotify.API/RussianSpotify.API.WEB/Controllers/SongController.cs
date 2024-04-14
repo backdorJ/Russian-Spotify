@@ -3,35 +3,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
-using RussianSpotify.API.Core.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
 using RussianSpotify.API.Core.Requests.Music.GetAllFavouriteSongs;
 using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
-using RussianSpotify.API.Core.Requests.Music.GetFavouritePlaylistById;
 using RussianSpotify.API.Core.Requests.Music.GetPlaylistsByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.GetSongInfoById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PatchEditSong;
-using RussianSpotify.API.Core.Requests.Music.PostAddPlaylistToFavourite;
 using RussianSpotify.API.Core.Requests.Music.PostAddSong;
 using RussianSpotify.API.Core.Requests.Music.PostAddSongToFavourite;
-using RussianSpotify.API.Core.Requests.Music.PostCreatePlaylist;
-using RussianSpotify.API.Core.Requests.Music.PutPlaylist;
 using RussianSpotify.Contracts.Requests.Music.AddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.DeleteSong;
 using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.EditSong;
-using RussianSpotify.Contracts.Requests.Music.GetAllFavouriteAlbumAndPlaylist;
 using RussianSpotify.Contracts.Requests.Music.GetAllFavouriteSongs;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
-using RussianSpotify.Contracts.Requests.Music.GetFavouritePlaylistById;
 using RussianSpotify.Contracts.Requests.Music.GetSongInfoById;
 using RussianSpotify.Contracts.Requests.Music.GetPlaylistsByFilter;
 using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
-using RussianSpotify.Contracts.Requests.Music.PostCreatePlaylist;
-using RussianSpotify.Contracts.Requests.Music.PutPlaylist;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -245,36 +236,6 @@ public class SongController : FileBaseController
     }
 
     /// <summary>
-    /// Создать плейлист/альбом
-    /// </summary>
-    /// <param name="request">Запрос</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    [HttpPost("CreatePlaylist")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(403)]
-    [ProducesResponseType(500)]
-    public async Task PostCreatePlaylistAsync(
-        [FromBody] PostCreatePlaylistRequest request,
-        CancellationToken cancellationToken)
-        => await _mediator.Send(new PostCreatePlaylistCommand(request), cancellationToken);
-
-    /// <summary>
-    /// Добавить альбом/плейлист в любимое
-    /// </summary>
-    /// <param name="id">ИД альбома/плейлиста</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    [HttpPost("Playlist/{id}")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(403)]
-    [ProducesResponseType(500)]
-    public async Task PostAddPlaylistToFavouriteAsync(
-        [FromRoute] Guid id,
-        CancellationToken cancellationToken)
-        => await _mediator.Send(new PostAddPlaylistToFavouriteCommand(id), cancellationToken);
-
-    /// <summary>
     /// Добавить песню в любимое
     /// </summary>
     /// <param name="songId"></param>
@@ -300,43 +261,6 @@ public class SongController : FileBaseController
         [FromQuery] GetAllFavouriteSongsRequest request,
         CancellationToken cancellationToken)
         => await _mediator.Send(new GetAllFavouriteSongsQuery(request), cancellationToken);
-
-    /// <summary>
-    /// Изменить плейлист/альбом
-    /// </summary>
-    /// <param name="playlistId">ИД плейлиста</param>
-    /// <param name="request">Запрос</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    [HttpPut("EditPlaylist/{playlistId}")]
-    public async Task PutPlaylistAsync(
-        [FromRoute] Guid playlistId,
-        [FromBody] PutPlaylistRequest request, CancellationToken cancellationToken)
-        => await _mediator.Send(new PutPlaylistCommand(
-            request: request,
-            playlistId: playlistId),
-            cancellationToken);
-
-    /// <summary>
-    /// Поулчить все любимые плейлисты/альбомы
-    /// </summary>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Запрос на получение любимых альбомов/песен</returns>
-    [HttpGet("AllFavouritePlaylists")]
-    public async Task<GetAllFavouriteAlbumAndPlaylistResponse> GetAllFavouritePlaylistsAsync(
-        CancellationToken cancellationToken)
-        => await _mediator.Send(new GetAllFavouriteAlbumAndPlaylistQuery(), cancellationToken);
-
-    /// <summary>
-    /// Получить инфу об плейлиста/альбома
-    /// </summary>
-    /// <param name="playlistId">ИД плейлиста/альбома</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Плейлист/альбом</returns>
-    [HttpGet("FavouritePlaylist/{playlistId}")]
-    public async Task<GetFavouritePlaylistByIdResponse> GetFavouritePlaylistAsync(
-        [FromRoute] Guid playlistId,
-        CancellationToken cancellationToken)
-        => await _mediator.Send(new GetFavouritePlaylistByIdQuery(playlistId: playlistId), cancellationToken);
 
     /// <summary>
     /// Получить подробную информацию о конкретной песней
