@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Author.GetAuthor;
+using RussianSpotify.API.Core.Requests.Author.GetAuthorsByFilter;
 using RussianSpotify.Contracts.Requests.Author.GetAuthor;
+using RussianSpotify.Contracts.Requests.Author.GetAuthorsByFilter;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -10,7 +12,7 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// Контроллер, отвечающий за действия связанные с авторами
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 public class AuthorController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -36,6 +38,16 @@ public class AuthorController : ControllerBase
         var query = new GetAuthorQuery(request);
         return await _mediator.Send(query, cancellationToken);
     }
-    
-    public async Task<GetAuthorResponse> GetAllAuthorsByFilter([FromQuery] )
+
+    /// <summary>
+    /// Возвращает авторов, отфильтрованных по конкретному фильтру
+    /// </summary>
+    /// <param name="request">Запрос с информацией о запросе</param>
+    /// <returns><see cref="GetAuthorsByFilterResponse"/> с инфой об авторе</returns>
+    [HttpGet]
+    public async Task<GetAuthorsByFilterResponse> GetAuthorsByFilterAsync([FromQuery] GetAuthorsByFilterRequest request)
+    {
+        var query = new GetAuthorsByFilterQuery(request);
+        return await _mediator.Send(query);
+    }
 }

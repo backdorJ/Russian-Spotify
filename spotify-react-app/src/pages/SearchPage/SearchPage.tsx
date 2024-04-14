@@ -12,6 +12,7 @@ import SearchPlaylistCard from "./components/SearchPlaylistCard";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import SearchAuthorCard from "./components/SearchAuthorCard";
 import {getFavouritePlaylists, getPlaylistsByNameFilter} from "../../http/playlistApi";
+import {getAuthorsByFilter} from "../../http/authorApi";
 
 
 const SearchPage = () => {
@@ -40,7 +41,8 @@ const SearchPage = () => {
         if (searchType === 3) {
             setSongs([])
             setPlaylists([])
-            setAuthors(discoveryCards)
+            getAuthorsByFilter(search, 1, 10)
+                .then(response => setAuthors(prev => [...response]))
             setIsSearched(true)
         }
     }

@@ -67,6 +67,9 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
         for (let i = 0; i < playlist.songs.length - 1; ++i)
             playlist.songs[i].nextSong = playlist.songs[i + 1];
 
+        if (playlist.songs.length > 1)
+            playlist.songs[playlist.songs.length - 1].nextSong = playlist.songs[0]
+
         return playlist;
     }
 
