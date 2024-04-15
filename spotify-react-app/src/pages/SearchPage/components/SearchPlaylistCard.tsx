@@ -1,22 +1,26 @@
-// @ts-ignore
-import playlist_icon from '../../../assets/mock/homepage/playlistsBig/blend_spotify.png'
+import {getImage} from "../../../http/fileApi";
+import {useNavigate} from "react-router-dom";
+import routeNames from "../../../utils/routeNames";
 
 const SearchPlaylistCard = (props: any) => {
     const {playlist} = props
+    const navigate = useNavigate()
 
     return (
-        <div className="search-playlist">
+        <div
+            onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.playlistId)}
+            className="search-playlist">
             <div className="search-playlist__left">
-                <img src={playlist.imageUrl} alt=""/>
+                <img src={getImage(playlist.imageId)} alt=""/>
             </div>
             <div className="search-playlist__right">
-                <h2>{playlist.title}</h2>
+                <h2>{playlist.playlistName}</h2>
                 <div className="search-playlist__right__bottom">
                     <p className="search-playlist__right__bottom__description">
-                        {playlist.description}
+                        Здесь могла бы быть ваша реклама :D
                     </p>
                     <p className="search-playlist__right__bottom__author">
-                        By <span>{playlist.author}</span>
+                        By <span>{playlist.authorName}</span>
                     </p>
                 </div>
             </div>

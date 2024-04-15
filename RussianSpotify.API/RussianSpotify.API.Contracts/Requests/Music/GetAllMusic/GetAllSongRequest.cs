@@ -17,6 +17,7 @@ public class GetAllSongRequest
     {
         _pageNumber = DefaultsPagination.PageNumber;
         _pageSize = DefaultsPagination.PageSize;
+        IsFavourite = false;
     }
 
     /// <summary>
@@ -27,6 +28,7 @@ public class GetAllSongRequest
     {
         PageNumber = request.PageNumber;
         PageSize = request.PageSize;
+        IsFavourite = request.IsFavourite;
     }
 
     /// <summary>
@@ -37,6 +39,11 @@ public class GetAllSongRequest
         get => _pageNumber;
         init => _pageNumber = value > 0 ? value : DefaultsPagination.PageNumber;
     }
+
+    /// <summary>
+    /// Любимое
+    /// </summary>
+    public bool IsFavourite { get; set; }
 
     /// <summary>
     /// Кол-во элементов на странице

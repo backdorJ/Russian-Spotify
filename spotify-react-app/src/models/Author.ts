@@ -1,36 +1,31 @@
-import Song from "./Song";
-import Playlist from "./Playlist";
+import AlbumLittle from "./AlbumLittle";
 
 export default class Author {
-    /** Имя автора*/
-    name: string;
 
-    /** Ссылка на картинку автора */
-    imageLink: string;
+    authorId: string;
 
-    /** Песни автора */
-    authorMusic: Song[];
+    authorName: string;
 
-    /** Плейлисты автора */
-    authorPlaylists: Playlist[];
+    imageId: string;
+
+    albums: AlbumLittle[];
+
 
     constructor() {
-        this.name = "";
-        this.imageLink = "";
-        this.authorMusic = [];
-        this.authorPlaylists = [];
+        this.authorId = "";
+        this.authorName = "";
+        this.imageId = "";
+        this.albums = [];
     }
 
-    static init(name: string,
-                imageLink: string,
-                authorMusic: Song[],
-                authorPlaylists: Playlist[]) {
+    static init(id: string, name: string, imageId: string, albums: AlbumLittle[]) {
 
         let newAuthor = new Author();
-        newAuthor.name = name;
-        newAuthor.imageLink = imageLink;
-        newAuthor.authorMusic = authorMusic;
-        newAuthor.authorPlaylists = authorPlaylists;
+
+        newAuthor.authorId = id;
+        newAuthor.authorName = name;
+        newAuthor.imageId = imageId;
+        newAuthor.albums = albums;
 
         return newAuthor;
     }

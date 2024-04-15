@@ -16,6 +16,9 @@ public class RoleManager : IRoleManager
     /// <inheritdoc cref="IRoleManager"/>
     public bool IsInRole(User user, string roleName)
     {
+        if (user.AccessToken is null)
+            return false;
+        
         var claims = _jwtGenerator.GetPrincipalFromExpiredToken(user.AccessToken!);
 
         return claims.IsInRole(roleName);

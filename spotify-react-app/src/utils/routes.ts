@@ -5,6 +5,7 @@ import registerPage from "../pages/RegisterPage/RegisterPage";
 import loginPage from "../pages/LoginPage/LoginPage";
 import AccountPage from "../pages/AccountPage/AccountPage";
 import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
+import EmailConfirmationPage from "../pages/EmailConfirmationPage/EmailConfirmationPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import AuthorPage from "../pages/AuthorPage/AuthorPage";
 
@@ -19,6 +20,10 @@ export const notAuthRoutes = [
     {
         path: routeNames.LOGIN_PAGE,
         Component: loginPage
+    },
+    {
+        path: routeNames.EMAIL_CONFIRMATION_PAGE,
+        Component: EmailConfirmationPage
     }
 ]
 
@@ -36,7 +41,7 @@ export const authRoutes = [
         Component: SettingsPage
     },
     {
-        path: routeNames.PLAYLIST_PAGE,
+        path: routeNames.PLAYLIST_PAGE_ROUTE,
         Component: PlaylistPage
     },
     {

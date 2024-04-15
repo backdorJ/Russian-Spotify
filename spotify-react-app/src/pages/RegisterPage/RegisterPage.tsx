@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import "./styles/RegisterPage.css"
 import Header from "../../commonComponents/Header/Header";
@@ -21,6 +21,7 @@ const RegisterPage = (props: any) => {
                 </div>
             </div>
         </div>
+        
     );
 }
 

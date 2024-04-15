@@ -1,3 +1,4 @@
+import AuthorPage from "../models/AuthorPage";
 import Author from "../models/Author";
 import {$authHost} from "./index";
 import {songFilters} from "./filters/songFilters";
@@ -5,20 +6,22 @@ import Song from "../models/Song";
 import Playlist from "../models/Playlist";
 import {playlistFilters} from "./filters/playlistFilter";
 import {getImage} from "./fileApi";
+import AlbumLittle from "../models/AlbumLittle";
 
-export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSizeForSongs: number, pageNumberForPlaylists: number, pageSizeForPlaylists: number ) => Promise<Author> =
-    async (authorName, pageNumberForSongs = 1, pageSizeForSongs = 5, pageNumberForPlaylists = 1,  pageSizeForPlaylists = 3): Promise<Author> => {
+
+export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSizeForSongs: number, pageNumberForPlaylists: number, pageSizeForPlaylists: number ) => Promise<AuthorPage> =
+    async (authorName, pageNumberForSongs = 1, pageSizeForSongs = 5, pageNumberForPlaylists = 1,  pageSizeForPlaylists = 3): Promise<AuthorPage> => {
         const authorInfoResponse =
             await $authHost.get(`api/Author?Name=${authorName}`);
 
         if(authorInfoResponse.status !== 200 || authorInfoResponse.data === undefined)
-            return new Author();
+            return new AuthorPage();
 
         const songs = await getSongs(authorName, pageNumberForSongs, pageSizeForSongs);
 
         const playlists = await getPlaylists(authorName, pageNumberForPlaylists, pageSizeForPlaylists);
 
-        return Author.init(
+        return AuthorPage.init(
             authorInfoResponse.data.name,
             getImage(authorInfoResponse.data.authorPhotoId),
             songs,
@@ -87,3 +90,25 @@ const getPlaylists: (authorName: string, pageNumber: number, pageSize: number) =
 
         return playlists;
     }
+
+export const getAuthorsByFilter = async (filter: string, pageNumber: number, pageSize: number) => {
+    const response = await $authHost.get('api/Author/GetAuthorsByFilter?' +
+        new URLSearchParams({
+            filterName: 'AuthorName',
+            filterValue: filter,
+            playlistCount: '2',
+            pageNumber: pageNumber.toString(),
+            pageSize: pageSize.toString()
+        }))
+
+    return response.data.entities.map((i: {
+        authorId: string;
+        authorName: string;
+        imageId: string;
+        albums: any[];
+    }) => Author.init(
+        i.authorId,
+        i.authorName,
+        i.imageId,
+        i.albums.map(e => AlbumLittle.init(e.playlistId, e.playlistName))))
+}

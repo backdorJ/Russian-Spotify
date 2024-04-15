@@ -229,6 +229,8 @@
 }
 
 .playlist-page__songs__list__main__song-card__title__img {
+    width: 52px;
+    height: 52px;
     margin-right: 15px;
 }
 

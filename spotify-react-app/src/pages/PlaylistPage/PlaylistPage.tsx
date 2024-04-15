@@ -9,7 +9,7 @@ import like_icon from "../../assets/mock/playlistpage/like.png"
 import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg.svg"
 // @ts-ignore
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
-import {useContext, useEffect, useState} from "react";
+import {Fragment, useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
 import SongCard from "./components/SongCard";
 import {useNavigate, useParams} from "react-router-dom";
@@ -64,6 +64,21 @@ const PlaylistPage = () => {
     const handlePlay = (song: Song) => {
         playerStore.Player = getSong(song, userStore.user);
     }
+
+    const allAuthorsTogetherUnique = new Array<string>()
+    playlistInfo.songs.forEach(i => {
+        i.authors.forEach(e => {
+            if (allAuthorsTogetherUnique.includes(e))
+                return
+            allAuthorsTogetherUnique.push(e)
+        })
+    })
+
+    const authorsMapped = allAuthorsTogetherUnique.map((author, index) => {
+        if (index < allAuthorsTogetherUnique.length - 1)
+            return (<Fragment><span>{author}</span>, </Fragment>)
+        return (<Fragment><span>{author}</span></Fragment>)
+    })
 
     return (
         <div className="playlist-page-wrapper">
@@ -138,9 +153,10 @@ const PlaylistPage = () => {
                                         id={index + 1}
                                         name={song.songName}
                                         album={playlistInfo.playlistName}
-                                        artists={playlistInfo.songs.map(x => x.authors)}
+                                        artists={song.authors}
                                         length={formatDuration(song.duration)}
                                         isLiked={song.isHave}
+                                        imageId={song.imageId}
                                     />
                                 })
                             }

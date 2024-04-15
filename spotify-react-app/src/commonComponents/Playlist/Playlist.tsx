@@ -7,7 +7,7 @@ const Playlist: FC<IPlaylist> = ({playlist}) => {
     return (
         <div className="home-page__playlist-normal">
             <div className="home-page__playlist-normal__image-div">
-                <img src={getImage(playlist.imageId)} alt="Фотка хуя" className="home-page__playlist-normal__image"/>
+                <img src={getImage(playlist.imageId)} alt="Фотка альбома" className="home-page__playlist-normal__image"/>
             </div>
             <div className="home-page__playlist-normal__text">
                 <div className="home-page__playlist-normal__text__title">
