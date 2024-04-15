@@ -1,5 +1,5 @@
 using MediatR;
-using RussianSpotify.Contracts.Requests.Music.GetFavouritePlaylistById;
+using RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistById;
 

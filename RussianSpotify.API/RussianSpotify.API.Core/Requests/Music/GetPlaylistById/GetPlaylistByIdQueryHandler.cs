@@ -1,9 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
-using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Exceptions;
-using RussianSpotify.Contracts.Requests.Music.GetFavouritePlaylistById;
+using RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistById;
 
@@ -39,7 +38,7 @@ public class GetPlaylistByIdQueryHandler
             .Include(x => x.Author)
             .Include(x => x.Songs)
             .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
-            ?? throw new EntityNotFoundException<Playlist>(request.PlaylistId);
+            ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
 
         return new GetFavouritePlaylistByIdResponse
         {
