@@ -142,3 +142,10 @@ export const getSongsByNameFilter = async (filter: string, pageNumber: number, p
 
     return songs
 }
+
+export const removeSongFromBucket = async (songId: string) => {
+    const response = await $authHost.delete(`api/Song/RemoveSongFromBucket/${songId}`);
+
+    if (response.status !== 200)
+        console.log(`Someting error when deleting song from bucket`)
+}

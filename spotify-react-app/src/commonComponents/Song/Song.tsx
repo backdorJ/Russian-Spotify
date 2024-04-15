@@ -6,6 +6,7 @@ import {ISong} from "./interfaces/ISong";
 import "./styles/Song.css"
 import {PlayerContext, UserContext} from "../../index";
 import {useNavigate} from "react-router-dom";
+import {removeSongFromBucket} from "../../http/songApi";
 
 /**Компонент для песни
  * @param song - Song песня*/
@@ -27,6 +28,11 @@ const Song : FC<ISong> = ({song}) => {
             setMenuOpen(false);
         }, 100);
     };
+
+    const handleRemoveSong = (songId: string) => {
+        removeSongFromBucket(songId).then(r => console.log(r))
+        window.location.reload()
+    }
 
     return (
         <div key={song.songId} className="music-card-button">
@@ -56,7 +62,7 @@ const Song : FC<ISong> = ({song}) => {
                 <div className="music-menu" onMouseEnter={handleMouseEnter}
                      onMouseLeave={handleMouseLeave}>
                     <button>Воспроизвести следующей</button>
-                    <button>Удалить из плейлиста</button>
+                    <button onClick={() => handleRemoveSong(song.songId)}>Удалить из понравившихся</button>
                 </div>
             )}
         </div>
