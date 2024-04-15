@@ -7,7 +7,7 @@ import {getSongInfo} from "./songApi";
 export const getFavouritePlaylists: (pageNumber: number, pageSize: number) => Promise<Playlist[]> =
     async (pageNumber, pageSize): Promise<Playlist[]> => {
 
-        const response = await $authHost.get(`api/Playlist/AllFavouritePlaylists?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+    const response = await $authHost.get(`api/Playlist/GetPlaylists?pageNumber=${pageNumber}&pageSize=${pageSize}&isFavourite=true`);
 
         if (response.status !== 200 || response.data === undefined)
             return new Array<Playlist>();
@@ -37,7 +37,7 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
         if (playlistId === undefined)
             return new Playlist();
 
-        const response = await $authHost.get(`api/Playlist/FavouritePlaylist/${playlistId}`);
+        const response = await $authHost.get(`api/Playlist/GetPlaylist/${playlistId}`);
 
         if (response.status !== 200 || response.data === undefined)
             return new Playlist();
