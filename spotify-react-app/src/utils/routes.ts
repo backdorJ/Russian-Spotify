@@ -7,6 +7,7 @@ import AccountPage from "../pages/AccountPage/AccountPage";
 import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
 import EmailConfirmationPage from "../pages/EmailConfirmationPage/EmailConfirmationPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
+import AuthorPage from "../pages/AuthorPage/AuthorPage";
 
 export const routes = [
 ]
@@ -46,5 +47,9 @@ export const authRoutes = [
     {
         path: routeNames.SEARCH_PAGE,
         Component: SearchPage
+    },
+    {
+        path: routeNames.AUTHOR_PAGE,
+        Component: AuthorPage
     }
 ]

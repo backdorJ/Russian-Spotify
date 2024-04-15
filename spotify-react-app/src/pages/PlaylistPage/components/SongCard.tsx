@@ -4,15 +4,17 @@ import not_liked_icon from "../../../assets/mock/playlistpage/like.png"
 import liked_icon from "../../../assets/mock/playlistpage/songs/liked.png"
 import {Fragment} from "react";
 import {getImage} from "../../../http/fileApi";
+import {useNavigate} from "react-router-dom";
 
 const SongCard = (props: any) => {
+    const navigate = useNavigate();
     const {id, name, artists, album, length, isLiked, imageId} = props
     let artistCount = artists.length
     let artistsArray = [...artists]
     let artistsMapped = artistsArray.map((artist, index) => {
         if (index < artistCount - 1)
-            return (<Fragment><span>{artist}</span>, </Fragment>)
-        return (<Fragment><span>{artist}</span></Fragment>)
+            return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span>, </Fragment>)
+        return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span></Fragment>)
     })
 
     return (

@@ -1,10 +1,11 @@
 import {Route, Routes} from "react-router-dom";
 import {routes, authRoutes, notAuthRoutes} from "../../utils/routes";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../index";
 import {observer} from "mobx-react-lite";
 import HomePage from "../../pages/HomePage/HomePage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
+import {isJwtDied} from "../../functions/isJwtDied";
 
 
 

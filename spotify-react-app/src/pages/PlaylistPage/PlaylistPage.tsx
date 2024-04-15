@@ -12,7 +12,7 @@ import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 import {Fragment, useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
 import SongCard from "./components/SongCard";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
 import {getImage} from "../../http/fileApi";
@@ -21,6 +21,7 @@ import Song from "../../models/Song";
 
 const PlaylistPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const sidebarWidth = 280
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
@@ -92,10 +93,10 @@ const PlaylistPage = () => {
                             {playlistInfo.playlistName}
                         </h1>
                         <p className="playlist-page__main__info__singers">
-                            <span>{authorsMapped}</span>
+                            <span onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span>
                         </p>
                         <p className="playlist-page__main__info__additional">
-                            Made by <span>{playlistInfo.authorName}</span> ◦ {playlistInfo.songs.length} songs, {formatDuration(playlistInfo.songs.reduce((sum, current) => sum + current.duration, 0))}
+                            Made by <span onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span> ◦ {playlistInfo.songs.length} songs, {formatDuration(playlistInfo.songs.reduce((sum, current) => sum + current.duration, 0))}
                         </p>
                     </div>
                 </div>

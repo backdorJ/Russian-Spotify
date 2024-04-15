@@ -8,16 +8,19 @@ const StartStopIcon = (props: any) => {
 
     const handleClick = () => {
         const audio: any = document.getElementById("audio-player");
+        const image:any = document.querySelector(".player-music-image");
 
         if (audio !== null) {
             if (audio?.paused) {
                 playerContext.IsPlaying = true;
                 setIsPlaying(true);
                 audio.play();
+                image.style.animation = "3s linear 0s normal none infinite running rot";
             } else {
                 playerContext.IsPlaying = false;
                 setIsPlaying(false);
                 audio.pause();
+                image.style.animation = "none";
             }
         }
     }

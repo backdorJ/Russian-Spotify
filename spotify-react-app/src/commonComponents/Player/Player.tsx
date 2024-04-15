@@ -7,6 +7,8 @@ import NextIcon from "./components/NextIcon";
 import StartStopIcon from "./components/StartStopIcon";
 import LikeIcon from "../../assets/mock/common/LikeIcon";
 import {getSong} from "../../http/songApi";
+import VolumeIcon from "./components/VolumeIcon";
+import {useNavigate} from "react-router-dom";
 
 /** Музыкальный плеер снизу экрана */
 const Player = () => {
@@ -14,6 +16,9 @@ const Player = () => {
     const userStore = useContext(UserContext);
     const [currentPlayingSong, setCurrentPlayingSong] =
         useState(playerStore.Player.currentSong!);
+    const [volume, setVolume] = useState(playerStore.Volume);
+    const [volumeVisibility, setVolumeVisibility] = useState("none");
+    const navigate = useNavigate();
 
     let isOnRepeat = false;
 
@@ -44,6 +49,7 @@ const Player = () => {
     /** Движение progress bar по мере проигрывания трека */
     useEffect(() => {
         const audio = document.getElementById("audio-player");
+
         const handleTimeUpdate = (e: any) => {
             const { duration, currentTime } = e.srcElement;
             setCurrentProgressBarPercent((currentTime / duration) * 100);
@@ -94,7 +100,14 @@ const Player = () => {
                 audio.removeEventListener("ended", onEndedPlayNext);
             }
         }
-    }, []);
+    }, [currentPlayingSong]);
+
+    const handleVolumeChange = (e: any) => {
+        let audio: any = document.getElementById("audio-player");
+        audio.volume = e.target.value;
+        playerStore.Volume = e.target.value;
+        setVolume(playerStore.Volume);
+    }
 
     return (
         <>
@@ -113,17 +126,23 @@ const Player = () => {
                     </div>
                     <div className="player-content">
                         <div className="song-name">{currentPlayingSong.songName}
-                            <span> - {currentPlayingSong.authors.map((author, index) => <a
-                                href={'artist/' + author}
-                                className="player-artist-link">{author}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</a>)}</span>
+                            <span> - {currentPlayingSong.authors.map((author, index) => <span
+                                onClick={() => navigate(`/author/${author}`)}
+                                className="player-artist-link">{author}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
                         </div>
                         <div className="progress__container">
                             <div style={{width: currentProgressBarPercent + "%"}} className="progress"></div>
                         </div>
                     </div>
                     {/*TODO: повесить логику на LikeButton */}
-                    <div className="like-button"><LikeIcon/></div>
-                    <div className="actions"></div>
+                    <div className="actions">
+                        <div className="like-button"><LikeIcon/></div>
+                        <div onMouseEnter={() => setVolumeVisibility("block")} onMouseLeave={() => setVolumeVisibility("none")}  className={"volume"}>
+                            <VolumeIcon />
+                            <input style={{display: volumeVisibility}} className="volume-slider" onInput={handleVolumeChange} type="range" id="volume-slider" min="0" max="1" step="0.01"
+                                value={volume}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

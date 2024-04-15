@@ -5,10 +5,12 @@ import LikeIcon from "../../assets/mock/common/LikeIcon";
 import {ISong} from "./interfaces/ISong";
 import "./styles/Song.css"
 import {PlayerContext, UserContext} from "../../index";
+import {useNavigate} from "react-router-dom";
 
 /**Компонент для песни
  * @param song - Song песня*/
 const Song : FC<ISong> = ({song}) => {
+    const navigate = useNavigate()
     const playerStore = useContext(PlayerContext);
     const userStore = useContext(UserContext);
 
@@ -37,9 +39,9 @@ const Song : FC<ISong> = ({song}) => {
             </div>
             <div className="music-name-authors">
                 <span>{song.songName}</span>
-                <span>{song.authors.map((author, index) => <a
-                    href={'artist/' + author}
-                    className="artist-link">{author}{index < song.authors.length - 1 ? ', ' : ''}</a>)}</span>
+                <span>{song.authors.map((author, index) => <span
+                    onClick={() => navigate(`/author/${author}`)}
+                    className="artist-link">{author}{index < song.authors.length - 1 ? ', ' : ''}</span>)}</span>
             </div>
             <div className="music-duration">
                 <span>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</span>
