@@ -8,6 +8,8 @@ import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
 import EmailConfirmationPage from "../pages/EmailConfirmationPage/EmailConfirmationPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import AuthorPage from "../pages/AuthorPage/AuthorPage";
+import FavoriteSongsPlaylist from "../pages/FavoriteSongsPlaylist/FavoriteSongsPlaylist";
+import AuthorSongsPlaylist from "../pages/AuthorSongsPlaylist/AuthorSongsPlaylist";
 
 export const routes = [
 ]
@@ -51,5 +53,13 @@ export const authRoutes = [
     {
         path: routeNames.AUTHOR_PAGE,
         Component: AuthorPage
+    },
+    {
+        path: routeNames.FAVORITE_SONGS,
+        Component: FavoriteSongsPlaylist
+    },
+    {
+        path: routeNames.AUTHOR_SONGS,
+        Component: AuthorSongsPlaylist
     }
 ]

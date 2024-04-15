@@ -31,7 +31,7 @@ export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSiz
             );
     }
 
-const getSongs: (authorName: string, pageNumber: number, pageSize: number) => Promise<Song[]> =
+export const getSongs: (authorName: string, pageNumber: number, pageSize: number) => Promise<Song[]> =
     async (authorName, pageNumber = 1, pageSize= 5): Promise<Song[]> => {
         const authorSongsResponse = await $authHost.get(`api/Song/GetSongsByFilter?` +
             new URLSearchParams({
@@ -62,7 +62,7 @@ const getSongs: (authorName: string, pageNumber: number, pageSize: number) => Pr
         return songs;
     }
 
-const getPlaylists: (authorName: string, pageNumber: number, pageSize: number) => Promise<Playlist[]> =
+export const getPlaylists: (authorName: string, pageNumber: number, pageSize: number) => Promise<Playlist[]> =
     async (authorName, pageNumber = 1, pageSize = 3): Promise<Playlist[]> => {
         const authorPlaylistsResponse = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
             new URLSearchParams({

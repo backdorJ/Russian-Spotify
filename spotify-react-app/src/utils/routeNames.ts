@@ -9,5 +9,7 @@ export default {
     PLAYLIST_PAGE: '/playlist/:id',
     AUTHOR_PAGE: '/author/:authorName',
     PLAYLIST_PAGE_ROUTE: '/playlist/:id',
-    PLAYLIST_PAGE_NAV: '/playlist/'
+    PLAYLIST_PAGE_NAV: '/playlist/',
+    FAVORITE_SONGS: '/favorite-songs',
+    AUTHOR_SONGS: '/songs/:authorName'
 }
