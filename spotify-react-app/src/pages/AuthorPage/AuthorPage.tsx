@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import Author from "../../models/Author";
+import Author from "../../models/AuthorPage";
 import {getAuthor} from "../../http/authorApi";
 import FavouritePlaylist from "../AccountPage/components/FavouritePlaylist";
 import FavoriteMusic from "../AccountPage/components/FavoriteMusic";

@@ -14,6 +14,8 @@ export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSiz
         const authorInfoResponse =
             await $authHost.get(`api/Author?Name=${authorName}`);
 
+        console.log(`author: ${authorInfoResponse.status}`)
+
         if(authorInfoResponse.status !== 200 || authorInfoResponse.data === undefined)
             return new AuthorPage();
 
@@ -33,7 +35,7 @@ const getSongs: (authorName: string, pageNumber: number, pageSize: number) => Pr
     async (authorName, pageNumber = 1, pageSize= 5): Promise<Song[]> => {
         const authorSongsResponse = await $authHost.get(`api/Song/GetSongsByFilter?` +
             new URLSearchParams({
-                filterName: 'PlaylistName',
+                filterName: songFilters.authorFilter,
                 filterValue: authorName,
                 pageNumber: pageNumber.toString(),
                 pageSize: pageSize.toString()
@@ -64,7 +66,7 @@ const getPlaylists: (authorName: string, pageNumber: number, pageSize: number) =
     async (authorName, pageNumber = 1, pageSize = 3): Promise<Playlist[]> => {
         const authorPlaylistsResponse = await $authHost.get(`api/Song/GetPlaylistsByFilter?` +
             new URLSearchParams({
-                filterName: 'PlaylistName',
+                filterName: playlistFilters.authorFilter,
                 filterValue: authorName,
                 pageNumber: pageNumber.toString(),
                 pageSize: pageSize.toString()
