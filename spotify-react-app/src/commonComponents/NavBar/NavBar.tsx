@@ -40,7 +40,7 @@ const NavBar = observer((props: any) => {
                         onClick={() => navigate(routeNames.ACCOUNT_PAGE)}
                         className="navbar__account__main__image__div">
                         <img
-                            src={imagePlaceholder}
+                            src={userStore.user.photoUrl === null ? imagePlaceholder : userStore.user.photoUrl}
                             alt=""
                             style={userStore.user.isSubscribed ? subscribedStyles : {}}
                             className="navbar__account__main__image"/>

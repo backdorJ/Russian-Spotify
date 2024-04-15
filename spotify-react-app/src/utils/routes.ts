@@ -6,6 +6,7 @@ import loginPage from "../pages/LoginPage/LoginPage";
 import AccountPage from "../pages/AccountPage/AccountPage";
 import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
+import AuthorPage from "../pages/AuthorPage/AuthorPage";
 
 export const routes = [
 ]
@@ -41,5 +42,9 @@ export const authRoutes = [
     {
         path: routeNames.SEARCH_PAGE,
         Component: SearchPage
+    },
+    {
+        path: routeNames.AUTHOR_PAGE,
+        Component: AuthorPage
     }
 ]

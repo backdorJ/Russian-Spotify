@@ -80,7 +80,7 @@ export const getFavouriteSongs: (pageNumber: number, pageSize: number) => Promis
             song.authors,
             null,
             null,
-            null)
+            true)
     }
 
     for(let i = 1; i < response.data.entities.length; ++i)
