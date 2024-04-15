@@ -21,7 +21,6 @@ const FavouritePlaylist : FC<IFavouritePlaylist> = ({favouritePlaylists}) => {
 
     return (
         <>
-            <h3>Любимые альбомы & плейлисты</h3>
             <div className="cards-container">
                 <button className="arrow-button arrow-button-left"
                         onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, -3, playlistsNormalLoaded)}

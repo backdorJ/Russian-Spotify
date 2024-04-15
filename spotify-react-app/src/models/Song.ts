@@ -20,6 +20,7 @@ export default class Song {
     /** Список имён авторов песни */
     authors: string[];
 
+    /** Предыдущая песня */
     prevSong: Song | null;
 
     /** Следущая песня */

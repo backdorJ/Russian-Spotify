@@ -2,7 +2,7 @@ import "../AccountPage/styles/AccountPage.css"
 // @ts-ignore
 import settings_icon from "../../assets/setting.png"
 import {useNavigate} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import DiscoveryCard from "../HomePage/components/DiscoveryCard";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import PlaylistNormal from "../HomePage/components/PlaylistNormal";
@@ -22,7 +22,6 @@ const AccountPage = () => {
     const navigate = useNavigate()
     const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
     const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
-    const image = "https://sun9-21.userapi.com/impg/PhIuCK3TG1PTeAdwj0oMDxoADArLLJztpyzFEg/bAieR_Fic2I.jpg?size=153x153&quality=96&sign=eddeef8abc5207ce6ee23de1131750a6&type=album"
     const endsubdate = userStore.user._subEndDate.getDate()
     const endsubmonth = userStore.user._subEndDate.getMonth()
     const endsubyear = userStore.user._subEndDate.getFullYear()
@@ -30,6 +29,7 @@ const AccountPage = () => {
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState(new Array<Song>());
     const [favouritePlaylists, setFavouritePlaylists] = useState(new Array<Playlist>())
+    let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
 
     // Получение списка любимых песен
     useEffect(() => {
@@ -67,9 +67,6 @@ const AccountPage = () => {
 
     return (
         <div className="account-page">
-            <header className="account-page-header">
-                <img className="settings_icon" src={settings_icon} alt="Назад" onClick={() => navigate("/settings")}/>
-            </header>
             <div className="account-page-content">
                 <div className="account-page-wrapper">
                     <div className="user-info">
@@ -91,32 +88,15 @@ const AccountPage = () => {
                         </div>
                         <div className="user-image-container">
                             <img className="user-image"
-                                 src={image}
+                                 src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder }
                                  alt="Твое фото"/>
                         </div>
                     </div>
                     <div className="favorite-container">
-                        <FavouritePlaylist favouritePlaylists={favouritePlaylists} />
-                        <h3>Любимые исполнители</h3>
-                        <div className="cards-container">
-                            <button className="arrow-button arrow-button-left"
-                                    onClick={() => scroll(setCurrentStartDiscoveryIndex, currentStartDiscoveryIndex, -3, discoveryCardsLoaded)}
-                                    disabled={!canScroll(currentStartDiscoveryIndex, -3, discoveryCardsLoaded)}>&lt;</button>
-                            <div className="home-page__discovery__cards">
-                                {
-                                    visibleDiscoveryCards.map(i => (
-                                        <div className="card">
-                                            <DiscoveryCard
-                                                author={Author.init("", i.name, i.imageUrl, new Array<AlbumLittle>())}/>
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                            <button className="arrow-button arrow-button-right"
-                                    onClick={() => scroll(setCurrentStartDiscoveryIndex, currentStartDiscoveryIndex, 3, discoveryCardsLoaded)}
-                                    disabled={!canScroll(currentStartDiscoveryIndex, 3, discoveryCardsLoaded)}>&gt;</button>
-                        </div>
-                        <FavoriteMusic favoriteSongs={favoriteSongs}/>
+                        {favoriteSongs.length > 0 &&  <><h3>Любимые треки</h3>
+                            <FavoriteMusic favoriteSongs={favoriteSongs}/></>}
+                        {favouritePlaylists.length > 0 && <><h3>Любимые альбомы & плейлисты</h3>
+                        <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>}
                     </div>
                 </div>
             </div>

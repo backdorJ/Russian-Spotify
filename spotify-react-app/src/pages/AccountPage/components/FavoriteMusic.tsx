@@ -9,7 +9,6 @@ import "./styles/FavoriteMusic.css"
 const FavoriteMusic : FC<IFavoriteMusic> = ( {favoriteSongs}) => {
     return (
         <>
-            <h3>Любимые треки</h3>
             <div className="music-container">
                 <div className="music-container-wrapper">
                     {favoriteSongs.map((song) => <Song song={song} />)}

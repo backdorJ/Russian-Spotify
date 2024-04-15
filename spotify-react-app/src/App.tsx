@@ -18,20 +18,7 @@ const App = observer(() => {
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false)
     const [showCreatePlaylistModal, setShowCreatePlaylistModal] = useState(false)
     const [isSubscribed, setIsSubscribed] = useState(false);
-
-    // TODO: чек useEffect ниже
-    useEffect(() => {
-        getSubscription()
-            .then(x => {
-                setIsSubscribed(new Date(x.endDate) > new Date())
-            });
-    }, []);
-
-
-    if (showSubscriptionModal)
-        document.getElementById("body")!.style.overflowY = 'hidden';
-    else
-        document.getElementById("body")!.style.overflowY = 'visible';
+    const [canShowPlayer, setCanShowPlayer] = useState(false);
 
     // TODO: тут идет запрос на подписку в loadUser, и с юзера можешь брать подписку
     useEffect(() => {
@@ -39,6 +26,25 @@ const App = observer(() => {
             .then(user => userStore.login(user))
     }, []);
 
+    // TODO: чек useEffect выше
+    useEffect(() => {
+        getSubscription()
+            .then(x => {
+                setIsSubscribed(new Date(x.endDate) > new Date())
+            });
+    }, []);
+
+    if (showSubscriptionModal)
+        document.getElementById("body")!.style.overflowY = 'hidden';
+    else
+        document.getElementById("body")!.style.overflowY = 'visible';
+
+    useEffect(() => {
+        if(userStore.isAuth && localStorage.getItem('token') && isSubscribed && playerStore.Player.currentSong)
+            setCanShowPlayer(true);
+        else
+            setCanShowPlayer(false);
+    }, [userStore.user, userStore.isAuth, isSubscribed, playerStore.Player.currentSong]);
 
     return (
         <BrowserRouter>
@@ -55,7 +61,7 @@ const App = observer(() => {
                 <CreatePlaylistModal show={showCreatePlaylistModal} onHide={() => setShowCreatePlaylistModal(false)}/>
             </div>
             {
-                userStore.isAuth && isSubscribed && playerStore.Player.currentSong !== null && <Player/>
+                canShowPlayer && <Player/>
             }
         </BrowserRouter>
     );

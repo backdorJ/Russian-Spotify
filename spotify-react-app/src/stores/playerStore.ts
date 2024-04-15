@@ -7,6 +7,8 @@ export default class PlayerStore {
 
     _isPlaying: boolean = true;
 
+    _volume: number = 0.75;
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -25,5 +27,13 @@ export default class PlayerStore {
 
     set IsPlaying(isPlaying: boolean){
         this._isPlaying = isPlaying;
+    }
+
+    get Volume(){
+        return this._volume;
+    }
+
+    set Volume(volume: number){
+        this._volume = volume;
     }
 }

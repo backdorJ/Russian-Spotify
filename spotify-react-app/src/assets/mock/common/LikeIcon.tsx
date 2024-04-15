@@ -1,7 +1,9 @@
 import {useState} from "react";
 
 const LikeIcon = () => {
-    const [liked, setLiked] = useState(false)
+    const [liked, setLiked] =
+        useState(false);
+
     const handleLike = () => {
         setLiked(!liked)
     }
