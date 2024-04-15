@@ -4,57 +4,68 @@ import {songFilters} from "./filters/songFilters";
 import Song from "../models/Song";
 import Playlist from "../models/Playlist";
 import {playlistFilters} from "./filters/playlistFilter";
+import {getImage} from "./fileApi";
 
-export const getAuthor: (authorName: string) => Promise<Author> =
-    async (authorName): Promise<Author> => {
+export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSizeForSongs: number, pageNumberForPlaylists: number, pageSizeForPlaylists: number ) => Promise<Author> =
+    async (authorName, pageNumberForSongs = 1, pageSizeForSongs = 5, pageNumberForPlaylists = 1,  pageSizeForPlaylists = 3): Promise<Author> => {
         const authorInfoResponse =
             await $authHost.get(`api/Author?Name=${authorName}`);
 
         if(authorInfoResponse.status !== 200 || authorInfoResponse.data === undefined)
             return new Author();
 
-        const songs = await getSongs(authorName);
+        const songs = await getSongs(authorName, pageNumberForSongs, pageSizeForSongs);
 
-        const playlists = await getPlaylists(authorName);
+        const playlists = await getPlaylists(authorName, pageNumberForPlaylists, pageSizeForPlaylists);
 
         return Author.init(
             authorInfoResponse.data.name,
-            `${process.env.REACT_APP_SPOTIFY_API}api/File/image/${authorInfoResponse.data.authorPhotoId}`,
+            getImage(authorInfoResponse.data.authorPhotoId),
             songs,
             playlists
             );
     }
 
-const getSongs: (authorName: string) => Promise<Song[]> =
-    async (authorName): Promise<Song[]> => {
-        const authorSongsResponse =
-            await $authHost.get(`api/Song/GetSongsByFilter?FilterName=${songFilters.authorFilter}&FilterValue=${authorName}&PageNumber=1&PageSize=5`);
+const getSongs: (authorName: string, pageNumber: number, pageSize: number) => Promise<Song[]> =
+    async (authorName, pageNumber = 1, pageSize= 5): Promise<Song[]> => {
+        const authorSongsResponse = await $authHost.get(`api/Song/GetSongsByFilter?` +
+            new URLSearchParams({
+                filterName: 'PlaylistName',
+                filterValue: authorName,
+                pageNumber: pageNumber.toString(),
+                pageSize: pageSize.toString()
+            }));
 
         let songs: Song[] = []
 
         if(authorSongsResponse.status !== 200 || authorSongsResponse.data === undefined)
             return songs;
 
-        for(let i: number = 0; i < authorSongsResponse.data.totalCount; ++i){
+        for(let i: number = 0; i < authorSongsResponse.data.entities.length; ++i){
             const songItem = authorSongsResponse.data.entities[i];
 
             songs[i] = Song.init(songItem.songId, songItem.songName, songItem.imageId,
                 songItem.duration, songItem.category, songItem.authors, null, null, null);
         }
 
-        for(let i = 1; i < authorSongsResponse.data.totalCount; ++i)
+        for(let i = 1; i < authorSongsResponse.data.entities.length; ++i)
             songs[i].prevSong = songs[i-1];
 
-        for(let i = 0; i < authorSongsResponse.data.totalCount - 1; ++i)
+        for(let i = 0; i < authorSongsResponse.data.entities.length - 1; ++i)
             songs[i].nextSong = songs[i + 1];
 
         return songs;
     }
 
-const getPlaylists: (authorName: string) => Promise<Playlist[]> =
-    async (authorName): Promise<Playlist[]> => {
-        const authorPlaylistsResponse =
-            await $authHost.get(`api/Song/GetPlaylistsByFilter?FilterName=${playlistFilters.authorFilter}&FilterValue=${authorName}&PageNumber=1&PageSize=5`);
+const getPlaylists: (authorName: string, pageNumber: number, pageSize: number) => Promise<Playlist[]> =
+    async (authorName, pageNumber = 1, pageSize = 3): Promise<Playlist[]> => {
+        const authorPlaylistsResponse = await $authHost.get(`api/Song/GetPlaylistsByFilter?` +
+            new URLSearchParams({
+                filterName: 'PlaylistName',
+                filterValue: authorName,
+                pageNumber: pageNumber.toString(),
+                pageSize: pageSize.toString()
+            }));
 
         let playlists: Playlist[] = [];
 

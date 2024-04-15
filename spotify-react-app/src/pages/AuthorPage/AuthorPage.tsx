@@ -4,26 +4,13 @@ import Author from "../../models/Author";
 import {getAuthor} from "../../http/authorApi";
 import FavouritePlaylist from "../AccountPage/components/FavouritePlaylist";
 import FavoriteMusic from "../AccountPage/components/FavoriteMusic";
-import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
-import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import '../AuthorPage/styles/AuthorPage.css'
 
 const AuthorPage = () => {
     const params = useParams();
     const authorName = params.authorName;
 
-    const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
-    const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
-
-
     const [authorData, setAuthorData] = useState(new Author());
-
-    const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
-
-    const [currentStartDiscoveryIndex, setCurrentStartDiscoveryIndex] = useState(0);
-
-    const visibleDiscoveryCards = discoveryCardsLoaded.slice(currentStartDiscoveryIndex, currentStartDiscoveryIndex + 3);
-
 
     const canScroll = (index: number, step: number, loadedList: any[]) => {
         const newIndex = index + step;
@@ -38,7 +25,7 @@ const AuthorPage = () => {
 
     useEffect(() => {
         if(authorName !== undefined)
-            getAuthor(authorName)
+            getAuthor(authorName, 1, 5, 1, 3)
                 .then(x => setAuthorData(x));
     }, []);
 

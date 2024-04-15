@@ -86,7 +86,7 @@ const AccountPage = () => {
                         </div>
                         <div className="user-image-container">
                             <img className="user-image"
-                                 src={userStore.user.photoUrl === null ? imagePlaceholder : userStore.user.photoUrl}
+                                 src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder }
                                  alt="Твое фото"/>
                         </div>
                     </div>

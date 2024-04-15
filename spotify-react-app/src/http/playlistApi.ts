@@ -42,7 +42,7 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
         if (response.status !== 200 || response.data === undefined)
             return new Playlist();
 
-        var playlist = Playlist.init(
+        let playlist = Playlist.init(
             playlistId,
             response.data.playlistName,
             response.data.imageId,

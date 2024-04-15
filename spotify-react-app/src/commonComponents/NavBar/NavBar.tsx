@@ -10,7 +10,7 @@ import {useNavigate} from "react-router-dom";
 import wideOpenElements from "../../utils/navbar/wideOpenElements";
 import routeNames from "../../utils/routeNames";
 import MakeSubscriptionModal from "./components/makeSubscriptionModal/makeSubscriptionModal";
-import {UserContext} from "../../index";
+import {PlayerContext, UserContext} from "../../index";
 import {observer} from "mobx-react-lite";
 
 
@@ -40,7 +40,7 @@ const NavBar = observer((props: any) => {
                         onClick={() => navigate(routeNames.ACCOUNT_PAGE)}
                         className="navbar__account__main__image__div">
                         <img
-                            src={userStore.user.photoUrl === null ? imagePlaceholder : userStore.user.photoUrl}
+                            src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder }
                             alt=""
                             style={userStore.user.isSubscribed ? subscribedStyles : {}}
                             className="navbar__account__main__image"/>
