@@ -15,12 +15,18 @@ public class GetPlaylistsByFilterQueryHandler
     private readonly IDbContext _dbContext;
     private readonly IFilterHandler _filterHandler;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="dbContext">Конструктор базы данных</param>
+    /// <param name="filterHandler">Сервис для фильтрации сущностей</param>
     public GetPlaylistsByFilterQueryHandler(IDbContext dbContext, IFilterHandler filterHandler)
     {
         _dbContext = dbContext;
         _filterHandler = filterHandler;
     }
     
+    /// <inheritdoc/>
     public async Task<GetPlaylistsByFilterResponse> Handle(GetPlaylistsByFilterQuery request, CancellationToken cancellationToken)
     {
         if (request is null)
@@ -28,13 +34,17 @@ public class GetPlaylistsByFilterQueryHandler
 
         var query = _dbContext.Playlists.AsQueryable();
 
+        // ВАЖНО: На случай если придется делать include у плейлистов,
+        // то перемешка по Guid.NewGuid() не подходит, ибо она падает
+        // с инклудом(лефт джоин), поэтому надо будет переписать 
+        // GetShuffledPlaylists на другой хэндлер!!!
         var filteredPlaylists =
             await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
-
+        
         var totalCount = await filteredPlaylists.CountAsync(cancellationToken: cancellationToken);
         
         var resultPlaylists = await filteredPlaylists
-            .Select(x => new GetAllFavouriteAlbumAndPlaylistResponseItem()
+            .Select(x => new GetAllFavouriteAlbumAndPlaylistResponseItem
             {
                 Id = x.Id,
                 PlaylistName = x.PlaylistName,

@@ -38,18 +38,38 @@ public class GetAuthorsByFilterQueryHandler : IRequestHandler<GetAuthorsByFilter
             throw new ArgumentNullException(nameof(request));
 
         var query = _dbContext.Users.AsQueryable();
+        var isShuffling = request.FilterName.ToLower().Equals("authorshuffled");
+        var totalCount = 0;
+        
+        var filteredAuthors = !isShuffling
+            ? await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken)
+            : query;
 
-        var filteredAuthors =
-            await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
-
-        var totalCount = await filteredAuthors.CountAsync(cancellationToken);
+        if (!isShuffling)
+            totalCount = await filteredAuthors.CountAsync(cancellationToken);
 
         var filteredAuthorsToList = await filteredAuthors
             .Include(i => i.AuthorPlaylists)
             .ToListAsync(cancellationToken);
 
-        var resultAuthors = filteredAuthorsToList
-            .Where(i => _roleManager.IsInRole(i, BaseRoles.AuthorRoleName))
+        if (isShuffling)
+        {
+            var random = new Random();
+            filteredAuthorsToList = filteredAuthorsToList
+                .OrderBy(i => random.Next())
+                .ToList();
+        }
+
+        var authors = filteredAuthorsToList
+            .Where(i => _roleManager.IsInRole(i, BaseRoles.AuthorRoleName));
+
+        var authorsEnumerable = authors.ToList();
+        if (isShuffling)
+            totalCount = authorsEnumerable.Count;
+        
+        var resultAuthors = authorsEnumerable
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
             .Select(i => new GetAuthorsByFilterResponseItem
             {
                 AuthorId = i.Id,
@@ -57,10 +77,10 @@ public class GetAuthorsByFilterQueryHandler : IRequestHandler<GetAuthorsByFilter
                 ImageId = i.UserPhotoId ?? new Guid(),
                 Albums = i.AuthorPlaylists
                     .Take(request.PlaylistCount)
-                    .Select(i => new GetAuthorsByFilterResponseItemPlaylist
+                    .Select(e => new GetAuthorsByFilterResponseItemPlaylist
                     {
-                        PlaylistId = i.Id,
-                        PlaylistName = i.PlaylistName
+                        PlaylistId = e.Id,
+                        PlaylistName = e.PlaylistName
                     }).ToList(),
                 TotalAlbumCount = i.AuthorPlaylists.Count
             })
