@@ -5,12 +5,14 @@ import search_icon from '../../assets/searchPage/search_icon_121212.png'
 import searchTypesProps from "../../utils/search/searchTypesProps";
 import './styles/SearchPage.css'
 import Song from "../../commonComponents/Song/Song";
-import {getSongs} from "../../http/songApi";
+import {getSongs, getSongsByNameFilter} from "../../http/songApi";
 import SongModel from "../../models/Song";
 import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import SearchPlaylistCard from "./components/SearchPlaylistCard";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import SearchAuthorCard from "./components/SearchAuthorCard";
+import {getFavouritePlaylists, getPlaylistsByNameFilter} from "../../http/playlistApi";
+import {getAuthorsByFilter} from "../../http/authorApi";
 
 
 const SearchPage = () => {
@@ -25,20 +27,22 @@ const SearchPage = () => {
         if (searchType === 1) {
             setAuthors([])
             setPlaylists([])
-            getSongs(1, 10)
+            getSongsByNameFilter(search, 1, 10)
                 .then(response => setSongs(prev => [...response]))
                 .then(() => setIsSearched(true))
         }
         if (searchType === 2) {
             setSongs([])
             setAuthors([])
-            setPlaylists(playlistsNormal)
+            getPlaylistsByNameFilter(search, 1, 10)
+                .then(response => setPlaylists(prev => [...response]))
             setIsSearched(true)
         }
         if (searchType === 3) {
             setSongs([])
             setPlaylists([])
-            setAuthors(discoveryCards)
+            getAuthorsByFilter(search, 1, 10)
+                .then(response => setAuthors(prev => [...response]))
             setIsSearched(true)
         }
     }
@@ -54,7 +58,10 @@ const SearchPage = () => {
                         <img src={search_icon} alt="Search"/>
                         <input
                             value={search}
-                            onChange={e => setSearch(e.target.value)}
+                            onChange={e => {
+                                setSearch(e.target.value)
+                                setIsSearched(false)
+                            }}
                             type="text"
                             placeholder={`Search for ${inputPlaceholder}`}
                             className="search__header__field__left__input"/>

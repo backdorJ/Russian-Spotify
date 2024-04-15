@@ -7,5 +7,6 @@ export default {
     EMAIL_CONFIRMATION_PAGE: '/email-confirmation',
     PLAYLIST_PAGE: '/playlist',
     SEARCH_PAGE: '/search',
-    PLAYLIST_PAGE: '/playlist/:id'
+    PLAYLIST_PAGE_ROUTE: '/playlist/:id',
+    PLAYLIST_PAGE_NAV: '/playlist/'
 }

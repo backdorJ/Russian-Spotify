@@ -63,7 +63,7 @@ public class SongController : FileBaseController
     }
 
     /// <summary>
-    /// Получить музыку по фильтру(Доступные фильтры: AuthorSongs)
+    /// Получить музыку по фильтру(Доступные фильтры: AuthorSongs, SongName)
     /// </summary>
     /// <param name="request">GetSongsByFilterRequest(Название фильтра,
     /// значение фильтра, страница, кол-во песен на странице)</param>

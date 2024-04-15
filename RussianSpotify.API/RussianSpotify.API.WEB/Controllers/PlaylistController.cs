@@ -31,6 +31,25 @@ public class PlaylistController : ControllerBase
     {
         _mediator = mediator;
     }
+    
+    /// <summary>
+    /// Получить альбомы по фильтру(Доступные фильтры: AuthorPlaylists, PlaylistName)
+    /// </summary>
+    /// <param name="request">GetPlaylistsByFilterRequest(Название фильтра,
+    /// значение фильтра, страница, кол-во альбомов на странице)</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Список GetPlaylistsByFilterResponse альбомы по фильтру</returns>
+    [HttpGet("GetPlaylistsByFilter")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<GetPlaylistsByFilterResponse> GetPlaylistsByFilter(
+        [FromQuery] GetPlaylistsByFilterRequest request,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetPlaylistsByFilterQuery(request);
+        return await _mediator.Send(query, cancellationToken);
+    }
 
     /// <summary>
     /// Создать плейлист/альбом

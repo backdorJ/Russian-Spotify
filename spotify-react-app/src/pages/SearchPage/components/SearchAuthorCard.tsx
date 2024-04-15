@@ -1,19 +1,23 @@
 import {Fragment} from "react";
+import {getImage} from "../../../http/fileApi";
+import {useNavigate} from "react-router-dom";
+import routeNames from "../../../utils/routeNames";
 
 
 const SearchAuthorCard = (props: any) => {
     const {author} = props
+    const navigate = useNavigate()
 
-    const playlists = [...author.playlists]
+    const playlists = [...author.albums]
 
     let playlistsMapped = playlists.map((playlist, index) => {
         if (index < playlists.length - 1)
-            return (<Fragment><span>{playlist}</span>, </Fragment>)
-        return (<Fragment><span>{playlist}</span></Fragment>)
+            return (<Fragment><span onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span>, </Fragment>)
+        return (<Fragment><span onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span></Fragment>)
     })
 
-    let additionalPlaylistCountDisplay = author.playlistCount > playlists.length
-        ? `and ${author.playlistCount - playlists.length} more album` :
+    let additionalPlaylistCountDisplay = author.totalCount > playlists.length
+        ? `and ${author.totalCount - playlists.length} more album` :
         ''
 
     let additionalsEnding = author.playlistCount > playlists.length ?
@@ -22,10 +26,10 @@ const SearchAuthorCard = (props: any) => {
     return (
         <div className="search-author">
             <div className="search-author__left">
-                <img src={author.imageUrl} alt={author.name}/>
+                <img src={getImage(author.imageId)} alt={author.authorName}/>
             </div>
             <div className="search-author__right">
-                <h2>{author.name}</h2>
+                <h2>{author.authorName}</h2>
                 <p>{playlistsMapped} {additionalPlaylistCountDisplay}{additionalsEnding}</p>
             </div>
         </div>
