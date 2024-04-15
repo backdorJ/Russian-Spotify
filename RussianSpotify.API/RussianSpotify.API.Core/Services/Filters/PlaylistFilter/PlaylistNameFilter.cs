@@ -3,6 +3,7 @@ using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotify.API.Core.Services.Filters.PlaylistFilter;
 
+/// <inheritdoc/>
 public class PlaylistNameFilter : IFilter<Playlist>
 {
     public Task<IOrderedQueryable<Playlist>> FilterAsync(IQueryable<Playlist> queryable, string filterValue,

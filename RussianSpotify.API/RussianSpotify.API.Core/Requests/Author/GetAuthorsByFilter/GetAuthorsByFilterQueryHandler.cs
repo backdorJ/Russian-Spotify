@@ -8,21 +8,29 @@ using RussianSpotify.Contracts.Requests.Author.GetAuthorsByFilter;
 
 namespace RussianSpotify.API.Core.Requests.Author.GetAuthorsByFilter;
 
+/// <summary>
+/// Обработчик запроса <see cref="GetAuthorsByFilterRequest"/>
+/// </summary>
 public class GetAuthorsByFilterQueryHandler : IRequestHandler<GetAuthorsByFilterQuery, GetAuthorsByFilterResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IFilterHandler _filterHandler;
     private readonly IRoleManager _roleManager;
-    private readonly UserManager<User> _userManager;
 
-    public GetAuthorsByFilterQueryHandler(IDbContext dbContext, IRoleManager roleManager, IFilterHandler filterHandler, UserManager<User> userManager)
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="dbContext">Контекст базы данных</param>
+    /// <param name="roleManager">Сервис для работы с ролями пользователей</param>
+    /// <param name="filterHandler">Сервис для фильтра сущностей</param>
+    public GetAuthorsByFilterQueryHandler(IDbContext dbContext, IRoleManager roleManager, IFilterHandler filterHandler)
     {
         _dbContext = dbContext;
         _roleManager = roleManager;
         _filterHandler = filterHandler;
-        _userManager = userManager;
     }
 
+    /// <inheritdoc/>
     public async Task<GetAuthorsByFilterResponse> Handle(GetAuthorsByFilterQuery request,
         CancellationToken cancellationToken)
     {

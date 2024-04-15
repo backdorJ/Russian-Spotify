@@ -2,17 +2,27 @@ using RussianSpotify.Contracts.Models;
 
 namespace RussianSpotify.Contracts.Requests.Author.GetAuthorsByFilter;
 
+/// <summary>
+/// Запрос для получения авторов по фильтру
+/// </summary>
 public class GetAuthorsByFilterRequest
 {
     private int _pageNumber;
     private int _pageSize;
 
+    /// <summary>
+    /// Пустой конструктор
+    /// </summary>
     public GetAuthorsByFilterRequest()
     {
         _pageNumber = DefaultsPagination.PageNumber;
         _pageSize = DefaultsPagination.PageSize;
     }
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="request">Запрос</param>
     public GetAuthorsByFilterRequest(GetAuthorsByFilterRequest request)
     {
         FilterName = request.FilterName;
@@ -32,6 +42,9 @@ public class GetAuthorsByFilterRequest
     /// </summary>
     public string FilterValue { get; set; } = null!;
 
+    /// <summary>
+    /// Количество плейлистов в ответе
+    /// </summary>
     public int PlaylistCount { get; set; }
 
     /// <summary>

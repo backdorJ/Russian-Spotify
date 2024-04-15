@@ -3,6 +3,7 @@ using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotify.API.Core.Services.Filters.AuthorFilters;
 
+/// <inheritdoc/>
 public class AuthorNameFilter : IFilter<User>
 {
     public Task<IOrderedQueryable<User>> FilterAsync(IQueryable<User> queryable, string filterValue,

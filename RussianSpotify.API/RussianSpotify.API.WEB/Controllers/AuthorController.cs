@@ -44,7 +44,11 @@ public class AuthorController : ControllerBase
     /// </summary>
     /// <param name="request">Запрос с информацией о запросе</param>
     /// <returns><see cref="GetAuthorsByFilterResponse"/> с инфой об авторе</returns>
+    [Authorize]
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<GetAuthorsByFilterResponse> GetAuthorsByFilterAsync([FromQuery] GetAuthorsByFilterRequest request)
     {
         var query = new GetAuthorsByFilterQuery(request);
