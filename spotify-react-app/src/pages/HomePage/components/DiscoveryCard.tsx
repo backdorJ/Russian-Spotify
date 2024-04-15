@@ -2,12 +2,16 @@ import {FC} from "react";
 import Author from "../../../models/Author";
 import {IAuthor} from "../../../commonComponents/interfaces/IAuthor";
 import {getImage} from "../../../http/fileApi";
+import {useNavigate} from "react-router-dom";
 
 const DiscoveryCard: FC<IAuthor> = ({author}) => {
     const role = 'Artist'
+    const navigate = useNavigate()
 
     return (
-        <div className="home-page__discovery-card">
+        <div
+            // onClick={() => navigate()}
+            className="home-page__discovery-card">
             <div className="home-page__discovery-card__image-div">
                 <img src={getImage(author.imageId)} alt={author.authorName} className="home-page__discovery-card__image"/>
             </div>
