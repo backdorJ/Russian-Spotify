@@ -55,3 +55,19 @@
     margin-top: 15px;
     width: 75%;
 }
+
+.checkbox-container {
+    display: flex;
+    justify-content: center;
+}
+
+.switcher-label {
+    display: flex;
+    font-size: 12px;
+    margin: 5px;
+}
+
+.is-author {
+    display: flex;
+    align-items: center;
+}
