@@ -41,7 +41,7 @@ const SearchPage = () => {
         if (searchType === 3) {
             setSongs([])
             setPlaylists([])
-            getAuthorsByFilter(search, 1, 10)
+            getAuthorsByFilter(search, 2, 1, 10)
                 .then(response => setAuthors(prev => [...response]))
             setIsSearched(true)
         }

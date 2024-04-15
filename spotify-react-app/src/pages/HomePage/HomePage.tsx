@@ -4,22 +4,53 @@ import playlistsLittle from "../../utils/mocks/homepage/playlistsLittle";
 import PlaylistLittle from "./components/PlaylistLittle";
 import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import DiscoveryCard from "./components/DiscoveryCard";
-import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import PlaylistNormal from "./components/PlaylistNormal";
 import {UserContext} from "../../index";
 import {observer} from "mobx-react-lite";
+import {getPlaylistsShuffled} from "../../http/playlistApi";
+import Playlist from "../../models/Playlist";
+import Author from "../../models/Author";
+import {getAuthorsByFilter, getAuthorsShuffled} from "../../http/authorApi";
 
 
 const HomePage = observer((props: any) => {
     const userStore = useContext(UserContext);
-    const [playlistsLittleLoaded, setPlaylistsLittleLoaded] = useState(playlistsLittle)
-    const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
-    const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
+    const [isLoadedTrigger, setIsLoadedTrigger] = useState(false)
+    const [playlistsNormal, setPlaylistsNormal] = useState(new Array<Playlist>())
+    const [discoveryCards, setDiscoveryCards] = useState(new Array<Author>())
+    const [playlistsLittleShow, setPlaylistsLittleShow] = useState(playlistsLittle)
+    const [discoveryCardsShow, setDiscoveryCardsShow] = useState(new Array<Author>())
+    const [playlistsNormalShow, setPlaylistsNormalShow] = useState(new Array<Playlist>())
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [currentTimeMode, setCurrentTimeMode] = useState('good day')
     let sidebarWidth = 280
     let username = userStore.user.username;
     let currentTime = new Date()
+
+    useEffect(() => {
+        getAuthorsShuffled(1, 10)
+            .then(response => setDiscoveryCards(response))
+            .then(() => {
+                getPlaylistsShuffled(1, 6)
+                    .then(response => setPlaylistsNormal([...response]))
+                    .then(() => setIsLoadedTrigger(true))
+            })
+        let currentHours = currentTime.getHours()
+        if (currentHours >= 23 && currentHours < 4)
+            setCurrentTimeMode('good night time')
+        if (currentHours >= 4 && currentHours < 11)
+            setCurrentTimeMode('good morning')
+        if (currentHours >= 11 && currentHours < 16)
+            setCurrentTimeMode('good afternoon')
+        if (currentHours >= 16 && currentHours < 23)
+            setCurrentTimeMode('good evening')
+
+
+        window.onresize = updateWindowWidth
+        return function () {
+            window.onresize = null
+        }
+    }, []);
 
     useEffect(() => {
         let availableWidth = windowWidth - sidebarWidth - 80
@@ -60,28 +91,10 @@ const HomePage = observer((props: any) => {
         }
         playlistsNormalMaxCount = Math.max(1, playlistsNormalMaxCount)
 
-        setPlaylistsLittleLoaded(playlistsLittle.slice(0, playlistsLittleMaxCount))
-        setDiscoveryCardsLoaded(discoveryCards.slice(0, discoveryCardsMaxCount))
-        setPlaylistsNormalLoaded(playlistsNormal.slice(0, playlistsNormalMaxCount))
-    }, [windowWidth]);
-
-    useEffect(() => {
-        let currentHours = currentTime.getHours()
-        if (currentHours >= 23 && currentHours < 4)
-            setCurrentTimeMode('good night time')
-        if (currentHours >= 4 && currentHours < 11)
-            setCurrentTimeMode('good morning')
-        if (currentHours >= 11 && currentHours < 16)
-            setCurrentTimeMode('good afternoon')
-        if (currentHours >= 16 && currentHours < 23)
-            setCurrentTimeMode('good evening')
-
-
-        window.onresize = updateWindowWidth
-        return function () {
-            window.onresize = null
-        }
-    }, []);
+        setPlaylistsLittleShow(playlistsLittle.slice(0, playlistsLittleMaxCount))
+        setDiscoveryCardsShow(discoveryCards.slice(0, discoveryCardsMaxCount))
+        setPlaylistsNormalShow(playlistsNormal.slice(0, playlistsNormalMaxCount))
+    }, [windowWidth, isLoadedTrigger]);
 
     const updateWindowWidth = () => {
         setWindowWidth(window.innerWidth)
@@ -95,7 +108,7 @@ const HomePage = observer((props: any) => {
                 </div>
                 <div className="home-page__user-playlists">
                     {
-                        playlistsLittleLoaded.map(i => (
+                        playlistsLittleShow.map(i => (
                             <PlaylistLittle
                                 imageUrl={i.imageUrl}
                                 name={i.name}
@@ -108,27 +121,19 @@ const HomePage = observer((props: any) => {
                     <h3>Discovery Picks for you</h3>
                     <div className="home-page__discovery__cards">
                         {
-                            discoveryCardsLoaded.map(i => (
+                            discoveryCardsShow.map(i => (
                                 <DiscoveryCard
-                                    imageUrl={i.imageUrl}
-                                    name={i.name}
-                                    artistId={i.artistId}
-                                    key={i.artistId}/>
+                                    author={i}/>
                             ))
                         }
                     </div>
                 </div>
                 <div className="home-page__latest-albums">
-                    <h3>Latest albums & playlists</h3>
+                    <h3>Recommended albums</h3>
                     <div className="home-page__latest-albums__cards">
                         {
-                            playlistsNormalLoaded.map(i => (
-                                <PlaylistNormal
-                                    imageUrl={i.imageUrl}
-                                    title={i.title}
-                                    description={i.description}
-                                    playlistId={i.playlistId}
-                                    key={i.playlistId}/>
+                            playlistsNormalShow.map(i => (
+                                <PlaylistNormal playlist={i}/>
                             ))
                         }
                     </div>

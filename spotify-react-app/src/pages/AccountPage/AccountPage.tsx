@@ -14,6 +14,8 @@ import FavoriteMusic from "./components/FavoriteMusic";
 import Playlist from "../../models/Playlist";
 import {getFavouritePlaylists} from "../../http/playlistApi";
 import FavouritePlaylist from "./components/FavouritePlaylist";
+import Author from "../../models/Author";
+import AlbumLittle from "../../models/AlbumLittle";
         
 const AccountPage = () => {
     const userStore = useContext(UserContext)
@@ -105,10 +107,7 @@ const AccountPage = () => {
                                     visibleDiscoveryCards.map(i => (
                                         <div className="card">
                                             <DiscoveryCard
-                                                imageUrl={i.imageUrl}
-                                                name={i.name}
-                                                artistId={i.artistId}
-                                                key={i.artistId}/>
+                                                author={Author.init("", i.name, i.imageUrl, new Array<AlbumLittle>())}/>
                                         </div>
                                     ))
                                 }
