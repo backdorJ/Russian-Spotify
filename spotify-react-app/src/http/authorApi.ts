@@ -12,7 +12,7 @@ import AlbumLittle from "../models/AlbumLittle";
 export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSizeForSongs: number, pageNumberForPlaylists: number, pageSizeForPlaylists: number ) => Promise<AuthorPage> =
     async (authorName, pageNumberForSongs = 1, pageSizeForSongs = 5, pageNumberForPlaylists = 1,  pageSizeForPlaylists = 3): Promise<AuthorPage> => {
         const authorInfoResponse =
-            await $authHost.get(`api/Author?Name=${authorName}`);
+            await $authHost.get(`api/Author/Author?Name=${authorName}`);
 
         console.log(`author: ${authorInfoResponse.status}`)
 
@@ -64,7 +64,7 @@ const getSongs: (authorName: string, pageNumber: number, pageSize: number) => Pr
 
 const getPlaylists: (authorName: string, pageNumber: number, pageSize: number) => Promise<Playlist[]> =
     async (authorName, pageNumber = 1, pageSize = 3): Promise<Playlist[]> => {
-        const authorPlaylistsResponse = await $authHost.get(`api/Song/GetPlaylistsByFilter?` +
+        const authorPlaylistsResponse = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
             new URLSearchParams({
                 filterName: playlistFilters.authorFilter,
                 filterValue: authorName,

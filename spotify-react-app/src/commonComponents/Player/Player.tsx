@@ -19,6 +19,7 @@ const Player = () => {
     const [volume, setVolume] = useState(playerStore.Volume);
     const [volumeVisibility, setVolumeVisibility] = useState("none");
     const navigate = useNavigate();
+    const [showSongCard, setShowSongCard] = useState(false);
 
     let isOnRepeat = false;
 
@@ -108,6 +109,17 @@ const Player = () => {
         playerStore.Volume = e.target.value;
         setVolume(playerStore.Volume);
     }
+
+    // const showCloseModalWithSong = () => {
+    //     let playerWrapper: any = document.querySelector(".player-wrapper");
+    //     let player: any = document.querySelector(".player");
+    //     let buttons: any = document.querySelector(".player-wrapper");
+    //
+    //
+    //     if(showSongCard) {
+    //         setShowSongCard(false);
+    //     }
+    // }
 
     return (
         <>

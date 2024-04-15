@@ -76,8 +76,8 @@ const PlaylistPage = () => {
 
     const authorsMapped = allAuthorsTogetherUnique.map((author, index) => {
         if (index < allAuthorsTogetherUnique.length - 1)
-            return (<Fragment><span>{author}</span>, </Fragment>)
-        return (<Fragment><span>{author}</span></Fragment>)
+            return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span>, </Fragment>)
+        return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span></Fragment>)
     })
 
     return (
@@ -93,7 +93,7 @@ const PlaylistPage = () => {
                             {playlistInfo.playlistName}
                         </h1>
                         <p className="playlist-page__main__info__singers">
-                            <span onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span>
+                            <span>{authorsMapped}</span>
                         </p>
                         <p className="playlist-page__main__info__additional">
                             Made by <span onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span> ◦ {playlistInfo.songs.length} songs, {formatDuration(playlistInfo.songs.reduce((sum, current) => sum + current.duration, 0))}
