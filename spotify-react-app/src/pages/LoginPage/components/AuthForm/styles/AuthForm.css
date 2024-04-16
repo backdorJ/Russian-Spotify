@@ -218,7 +218,8 @@ input:checked + .slider:before {
 
 .login-section1 {
     flex: 0 0 auto;
-    padding-top: 56px;
+    padding-bottom: 12px;
+    margin-top: 24px;
     width: 30%;
 }
 
