@@ -8,7 +8,6 @@ import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
 import ConfirmationCodePage from "../pages/ConfirmationCodePage/ConfirmationCodePage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import AuthorPage from "../pages/AuthorPage/AuthorPage";
-import newPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 
 export const routes = [
