@@ -5,6 +5,7 @@ import UserRegisterDto from "../../../../utils/dto/user/userRegisterDto";
 import {useNavigate} from "react-router-dom";
 import {register} from "../../../../http/authApi";
 import routeNames from "../../../../utils/routeNames";
+import {codeConfirmationOperations} from "../../../../utils/operations/codeConfirmationOperations";
 
 const RegForm = () => {
     const [username, setUsername] = useState('')
@@ -25,15 +26,17 @@ const RegForm = () => {
             .then(success => {
                 if (success) {
                     alert("Registered successfully! Please check your Email to confirm it")
-                    navigate(routeNames.EMAIL_CONFIRMATION_PAGE, {state : {email: email, operation: "confirm_email"} })
+                    navigate(routeNames.CONFIRMATION_CODE_PAGE, {state: {email: email, operation: codeConfirmationOperations.ConfirmEmail}})
+                    
                 } else
                     // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
                     alert("Something went wrong. Try again")
+               
             })
     }
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if(event.target.checked)
+        if (event.target.checked)
             setRole('Автор')
         else
             setRole('Пользователь')
@@ -63,9 +66,9 @@ const RegForm = () => {
                             <span className="slider round"/>
                         </label>
                     </div>
-                        <label className="author switcher-label">
-                            Author
-                        </label>
+                    <label className="author switcher-label">
+                        Author
+                    </label>
                 </div>
                 <div className="signup-section">
                     <p>By clicking on Sign up, you agree to <a>Spotify's terms & conditions</a> and <a>privacy
