@@ -70,7 +70,7 @@ const AuthForm = observer(() => {
                     setPassword={setPassword}/>
                 <div className="login-section-controls">
                     <div className="password-reset-section">
-                        <a className="password-reset-link-text-style" onClick={() => navigate(routeNames.NEW_PASSWORD_PAGE)}>Forgot your password?</a>
+                        <a className="password-reset-link-text-style" onClick={() => navigate(routeNames.RESET_PASSWORD_PAGE)}>Forgot your password?</a>
                     </div>
                     <div className="login-section1">
                         <button

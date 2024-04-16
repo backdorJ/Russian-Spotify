@@ -8,7 +8,8 @@ import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
 import ConfirmationCodePage from "../pages/ConfirmationCodePage/ConfirmationCodePage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import AuthorPage from "../pages/AuthorPage/AuthorPage";
-import newPasswordPage from "../pages/NewPasswordPage/NewPasswordPage";
+import newPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 
 export const routes = [
 ]
@@ -27,8 +28,8 @@ export const notAuthRoutes = [
         Component: ConfirmationCodePage
     },
     {
-        path: routeNames.NEW_PASSWORD_PAGE,
-        Component: newPasswordPage
+        path: routeNames.RESET_PASSWORD_PAGE,
+        Component: ResetPasswordPage
     }
 ]
 
