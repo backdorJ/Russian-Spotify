@@ -1,13 +1,14 @@
-import HomePage from "../pages/HomePage/HomePage";
 import routeNames from "./routeNames";
+import HomePage from "../pages/HomePage/HomePage";
 import SettingsPage from "../pages/SettingsPage/SettingsPage";
 import registerPage from "../pages/RegisterPage/RegisterPage";
 import loginPage from "../pages/LoginPage/LoginPage";
 import AccountPage from "../pages/AccountPage/AccountPage";
 import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
-import EmailConfirmationPage from "../pages/EmailConfirmationPage/EmailConfirmationPage";
+import ConfirmationCodePage from "../pages/ConfirmationCodePage/ConfirmationCodePage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import AuthorPage from "../pages/AuthorPage/AuthorPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 
 export const routes = [
 ]
@@ -22,8 +23,12 @@ export const notAuthRoutes = [
         Component: loginPage
     },
     {
-        path: routeNames.EMAIL_CONFIRMATION_PAGE,
-        Component: EmailConfirmationPage
+        path: routeNames.CONFIRMATION_CODE_PAGE,
+        Component: ConfirmationCodePage
+    },
+    {
+        path: routeNames.RESET_PASSWORD_PAGE,
+        Component: ResetPasswordPage
     }
 ]
 

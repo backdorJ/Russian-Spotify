@@ -1,4 +1,4 @@
-export default class ConfirmEmailDto {
+export default class userConfirmEmailDto {
     email: string;
     emailVerificationCodeFromUser: string;
 

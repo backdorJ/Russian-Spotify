@@ -12,7 +12,7 @@
 
 .email-confirmation-page h2 {
     font-size: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
@@ -22,11 +22,8 @@
 }
 
 .email-confirmation-page input[type="text"] {
-    padding: 10px;
+    padding: 13px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
 }
 
 .confirm-button {

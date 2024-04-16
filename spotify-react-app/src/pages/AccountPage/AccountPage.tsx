@@ -19,9 +19,6 @@ import AlbumLittle from "../../models/AlbumLittle";
         
 const AccountPage = () => {
     const userStore = useContext(UserContext)
-    const navigate = useNavigate()
-    const [discoveryCardsLoaded, setDiscoveryCardsLoaded] = useState(discoveryCards)
-    const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
     const endsubdate = userStore.user._subEndDate.getDate()
     const endsubmonth = userStore.user._subEndDate.getMonth()
     const endsubyear = userStore.user._subEndDate.getFullYear()
@@ -39,32 +36,7 @@ const AccountPage = () => {
         getFavouritePlaylists(1, 5)
             .then(p => setFavouritePlaylists(p))
     }, []);
-
-    const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
-
-    const [currentStartDiscoveryIndex, setCurrentStartDiscoveryIndex] = useState(0);
-
-    const visibleDiscoveryCards = discoveryCardsLoaded.slice(currentStartDiscoveryIndex, currentStartDiscoveryIndex + 3);
-
-    const canScroll = (index: number, step: number, loadedList: any[]) => {
-        const newIndex = index + step;
-        return loadedList.length > 0 && newIndex < loadedList.length && newIndex >= 0;
-    };
-
-    const [isAnimating, setIsAnimating] = useState(false);
-
-    const scroll = (setter: any, index: number, step: number, loadedList: any[]) => {
-        if (canScroll(index, step, loadedList)) {
-            setter(index + step);
-        }
-    };
-
-    const nextDiscovery = () => scroll(setCurrentStartDiscoveryIndex, currentStartDiscoveryIndex, 3, discoveryCardsLoaded);
-    const prevDiscovery = () => scroll(setCurrentStartDiscoveryIndex, currentStartDiscoveryIndex, -3, discoveryCardsLoaded);
-
-    const nextPlaylist = () => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, 3, playlistsNormalLoaded);
-    const prevPlaylist = () => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, -3, playlistsNormalLoaded);
-
+    
     return (
         <div className="account-page">
             <div className="account-page-content">

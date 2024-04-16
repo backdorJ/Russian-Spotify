@@ -12,9 +12,6 @@ const InputLoginWidget = (props: any) => {
         <div>
             <div className="input-field-container">
                 <div className="input-label-container">
-                    <label htmlFor="email address or username" className="form-labels-style">
-                        Email address or username
-                    </label>
                     <input
                         value={props.email}
                         onChange={e => props.setEmail(e.target.value)}
@@ -26,9 +23,6 @@ const InputLoginWidget = (props: any) => {
             </div>
             <div className="input-field-container">
                 <div className="input-label-container">
-                    <label htmlFor="password" className="form-labels-style">
-                        Password
-                    </label>
                     <div className="password-input-container">
                         <input
                             value={props.password}
