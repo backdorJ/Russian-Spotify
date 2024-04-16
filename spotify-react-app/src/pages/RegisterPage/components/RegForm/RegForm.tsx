@@ -10,18 +10,18 @@ import {codeConfirmationOperations} from "../../../../utils/operations/codeConfi
 const RegForm = () => {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
-    const [password1, setPassword1] = useState('')
-    const [password2, setPassword2] = useState('')
+    const [password, setPassword] = useState('')
+    const [passwordConfirm, setPasswordConfirm] = useState('')
     const [role, setRole] = useState('Пользователь')
     const navigate = useNavigate();
 
     let handleRegister = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (password1 !== password2) {
+        if (password !== passwordConfirm) {
             alert("Passwords don't match")
             return
         }
         e.preventDefault()
-        let user = new UserRegisterDto(username, email, password1, password2, role)
+        let user = new UserRegisterDto(username, email, password, passwordConfirm, role)
         register(user)
             .then(success => {
                 if (success) {
@@ -52,10 +52,10 @@ const RegForm = () => {
                     setUsername={setUsername}
                     email={email}
                     setEmail={setEmail}
-                    password1={password1}
-                    setPassword1={setPassword1}
-                    password2={password2}
-                    setPassword2={setPassword2}/>
+                    password={password}
+                    setPassword={setPassword}
+                    passwordConfirm={passwordConfirm}
+                    setPasswordConfirm={setPasswordConfirm}/>
                 <div className="is-author">
                     <label className="user switcher-label">
                         User
