@@ -35,7 +35,8 @@ const NewPasswordPage = () => {
                     navigate(routeNames.CONFIRMATION_CODE_PAGE, {
                         state: {
                             email: email,
-                            operation: codeConfirmationOperations.ResetPassword
+                            operation: codeConfirmationOperations.ResetPassword,
+                            newPassword: newPassword
                         }
                     })
                 } else
