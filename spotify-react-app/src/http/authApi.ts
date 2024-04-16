@@ -3,7 +3,9 @@ import {$authHost, $host} from "./index";
 import UserLoginDto from "../utils/dto/user/userLoginDto";
 import User from "../models/User";
 import UserEditDto from "../utils/dto/user/userEditDto";
-import UserConfirmEmailDto from "../utils/dto/user/confirmEmailDto";
+import UserConfirmEmailDto from "../utils/dto/user/userConfirmEmailDto";
+import UserNewPasswordDto from "../utils/dto/user/userNewPasswordDto";
+import UserConfirmNewPasswordDto from "../utils/dto/user/userConfirmNewPasswordDto";
 
 export const getUser = async () => {
     const response = await $authHost("api/Account/UserInfo");
@@ -22,6 +24,16 @@ export const register = async (user: UserRegisterDto) => {
 
 export const confirmEmail = async (user: UserConfirmEmailDto) => {
     const response = await $authHost.post("api/auth/ConfirmEmail", user)
+    return response.status === 200
+}
+
+export const resetPassword = async (user: UserNewPasswordDto) => {
+    const response = await $host.post("api/auth/ResetPassword", user)
+    return response.status === 200
+}
+
+export const resetPasswordConfirm = async (user: UserConfirmNewPasswordDto) => {
+    const response = await $host.post("api/auth/ConfirmPasswordReset", user)
     return response.status === 200
 }
 
