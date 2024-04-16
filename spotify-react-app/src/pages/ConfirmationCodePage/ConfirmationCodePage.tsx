@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import './styles/EmailConfirmationPage.css'
+import './styles/ConfirmationCodePage.css'
 import Header from "../../commonComponents/Header/Header";
 import userConfirmEmailDto from "../../utils/dto/user/userConfirmEmailDto";
-import {confirmEmail, resetPassword, confirmPasswordReset} from "../../http/authApi";
+import {confirmEmail, confirmNewPassword} from "../../http/authApi";
 import {useLocation, useNavigate} from "react-router-dom";
 import routeNames from "../../utils/routeNames";
+import UserConfirmNewPasswordDto from "../../utils/dto/user/userConfirmNewPasswordDto";
+import {codeConfirmationOperations} from "../../utils/operations/codeConfirmationOperations";
 
 const ConfirmationCodePage = () => {
     const [confirmationCode, setConfirmationCode] = useState('');
@@ -19,7 +21,7 @@ const ConfirmationCodePage = () => {
 
     const handleConfirmClick = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (operation === 'confirm_email') {
+        if (operation === codeConfirmationOperations.ConfirmEmail) {
             let confirmEmailDto = new userConfirmEmailDto(email, confirmationCode);
             confirmEmail(confirmEmailDto)
                 .then(success => {
@@ -31,14 +33,16 @@ const ConfirmationCodePage = () => {
                         alert("Something went wrong. Try again")
                     }
                 });
-        } else if (operation === 'reset_password') {
-            // Обработка сброса пароля
-            confirmPasswordReset(email)
+        } else if (operation === codeConfirmationOperations.ResetPassword) {
+            let newPassword = location.state.newPassword
+            let confirmNewPasswordDto = new UserConfirmNewPasswordDto(email, newPassword, confirmationCode);
+            confirmNewPassword(confirmNewPasswordDto)
                 .then(success => {
                     if (success) {
                         alert("Password reset successfully!");
-                        // Redirect на страницу входа или что-то еще
+                        navigate(routeNames.LOGIN_PAGE)
                     } else {
+                        // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
                         alert("Something went wrong. Try again");
                     }
                 });
