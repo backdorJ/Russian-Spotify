@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {useNavigate} from "react-router-dom";
 import "./styles/RegisterPage.css"
 import Header from "../../commonComponents/Header/Header";
 import RegForm from "./components/RegForm/RegForm";
 
-const RegisterPage = (props: any) => {
+const RegisterPage = () => {
     const navigate = useNavigate();
 
     const navigateToLogin = () => {
