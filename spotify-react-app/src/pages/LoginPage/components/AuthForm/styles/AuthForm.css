@@ -134,6 +134,7 @@
     color: white;
     text-decoration-line: underline;
     white-space: pre-wrap;
+    cursor: pointer;
 }
 
 .login-section {
