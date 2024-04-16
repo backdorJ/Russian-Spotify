@@ -12,7 +12,6 @@ const RegForm = () => {
     const [password1, setPassword1] = useState('')
     const [password2, setPassword2] = useState('')
     const [role, setRole] = useState('Пользователь')
-    const [isUser, setAsUser] = useState(false);
     const navigate = useNavigate();
 
     let handleRegister = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -26,7 +25,7 @@ const RegForm = () => {
             .then(success => {
                 if (success) {
                     alert("Registered successfully! Please check your Email to confirm it")
-                    navigate(routeNames.EMAIL_CONFIRMATION_PAGE, {state : {email: email} })
+                    navigate(routeNames.EMAIL_CONFIRMATION_PAGE, {state : {email: email, operation: "confirm_email"} })
                 } else
                     // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
                     alert("Something went wrong. Try again")
@@ -34,8 +33,7 @@ const RegForm = () => {
     }
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAsUser(event.target.checked);
-        if(isUser)
+        if(event.target.checked)
             setRole('Автор')
         else
             setRole('Пользователь')
@@ -61,7 +59,7 @@ const RegForm = () => {
                     </label>
                     <div className="checkbox-container">
                         <label className="switch">
-                            <input type="checkbox" checked={isUser} onChange={handleCheckboxChange}/>
+                            <input type="checkbox" onChange={handleCheckboxChange}/>
                             <span className="slider round"/>
                         </label>
                     </div>
