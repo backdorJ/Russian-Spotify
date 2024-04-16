@@ -115,9 +115,8 @@
     flex: 0 0 auto;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    margin-top: 5px;
 }
 
 .password-reset-section {
@@ -219,8 +218,6 @@ input:checked + .slider:before {
 
 .login-section1 {
     flex: 0 0 auto;
-    padding-bottom: 12px;
-    margin-top: 24px;
     width: 30%;
 }
 

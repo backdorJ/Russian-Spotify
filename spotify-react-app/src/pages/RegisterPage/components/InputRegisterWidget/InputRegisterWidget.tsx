@@ -41,9 +41,6 @@ export default function InputRegisterWidget(props: any) {
         <div>
             <div className="input-field-container">
                 <div className="input-label-container">
-                    <label htmlFor="username" className="form-labels-style">
-                        Username
-                    </label>
                     <input
                         value={username}
                         onChange={e => setUsername(e.target.value)}
@@ -55,9 +52,6 @@ export default function InputRegisterWidget(props: any) {
             </div>
             <div className="input-field-container">
                 <div className="input-label-container">
-                    <label htmlFor="email address" className="form-labels-style">
-                        Email address
-                    </label>
                     <input
                         value={email}
                         onChange={e => setEmail(e.target.value)}
@@ -69,9 +63,6 @@ export default function InputRegisterWidget(props: any) {
             </div>
             <div className="input-field-container">
                 <div className="input-label-container">
-                    <label htmlFor="password" className="form-labels-style">
-                        Password
-                    </label>
                     <div className="password-input-container">
                         <input
                             id="password1"
@@ -88,9 +79,6 @@ export default function InputRegisterWidget(props: any) {
             </div>
             <div className="input-field-container">
                 <div className="input-label-container">
-                    <label htmlFor="password" className="form-labels-style">
-                        Confirm password
-                    </label>
                     <div className="password-input-container">
                         <input id="password2" placeholder="Confirm password"
                                type={isPasswordConfirmVisible ? 'text' : 'password'} value={passwordConfirm}
