@@ -32,7 +32,7 @@ export const resetPassword = async (user: UserNewPasswordDto) => {
     return response.status === 200
 }
 
-export const resetPasswordConfirm = async (user: UserConfirmNewPasswordDto) => {
+export const confirmPasswordReset = async (user: UserConfirmNewPasswordDto) => {
     const response = await $host.post("api/auth/ConfirmPasswordReset", user)
     return response.status === 200
 }

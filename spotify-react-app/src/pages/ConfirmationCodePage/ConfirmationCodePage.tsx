@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './styles/EmailConfirmationPage.css'
 import Header from "../../commonComponents/Header/Header";
 import userConfirmEmailDto from "../../utils/dto/user/userConfirmEmailDto";
-import {confirmEmail, resetPassword} from "../../http/authApi";
+import {confirmEmail, resetPassword, confirmPasswordReset} from "../../http/authApi";
 import {useLocation, useNavigate} from "react-router-dom";
 import routeNames from "../../utils/routeNames";
 
@@ -33,7 +33,7 @@ const ConfirmationCodePage = () => {
                 });
         } else if (operation === 'reset_password') {
             // Обработка сброса пароля
-            resetPassword(email)
+            confirmPasswordReset(email)
                 .then(success => {
                     if (success) {
                         alert("Password reset successfully!");
