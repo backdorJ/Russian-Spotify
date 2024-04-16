@@ -1,16 +1,24 @@
-export default function DiscoveryCard(props: any) {
-    const {imageUrl, name, artistId} = props
+import {FC} from "react";
+import Author from "../../../models/Author";
+import {IAuthor} from "../../../commonComponents/interfaces/IAuthor";
+import {getImage} from "../../../http/fileApi";
+import {useNavigate} from "react-router-dom";
+
+const DiscoveryCard: FC<IAuthor> = ({author}) => {
     const role = 'Artist'
+    const navigate = useNavigate()
 
     return (
-        <div className="home-page__discovery-card">
+        <div
+            // onClick={() => navigate()}
+            className="home-page__discovery-card">
             <div className="home-page__discovery-card__image-div">
-                <img src={imageUrl} alt={name} className="home-page__discovery-card__image"/>
+                <img src={getImage(author.imageId)} alt={author.authorName} className="home-page__discovery-card__image"/>
             </div>
             <div className="home-page__discovery-card__text">
                 <div className="home-page__discovery-card__text__name">
                     <p>
-                        {name}
+                        {author.authorName}
                     </p>
                 </div>
                 <div className="home-page__discovery-card__text__role">
@@ -22,3 +30,5 @@ export default function DiscoveryCard(props: any) {
         </div>
     )
 }
+
+export default DiscoveryCard

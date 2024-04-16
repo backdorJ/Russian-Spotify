@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RussianSpotift.API.Data.PostgreSQL;
@@ -11,9 +12,11 @@ using RussianSpotift.API.Data.PostgreSQL;
 namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 {
     [DbContext(typeof(EfContext))]
-    partial class EfContextModelSnapshot : ModelSnapshot
+    [Migration("20240415144043_addedUserRoleM2MToModels")]
+    partial class addedUserRoleM2MToModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,6 +173,21 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.ToTable("PlaylistUser");
                 });
 
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("RoleUser");
+                });
+
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Bucket", b =>
                 {
                     b.Property<Guid>("Id")
@@ -311,16 +329,11 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
@@ -599,6 +612,21 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("RussianSpotify.API.Core.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RussianSpotify.API.Core.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Bucket", b =>
                 {
                     b.HasOne("RussianSpotify.API.Core.Entities.User", "User")
@@ -635,13 +663,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("RussianSpotify.API.Core.Entities.Role", b =>
-                {
-                    b.HasOne("RussianSpotify.API.Core.Entities.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.RolePrivilege", b =>
@@ -732,8 +753,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Navigation("AuthorPlaylists");
 
                     b.Navigation("Bucket");
-
-                    b.Navigation("Roles");
 
                     b.Navigation("Subscribe");
                 });

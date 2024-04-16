@@ -24,13 +24,13 @@ public class PostRegisterCommandHandler
     private readonly IRoleManager _roleManager;
 
     public PostRegisterCommandHandler(
-        UserManager<User> _userManager,
-        IEmailSender _emailSender,
-        IRoleManager _roleManager)
+        UserManager<User> userManager,
+        IEmailSender emailSender,
+        IRoleManager roleManager)
     {
-        _userManager = _userManager;
-        _emailSender = _emailSender;
-        _roleManager = _roleManager;
+        _userManager = userManager;
+        _emailSender = emailSender;
+        _roleManager = roleManager;
     }
     
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
