@@ -4,9 +4,12 @@ using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotify.API.Core.Services.Filters.PlaylistFilter;
 
-
+/// <summary>
+/// Фильтрует плейлисты по понравившимся
+/// </summary>
 public class FavoritePlaylistsFilter : IFilter<Playlist>
 {
+    /// <inheritdoc cref="IFilter{T}"/>
     public Task<IOrderedQueryable<Playlist>> FilterAsync(IQueryable<Playlist> queryable, string filterValue, CancellationToken cancellationToken)
     {
         var userId = Guid.Parse(filterValue);

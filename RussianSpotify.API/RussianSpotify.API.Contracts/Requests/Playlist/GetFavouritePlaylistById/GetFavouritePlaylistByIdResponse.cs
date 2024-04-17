@@ -29,4 +29,9 @@ public class GetFavouritePlaylistByIdResponse
     /// Дата релиза
     /// </summary>
     public DateTime? ReleaseDate { get; set; }
+    
+    /// <summary>
+    /// Находится ли альбом в избранном
+    /// </summary>
+    public bool IsInFavorite { get; set; }
 }

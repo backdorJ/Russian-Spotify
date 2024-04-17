@@ -118,18 +118,17 @@ const Player = () => {
 
     const handleLikeClick = () => {
         if(!isInLikeProcess) {
+            isInLikeProcess = true;
             if (!playerStore.Player.currentSong!.isInFavorite) {
-                isInLikeProcess = true;
                 tryAddSongToFavorites(playerStore.Player.currentSong!.songId)
                     .then(isSuccessful => {
                         if(isSuccessful) {
                             setIsLiked(true);
-                            isInLikeProcess = true;
+                            isInLikeProcess = false;
                             playerStore.Player.currentSong!.isInFavorite = true;
                         }
                     });
             } else {
-                isInLikeProcess = true;
                 tryRemoveSongFromFavorites(playerStore.Player.currentSong!.songId)
                     .then(isSuccessful => {
                         if(isSuccessful){

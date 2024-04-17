@@ -11,10 +11,10 @@ import {Fragment, useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
 import SongCard from "./components/SongCard";
 import {useNavigate, useParams} from "react-router-dom";
-import {getPlaylistInfo} from "../../http/playlistApi";
+import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
 import {getImage} from "../../http/fileApi";
-import {getSong, getSongsByFilter} from "../../http/songApi";
+import {getSong, getSongsByFilter, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
 import Song from "../../models/Song";
 import {formatDuration} from "../../functions/formatDuration";
 import {songFilters} from "../../http/filters/songFilters";
@@ -33,9 +33,15 @@ const PlaylistPage = () => {
     let stop = false;
     const [getting, setGetting] = useState(false);
     const [page, setPage] = useState(1)
+    const [isLikedPlaylist, setIsLikedPlaylist] = useState(playlistInfo.isInFavorite);
+    /** Находится ли песня в процессе добавления в понравившееся */
+    let isInLikeProcess = false;
 
     useEffect(() => {
-        getPlaylistInfo(id).then(r => setPlaylistInfo(r));
+        getPlaylistInfo(id).then(r => {
+            setPlaylistInfo(r);
+            setIsLikedPlaylist(r.isInFavorite);
+        });
     }, [])
 
     useEffect(() => {
@@ -115,6 +121,33 @@ const PlaylistPage = () => {
         return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span></Fragment>)
     })
 
+    const handleLikeClick = () => {
+        if(!isInLikeProcess) {
+            isInLikeProcess = true;
+            if (!playlistInfo.isInFavorite) {
+                tryAddPlaylistToFavorites(playlistInfo.playlistId)
+                    .then(isSuccessful => {
+                        if(isSuccessful) {
+                            setIsLikedPlaylist(true);
+                            isInLikeProcess = false;
+                            playlistInfo.isInFavorite = true;
+                            setPlaylistInfo(playlistInfo);
+                        }
+                    });
+            } else {
+                tryRemovePlaylistFromFavorites(playlistInfo.playlistId)
+                    .then(isSuccessful => {
+                        if(isSuccessful){
+                            setIsLikedPlaylist(false);
+                            isInLikeProcess = false;
+                            playlistInfo.isInFavorite = false;
+                            setPlaylistInfo(playlistInfo);
+                        }
+                    });
+            }
+        }
+    }
+
     return (
         <div className="playlist-page-wrapper">
             <div style={{width: backgroundWidth + 'px'}} className="playlist-page-background"></div>
@@ -143,14 +176,16 @@ const PlaylistPage = () => {
                             </div>
                             <div className="playlist-page__songs__header__buttons__like-wrapper">
                                 <img
+                                    onClick = {handleLikeClick}
                                     onMouseEnter={() => setIsHover(true)}
                                     className={`playlist-page__songs__header__buttons__like ${isHover ? "img-hidden" : "img-not-hidden"}`}
                                     src={like_icon}
                                     alt="Like"/>
                                 <img
+                                    onClick = {handleLikeClick}
                                     onMouseEnter={() => setIsHover(true)}
                                     onMouseLeave={() => setIsHover(false)}
-                                    className={`playlist-page__songs__header__buttons__like ${isHover ? "img-not-hidden" : "img-hidden"}`}
+                                    className={`playlist-page__songs__header__buttons__like ${isHover || isLikedPlaylist ? "img-not-hidden" : "img-hidden"}`}
                                     src={like_icon_hover}
                                     alt="Like"/>
                             </div>

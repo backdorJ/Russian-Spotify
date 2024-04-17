@@ -16,6 +16,12 @@ public class GetPlaylistsByFilterQueryHandler
     private readonly IFilterHandler _filterHandler;
     private readonly IUserContext _userContext;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="dbContext">Контекст БД</param>
+    /// <param name="filterHandler">Маршрутизатор фильтров</param>
+    /// <param name="userContext">Контекст юзера</param>
     public GetPlaylistsByFilterQueryHandler(IDbContext dbContext, IFilterHandler filterHandler, IUserContext userContext)
     {
         _dbContext = dbContext;
@@ -23,6 +29,7 @@ public class GetPlaylistsByFilterQueryHandler
         _userContext = userContext;
     }
     
+    /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task<GetPlaylistsByFilterResponse> Handle(GetPlaylistsByFilterQuery request, CancellationToken cancellationToken)
     {
         if (request is null)

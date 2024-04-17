@@ -29,6 +29,7 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
         authorName: string;
         releaseDate: Date;
         isAlbum: boolean;
+        isInFavorite: boolean;
     }) => Playlist.init(
         i.id,
         i.playlistName,
@@ -36,6 +37,7 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
         i.authorName,
         i.releaseDate,
         i.isAlbum,
+        i.isInFavorite
     ))
 }
 
@@ -61,5 +63,18 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
             response.data.authorName,
             response.data.releaseDate,
             response.data.isAlbum,
+            response.data.isInFavorite
         );
+    }
+
+export const tryAddPlaylistToFavorites: (playlistId: string) => Promise<boolean> =
+    async (playlistId): Promise<boolean> => {
+        const response = await $authHost.post(`api/Playlist/Playlist/${playlistId}`);
+        return response.status === 200;
+    }
+
+export const tryRemovePlaylistFromFavorites: (playlistId: string) => Promise<boolean> =
+    async (playlistId): Promise<boolean> => {
+        const response = await $authHost.post(`api/Playlist/RemovePlaylistFromFavorite/${playlistId}`);
+        return response.status === 200;
     }

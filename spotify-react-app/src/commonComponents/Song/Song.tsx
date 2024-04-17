@@ -33,18 +33,17 @@ const Song : FC<ISong> = ({song}) => {
 
     const handleLikeClick = () => {
         if(!isInLikeProcess) {
+            isInLikeProcess = true;
             if (!song.isInFavorite) {
-                isInLikeProcess = true;
                 tryAddSongToFavorites(song.songId)
                     .then(isSuccessful => {
                         if(isSuccessful) {
                             setIsLiked(true);
-                            isInLikeProcess = true;
+                            isInLikeProcess = false;
                             song.isInFavorite = true;
                         }
                     });
             } else {
-                isInLikeProcess = true;
                 tryRemoveSongFromFavorites(song.songId)
                     .then(isSuccessful => {
                         if(isSuccessful){

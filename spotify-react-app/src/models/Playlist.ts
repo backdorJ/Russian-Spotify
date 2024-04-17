@@ -1,6 +1,4 @@
-// DTO для плейлиста/альбома
-import Song from "./Song";
-
+/** DTO для плейлиста/альбома */
 export default class Playlist {
 
     /** ИД плейлиста/альбома */
@@ -21,6 +19,9 @@ export default class Playlist {
     /** Альбом ли */
     isAlbum: boolean;
 
+    /** Находится ли альбом в избранном */
+    isInFavorite: boolean;
+
     constructor() {
         this.playlistId = "";
         this.playlistName = "";
@@ -28,6 +29,7 @@ export default class Playlist {
         this.authorName = "";
         this.releaseDate = new Date();
         this.isAlbum = false;
+        this.isInFavorite = false;
     }
 
     static init(
@@ -36,7 +38,8 @@ export default class Playlist {
         imageId: string,
         authorName: string,
         releaseDate: Date,
-        isAlbum: boolean)
+        isAlbum: boolean,
+        isInFavorite: boolean)
     {
         let playlist = new Playlist()
 
@@ -46,6 +49,7 @@ export default class Playlist {
         playlist.authorName = authorName;
         playlist.releaseDate = releaseDate;
         playlist.isAlbum = isAlbum;
+        playlist.isInFavorite = isInFavorite;
 
         return playlist;
     }
