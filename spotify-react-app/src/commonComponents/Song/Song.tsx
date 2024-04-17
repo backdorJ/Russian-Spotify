@@ -7,7 +7,6 @@ import "./styles/Song.css"
 import {useNavigate} from "react-router-dom";
 import {tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
 
-
 /**Компонент для песни
  * @param song - Song песня*/
 const Song : FC<ISong> = ({song}) => {

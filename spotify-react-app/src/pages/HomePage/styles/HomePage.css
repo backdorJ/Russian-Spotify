@@ -209,6 +209,7 @@ p {
 }
 
 .home-page__playlist-normal__text__description {
+    max-width: 200px;
     margin-bottom: 15px;
 }
 

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
+using RussianSpotify.API.Core.Requests.Music.DeleteSongFromBucket;
+using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
@@ -199,4 +201,13 @@ public class SongController : FileBaseController
         [FromRoute] Guid songId,
         CancellationToken cancellationToken)
         => await _mediator.Send(new PostAddSongToFavouriteCommand(songId), cancellationToken);
+
+    /// <summary>
+    /// Удалить песню из бакета
+    /// </summary>
+    /// <param name="songId">ИД песни</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpDelete("RemoveSongFromBucket/{songId}")] 
+    public async Task DeleteSongFromBucketAsync([FromRoute] Guid songId, CancellationToken cancellationToken)
+        => await _mediator.Send(new DeleteSongFromBucketCommand(songId), cancellationToken);
 }

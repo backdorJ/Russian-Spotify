@@ -41,6 +41,34 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
     ))
 }
 
+export const getPlaylistsShuffled = async (pageNumber: number, pageSize: number) => {
+    const response = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
+        new URLSearchParams({
+            filterName: 'AlbumShuffled',
+            filterValue: 'sth',
+            pageNumber: pageNumber.toString(),
+            pageSize: pageSize.toString()
+        }))
+
+    return response.data.entities.map((i: {
+        id: string;
+        playlistName: string;
+        imageId: string;
+        authorName: string;
+        releaseDate: Date;
+        isAlbum: boolean;
+    }) => Playlist.init(
+        i.id,
+        i.playlistName,
+        i.imageId,
+        i.authorName,
+        i.releaseDate,
+        new Array<Song>(),
+        i.isAlbum,
+        new Array<string>()
+    ))
+}
+
 export const addPlaylist = async (playlistName: string, fileId: string) => {
     // TODO: make post add playlist
     // TODO: make two options: with fileId and without it

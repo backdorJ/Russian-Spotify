@@ -74,6 +74,6 @@ export const tryAddSongToFavorites: (songId: string) => Promise<boolean> =
 
 export const tryRemoveSongFromFavorites: (songId: string) => Promise<boolean> =
     async (songId): Promise<boolean> => {
-        const response = await $authHost.post(`api/Song/RemoveSongFromBucket/${songId}`);
+        const response = await $authHost.delete(`api/Song/RemoveSongFromBucket/${songId}`);
         return response.status === 200;
 }

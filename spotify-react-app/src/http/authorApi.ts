@@ -31,12 +31,12 @@ export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSiz
             );
     }
 
-export const getAuthorsByFilter = async (filterName: string, filterValue: string, pageNumber: number, pageSize: number) => {
+export const getAuthorsByFilter = async (filterName: string, filter: string, playlistCount: number, pageNumber: number, pageSize: number) => {
     const response = await $authHost.get('api/Author/GetAuthorsByFilter?' +
         new URLSearchParams({
             filterName: filterName,
-            filterValue: filterValue,
-            playlistCount: '2',
+            filterValue: filter,
+            playlistCount: playlistCount,
             pageNumber: pageNumber.toString(),
             pageSize: pageSize.toString()
         }))

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Exceptions;
@@ -42,9 +42,13 @@ public class GetPlaylistsByFilterQueryHandler
         
         var query = _dbContext.Playlists.AsQueryable();
 
+        // ВАЖНО: На случай если придется делать include у плейлистов,
+        // то перемешка по Guid.NewGuid() не подходит, ибо она падает
+        // с инклудом(лефт джоин), поэтому надо будет переписать 
+        // GetShuffledPlaylists на другой хэндлер!!!
         var filteredPlaylists =
             await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
-
+        
         var totalCount = await filteredPlaylists.CountAsync(cancellationToken: cancellationToken);
         
         var resultPlaylists = await filteredPlaylists
