@@ -1,5 +1,8 @@
 ﻿namespace RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 
+/// <summary>
+/// Плейлист для <see cref="GetPlaylistsByFilterResponse"/>
+/// </summary>
 public class GetPlaylistsByFilterResponseItem
 {
     /// <summary>

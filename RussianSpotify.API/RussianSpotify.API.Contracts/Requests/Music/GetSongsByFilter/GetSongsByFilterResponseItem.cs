@@ -1,5 +1,8 @@
 ﻿namespace RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
+/// <summary>
+/// Песня для <see cref="GetSongsByFilterResponse"/>
+/// </summary>
 public class GetSongsByFilterResponseItem
 {
     /// <summary>
