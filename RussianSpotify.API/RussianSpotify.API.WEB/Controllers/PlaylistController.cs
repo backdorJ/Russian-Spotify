@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.GetPlaylistById;
 using RussianSpotify.API.Core.Requests.Music.GetPlaylistsAndAlbums;
@@ -6,6 +7,7 @@ using RussianSpotify.API.Core.Requests.Playlist.GetPlaylistsByFilter;
 using RussianSpotify.API.Core.Requests.Playlist.PostAddPlaylistToFavourite;
 using RussianSpotify.API.Core.Requests.Playlist.PostCreatePlaylist;
 using RussianSpotify.API.Core.Requests.Playlist.PutPlaylist;
+using RussianSpotify.API.Core.Requests.Playlist.RemovePlaylistFromFavorite;
 using RussianSpotify.Contracts.Requests.Music.GetPlaylistsAndAlbums;
 using RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
 using RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
@@ -18,6 +20,7 @@ namespace RussianSpotify.API.WEB.Controllers;
 /// Контроллер, отвечающий за работу с плейлистами
 /// </summary>
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class PlaylistController : ControllerBase
 {
@@ -88,6 +91,10 @@ public class PlaylistController : ControllerBase
     /// <param name="request">Запрос</param>
     /// <param name="cancellationToken">Токен отмены</param>
     [HttpPut("EditPlaylist/{playlistId}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(500)]
     public async Task PutPlaylistAsync(
         [FromRoute] Guid playlistId,
         [FromBody] PutPlaylistRequest request, CancellationToken cancellationToken)
@@ -103,6 +110,10 @@ public class PlaylistController : ControllerBase
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Запрос на получение любимых альбомов/песен</returns>
     [HttpGet("GetPlaylists")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(500)]
     public async Task<GetPlaylistsAndAlbumsResponse> GetAllFavouritePlaylistsAsync(
         [FromQuery] GetPlaylistsAndAlbumsRequest request,
         CancellationToken cancellationToken)
@@ -115,8 +126,25 @@ public class PlaylistController : ControllerBase
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Плейлист/альбом</returns>
     [HttpGet("GetPlaylist/{playlistId}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(500)]
     public async Task<GetFavouritePlaylistByIdResponse> GetFavouritePlaylistAsync(
         [FromRoute] Guid playlistId,
         CancellationToken cancellationToken)
         => await _mediator.Send(new GetPlaylistByIdQuery(playlistId: playlistId), cancellationToken);
+
+    /// <summary>
+    /// Удалить плейлист из любимых
+    /// </summary>
+    /// <param name="playlistId">ИД плейлиста</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpDelete("RemovePlaylistFromFavorite/{playlistId}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(500)]
+    public async Task RemovePlaylistFromFavoriteAsync([FromRoute] Guid playlistId, CancellationToken cancellationToken)
+        => await _mediator.Send(new RemovePlaylistFromFavoriteCommand(playlistId), cancellationToken);
 }
