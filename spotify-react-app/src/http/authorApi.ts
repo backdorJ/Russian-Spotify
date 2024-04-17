@@ -98,7 +98,7 @@ export const getAuthorsByFilter = async (filter: string, playlistCount: number, 
         new URLSearchParams({
             filterName: 'AuthorName',
             filterValue: filter,
-            playlistCount: playlistCount,
+            playlistCount: playlistCount.toString(),
             pageNumber: pageNumber.toString(),
             pageSize: pageSize.toString()
         }))

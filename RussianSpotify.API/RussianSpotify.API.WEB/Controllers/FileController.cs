@@ -1,9 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
+using RussianSpotify.API.Core.Requests.File.DeleteFile;
 using RussianSpotify.API.Core.Requests.File.DownloadFile;
 using RussianSpotify.API.Core.Requests.File.GetImageById;
 using RussianSpotify.API.Core.Requests.File.UploadFile;
+using RussianSpotify.Contracts.Requests.File.DeleteFile;
 using RussianSpotify.Contracts.Requests.File.UploadFile;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -61,7 +64,7 @@ public class FileController : FileBaseController
     /// <param name="mediator"></param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Бинарные данные</returns>
-    [HttpGet("image/{id}")]
+    [HttpGet("Image/{id}")]
     [AllowAnonymous]
     public async Task<FileContentResult> GetImageByIdAsync(
         [FromRoute] Guid id,
@@ -71,5 +74,21 @@ public class FileController : FileBaseController
         var result = await mediator.Send(new GetImageByIdQuery(id), cancellationToken);
 
         return GetFileBytes(file: result);
+    }
+
+    /// <summary>
+    /// Эндпоинт для удаления файла
+    /// </summary>
+    /// <param name="request">Запрос с информацией</param>
+    /// <param name="mediator">Медиатор</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    [HttpDelete("Delete")]
+    public async Task DeleteFileAsync(
+        [FromBody] DeleteFileRequest request,
+        [FromServices] IMediator mediator,
+        CancellationToken cancellationToken)
+    {
+        var query = new DeleteFileCommand(request);
+        await mediator.Send(query, cancellationToken);
     }
 }

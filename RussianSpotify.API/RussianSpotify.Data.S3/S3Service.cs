@@ -4,6 +4,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Logging;
 using RussianSpotify.API.Core.Abstractions;
+using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.API.Core.Models;
 
 namespace RussianSpotify.Data.S3;
@@ -11,7 +12,7 @@ namespace RussianSpotify.Data.S3;
 public class S3Service : IS3Service
 {
     private const string DefaultContentType = "application/octet-stream";
-    
+
     /// <summary>
     /// Поле метаданных для Названия файла
     /// </summary>
@@ -20,7 +21,7 @@ public class S3Service : IS3Service
     private readonly S3Options _s3Options;
     private readonly IAmazonS3 _client;
     private readonly ILogger<S3Service> _logger;
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>
@@ -41,7 +42,7 @@ public class S3Service : IS3Service
         config.HttpClientFactory = factory;
         config.ForcePathStyle = true;
     }
-    
+
     /// <inheritdoc />
     public async Task<string> UploadAsync(
         FileContent fileContent,
@@ -64,7 +65,7 @@ public class S3Service : IS3Service
         };
 
         putObject.Metadata.Add(FilenameMetadataField, Uri.EscapeDataString(fileContent.FileName));
-        
+
         await _client.PutObjectAsync(putObject, cancellationToken);
         return putObject.Key;
     }
@@ -111,7 +112,31 @@ public class S3Service : IS3Service
             throw;
         }
     }
-    
+
+    /// <inheritdoc/>
+    public async Task DeleteAsync(string key, string? bucket = default, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+            throw new ArgumentNullException(nameof(key));
+
+        var request = new DeleteObjectRequest
+        {
+            BucketName = string.IsNullOrEmpty(bucket) ? _s3Options.BucketName : bucket,
+            Key = key
+        };
+
+        try
+        {
+            var response = await _client.DeleteObjectAsync(request, cancellationToken);
+        }
+        catch (AmazonServiceException e)
+        {
+            _logger.LogError(e.Message);
+            var internalException = new InternalException(e.Message);
+            throw internalException;
+        }
+    }
+
     private string ContentKey(string? fileName)
         => $"{DateTime.UtcNow.Date:dd:MM:yyyy}/{Guid.NewGuid()}/{fileName}";
 }

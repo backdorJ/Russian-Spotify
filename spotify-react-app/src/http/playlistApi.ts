@@ -2,12 +2,13 @@ import Playlist from "../models/Playlist";
 import {$authHost} from "./index";
 import Song from "../models/Song";
 import {getSongInfo} from "./songApi";
+import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
 
 // Получить любимые плейлисты/альбомы
 export const getFavouritePlaylists: (pageNumber: number, pageSize: number) => Promise<Playlist[]> =
     async (pageNumber, pageSize): Promise<Playlist[]> => {
 
-    const response = await $authHost.get(`api/Playlist/GetPlaylists?pageNumber=${pageNumber}&pageSize=${pageSize}&isFavourite=true`);
+        const response = await $authHost.get(`api/Playlist/GetPlaylists?pageNumber=${pageNumber}&pageSize=${pageSize}&isFavourite=true`);
 
         if (response.status !== 200 || response.data === undefined)
             return new Array<Playlist>();
@@ -130,6 +131,19 @@ export const getPlaylistsShuffled = async (pageNumber: number, pageSize: number)
 }
 
 export const addPlaylist = async (playlistName: string, fileId: string) => {
-    // TODO: make post add playlist
-    // TODO: make two options: with fileId and without it
+    let body: any = {
+        playlistName: playlistName,
+        songsIds: [],
+        isAlbum: false
+    }
+
+    if (fileId !== '')
+        body.imageId = fileId
+
+    const response = await $authHost.post('api/Playlist/CreatePlaylist', body)
+
+    if (response.status === 200)
+        return new ResponseWithMessage(200, '', response.data)
+
+    return new ResponseWithMessage(response.status, response.data.message)
 }
