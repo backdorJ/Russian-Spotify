@@ -2,11 +2,13 @@ import axios from "axios";
 import {isJwtDied} from "../functions/isJwtDied";
 
 const $host = axios.create({
-    baseURL: process.env.REACT_APP_SPOTIFY_API
+    baseURL: process.env.REACT_APP_SPOTIFY_API,
+
 })
 
 const $authHost = axios.create({
-    baseURL: process.env.REACT_APP_SPOTIFY_API
+    baseURL: process.env.REACT_APP_SPOTIFY_API,
+    validateStatus: status => true
 })
 
 // TODO: Пофиксить вызов метода RefreshToken, он должен быть не тут

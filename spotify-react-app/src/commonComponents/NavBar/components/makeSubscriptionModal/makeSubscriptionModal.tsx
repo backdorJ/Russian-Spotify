@@ -26,11 +26,13 @@ const MakeSubscriptionModal = observer((props: any) => {
                 .then(success => {
                     if (success) {
                         loadUser()
-                            .then(response => userStore.login(response))
+                            .then(response => {
+                                if (response !== undefined)
+                                    userStore.login(response)
+                            })
                             .then(_ => alert(`You've successfully subscribed!`))
                         onHide()
-                    }
-                    else
+                    } else
                         alert("Something went wrong! Please try again")
                 })
         }

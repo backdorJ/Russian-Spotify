@@ -6,6 +6,7 @@ import UserEditDto from "../utils/dto/user/userEditDto";
 import UserConfirmEmailDto from "../utils/dto/user/userConfirmEmailDto";
 import UserNewPasswordDto from "../utils/dto/user/userNewPasswordDto";
 import UserConfirmNewPasswordDto from "../utils/dto/user/userConfirmNewPasswordDto";
+import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
 
 export const getUser = async () => {
     const response = await $authHost("api/Account/UserInfo");
@@ -47,6 +48,22 @@ export const login = async (user: UserLoginDto) => {
 }
 
 export const edit = async (user: UserEditDto) => {
-    const response = await $authHost.patch("api/Account/UpdateUserInfo", user)
+    let userToSend: any = user
+    if (user.userName === '')
+        userToSend.userName = null
+    if (user.currentPassword === '') {
+        userToSend.currentPassword = null
+        userToSend.newPassword = null
+        userToSend.newPasswordConfirm = null
+    }
+    if (user.filePhotoId === '')
+        userToSend.imageId = null
+
+    const response = await $authHost.patch("api/Account/UpdateUserInfo", userToSend)
+
     return response.status === 200
+        ? new ResponseWithMessage(response.status, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message)
+
+
 }

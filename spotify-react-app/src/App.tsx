@@ -23,7 +23,10 @@ const App = observer(() => {
     // TODO: тут идет запрос на подписку в loadUser, и с юзера можешь брать подписку
     useEffect(() => {
         loadUser()
-            .then(user => userStore.login(user))
+            .then(user => {
+                if (user !== undefined)
+                    userStore.login(user)
+            })
     }, []);
 
     // TODO: чек useEffect выше
