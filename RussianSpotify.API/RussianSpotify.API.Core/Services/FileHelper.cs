@@ -1,5 +1,5 @@
 using RussianSpotify.API.Core.Abstractions;
-using RussianSpotify.API.Core.Exceptions.FileException;
+using RussianSpotify.API.Core.Exceptions.FileExceptions;
 using File = RussianSpotify.API.Core.Entities.File;
 
 namespace RussianSpotify.API.Core.Services;

@@ -39,5 +39,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasMany(x => x.Songs)
             .WithMany(y => y.Authors);
+
+        builder.HasOne(i => i.UserPhoto);
     }
 }
