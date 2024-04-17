@@ -7,7 +7,6 @@ using RussianSpotify.API.Core.Requests.Playlist.PostAddPlaylistToFavourite;
 using RussianSpotify.API.Core.Requests.Playlist.PostCreatePlaylist;
 using RussianSpotify.API.Core.Requests.Playlist.PutPlaylist;
 using RussianSpotify.API.Core.Requests.Playlist.RemovePlaylistFromFavorite;
-using RussianSpotify.Contracts.Requests.Music.GetPlaylistsAndAlbums;
 using RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
 using RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 using RussianSpotify.Contracts.Requests.Playlist.PostCreatePlaylist;
@@ -101,22 +100,6 @@ public class PlaylistController : ControllerBase
                 request: request,
                 playlistId: playlistId),
             cancellationToken);
-
-    /// <summary>
-    /// Поулчить все любимые плейлисты/альбомы
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Запрос на получение любимых альбомов/песен</returns>
-    [HttpGet("GetPlaylists")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(403)]
-    [ProducesResponseType(500)]
-    public async Task<GetPlaylistsAndAlbumsResponse> GetAllFavouritePlaylistsAsync(
-        [FromQuery] GetPlaylistsAndAlbumsRequest request,
-        CancellationToken cancellationToken)
-        => await _mediator.Send(new GetPlaylistsAndAlbumsQuery(request), cancellationToken);
 
     /// <summary>
     /// Получить инфу о плейлисте/альбоме
