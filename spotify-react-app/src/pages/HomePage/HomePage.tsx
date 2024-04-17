@@ -10,7 +10,8 @@ import {observer} from "mobx-react-lite";
 import {getPlaylistsShuffled} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
 import Author from "../../models/Author";
-import {getAuthorsByFilter, getAuthorsShuffled} from "../../http/authorApi";
+import {getAuthorsByFilter} from "../../http/authorApi";
+import {authorFilters} from "../../http/filters/authorFilters";
 
 
 const HomePage = observer((props: any) => {
@@ -28,7 +29,7 @@ const HomePage = observer((props: any) => {
     let currentTime = new Date()
 
     useEffect(() => {
-        getAuthorsShuffled(1, 10)
+        getAuthorsByFilter(authorFilters.authorShuffledFilter, "smth", 2, 1, 10)
             .then(response => setDiscoveryCards(response))
             .then(() => {
                 getPlaylistsShuffled(1, 6)

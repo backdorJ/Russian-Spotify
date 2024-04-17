@@ -1,7 +1,7 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
-using RussianSpotify.Contracts.Requests.Playlist.GetAllFavouriteAlbumAndPlaylist;
+using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 
 namespace RussianSpotify.API.Core.Requests.Playlist.GetPlaylistsByFilter;
@@ -14,24 +14,32 @@ public class GetPlaylistsByFilterQueryHandler
 {
     private readonly IDbContext _dbContext;
     private readonly IFilterHandler _filterHandler;
+    private readonly IUserContext _userContext;
 
     /// <summary>
     /// Конструктор
     /// </summary>
-    /// <param name="dbContext">Конструктор базы данных</param>
-    /// <param name="filterHandler">Сервис для фильтрации сущностей</param>
-    public GetPlaylistsByFilterQueryHandler(IDbContext dbContext, IFilterHandler filterHandler)
+    /// <param name="dbContext">Контекст БД</param>
+    /// <param name="filterHandler">Маршрутизатор фильтров</param>
+    /// <param name="userContext">Контекст юзера</param>
+    public GetPlaylistsByFilterQueryHandler(IDbContext dbContext, IFilterHandler filterHandler, IUserContext userContext)
     {
         _dbContext = dbContext;
         _filterHandler = filterHandler;
+        _userContext = userContext;
     }
     
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task<GetPlaylistsByFilterResponse> Handle(GetPlaylistsByFilterQuery request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
+        var userId = _userContext.CurrentUserId;
+
+        if (userId is null)
+            throw new CurrentUserIdNotFound("UserId из Claims не был найден");
+        
         var query = _dbContext.Playlists.AsQueryable();
 
         // ВАЖНО: На случай если придется делать include у плейлистов,
@@ -44,14 +52,16 @@ public class GetPlaylistsByFilterQueryHandler
         var totalCount = await filteredPlaylists.CountAsync(cancellationToken: cancellationToken);
         
         var resultPlaylists = await filteredPlaylists
-            .Select(x => new GetAllFavouriteAlbumAndPlaylistResponseItem
+            .Include(playlist => playlist.Users)
+            .Select(playlist => new GetPlaylistsByFilterResponseItem
             {
-                Id = x.Id,
-                PlaylistName = x.PlaylistName,
-                ImageId = x.ImageId,
-                AuthorName = x.Author!.UserName,
-                ReleaseDate = x.ReleaseDate,
-                IsAlbum = x.IsAlbum
+                Id = playlist.Id,
+                PlaylistName = playlist.PlaylistName,
+                ImageId = playlist.ImageId,
+                AuthorName = playlist.Author!.UserName,
+                ReleaseDate = playlist.ReleaseDate,
+                IsAlbum = playlist.IsAlbum,
+                IsInFavorite = playlist.Users!.Any(user => user.Id.Equals(userId.Value))
             })
             .ToListAsync(cancellationToken);
 

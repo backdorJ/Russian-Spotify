@@ -14,7 +14,7 @@ export const isJwtDied : (jwt : string | null) => boolean = (jwt): boolean => {
     return tokenExpiryTime < new Date();
 }
 
-function base64UrlDecode(str: string) {
+export function base64UrlDecode(str: string) {
     console.log(str);
     str = str.replace(/-/g, '+').replace(/_/g, '/');
 

@@ -31,7 +31,7 @@ public class GetFavouritePlaylistByIdResponse
     public DateTime? ReleaseDate { get; set; }
     
     /// <summary>
-    /// ИД песни
+    /// Находится ли альбом в избранном
     /// </summary>
-    public List<Guid>? SongsIds { get; set; }
+    public bool IsInFavorite { get; set; }
 }

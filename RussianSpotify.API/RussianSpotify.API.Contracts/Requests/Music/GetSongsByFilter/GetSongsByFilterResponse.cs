@@ -1,11 +1,23 @@
-﻿using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
+﻿namespace RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
-namespace RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
-
-public class GetSongsByFilterResponse : GetAllSongResponse
+/// <summary>
+/// Отфильтрованные песни
+/// </summary>
+public class GetSongsByFilterResponse
 {
-    public GetSongsByFilterResponse(List<GetAllSongResponseItem> entities, int totalCount)
-        : base(entities, totalCount)
+    public GetSongsByFilterResponse(List<GetSongsByFilterResponseItem> entities, int totalCount)
     {
+        Entities = entities;
+        TotalCount = totalCount;
     }
+    
+    /// <summary>
+    /// Отфильтрованные песни
+    /// </summary>
+    public List<GetSongsByFilterResponseItem> Entities { get; set; }
+    
+    /// <summary>
+    /// Общее кол-во подобных треков
+    /// </summary>
+    public int TotalCount { get; set; }
 }
