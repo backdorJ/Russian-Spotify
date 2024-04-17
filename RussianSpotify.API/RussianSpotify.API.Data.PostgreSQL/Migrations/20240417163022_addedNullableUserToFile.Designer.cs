@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RussianSpotift.API.Data.PostgreSQL;
@@ -11,9 +12,11 @@ using RussianSpotift.API.Data.PostgreSQL;
 namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 {
     [DbContext(typeof(EfContext))]
-    partial class EfContextModelSnapshot : ModelSnapshot
+    [Migration("20240417163022_addedNullableUserToFile")]
+    partial class addedNullableUserToFile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -639,8 +642,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
                     b.HasOne("RussianSpotify.API.Core.Entities.File", "Image")
                         .WithOne("Playlist")
-                        .HasForeignKey("RussianSpotify.API.Core.Entities.Playlist", "ImageId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("RussianSpotify.API.Core.Entities.Playlist", "ImageId");
 
                     b.Navigation("Author");
 

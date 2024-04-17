@@ -24,3 +24,13 @@ export const uploadFile = async (file: File) => {
 
     return new ResponseWithMessage(response.status, response.data.message)
 }
+
+export const deleteFile = async (fileId: string) => {
+    const response = await $authHost.post('api/File/Delete', {
+        fileId: fileId
+    })
+
+    return response.status === 200
+        ? new ResponseWithMessage(response.status, '')
+        : new ResponseWithMessage(response.status, response.data.message)
+}

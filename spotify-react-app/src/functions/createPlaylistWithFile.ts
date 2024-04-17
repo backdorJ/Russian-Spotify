@@ -1,4 +1,4 @@
-import {uploadFile} from "../http/fileApi";
+import {deleteFile, uploadFile} from "../http/fileApi";
 import {addPlaylist} from "../http/playlistApi";
 import CreatePlaylistDto from "../utils/dto/playlist/createPlaylistDto";
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
@@ -9,7 +9,11 @@ const createPlaylistWithFile = async (createPlaylistDto: CreatePlaylistDto) => {
         if (fileUploadResponse.status !== 200)
             return fileUploadResponse
 
-        return await addPlaylist(createPlaylistDto.name, fileUploadResponse.value)
+        let addPlaylistResponse = await addPlaylist(createPlaylistDto.name, fileUploadResponse.value)
+        if (addPlaylistResponse.status !== 200) {
+            await deleteFile(fileUploadResponse.value)
+            return addPlaylistResponse
+        }
     }
 
     return await addPlaylist(createPlaylistDto.name, '')

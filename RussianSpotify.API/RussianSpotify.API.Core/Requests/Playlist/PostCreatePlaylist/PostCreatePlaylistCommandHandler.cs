@@ -5,6 +5,7 @@ using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Exceptions;
+using RussianSpotify.API.Core.Exceptions.Playlist;
 using RussianSpotify.Contracts.Requests.Playlist.PostCreatePlaylist;
 
 namespace RussianSpotify.API.Core.Requests.Playlist.PostCreatePlaylist;
@@ -18,6 +19,7 @@ public class PostCreatePlaylistCommandHandler : IRequestHandler<PostCreatePlayli
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IUserContext _userContext;
     private readonly UserManager<User> _userManager;
+    private readonly IFileHelper _fileHelper;
 
     /// <summary>
     /// Конструктор
@@ -30,12 +32,13 @@ public class PostCreatePlaylistCommandHandler : IRequestHandler<PostCreatePlayli
         IDbContext dbContext,
         IUserContext userContext,
         UserManager<User> userManager,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider, IFileHelper fileHelper)
     {
         _dbContext = dbContext;
         _userContext = userContext;
         _userManager = userManager;
         _dateTimeProvider = dateTimeProvider;
+        _fileHelper = fileHelper;
     }
 
     /// <inheritdoc />
@@ -80,6 +83,9 @@ public class PostCreatePlaylistCommandHandler : IRequestHandler<PostCreatePlayli
                                   .FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken)
                               ?? throw new EntityNotFoundException<Entities.File>(request.ImageId.Value);
 
+            if (!_fileHelper.IsImage(imageFromDb))
+                throw new PlaylistFileException("File is not Image");
+                
             playlist.Image = imageFromDb;
         }
 

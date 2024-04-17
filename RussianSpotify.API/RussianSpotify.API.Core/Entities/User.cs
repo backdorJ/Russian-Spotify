@@ -41,6 +41,11 @@ public class User : IdentityUser<Guid>
     /// Фото в профиле юзера
     /// </summary>
     public File? UserPhoto { get; set; }
+
+    /// <summary>
+    /// Файлы, добавленные пользователем
+    /// </summary>
+    public List<File> Files { get; set; }
     
     /// <summary>
     /// День рождения пользователя

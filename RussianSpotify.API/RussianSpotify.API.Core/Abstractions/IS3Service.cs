@@ -30,4 +30,8 @@ public interface IS3Service
         string key,
         string? bucket = default,
         CancellationToken cancellationToken = default);
+
+    Task DeleteAsync(string key,
+        string? bucket = default,
+        CancellationToken cancellationToken = default);
 }

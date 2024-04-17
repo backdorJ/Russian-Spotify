@@ -30,5 +30,9 @@ public class FileConfiguration : IEntityTypeConfiguration<File>
 
         builder.HasOne(x => x.Playlist)
             .WithOne(y => y.Image);
+
+        builder.HasOne(i => i.User)
+            .WithMany(i => i.Files)
+            .IsRequired(false);
     }
 }
