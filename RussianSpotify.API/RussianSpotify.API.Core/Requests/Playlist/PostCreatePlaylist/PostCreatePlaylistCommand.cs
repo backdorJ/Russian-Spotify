@@ -6,7 +6,7 @@ namespace RussianSpotify.API.Core.Requests.Playlist.PostCreatePlaylist;
 /// <summary>
 /// Команда на создание плейлиста/альбома
 /// </summary>
-public class PostCreatePlaylistCommand : PostCreatePlaylistRequest, IRequest
+public class PostCreatePlaylistCommand : PostCreatePlaylistRequest, IRequest<PostCreatePlaylistResponse>
 {
     /// <summary>
     /// Конструктор

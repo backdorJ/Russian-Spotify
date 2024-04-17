@@ -32,7 +32,7 @@ public class PostCreatePlaylistRequest
     /// <summary>
     /// Картинка плейлиста
     /// </summary>
-    public Guid ImageId { get; set; }
+    public Guid? ImageId { get; set; }
 
     /// <summary>
     /// Песни

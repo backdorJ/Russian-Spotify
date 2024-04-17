@@ -9,12 +9,13 @@ public class File
         string fileName,
         string contentType,
         string address,
-        long size)
+        long size, User user)
     {
         FileName = fileName;
         ContentType = contentType;
         Address = address;
         Size = size;
+        User = user;
     }
     
     public File()
@@ -60,4 +61,14 @@ public class File
     /// Плейлист
     /// </summary>
     public Playlist? Playlist { get; set; }
+
+    /// <summary>
+    /// Id пользователя, который загрузил файл
+    /// </summary>
+    public Guid? UserId { get; set; }
+
+    /// <summary>
+    /// Пользователь, который загрузил файл
+    /// </summary>
+    public User? User { get; set; }
 }

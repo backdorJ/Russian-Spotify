@@ -1,4 +1,4 @@
-namespace RussianSpotify.API.Core.Exceptions.FileException;
+namespace RussianSpotify.API.Core.Exceptions.FileExceptions;
 
 public class FileInternalException : InternalException
 {
