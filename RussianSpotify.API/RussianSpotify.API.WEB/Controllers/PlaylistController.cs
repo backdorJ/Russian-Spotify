@@ -1,12 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using RussianSpotify.API.Core.Requests.Music.GetPlaylistById;
-using RussianSpotify.API.Core.Requests.Music.GetPlaylistsAndAlbums;
+using RussianSpotify.API.Core.Requests.Playlist.GetPlaylistById;
 using RussianSpotify.API.Core.Requests.Playlist.GetPlaylistsByFilter;
 using RussianSpotify.API.Core.Requests.Playlist.PostAddPlaylistToFavourite;
 using RussianSpotify.API.Core.Requests.Playlist.PostCreatePlaylist;
 using RussianSpotify.API.Core.Requests.Playlist.PutPlaylist;
-using RussianSpotify.Contracts.Requests.Music.GetPlaylistsAndAlbums;
 using RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
 using RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 using RussianSpotify.Contracts.Requests.Playlist.PostCreatePlaylist;
@@ -33,7 +31,7 @@ public class PlaylistController : ControllerBase
     }
     
     /// <summary>
-    /// Получить альбомы по фильтру(Доступные фильтры: AuthorPlaylists, PlaylistName)
+    /// Получить альбомы по фильтру(Доступные фильтры: AuthorPlaylists, PlaylistName, FavoritePlaylist)
     /// </summary>
     /// <param name="request">GetPlaylistsByFilterRequest(Название фильтра,
     /// значение фильтра, страница, кол-во альбомов на странице)</param>
@@ -97,25 +95,13 @@ public class PlaylistController : ControllerBase
             cancellationToken);
 
     /// <summary>
-    /// Поулчить все любимые плейлисты/альбомы
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Запрос на получение любимых альбомов/песен</returns>
-    [HttpGet("GetPlaylists")]
-    public async Task<GetPlaylistsAndAlbumsResponse> GetAllFavouritePlaylistsAsync(
-        [FromQuery] GetPlaylistsAndAlbumsRequest request,
-        CancellationToken cancellationToken)
-        => await _mediator.Send(new GetPlaylistsAndAlbumsQuery(request), cancellationToken);
-
-    /// <summary>
     /// Получить инфу о плейлисте/альбоме
     /// </summary>
     /// <param name="playlistId">ИД плейлиста/альбома</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Плейлист/альбом</returns>
     [HttpGet("GetPlaylist/{playlistId}")]
-    public async Task<GetFavouritePlaylistByIdResponse> GetFavouritePlaylistAsync(
+    public async Task<GetFavouritePlaylistByIdResponse> GetPlaylistByIdAsync(
         [FromRoute] Guid playlistId,
         CancellationToken cancellationToken)
         => await _mediator.Send(new GetPlaylistByIdQuery(playlistId: playlistId), cancellationToken);

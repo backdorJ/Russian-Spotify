@@ -3,29 +3,23 @@ import Song from "./Song";
 
 export default class Playlist {
 
-    // ИД плейлиста/альбома
+    /** ИД плейлиста/альбома */
     playlistId: string;
 
-    // Название плейлиста/альбома
+    /** Название плейлиста/альбома */
     playlistName: string;
 
-    // ИД картинки
+    /** ИД картинки */
     imageId: string;
 
-    // ИД автора
+    /** ИД автора */
     authorName: string;
 
-    // Дата релиза
+    /** Дата релиза */
     releaseDate: Date;
 
-    // Песни
-    songs: Array<Song>;
-
-    // Альбом ли
+    /** Альбом ли */
     isAlbum: boolean;
-
-    // ИД песен в виде Guid
-    songsIds: Array<string>;
 
     constructor() {
         this.playlistId = "";
@@ -33,9 +27,7 @@ export default class Playlist {
         this.imageId = "";
         this.authorName = "";
         this.releaseDate = new Date();
-        this.songs = new Array<Song>();
         this.isAlbum = false;
-        this.songsIds = new Array<string>();
     }
 
     static init(
@@ -44,9 +36,7 @@ export default class Playlist {
         imageId: string,
         authorName: string,
         releaseDate: Date,
-        songs: Array<Song>,
-        isAlbum: boolean,
-        songsIds: Array<string> | null)
+        isAlbum: boolean)
     {
         let playlist = new Playlist()
 
@@ -55,11 +45,7 @@ export default class Playlist {
         playlist.imageId = imageId;
         playlist.authorName = authorName;
         playlist.releaseDate = releaseDate;
-        playlist.songs = songs;
         playlist.isAlbum = isAlbum;
-        playlist.songsIds = songsIds === null
-            ? new Array<string>()
-            : songsIds;
 
         return playlist;
     }

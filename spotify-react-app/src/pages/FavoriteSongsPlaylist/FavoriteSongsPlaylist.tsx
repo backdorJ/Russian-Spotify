@@ -1,37 +1,45 @@
 import React, { useContext, useEffect, useState} from 'react';
-import {getFavouriteSongs, getSong} from "../../http/songApi";
+import {getSong, getSongsByFilter} from "../../http/songApi";
 import {PlayerContext, UserContext} from "../../index";
 // @ts-ignore
 import play_song from '../../assets/mock/playlistpage/player_triangle.png'
 import Song from "../../models/Song";
 import SongCard from "../PlaylistPage/components/SongCard";
+import {formatDuration} from "../../functions/formatDuration";
+import {songFilters} from "../../http/filters/songFilters";
+import {getUserId} from "../../functions/getUserId";
 
 const FavoriteSongsPlaylist = () => {
-    const sidebarWidth = 280
+    const sidebarWidth = 280;
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
     const [backgroundWidth, setBackgroundWidth] = useState(0)
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
-    const [isHover, setIsHover] = useState(false)
     const [songs, setSongs] = useState<Song[]>([])
     let stop = false;
     const [getting, setGetting] = useState(false);
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         const fetchData = async () => {
-            const result: Song[] = await getFavouriteSongs(page, 20);
+            const result: Song[] = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 20);
+
             setPage(page+1);
+
             if(result.length === 0)
                 stop = true;
+
+            if(result.length === 0)
+                stop = true;
+
             setSongs([...songs, ...result]);
             setGetting(false);
         };
 
         if (!getting) {
-            fetchData();
+            fetchData().then(_ => console.log("fetched"));
         }
-    }, [getting, songs]);
+    }, [getting]);
 
     const updateWindowWidth = () => {
         setWindowWidth(document.body.clientWidth)
@@ -51,13 +59,6 @@ const FavoriteSongsPlaylist = () => {
     useEffect(() => {
         setBackgroundWidth(windowWidth - sidebarWidth)
     }, [windowWidth]);
-
-    const formatDuration = (totalSeconds: number) => {
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-
-        return `${minutes}m ${seconds}s`;
-    };
 
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {

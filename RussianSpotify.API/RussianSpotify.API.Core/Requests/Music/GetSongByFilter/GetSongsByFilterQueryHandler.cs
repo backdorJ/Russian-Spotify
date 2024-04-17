@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
+using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.API.Core.Extensions;
 using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
 using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
@@ -15,16 +16,18 @@ public class GetSongsByFilterQueryHandler
 {
     private readonly IDbContext _dbContext;
     private readonly IFilterHandler _filterHandler;
+    private readonly IUserContext _userContext;
 
     /// <summary>
     /// Конструктор
     /// </summary>
     /// <param name="filterHandler">Фильтр хэндлер</param>
     /// <param name="dbContext">Контекст БД</param>
-    public GetSongsByFilterQueryHandler(IFilterHandler filterHandler, IDbContext dbContext)
+    public GetSongsByFilterQueryHandler(IFilterHandler filterHandler, IDbContext dbContext, IUserContext userContext)
     {
         _filterHandler = filterHandler;
         _dbContext = dbContext;
+        _userContext = userContext;
     }
 
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
@@ -34,6 +37,11 @@ public class GetSongsByFilterQueryHandler
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
+        var userId = _userContext.CurrentUserId;
+
+        if (userId is null)
+            throw new CurrentUserIdNotFound("UserId из Claims не был найден");
+
         var query = _dbContext.Songs.AsQueryable();
 
         var filteredSongs =
@@ -42,20 +50,22 @@ public class GetSongsByFilterQueryHandler
         var totalCount = await filteredSongs.CountAsync(cancellationToken);
 
         var resultSongs = await filteredSongs
-            .Select(x => new GetAllSongResponseItem
+            .Include(song => song.Buckets)
+            .Select(song => new GetSongsByFilterResponseItem
             {
-                ImageId = x.ImageId,
-                SongId = x.Id,
-                SongName = x.SongName,
-                Duration = x.Duration,
-                Category = x.Category.CategoryName.GetDescription(),
-                Authors = x.Authors
+                ImageId = song.ImageId,
+                SongId = song.Id,
+                SongName = song.SongName,
+                Duration = song.Duration,
+                Category = song.Category.CategoryName.GetDescription(),
+                Authors = song.Authors
                     .Select(y => y.UserName)
-                    .ToList()
+                    .ToList(),
+                IsInFavorite = song.Buckets.Any(bucket => bucket.UserId.Equals(userId.Value))
             })
             .SkipTake(request: request)
             .ToListAsync(cancellationToken);
-
+        
         return new GetSongsByFilterResponse(resultSongs, totalCount);
     }
 }

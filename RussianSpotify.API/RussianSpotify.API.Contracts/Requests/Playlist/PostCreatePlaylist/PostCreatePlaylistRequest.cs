@@ -21,6 +21,7 @@ public class PostCreatePlaylistRequest
         PlaylistName = request.PlaylistName;
         ImageId = request.ImageId;
         SongIds = request.SongIds;
+        IsAlbum = request.IsAlbum;
     }
     
     /// <summary>

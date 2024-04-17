@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {PlayerContext, UserContext} from "../../index";
 import Song from "../../models/Song";
-import {getFavouriteSongs, getSong} from "../../http/songApi";
+import {getSong, getSongsByFilter} from "../../http/songApi";
 // @ts-ignore
 import play_song from "../../assets/mock/playlistpage/player_triangle.png";
 import SongCard from "../PlaylistPage/components/SongCard";
 import {useParams} from "react-router-dom";
-import {getSongs} from "../../http/authorApi";
+import {formatDuration} from "../../functions/formatDuration";
+import {songFilters} from "../../http/filters/songFilters";
 
 const AuthorSongsPlaylist = () => {
     const sidebarWidth = 280
@@ -14,7 +15,6 @@ const AuthorSongsPlaylist = () => {
     const playerStore = useContext(PlayerContext);
     const [backgroundWidth, setBackgroundWidth] = useState(0)
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
-    const [isHover, setIsHover] = useState(false)
     const [songs, setSongs] = useState<Song[]>([])
     let stop = false;
     const [getting, setGetting] = useState(false);
@@ -24,18 +24,24 @@ const AuthorSongsPlaylist = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result: Song[] = await getSongs(authorName, page, 20);
+            const result: Song[] =
+                await getSongsByFilter(songFilters.authorSongsFilter, authorName, page, 20);
+
             setPage(page+1);
             if(result.length === 0)
                 stop = true;
+
+            if(result.length === 0)
+                stop = true;
+
             setSongs([...songs, ...result]);
             setGetting(false);
         };
 
         if (!getting) {
-            fetchData();
+            fetchData().then(_ => console.log("fetched"));
         }
-    }, [getting, songs]);
+    }, [getting]);
 
     const updateWindowWidth = () => {
         setWindowWidth(document.body.clientWidth)
@@ -55,13 +61,6 @@ const AuthorSongsPlaylist = () => {
     useEffect(() => {
         setBackgroundWidth(windowWidth - sidebarWidth)
     }, [windowWidth]);
-
-    const formatDuration = (totalSeconds: number) => {
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-
-        return `${minutes}m ${seconds}s`;
-    };
 
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {
@@ -131,7 +130,7 @@ const AuthorSongsPlaylist = () => {
                                         name={song.songName}
                                         artists={song.authors}
                                         length={formatDuration(song.duration)}
-                                        isLiked={song.isHave}
+                                        isLiked={song.isInFavorite}
                                         imageId={song.imageId}
                                     />
                                 })

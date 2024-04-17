@@ -6,7 +6,7 @@ import PrevIcon from "./components/PrevIcon";
 import NextIcon from "./components/NextIcon";
 import StartStopIcon from "./components/StartStopIcon";
 import LikeIcon from "../../assets/mock/common/LikeIcon";
-import {getSong} from "../../http/songApi";
+import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
 import VolumeIcon from "./components/VolumeIcon";
 import {useNavigate} from "react-router-dom";
 import CloseExpandedPlayer from "./components/CloseExpandedPlayer";
@@ -21,7 +21,9 @@ const Player = () => {
     const [volumeVisibility, setVolumeVisibility] = useState("none");
     const navigate = useNavigate();
     const [showExpanded, setShowExpanded] = useState(false);
-
+    const [isLiked, setIsLiked] = useState(playerStore.Player.currentSong!.isInFavorite);
+    /** Находится ли песня в процессе добавления в понравившееся */
+    let isInLikeProcess = false;
     let isOnRepeat = false;
 
     const [currentProgressBarPercent, setCurrentProgressBarPercent] = useState(0);
@@ -114,6 +116,32 @@ const Player = () => {
     const handleShowExpanded = () => setShowExpanded(!showExpanded);
     const closeExpanded = () => setShowExpanded(false);
 
+    const handleLikeClick = () => {
+        if(!isInLikeProcess) {
+            if (!playerStore.Player.currentSong!.isInFavorite) {
+                isInLikeProcess = true;
+                tryAddSongToFavorites(playerStore.Player.currentSong!.songId)
+                    .then(isSuccessful => {
+                        if(isSuccessful) {
+                            setIsLiked(true);
+                            isInLikeProcess = true;
+                            playerStore.Player.currentSong!.isInFavorite = true;
+                        }
+                    });
+            } else {
+                isInLikeProcess = true;
+                tryRemoveSongFromFavorites(playerStore.Player.currentSong!.songId)
+                    .then(isSuccessful => {
+                        if(isSuccessful){
+                            setIsLiked(false);
+                            isInLikeProcess = false;
+                            playerStore.Player.currentSong!.isInFavorite = false;
+                        }
+                    });
+            }
+        }
+    }
+
     return (
         <>
             <div className={`player-wrapper ${showExpanded ? "expanded" : ""}`}>
@@ -140,9 +168,8 @@ const Player = () => {
                             <div style={{width: currentProgressBarPercent + "%"}} className={`progress${showExpanded ? " expanded" : ""}`}></div>
                         </div>
                     </div>
-                    {/*TODO: повесить логику на LikeButton */}
                     <div className={`actions${showExpanded ? " expanded" : ""}`}>
-                        <div className={`like-button${showExpanded ? " expanded" : ""}`}><LikeIcon/></div>
+                        <div className={`like-button${showExpanded ? " expanded" : ""}`}><LikeIcon onClick = {handleLikeClick} isLiked={isLiked}/></div>
                         <div onMouseEnter={() => setVolumeVisibility("block")} onMouseLeave={() => setVolumeVisibility("none")}  className={`volume ${showExpanded ? "expanded" : ""}`}>
                             <VolumeIcon />
                             <input style={{display: volumeVisibility}} className={`volume-slider${showExpanded ? " expanded" : ""}`} onInput={handleVolumeChange} type="range" id="volume-slider" min="0" max="1" step="0.01"

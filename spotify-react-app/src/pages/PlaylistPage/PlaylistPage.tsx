@@ -1,7 +1,5 @@
 import "./styles/PlaylistPage.css"
 // @ts-ignore
-import mainImg from "../../assets/mock/playlistpage/playlist_page_placeholder.png"
-// @ts-ignore
 import play_icon from "../../assets/mock/playlistpage/player_triangle.png"
 // @ts-ignore
 import like_icon from "../../assets/mock/playlistpage/like.png"
@@ -16,8 +14,10 @@ import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
 import {getImage} from "../../http/fileApi";
-import {getSong} from "../../http/songApi";
+import {getSong, getSongsByFilter} from "../../http/songApi";
 import Song from "../../models/Song";
+import {formatDuration} from "../../functions/formatDuration";
+import {songFilters} from "../../http/filters/songFilters";
 
 const PlaylistPage = () => {
     const { id } = useParams();
@@ -29,10 +29,37 @@ const PlaylistPage = () => {
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
     const [isHover, setIsHover] = useState(false)
     const [playlistInfo, setPlaylistInfo] = useState(new Playlist())
+    const [songs, setSongs] = useState<Song[]>([]);
+    let stop = false;
+    const [getting, setGetting] = useState(false);
+    const [page, setPage] = useState(1)
 
     useEffect(() => {
         getPlaylistInfo(id).then(r => setPlaylistInfo(r));
     }, [])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result: Song[] =
+                await getSongsByFilter(songFilters.songsInPlaylistFilter, id!, page, 50);
+
+            setPage(page+1);
+
+            if(result.length === 0)
+                stop = true;
+
+            if(songs.length > 0)
+                songs[songs.length - 1].nextSong = result[0];
+
+            setSongs([...songs, ...result]);
+            setGetting(false);
+            console.log(page);
+        };
+
+        if (!getting) {
+            fetchData().then(_ => console.log("fetched"));
+        }
+    }, [getting]);
 
     const updateWindowWidth = () => {
         setWindowWidth(document.body.clientWidth)
@@ -53,20 +80,28 @@ const PlaylistPage = () => {
         setBackgroundWidth(windowWidth - sidebarWidth)
     }, [windowWidth]);
 
-    const formatDuration = (totalSeconds: number) => {
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-
-        return `${minutes}m ${seconds}s`;
-    };
-
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {
         playerStore.Player = getSong(song, userStore.user);
     }
 
+    useEffect(() => {
+        document.addEventListener("scroll", scrollHandler);
+
+        return function () {
+            document.removeEventListener("scroll", scrollHandler);
+        };
+    }, []);
+
+    const scrollHandler = (event:any) => {
+        if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 100)
+            && !stop && !getting) {
+            setGetting(true);
+        }
+    }
+
     const allAuthorsTogetherUnique = new Array<string>()
-    playlistInfo.songs.forEach(i => {
+    songs.forEach(i => {
         i.authors.forEach(e => {
             if (allAuthorsTogetherUnique.includes(e))
                 return
@@ -96,7 +131,7 @@ const PlaylistPage = () => {
                             <span>{authorsMapped}</span>
                         </p>
                         <p className="playlist-page__main__info__additional">
-                            Made by <span onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span> ◦ {playlistInfo.songs.length} songs, {formatDuration(playlistInfo.songs.reduce((sum, current) => sum + current.duration, 0))}
+                            Made by <span onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span> ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
                         </p>
                     </div>
                 </div>
@@ -104,7 +139,7 @@ const PlaylistPage = () => {
                     <div className="playlist-page__songs__header">
                         <div className="playlist-page__songs__header__buttons">
                             <div className="playlist-page__songs__header__buttons__play">
-                                <img onClick={() => handlePlay(playlistInfo.songs[0])} src={play_icon} alt="Play"/>
+                                <img onClick={() => handlePlay(songs[0])} src={play_icon} alt="Play"/>
                             </div>
                             <div className="playlist-page__songs__header__buttons__like-wrapper">
                                 <img
@@ -146,7 +181,7 @@ const PlaylistPage = () => {
                         <div className="playlist-page__songs__list__divider"></div>
                         <div className="playlist-page__songs__list__main">
                             {
-                                playlistInfo.songs.map((song, index) => {
+                                songs.map((song, index) => {
                                     return <SongCard
                                         song={song}
                                         handlePlay={handlePlay}
@@ -155,7 +190,7 @@ const PlaylistPage = () => {
                                         album={playlistInfo.playlistName}
                                         artists={song.authors}
                                         length={formatDuration(song.duration)}
-                                        isLiked={song.isHave}
+                                        isLiked={song.isInFavorite}
                                         imageId={song.imageId}
                                     />
                                 })

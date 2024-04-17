@@ -4,7 +4,7 @@ using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
 
-namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistById;
+namespace RussianSpotify.API.Core.Requests.Playlist.GetPlaylistById;
 
 /// <summary>
 /// Обработчик для <see cref="GetPlaylistByIdQuery"/>
@@ -12,17 +12,14 @@ namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistById;
 public class GetPlaylistByIdQueryHandler
     : IRequestHandler<GetPlaylistByIdQuery, GetFavouritePlaylistByIdResponse>
 {
-    private readonly IUserContext _userContext;
     private readonly IDbContext _dbContext;
 
     /// <summary>
     /// Конструктор
     /// </summary>
-    /// <param name="userContext">Контекст пользователя</param>
     /// <param name="dbContext">Контекст БД</param>
-    public GetPlaylistByIdQueryHandler(IUserContext userContext, IDbContext dbContext)
+    public GetPlaylistByIdQueryHandler(IDbContext dbContext)
     {
-        _userContext = userContext;
         _dbContext = dbContext;
     }
 
@@ -46,10 +43,7 @@ public class GetPlaylistByIdQueryHandler
             ImageId = playlist.ImageId,
             IsAlbum = playlist.IsAlbum,
             AuthorName = playlist.Author?.UserName,
-            ReleaseDate = playlist.ReleaseDate,
-            SongsIds = playlist.Songs?
-                .Select(x => x.Id)
-                .ToList()
+            ReleaseDate = playlist.ReleaseDate
         };
     }
 }

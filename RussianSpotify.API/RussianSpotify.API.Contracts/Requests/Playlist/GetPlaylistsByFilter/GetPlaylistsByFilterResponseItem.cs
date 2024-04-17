@@ -1,10 +1,12 @@
-namespace RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
+﻿namespace RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 
-/// <summary>
-/// Ответ на запрос любимого альбома/плейлиста
-/// </summary>
-public class GetFavouritePlaylistByIdResponse
+public class GetPlaylistsByFilterResponseItem
 {
+    /// <summary>
+    /// ИД плейлиста/альбома
+    /// </summary>
+    public Guid Id { get; set; }
+    
     /// <summary>
     /// Название плейлиста/альбома
     /// </summary>
@@ -28,5 +30,10 @@ public class GetFavouritePlaylistByIdResponse
     /// <summary>
     /// Дата релиза
     /// </summary>
-    public DateTime? ReleaseDate { get; set; }
+    public DateTime ReleaseDate { get; set; }
+    
+    /// <summary>
+    /// Добавлен ли альбом в понравившееся
+    /// </summary>
+    public bool? IsInFavorite { get; set; }
 }
