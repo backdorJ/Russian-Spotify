@@ -1,6 +1,6 @@
 using MediatR;
 using RussianSpotify.API.Core.Abstractions;
-using RussianSpotify.API.Core.Exceptions.FileException;
+using RussianSpotify.API.Core.Exceptions.FileExceptions;
 using RussianSpotify.API.Core.Models;
 using RussianSpotify.Contracts.Requests.File.UploadFile;
 
@@ -27,7 +27,7 @@ public class UploadFileCommandHandler : IRequestHandler<UploadFileCommand, Uploa
         _dbContext = dbContext;
         _userContext = userContext;
     }
-    
+
     /// <inheritdoc />
     public async Task<UploadFileResponse> Handle(UploadFileCommand request, CancellationToken cancellationToken)
     {
@@ -44,7 +44,7 @@ public class UploadFileCommandHandler : IRequestHandler<UploadFileCommand, Uploa
 
         if (currentUser is null)
             throw new FileInternalException("Current User not found");
-        
+
         var filesToSave = new List<Entities.File>();
         foreach (var file in request.Files)
         {
@@ -62,7 +62,7 @@ public class UploadFileCommandHandler : IRequestHandler<UploadFileCommand, Uploa
                     ContentType = file.ContentType
                 },
                 cancellationToken: cancellationToken);
-            
+
             filesToSave.Add(new Entities.File(
                 fileName: file.FileName,
                 contentType: file.ContentType,

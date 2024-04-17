@@ -113,6 +113,7 @@ public class S3Service : IS3Service
         }
     }
 
+    /// <inheritdoc/>
     public async Task DeleteAsync(string key, string? bucket = default, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(key))
