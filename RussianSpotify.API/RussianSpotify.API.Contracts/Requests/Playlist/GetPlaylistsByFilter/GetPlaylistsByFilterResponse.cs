@@ -1,6 +1,4 @@
-﻿using RussianSpotify.Contracts.Requests.Playlist.GetAllFavouriteAlbumAndPlaylist;
-
-namespace RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
+﻿namespace RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 
 public class GetPlaylistsByFilterResponse
 {

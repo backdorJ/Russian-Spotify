@@ -103,6 +103,6 @@ export const tryAddPlaylistToFavorites: (playlistId: string) => Promise<boolean>
 
 export const tryRemovePlaylistFromFavorites: (playlistId: string) => Promise<boolean> =
     async (playlistId): Promise<boolean> => {
-        const response = await $authHost.post(`api/Playlist/RemovePlaylistFromFavorite/${playlistId}`);
+        const response = await $authHost.delete(`api/Playlist/RemovePlaylistFromFavorite/${playlistId}`);
         return response.status === 200;
     }

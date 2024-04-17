@@ -1,6 +1,4 @@
-﻿using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
-
-namespace RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
+﻿namespace RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
 public class GetSongsByFilterResponse
 {

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.API.Core.Extensions;
-using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
 using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
