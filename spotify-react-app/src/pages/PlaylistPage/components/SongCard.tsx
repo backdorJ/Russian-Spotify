@@ -2,13 +2,16 @@
 import not_liked_icon from "../../../assets/mock/playlistpage/like.png"
 // @ts-ignore
 import liked_icon from "../../../assets/mock/playlistpage/songs/liked.png"
-import {Fragment} from "react";
+import {Fragment, useState} from "react";
 import {getImage} from "../../../http/fileApi";
 import {useNavigate} from "react-router-dom";
+import {tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../../http/songApi";
 
 const SongCard = (props: any) => {
     const navigate = useNavigate();
     const {id, name, artists, album, length, isLiked, imageId} = props
+    const [isLikedSong, setIsLikedSong] = useState(isLiked)
+    let isInLikeProcess = false;
     let artistCount = artists.length
     let artistsArray = [...artists]
     let artistsMapped = artistsArray.map((artist, index) => {
@@ -16,6 +19,29 @@ const SongCard = (props: any) => {
             return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span>, </Fragment>)
         return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span></Fragment>)
     })
+
+    const handleLikeClick = () => {
+        if(!isInLikeProcess) {
+            isInLikeProcess = true;
+            if (!isLikedSong) {
+                tryAddSongToFavorites(id)
+                    .then(isSuccessful => {
+                        if(isSuccessful) {
+                            setIsLikedSong(true);
+                            isInLikeProcess = false;
+                        }
+                    });
+            } else {
+                tryRemoveSongFromFavorites(id)
+                    .then(isSuccessful => {
+                        if(isSuccessful){
+                            setIsLikedSong(false);
+                            isInLikeProcess = false;
+                        }
+                    });
+            }
+        }
+    }
 
     return (
         <div className="playlist-page__songs__list__main__song-card">
@@ -40,9 +66,9 @@ const SongCard = (props: any) => {
             <div className="playlist-page__songs__list__main__song-card__added">
 
             </div>
-            <div className="playlist-page__songs__list__main__song-card__liked">
+            <div onClick={handleLikeClick} className="playlist-page__songs__list__main__song-card__liked">
                 {
-                    isLiked
+                    isLikedSong
                         ? <img src={liked_icon} alt="Dislike"/>
                         : <img src={not_liked_icon} alt="Like"/>
                 }

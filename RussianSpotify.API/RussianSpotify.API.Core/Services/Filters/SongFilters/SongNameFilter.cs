@@ -10,5 +10,5 @@ public class SongNameFilter : IFilter<Song>
         CancellationToken cancellationToken)
         => Task.FromResult(queryable
             .Where(song => song.SongName.ToLower().Contains(filterValue.ToLower()))
-            .OrderBy(i => i.SongName));
+            .OrderByDescending(i => i.PlaysNumber));
 }

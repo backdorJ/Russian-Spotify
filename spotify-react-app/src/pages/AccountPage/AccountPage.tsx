@@ -1,42 +1,37 @@
 import "../AccountPage/styles/AccountPage.css"
-// @ts-ignore
-import settings_icon from "../../assets/setting.png"
-import {useNavigate} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
-import DiscoveryCard from "../HomePage/components/DiscoveryCard";
-import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
-import PlaylistNormal from "../HomePage/components/PlaylistNormal";
-import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import {UserContext} from "../../index";
 import Song from "../../models/Song";
-import {getFavouriteSongs} from "../../http/songApi";
 import FavoriteMusic from "./components/FavoriteMusic";
 import Playlist from "../../models/Playlist";
-import {getFavouritePlaylists} from "../../http/playlistApi";
 import FavouritePlaylist from "./components/FavouritePlaylist";
-import Author from "../../models/Author";
-import AlbumLittle from "../../models/AlbumLittle";
-        
+import {getSongsByFilter} from "../../http/songApi";
+import {songFilters} from "../../http/filters/songFilters";
+import {getPlaylistsByFilter} from "../../http/playlistApi";
+import {playlistFilters} from "../../http/filters/playlistFilters";
+import {getUserId} from "../../functions/getUserId";
+
 const AccountPage = () => {
     const userStore = useContext(UserContext)
-    const endsubdate = userStore.user._subEndDate.getDate()
-    const endsubmonth = userStore.user._subEndDate.getMonth()
-    const endsubyear = userStore.user._subEndDate.getFullYear()
-    const formattedDate = `${endsubdate.toString().padStart(2, '0')}:${endsubmonth.toString().padStart(2, '0')}:${endsubyear.toString().padStart(4, '0')}`;
+    const endSubscriptionDate = userStore.user._subEndDate.getDate()
+    const endSubscriptionMonth = userStore.user._subEndDate.getMonth()
+    const endSubscriptionYear = userStore.user._subEndDate.getFullYear()
+    const formattedDate = `${endSubscriptionDate.toString().padStart(2, '0')}:${endSubscriptionMonth.toString().padStart(2, '0')}:${endSubscriptionYear.toString().padStart(4, '0')}`;
+        
     // Список любимых песен
-    const [favoriteSongs, setFavoriteSongs] = useState(new Array<Song>());
-    const [favouritePlaylists, setFavouritePlaylists] = useState(new Array<Playlist>())
+    const [favoriteSongs, setFavoriteSongs] = useState<Song[]>([]);
+    const [favouritePlaylists, setFavouritePlaylists] = useState<Playlist[]>([]);
     let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
 
     // Получение списка любимых песен
     useEffect(() => {
-        getFavouriteSongs(1, 5)
-            .then(r => setFavoriteSongs(r))
+        getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(),1, 5)
+            .then(s => setFavoriteSongs(s))
 
-        getFavouritePlaylists(1, 5)
+        getPlaylistsByFilter(playlistFilters.favoritePlaylistsFilter, getUserId(), 1, 5)
             .then(p => setFavouritePlaylists(p))
     }, []);
-    
+
     return (
         <div className="account-page">
             <div className="account-page-content">

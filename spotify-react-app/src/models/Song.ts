@@ -15,7 +15,8 @@ export default class Song {
     /** Жанр песни */
     category: string;
 
-    isHave: boolean | null;
+    /** В понравившихся ли песня */
+    isInFavorite: boolean;
 
     /** Список имён авторов песни */
     authors: string[];
@@ -35,7 +36,7 @@ export default class Song {
         this.authors = [];
         this.nextSong = null;
         this.prevSong = null;
-        this.isHave = null;
+        this.isInFavorite = false;
     }
 
     static init(id: string,
@@ -46,7 +47,7 @@ export default class Song {
                 authors: string[],
                 nextSong: Song | null,
                 prevSong: Song | null,
-                isHave: boolean | null) {
+                isInFavorite: boolean) {
 
         let newSong = new Song();
 
@@ -58,7 +59,7 @@ export default class Song {
         newSong.authors = authors;
         newSong.nextSong = nextSong;
         newSong.prevSong = prevSong;
-        newSong.isHave = isHave;
+        newSong.isInFavorite = isInFavorite;
 
         return newSong;
     }

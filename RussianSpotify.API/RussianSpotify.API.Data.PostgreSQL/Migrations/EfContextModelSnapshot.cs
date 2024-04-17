@@ -249,9 +249,14 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Property<Guid?>("SongId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SongId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Files");
                 });
@@ -311,16 +316,11 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
@@ -474,6 +474,9 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Property<Guid?>("UserPhotoId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UserPhotoId1")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -483,7 +486,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("UserPhotoId");
+                    b.HasIndex("UserPhotoId1");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -617,7 +620,13 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("RussianSpotify.API.Core.Entities.User", "User")
+                        .WithMany("Files")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Song");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Playlist", b =>
@@ -630,18 +639,12 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
                     b.HasOne("RussianSpotify.API.Core.Entities.File", "Image")
                         .WithOne("Playlist")
-                        .HasForeignKey("RussianSpotify.API.Core.Entities.Playlist", "ImageId");
+                        .HasForeignKey("RussianSpotify.API.Core.Entities.Playlist", "ImageId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Author");
 
                     b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("RussianSpotify.API.Core.Entities.Role", b =>
-                {
-                    b.HasOne("RussianSpotify.API.Core.Entities.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.RolePrivilege", b =>
@@ -687,7 +690,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                 {
                     b.HasOne("RussianSpotify.API.Core.Entities.File", "UserPhoto")
                         .WithMany()
-                        .HasForeignKey("UserPhotoId");
+                        .HasForeignKey("UserPhotoId1");
 
                     b.Navigation("UserPhoto");
                 });
@@ -733,7 +736,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
                     b.Navigation("Bucket");
 
-                    b.Navigation("Roles");
+                    b.Navigation("Files");
 
                     b.Navigation("Subscribe");
                 });

@@ -21,6 +21,7 @@ public class PostCreatePlaylistRequest
         PlaylistName = request.PlaylistName;
         ImageId = request.ImageId;
         SongIds = request.SongIds;
+        IsAlbum = request.IsAlbum;
     }
     
     /// <summary>
@@ -31,7 +32,7 @@ public class PostCreatePlaylistRequest
     /// <summary>
     /// Картинка плейлиста
     /// </summary>
-    public Guid ImageId { get; set; }
+    public Guid? ImageId { get; set; }
 
     /// <summary>
     /// Песни

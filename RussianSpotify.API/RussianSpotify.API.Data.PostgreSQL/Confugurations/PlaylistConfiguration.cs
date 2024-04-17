@@ -32,6 +32,11 @@ public class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
 
         builder.HasMany(i => i.Users)
             .WithMany(i => i.Playlists);
+
+        builder.HasOne(i => i.Image)
+            .WithOne()
+            .HasForeignKey<Playlist>(i => i.ImageId)
+            .OnDelete(DeleteBehavior.SetNull);
         
         builder.Property(x => x.PlaysNumber).HasDefaultValue(0);
     }
