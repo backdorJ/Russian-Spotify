@@ -61,7 +61,7 @@ public class PlaylistController : ControllerBase
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task PostCreatePlaylistAsync(
+    public async Task<PostCreatePlaylistResponse> PostCreatePlaylistAsync(
         [FromBody] PostCreatePlaylistRequest request,
         CancellationToken cancellationToken)
         => await _mediator.Send(new PostCreatePlaylistCommand(request), cancellationToken);

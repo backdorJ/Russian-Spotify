@@ -1,15 +1,18 @@
 import {uploadFile} from "../http/fileApi";
 import {addPlaylist} from "../http/playlistApi";
 import CreatePlaylistDto from "../utils/dto/playlist/createPlaylistDto";
+import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
 
 const createPlaylistWithFile = async (createPlaylistDto: CreatePlaylistDto) => {
-    if (createPlaylistDto.file !== '') {
-        let fileId = await uploadFile(createPlaylistDto.file)
-        // TODO: instead of '' must be fileId
-        await addPlaylist(createPlaylistDto.name, '')
+    if (createPlaylistDto.file !== undefined) {
+        let fileUploadResponse = await uploadFile(createPlaylistDto.file)
+        if (fileUploadResponse.status !== 200)
+            return fileUploadResponse
+
+        return await addPlaylist(createPlaylistDto.name, fileUploadResponse.value)
     }
 
-    await addPlaylist(createPlaylistDto.name, '')
+    return await addPlaylist(createPlaylistDto.name, '')
 }
 
 export default createPlaylistWithFile
