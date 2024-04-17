@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongFromBucket;
-using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
