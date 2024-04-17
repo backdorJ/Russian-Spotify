@@ -57,15 +57,15 @@ export const getPlaylistsShuffled = async (pageNumber: number, pageSize: number)
         authorName: string;
         releaseDate: Date;
         isAlbum: boolean;
+        isInFavorite: boolean
     }) => Playlist.init(
         i.id,
         i.playlistName,
         i.imageId,
         i.authorName,
         i.releaseDate,
-        new Array<Song>(),
         i.isAlbum,
-        new Array<string>()
+        i.isInFavorite
     ))
 }
 

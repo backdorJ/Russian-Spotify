@@ -1,3 +1,4 @@
 export const authorFilters = {
-    authorNameFilter: "AuthorName"
+    authorNameFilter: "AuthorName",
+    authorShuffledFilter: "AuthorShuffled",
 }
