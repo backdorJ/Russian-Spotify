@@ -1,7 +1,6 @@
 import {deleteFile, uploadFile} from "../http/fileApi";
 import {addPlaylist} from "../http/playlistApi";
 import CreatePlaylistDto from "../utils/dto/playlist/createPlaylistDto";
-import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
 
 const createPlaylistWithFile = async (createPlaylistDto: CreatePlaylistDto) => {
     if (createPlaylistDto.file !== undefined) {
