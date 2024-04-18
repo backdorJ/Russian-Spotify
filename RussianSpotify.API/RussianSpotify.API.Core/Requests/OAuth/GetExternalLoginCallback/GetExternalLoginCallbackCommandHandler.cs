@@ -102,8 +102,10 @@ public class GetExternalLoginCallbackCommandHandler :
 
          await _userManager.UpdateAsync(user);
         
-         _contextAccessor.HttpContext?.Response.Cookies.Append("token", user.AccessToken, BaseCookieOptions.Options);
-         _contextAccessor.HttpContext?.Response.Cookies.Append("refresh", user.RefreshToken, BaseCookieOptions.Options);
+         _contextAccessor.HttpContext?.Response.Cookies.Append(
+             BaseCookieOptions.AccessTokenCookieName, user.AccessToken, BaseCookieOptions.Options);
+         _contextAccessor.HttpContext?.Response.Cookies.Append(
+             BaseCookieOptions.RefreshTokenCookieName, user.RefreshToken, BaseCookieOptions.Options);
          
          return new GetExternalLoginCallbackResponse
              { AccessToken = jwt, RefreshToken = refreshToken };

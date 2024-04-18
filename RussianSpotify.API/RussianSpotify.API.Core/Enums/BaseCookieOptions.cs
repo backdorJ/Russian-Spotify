@@ -14,4 +14,14 @@ public static class BaseCookieOptions
     {
         Expires = DateTime.UtcNow.AddHours(1)
     };
+
+    /// <summary>
+    /// Name куки для JWT
+    /// </summary>
+    public const string AccessTokenCookieName = "token";
+
+    /// <summary>
+    /// Name куки для Refresh Токена
+    /// </summary>
+    public const string RefreshTokenCookieName = "refresh";
 }
