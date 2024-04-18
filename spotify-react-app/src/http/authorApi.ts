@@ -2,6 +2,7 @@ import AuthorPage from "../models/AuthorPage";
 import Author from "../models/Author";
 import {$authHost} from "./index";
 import {songFilters} from "./filters/songFilters";
+// @ts-ignore
 import {playlistFilters} from "./filters/playlistFilters";
 import {getImage} from "./fileApi";
 import AlbumLittle from "../models/AlbumLittle";

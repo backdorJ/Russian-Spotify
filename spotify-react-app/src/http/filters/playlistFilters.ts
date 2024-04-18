@@ -4,5 +4,6 @@ export const playlistFilters = {
     /** filterValue - UserId */
     favoritePlaylistsFilter: 'FavoritePlaylists',
     /** filterValue - PlaylistName */
-    playlistNameFilter: 'PlaylistName'
+    playlistNameFilter: 'PlaylistName',
+    albumShuffledFilter: 'AlbumShuffled'
 }

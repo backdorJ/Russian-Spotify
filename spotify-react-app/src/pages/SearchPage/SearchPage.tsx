@@ -11,7 +11,9 @@ import SearchAuthorCard from "./components/SearchAuthorCard";
 import { getPlaylistsByFilter} from "../../http/playlistApi";
 import {getAuthorsByFilter} from "../../http/authorApi";
 import {songFilters} from "../../http/filters/songFilters";
+// @ts-ignore
 import {playlistFilters} from "../../http/filters/playlistFilters";
+// @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
 
 

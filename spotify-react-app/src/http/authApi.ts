@@ -3,8 +3,11 @@ import {$authHost, $host} from "./index";
 import UserLoginDto from "../utils/dto/user/userLoginDto";
 import User from "../models/User";
 import UserEditDto from "../utils/dto/user/userEditDto";
+// @ts-ignore
 import UserConfirmEmailDto from "../utils/dto/user/userConfirmEmailDto";
+// @ts-ignore
 import UserNewPasswordDto from "../utils/dto/user/userNewPasswordDto";
+// @ts-ignore
 import UserConfirmNewPasswordDto from "../utils/dto/user/userConfirmNewPasswordDto";
 
 export const getUser = async () => {
