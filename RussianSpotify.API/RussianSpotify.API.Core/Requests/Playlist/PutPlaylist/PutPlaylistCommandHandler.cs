@@ -14,22 +14,18 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
-    private readonly UserManager<User> _userManager;
 
     /// <summary>
     /// Конструктор
     /// </summary>
     /// <param name="dbContext">Контекст БД</param>
     /// <param name="userContext">Контекст пользователя</param>
-    /// <param name="userManager">Менеджер пользователя</param>
     public PutPlaylistCommandHandler(
         IDbContext dbContext,
-        IUserContext userContext,
-        UserManager<User> userManager)
+        IUserContext userContext)
     {
         _dbContext = dbContext;
         _userContext = userContext;
-        _userManager = userManager;
     }
 
     /// <inheritdoc />

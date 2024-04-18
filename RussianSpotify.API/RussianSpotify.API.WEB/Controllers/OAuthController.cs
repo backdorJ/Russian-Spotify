@@ -52,10 +52,10 @@ public class OAuthController : ControllerBase
     [HttpGet("ExternalLoginCallback")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ExternalLoginCallback()
+    public async Task<IActionResult> ExternalLoginCallback([FromServices] IConfiguration configuration)
     {
         var command = new GetExternalLoginCallbackCommand();
         await _mediator.Send(command);
-        return Redirect("http://localhost:3000/");
+        return Redirect(configuration["RedirectUrl"]!);
     }
 }
