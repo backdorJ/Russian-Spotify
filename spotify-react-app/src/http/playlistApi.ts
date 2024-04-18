@@ -1,7 +1,6 @@
 import Playlist from "../models/Playlist";
 import {$authHost} from "./index";
-import Song from "../models/Song";
-import {getSongInfo} from "./songApi";
+// @ts-ignore
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
 
 /** Возвращает список альбомов по фильтру
@@ -14,8 +13,14 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
     if(!filterValue || !filterName)
         return [];
 
-        const response = await $authHost.get(`api/Playlist/GetPlaylists?pageNumber=${pageNumber}&pageSize=${pageSize}&isFavourite=true`);
-
+        const response = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
+            new URLSearchParams({
+                filterName: filterName,
+                filterValue: filterValue,
+                pageNumber: pageNumber.toString(),
+                pageSize: pageSize.toString()
+            }));
+        
         if (response.status !== 200 || response.data === undefined)
             return new Array<Playlist>();
 

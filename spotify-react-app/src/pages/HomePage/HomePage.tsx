@@ -2,16 +2,17 @@ import './styles/HomePage.css'
 import {useContext, useEffect, useState} from "react";
 import playlistsLittle from "../../utils/mocks/homepage/playlistsLittle";
 import PlaylistLittle from "./components/PlaylistLittle";
-import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import DiscoveryCard from "./components/DiscoveryCard";
 import PlaylistNormal from "./components/PlaylistNormal";
 import {UserContext} from "../../index";
 import {observer} from "mobx-react-lite";
-import {getPlaylistsShuffled} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
 import Author from "../../models/Author";
 import {getAuthorsByFilter} from "../../http/authorApi";
+// @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
+import {getPlaylistsByFilter} from "../../http/playlistApi";
+import {playlistFilters} from "../../http/filters/playlistFilters";
 
 
 const HomePage = observer((props: any) => {
@@ -32,7 +33,7 @@ const HomePage = observer((props: any) => {
         getAuthorsByFilter(authorFilters.authorShuffledFilter, "smth", 2, 1, 10)
             .then(response => setDiscoveryCards(response))
             .then(() => {
-                getPlaylistsShuffled(1, 6)
+                getPlaylistsByFilter(playlistFilters.albumShuffledFilter, "smth", 6, 1)
                     .then(response => setPlaylistsNormal([...response]))
                     .then(() => setIsLoadedTrigger(true))
             })
