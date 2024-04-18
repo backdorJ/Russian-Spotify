@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Requests.OAuthAccount.GetExternalLoginCallback;
-using RussianSpotify.Contracts.Requests.OAuthAccount.GetExternalLoginCallback;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -53,9 +52,10 @@ public class OAuthController : ControllerBase
     [HttpGet("ExternalLoginCallback")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<GetExternalLoginCallbackResponse> ExternalLoginCallback()
+    public async Task<IActionResult> ExternalLoginCallback()
     {
         var command = new GetExternalLoginCallbackCommand();
-        return await _mediator.Send(command);
+        await _mediator.Send(command);
+        return Redirect("http://localhost:3000/");
     }
 }

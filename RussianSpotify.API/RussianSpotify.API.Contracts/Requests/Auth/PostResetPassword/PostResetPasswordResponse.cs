@@ -1,4 +1,4 @@
-namespace RussianSpotify.Contracts.Requests.Account.PostResetPassword;
+namespace RussianSpotify.Contracts.Requests.Auth.PostResetPassword;
 
 public class PostResetPasswordResponse
 {
@@ -6,9 +6,4 @@ public class PostResetPasswordResponse
     /// Почта пользователя
     /// </summary>
     public string Email { get; set; } = default!;
-
-    /// <summary>
-    /// Новый пароль пользователя
-    /// </summary>
-    public string NewPassword { get; set; } = default!;
 }

@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.DefaultSettings;
@@ -25,13 +26,23 @@ public class GetExternalLoginCallbackCommandHandler :
 
     private readonly SignInManager<User> _signInManager;
 
+    private readonly IHttpContextAccessor _contextAccessor;
+
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="jwtGenerator">JWT генератор</param>
+    /// <param name="userManager">User Manager <see cref="UserManager{TUser}"/></param>
+    /// <param name="signInManager">Sign in manager <see cref="SignInManager{TUser}"/></param>
+    /// <param name="contextAccessor">Http Context Accessor</param>
     public GetExternalLoginCallbackCommandHandler(IJwtGenerator jwtGenerator,
         UserManager<User> userManager,
-        SignInManager<User> signInManager)
+        SignInManager<User> signInManager, IHttpContextAccessor contextAccessor)
     {
         _jwtGenerator = jwtGenerator;
         _userManager = userManager;
         _signInManager = signInManager;
+        _contextAccessor = contextAccessor;
     }
     
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
@@ -74,9 +85,14 @@ public class GetExternalLoginCallbackCommandHandler :
             
              await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName);
          }
+         else
+         {
+             var roles = await _userManager.GetRolesAsync(user);
+             claims.Add(new(ClaimTypes.Role, roles.First()));
+         }
 
          claims.Add(new(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            
+         
          var jwt = _jwtGenerator.GenerateToken(claims);
          var refreshToken = _jwtGenerator.GenerateRefreshToken();
         
@@ -86,6 +102,9 @@ public class GetExternalLoginCallbackCommandHandler :
 
          await _userManager.UpdateAsync(user);
         
+         _contextAccessor.HttpContext?.Response.Cookies.Append("token", user.AccessToken, BaseCookieOptions.Options);
+         _contextAccessor.HttpContext?.Response.Cookies.Append("refresh", user.RefreshToken, BaseCookieOptions.Options);
+         
          return new GetExternalLoginCallbackResponse
              { AccessToken = jwt, RefreshToken = refreshToken };
     }

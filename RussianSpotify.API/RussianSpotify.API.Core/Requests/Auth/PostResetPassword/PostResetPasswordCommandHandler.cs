@@ -6,7 +6,7 @@ using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
 using RussianSpotify.API.Core.Extensions;
 using RussianSpotify.API.Core.Models;
-using RussianSpotify.Contracts.Requests.Account.PostResetPassword;
+using RussianSpotify.Contracts.Requests.Auth.PostResetPassword;
 
 namespace RussianSpotify.API.Core.Requests.Auth.PostResetPassword;
 
@@ -34,11 +34,6 @@ public class PostResetPasswordCommandHandler :
 
         if (user is null)
             throw new NotFoundUserException(AuthErrorMessages.UserNotFound);
-        
-        var isEqualsOldAndNewPasswords = await _userManager.CheckPasswordAsync(user, request.NewPassword);
-
-        if (isEqualsOldAndNewPasswords)
-            throw new EqualsOldAndNewPasswordsException(AuthErrorMessages.EqualsOldAndNewPasswords);
 
         var confirmationToken =  await _userManager.GeneratePasswordResetTokenAsync(user);
 
@@ -52,6 +47,6 @@ public class PostResetPasswordCommandHandler :
         
         await _emailSender.SendEmailAsync(request.Email, message, cancellationToken);
 
-        return new PostResetPasswordResponse { Email = request.Email, NewPassword = request.NewPassword };
+        return new PostResetPasswordResponse { Email = request.Email };
     }
 }

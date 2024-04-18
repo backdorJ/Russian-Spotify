@@ -1,7 +1,7 @@
 using FluentValidation;
 using RussianSpotify.API.Core.Enums;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostConfirmPasswordReset;
+namespace RussianSpotify.API.Core.Requests.Auth.PostConfirmPasswordReset;
 
 /// <summary>
 /// Валидатор для <see cref="PostConfirmPasswordResetCommand"/>
@@ -20,7 +20,13 @@ public class PostConfirmPasswordResetCommandValidator :
         RuleFor(command => command.NewPassword)
             .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("New Password"));
 
-        RuleFor(command => command.VerificationCodeFromUser)
-            .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("Verification Code From User"));
+        RuleFor(command => command.NewPassword).MinimumLength(8)
+            .WithMessage(AuthErrorMessages.ShortPassword(8));
+
+        RuleFor(command => command.NewPasswordConfirm)
+            .NotEmpty().WithMessage(AuthErrorMessages.EmptyField("Password Confirm"));
+
+        RuleFor(command => command.NewPassword)
+            .Equal(command => command.NewPasswordConfirm).WithMessage(AuthErrorMessages.PasswordIsNotConfirmed);
     }
 }

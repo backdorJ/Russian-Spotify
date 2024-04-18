@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
+namespace RussianSpotify.API.Core.Exceptions.AuthExceptions;
 
 /// <summary>
 /// Если пришёл не валидный JWT или Refresh Token

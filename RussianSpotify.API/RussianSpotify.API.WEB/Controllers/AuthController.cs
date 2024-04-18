@@ -3,20 +3,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using RussianSpotify.API.Core.Requests.Account.PostConfirmEmail;
-using RussianSpotify.API.Core.Requests.Account.PostConfirmPasswordReset;
 using RussianSpotify.API.Core.Requests.Account.PostLogin;
 using RussianSpotify.API.Core.Requests.Account.PostRefreshToken;
 using RussianSpotify.API.Core.Requests.Account.PostRevokeToken;
+using RussianSpotify.API.Core.Requests.Auth.PostConfirmPasswordReset;
 using RussianSpotify.API.Core.Requests.Auth.PostRegister;
 using RussianSpotify.API.Core.Requests.Auth.PostResetPassword;
+using RussianSpotify.API.Core.Requests.Auth.PostValidatePasswordResetConfirmationToken;
 using RussianSpotify.Contracts.Requests.Account.PostConfirmEmail;
-using RussianSpotify.Contracts.Requests.Account.PostConfirmPasswordReset;
 using RussianSpotify.Contracts.Requests.Account.PostLogin;
 using RussianSpotify.Contracts.Requests.Account.PostRefreshToken;
 using RussianSpotify.Contracts.Requests.Account.PostRegister;
-using RussianSpotify.Contracts.Requests.Account.PostResetPassword;
 using RussianSpotify.Contracts.Requests.Account.PostRevokeToken;
+using RussianSpotify.Contracts.Requests.Auth.PostConfirmPasswordReset;
 using RussianSpotify.Contracts.Requests.Auth.PostRegister;
+using RussianSpotify.Contracts.Requests.Auth.PostResetPassword;
+using RussianSpotify.Contracts.Requests.Auth.PostValidatePasswordResetConfirmationToken;
 
 namespace RussianSpotify.API.WEB.Controllers;
 
@@ -81,7 +83,7 @@ public class AuthController : ControllerBase
     /// <summary>
     /// Сброс пароля
     /// </summary>
-    /// <param name="request">Post Reset Request(Email, NewPassword, NewPasswordConfirm)</param>
+    /// <param name="request">Post Reset Request(Email)</param>
     /// <param name="cancellationToken"></param>
     /// <response code="200">Если всё хорошо</response>
     /// <response code="400">Если у пользователя некорректные данные, которые не прошли валидацию</response>
@@ -152,12 +154,31 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// Подтверждение сброса пароля
+    /// Валмдация токена подтверждения сброса пароля
     /// </summary>
-    /// <param name="request">PostConfirmPasswordResetRequest()</param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="request">PostValidatePasswordResetConfirmationTokenRequest(VerificationCodeFromUser)</param>
+    /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Если всё хорошо</response>
     /// <response code="400">Если пользователь ввёл неверный код подтверждение</response>
+    [HttpPost("ConfirmPasswordResetConfirmationToken")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task ValidatePasswordResetConfirmationToken(
+        [FromBody] PostValidatePasswordResetConfirmationTokenRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new PostValidatePasswordResetConfirmationTokenCommand(request);
+        await _mediator.Send(command, cancellationToken);
+    }
+
+    /// <summary>
+    /// Подтверждение сброса пароля
+    /// </summary>
+    /// <param name="request">PostConfirmPasswordResetRequest</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Если всё хорошо</response>
+    /// <response code="400">Если пришёл неверный код подтверждение, или пароли не совпадают,
+    /// или текщий пароль равен новому</response>
     [HttpPost("ConfirmPasswordReset")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

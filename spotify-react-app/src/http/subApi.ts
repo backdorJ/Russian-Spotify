@@ -11,7 +11,7 @@ export const subscribe = async (makeSubscriptionDto: MakeSubscriptionDto) => {
 export const getSubscription = async () => {
     const response = await $authHost.get("api/subscription/GetInfo")
     let data = response.data
-    return response.status === 400
+    return response.status !== 200
         ? new GetSubscriptionDto()
         : GetSubscriptionDto.init(data.startDate, data.endDate)
 }

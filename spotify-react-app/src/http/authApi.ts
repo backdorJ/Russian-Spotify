@@ -9,12 +9,46 @@ import UserConfirmEmailDto from "../utils/dto/user/userConfirmEmailDto";
 import UserNewPasswordDto from "../utils/dto/user/userNewPasswordDto";
 // @ts-ignore
 import UserConfirmNewPasswordDto from "../utils/dto/user/userConfirmNewPasswordDto";
+import {getCookieValueByName} from "../functions/getCookieValueByName";
 
 export const getUser = async () => {
-    const response = await $authHost("api/Account/UserInfo");
+    let response = null;
+    await $authHost("api/Account/UserInfo")
+        .then(x => response = x)
+        .catch(error => console.log(error))
+        .then(_ => {
+            if(getCookieValueByName("token")) {
+                localStorage.setItem("token", getCookieValueByName("token")!);
+                localStorage.setItem("refresh", getCookieValueByName("refresh")!);
+            }
+        });
 
-    const data = response.data
-    return response.status === 200
+    if(localStorage.getItem("token"))
+        response = await $authHost("api/Account/UserInfo");
+
+    if(response === null) {
+        await $host.post("api/Auth/RefreshToken", {
+            accessToken: localStorage.getItem("token"),
+            refreshToken: localStorage.getItem("refresh")
+        }).then(x => {
+            localStorage.setItem('refresh', x.data.refreshToken);
+            localStorage.setItem('token', x.data.accessToken);
+        }).catch(error => console.log(error));
+
+        await $authHost("api/Account/UserInfo");
+    }
+
+    let cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        let eqPos = cookie.indexOf("=");
+        let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+
+    const data = response!.data
+    return response!.status === 200
         ? User.init(0, data.email, data.userName,
             `${process.env.REACT_APP_SPOTIFY_API}api/File/image/${data.userPhotoId}`)
         : new User()
