@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using RussianSpotify.API.Core.Requests.Account.PostConfirmEmail;
 using RussianSpotify.API.Core.Requests.Account.PostLogin;
 using RussianSpotify.API.Core.Requests.Account.PostRefreshToken;
@@ -154,13 +153,13 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// Валмдация токена подтверждения сброса пароля
+    /// Валидация токена подтверждения сброса пароля
     /// </summary>
     /// <param name="request">PostValidatePasswordResetConfirmationTokenRequest(VerificationCodeFromUser)</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Если всё хорошо</response>
     /// <response code="400">Если пользователь ввёл неверный код подтверждение</response>
-    [HttpPost("ConfirmPasswordResetConfirmationToken")]
+    [HttpPost("ValidatePasswordResetConfirmationToken")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task ValidatePasswordResetConfirmationToken(

@@ -47,10 +47,9 @@ public class CustomTokenProvider<TUser> : DataProtectorTokenProvider<TUser> wher
         DateTime.TryParseExact(expiryTimeString, "G",
             CultureInfo.InvariantCulture, DateTimeStyles.None, out var expiryTime);
 
-        if (DateTime.UtcNow > expiryTime)
-            return false;
-
-        return true;
+        await _cache.RefreshAsync(token);
+        
+        return DateTime.UtcNow <= expiryTime;
     }
 }
 
