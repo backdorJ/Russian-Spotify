@@ -40,10 +40,10 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
             .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
             ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
 
-        if (playlist.Songs is null)
-            throw new ApplicationBaseException("У данного плейлиста нет песен");
-
-        var songsToDelete = playlist.Songs
+        playlist.PlaylistName = request.PlaylistName ?? playlist.PlaylistName;
+        playlist.ImageId = request.ImageId ?? playlist.ImageId;
+        
+        var songsToDelete = playlist.Songs?
             .Select(x => x.Id)
             .ToList()
             .Except(request.SongsIds ?? playlist.Songs
@@ -51,30 +51,24 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
                 .ToList())
             .ToList();
         
-        playlist.Songs.ForEach(x =>
+        playlist.Songs?.ForEach(x =>
         {
-            if (songsToDelete.Contains(x.Id))
+            if (songsToDelete?.Contains(x.Id) == true)
                 playlist.Songs.Remove(x);
         });
 
-        if (request.SongsIds == null || !request.SongsIds.Any())
-            return;
-
-        foreach (var songId in request.SongsIds)
+        foreach (var songId in request.SongsIds ?? new())
         {
-            if (playlist.Songs.Select(x => x.Id).Contains(songId))
+            if (playlist.Songs?.Select(x => x.Id).Contains(songId) == true)
                 continue;
             
             var newSong = await _dbContext.Songs
                 .FirstOrDefaultAsync(x => x.Id == songId, cancellationToken)
                 ?? throw new EntityNotFoundException<Song>(songId); 
             
-            playlist.Songs.Add(newSong);
+            playlist.Songs?.Add(newSong);
         }
-
-        playlist.PlaylistName = request.PlaylistName ?? playlist.PlaylistName;
-        playlist.ImageId = request.ImageId ?? playlist.ImageId;
-
+        
         await _dbContext.SaveChangesAsync(cancellationToken);   
     }
 }
