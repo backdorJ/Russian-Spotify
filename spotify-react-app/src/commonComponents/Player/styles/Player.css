@@ -9,7 +9,7 @@
     justify-content: center; /* Распределение элементов по горизонтали */
     align-items: center; /* Выравнивание элементов по вертикали */
     padding: 10px 0;
-    transition: margin-bottom 0.3s ease-in-out;
+    transition: margin-left 0.3s ease-in-out;
 }
 
 .player {
@@ -197,9 +197,9 @@ input[type=range] {
 }
 
 .player-music-image{
-    animation: 2s linear 0s normal none infinite running rot;
-    -webkit-animation: 2s linear 1s normal none infinite running rot;
-    transition: all 1s ease-in-out;
+    animation: 12s linear 0s normal none infinite running rot;
+    -webkit-animation: 12s linear 0s normal none infinite running rot;
+    transition: all 0.3s ease-in-out;
 }
 
 @keyframes rot {
@@ -222,6 +222,7 @@ input[type=range] {
 .player-wrapper.expanded {
     background-color: rgba(0,0,0,0);
     bottom: 0;
+    transition: margin-left 0.3s ease-in-out;
 }
 
 .player.expanded {

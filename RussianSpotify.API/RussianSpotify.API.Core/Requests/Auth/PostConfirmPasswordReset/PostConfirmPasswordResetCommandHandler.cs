@@ -2,9 +2,10 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
+using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostConfirmPasswordReset;
+namespace RussianSpotify.API.Core.Requests.Auth.PostConfirmPasswordReset;
 
 /// <summary>
 /// Обработчик для <see cref="PostConfirmPasswordResetCommand"/>
@@ -31,7 +32,7 @@ public class PostConfirmPasswordResetCommandHandler : IRequestHandler<PostConfir
             request.VerificationCodeFromUser, request.NewPassword);
         
         if (!passwordResetResult.Succeeded)
-            throw new WrongConfirmationTokenException(AuthErrorMessages.WrongConfirmationToken);
+            throw new BadRequestException(string.Join("\n", passwordResetResult.Errors));
         
         user.SecurityStamp = _userManager.GenerateNewAuthenticatorKey();
         user.RefreshToken = null;
