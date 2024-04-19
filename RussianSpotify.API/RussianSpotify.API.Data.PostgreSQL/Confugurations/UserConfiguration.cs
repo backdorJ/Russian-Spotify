@@ -40,6 +40,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMany(x => x.Songs)
             .WithMany(y => y.Authors);
 
-        builder.HasOne(i => i.UserPhoto);
+        builder.HasOne(i => i.UserPhoto)
+            .WithOne()
+            .HasForeignKey<User>("UserPhotoId");
     }
 }

@@ -3,7 +3,7 @@ import {isJwtDied} from "../functions/isJwtDied";
 
 const $host = axios.create({
     baseURL: process.env.REACT_APP_SPOTIFY_API,
-
+    validateStatus: status => true
 })
 
 const $authHost = axios.create({

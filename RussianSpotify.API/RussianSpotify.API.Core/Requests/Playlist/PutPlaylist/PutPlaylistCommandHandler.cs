@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Exceptions;
+using RussianSpotify.API.Core.Exceptions.Playlist;
 
 namespace RussianSpotify.API.Core.Requests.Playlist.PutPlaylist;
 
@@ -14,22 +15,22 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
-    private readonly UserManager<User> _userManager;
+    private readonly IFileHelper _fileHelper;
 
     /// <summary>
     /// Конструктор
     /// </summary>
     /// <param name="dbContext">Контекст БД</param>
     /// <param name="userContext">Контекст пользователя</param>
-    /// <param name="userManager">Менеджер пользователя</param>
+    /// <param name="fileHelper"></param>
     public PutPlaylistCommandHandler(
         IDbContext dbContext,
         IUserContext userContext,
-        UserManager<User> userManager)
+        IFileHelper fileHelper)
     {
         _dbContext = dbContext;
         _userContext = userContext;
-        _userManager = userManager;
+        _fileHelper = fileHelper;
     }
 
     /// <inheritdoc />
@@ -37,12 +38,13 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
+
         var playlist = await _dbContext.Playlists
-            .Include(x => x.Songs)
-            .Where(x => x.AuthorId == _userContext.CurrentUserId)
-            .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
-            ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
+                           .Include(x => x.Songs)
+                           .Include(i => i.Image)
+                           .Where(x => x.AuthorId == _userContext.CurrentUserId)
+                           .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
+                       ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
 
         if (playlist.Songs is null)
             throw new ApplicationBaseException("У данного плейлиста нет песен");
@@ -54,31 +56,48 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
                 .Select(x => x.Id)
                 .ToList())
             .ToList();
-        
+
         playlist.Songs.ForEach(x =>
         {
             if (songsToDelete.Contains(x.Id))
                 playlist.Songs.Remove(x);
         });
+        
+        if (request.SongsIds is not null)
+            foreach (var songId in request.SongsIds)
+            {
+                if (playlist.Songs.Select(x => x.Id).Contains(songId))
+                    continue;
 
-        if (request.SongsIds == null || !request.SongsIds.Any())
-            return;
+                var newSong = await _dbContext.Songs
+                                  .FirstOrDefaultAsync(x => x.Id == songId, cancellationToken)
+                              ?? throw new EntityNotFoundException<Song>(songId);
 
-        foreach (var songId in request.SongsIds)
-        {
-            if (playlist.Songs.Select(x => x.Id).Contains(songId))
-                continue;
-            
-            var newSong = await _dbContext.Songs
-                .FirstOrDefaultAsync(x => x.Id == songId, cancellationToken)
-                ?? throw new EntityNotFoundException<Song>(songId); 
-            
-            playlist.Songs.Add(newSong);
-        }
+                playlist.Songs.Add(newSong);
+            }
 
         playlist.PlaylistName = request.PlaylistName ?? playlist.PlaylistName;
-        playlist.ImageId = request.ImageId ?? playlist.ImageId;
 
-        await _dbContext.SaveChangesAsync(cancellationToken);   
+        if (request.ImageId is not null)
+        {
+            // Достаем картину из бд
+            var imageFromDb = await _dbContext.Files
+                .FirstOrDefaultAsync(i => i.Id == request.ImageId.Value, cancellationToken);
+
+            if (imageFromDb is null)
+                throw new PlaylistFileException("File not found");
+            
+            // Проверка, является ли файл картинкой и присвоение
+            if (!_fileHelper.IsImage(imageFromDb))
+                throw new PlaylistBadImageException("File's content type is not Image");
+
+            // Удаляем текущую картинку
+            if (playlist.Image is not null)
+                await _fileHelper.DeleteFileAsync(playlist.Image, cancellationToken);
+
+            playlist.Image = imageFromDb;
+        }
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

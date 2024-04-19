@@ -15,7 +15,7 @@ export const getUser = async () => {
     return response.status === 200
         ? User.init(0, data.email, data.userName,
             `${process.env.REACT_APP_SPOTIFY_API}api/File/image/${data.userPhotoId}`)
-        : new User()
+        : undefined
 }
 
 export const register = async (user: UserRegisterDto) => {

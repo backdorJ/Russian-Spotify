@@ -84,7 +84,7 @@ public class FileController : FileBaseController
     /// <param name="cancellationToken">Токен отмены</param>
     [HttpDelete("Delete")]
     public async Task DeleteFileAsync(
-        [FromBody] DeleteFileRequest request,
+        [FromQuery] DeleteFileRequest request,
         [FromServices] IMediator mediator,
         CancellationToken cancellationToken)
     {

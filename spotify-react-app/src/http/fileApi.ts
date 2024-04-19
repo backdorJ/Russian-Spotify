@@ -26,9 +26,10 @@ export const uploadFile = async (file: File) => {
 }
 
 export const deleteFile = async (fileId: string) => {
-    const response = await $authHost.post('api/File/Delete', {
+    const response = await $authHost.delete('api/File/Delete?' +
+    new URLSearchParams({
         fileId: fileId
-    })
+    }))
 
     return response.status === 200
         ? new ResponseWithMessage(response.status, '')
