@@ -39,9 +39,6 @@ public class PostAddPlaylistToFavouriteCommandHandler : IRequestHandler<PostAddP
             .Include(x => x.Users)
             .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
             ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
-
-        if (playlistFromDb.AuthorId == _userContext.CurrentUserId)
-            throw new ApplicationBaseException("Автор не может добавить свою песню, она и так принадлежит ему");
         
         playlistFromDb.Users!.Add(currentUser);
         await _dbContext.SaveChangesAsync(cancellationToken);

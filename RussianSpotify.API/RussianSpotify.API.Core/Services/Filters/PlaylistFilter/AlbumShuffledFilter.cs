@@ -2,10 +2,12 @@ using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotify.API.Core.Services.Filters.PlaylistFilter;
-
-/// <inheritdoc/>
+/// <summary>
+/// Фильтр для перемешивания альбомов
+/// </summary>
 public class AlbumShuffledFilter : IFilter<Playlist>
 {
+    /// <inheritdoc/>
     public Task<IOrderedQueryable<Playlist>> FilterAsync(IQueryable<Playlist> queryable, string filterValue,
         CancellationToken cancellationToken) 
         =>
