@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongFromBucket;
-using RussianSpotify.API.Core.Requests.Music.GetAllMusic;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
-using RussianSpotify.API.Core.Requests.Music.GetSongInfoById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PatchEditSong;
 using RussianSpotify.API.Core.Requests.Music.PostAddSong;
@@ -17,8 +15,6 @@ using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.DeleteSong;
 using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.EditSong;
-using RussianSpotify.Contracts.Requests.Music.GetAllMusic;
-using RussianSpotify.Contracts.Requests.Music.GetSongInfoById;
 using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -41,30 +37,7 @@ public class SongController : FileBaseController
         => _mediator = mediator;
 
     /// <summary>
-    /// Получить всю музыку по странично
-    /// </summary>
-    /// <param name="request">Запрос</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Музыка</returns>
-    [HttpGet]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
-    [ProducesResponseType(409)]
-    [ProducesResponseType(500)]
-    public async Task<GetAllSongResponse> GetAllSongsAsync(
-        [FromQuery] GetAllSongRequest request,
-        CancellationToken cancellationToken)
-    {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        return await _mediator.Send(
-            new GetAllSongQuery(request),
-            cancellationToken);
-    }
-
-    /// <summary>
-    /// Получить музыку по фильтру(Доступные фильтры: AuthorSongs, SongName)
+    /// Получить музыку по фильтру(Доступные фильтры: AuthorSongs, SongName, FavoriteSongs, SongsInPlaylist)
     /// </summary>
     /// <param name="request">GetSongsByFilterRequest(Название фильтра,
     /// значение фильтра, страница, кол-во песен на странице)</param>
@@ -100,7 +73,7 @@ public class SongController : FileBaseController
         var result = await _mediator.Send(
             new GetSongContentByIdQuery(songId),
             cancellationToken);
-
+        
         return GetFileStreamResult(
             result,
             Response.Headers,
@@ -227,18 +200,6 @@ public class SongController : FileBaseController
         [FromRoute] Guid songId,
         CancellationToken cancellationToken)
         => await _mediator.Send(new PostAddSongToFavouriteCommand(songId), cancellationToken);
-
-    /// <summary>
-    /// Получить подробную информацию о конкретной песней
-    /// </summary>
-    /// <param name="id">ИД песни</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Подробная информация песни</returns>
-    [HttpGet("SongInfo/{id}")]
-    public async Task<GetSongInfoByIdResponse> GetSongByIdAsync(
-        [FromRoute] Guid id,
-        CancellationToken cancellationToken)
-        => await _mediator.Send(new GetSongInfoByIdQuery(id), cancellationToken);
 
     /// <summary>
     /// Удалить песню из бакета

@@ -1,9 +1,9 @@
-namespace RussianSpotify.Contracts.Requests.Music.GetAllMusic;
+﻿namespace RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
 /// <summary>
-/// Элемент списка для <see cref="GetAllSongResponse"/>
+/// Песня для <see cref="GetSongsByFilterResponse"/>
 /// </summary>
-public class GetAllSongResponseItem
+public class GetSongsByFilterResponseItem
 {
     /// <summary>
     /// ИД песни
@@ -34,4 +34,9 @@ public class GetAllSongResponseItem
     /// Авторы
     /// </summary>
     public List<string?> Authors { get; set; }
+    
+    /// <summary>
+    /// Добавлена ли песня в избранное
+    /// </summary>
+    public bool IsInFavorite { get; set; }
 }

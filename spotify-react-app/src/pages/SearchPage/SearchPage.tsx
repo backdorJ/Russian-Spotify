@@ -1,18 +1,20 @@
-import React, {FC, useContext, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { useState} from "react";
 // @ts-ignore
 import search_icon from '../../assets/searchPage/search_icon_121212.png'
 import searchTypesProps from "../../utils/search/searchTypesProps";
 import './styles/SearchPage.css'
 import Song from "../../commonComponents/Song/Song";
-import {getSongs, getSongsByNameFilter} from "../../http/songApi";
+import { getSongsByFilter} from "../../http/songApi";
 import SongModel from "../../models/Song";
-import playlistsNormal from "../../utils/mocks/homepage/playlistsNormal";
 import SearchPlaylistCard from "./components/SearchPlaylistCard";
-import discoveryCards from "../../utils/mocks/homepage/discoveryCards";
 import SearchAuthorCard from "./components/SearchAuthorCard";
-import {getFavouritePlaylists, getPlaylistsByNameFilter} from "../../http/playlistApi";
+import { getPlaylistsByFilter} from "../../http/playlistApi";
 import {getAuthorsByFilter} from "../../http/authorApi";
+import {songFilters} from "../../http/filters/songFilters";
+// @ts-ignore
+import {playlistFilters} from "../../http/filters/playlistFilters";
+// @ts-ignore
+import {authorFilters} from "../../http/filters/authorFilters";
 
 
 const SearchPage = () => {
@@ -27,21 +29,21 @@ const SearchPage = () => {
         if (searchType === 1) {
             setAuthors([])
             setPlaylists([])
-            getSongsByNameFilter(search, 1, 10)
+            getSongsByFilter(songFilters.songNameFilter, search, 1, 10)
                 .then(response => setSongs(prev => [...response]))
                 .then(() => setIsSearched(true))
         }
         if (searchType === 2) {
             setSongs([])
             setAuthors([])
-            getPlaylistsByNameFilter(search, 1, 10)
+            getPlaylistsByFilter(playlistFilters.playlistNameFilter, search, 1, 10)
                 .then(response => setPlaylists(prev => [...response]))
             setIsSearched(true)
         }
         if (searchType === 3) {
             setSongs([])
             setPlaylists([])
-            getAuthorsByFilter(search, 2, 1, 10)
+            getAuthorsByFilter(authorFilters.authorNameFilter, search, 2, 1,10)
                 .then(response => setAuthors(prev => [...response]))
             setIsSearched(true)
         }
@@ -82,7 +84,7 @@ const SearchPage = () => {
                                 title={i.title}
                                 color={i.color}
                                 highlight={i.highlight}
-                                isSelected={i.value == searchType}
+                                isSelected={i.value === searchType}
                                 onClick={() => {
                                     setSearchType(i.value)
                                     setIsSearched(false)

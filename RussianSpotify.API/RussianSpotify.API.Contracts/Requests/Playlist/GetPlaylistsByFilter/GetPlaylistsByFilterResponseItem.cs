@@ -1,9 +1,9 @@
-namespace RussianSpotify.Contracts.Requests.Playlist.GetAllFavouriteAlbumAndPlaylist;
+﻿namespace RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 
 /// <summary>
-/// Элемент списка для <see cref="GetAllFavouriteAlbumAndPlaylistResponse"/>
+/// Плейлист для <see cref="GetPlaylistsByFilterResponse"/>
 /// </summary>
-public class GetAllFavouriteAlbumAndPlaylistResponseItem
+public class GetPlaylistsByFilterResponseItem
 {
     /// <summary>
     /// ИД плейлиста/альбома
@@ -34,4 +34,9 @@ public class GetAllFavouriteAlbumAndPlaylistResponseItem
     /// Дата релиза
     /// </summary>
     public DateTime ReleaseDate { get; set; }
+    
+    /// <summary>
+    /// Добавлен ли альбом в понравившееся
+    /// </summary>
+    public bool? IsInFavorite { get; set; }
 }

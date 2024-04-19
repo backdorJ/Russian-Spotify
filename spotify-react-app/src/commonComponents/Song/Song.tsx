@@ -1,19 +1,20 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useState} from 'react';
 import PlayIcon from "../../assets/mock/common/PlayIcon";
 import {getImage} from "../../http/fileApi";
 import LikeIcon from "../../assets/mock/common/LikeIcon";
 import {ISong} from "./interfaces/ISong";
 import "./styles/Song.css"
-import {PlayerContext, UserContext} from "../../index";
 import {useNavigate} from "react-router-dom";
-import {removeSongFromBucket} from "../../http/songApi";
+import {tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
 
 /**Компонент для песни
  * @param song - Song песня*/
 const Song : FC<ISong> = ({song}) => {
     const navigate = useNavigate()
-    const playerStore = useContext(PlayerContext);
-    const userStore = useContext(UserContext);
+    const [isLiked, setIsLiked] = useState(song.isInFavorite);
+
+    /** Находится ли песня в процессе добавления в понравившееся */
+    let isInLikeProcess = false;
 
     const [menuOpen, setMenuOpen] = useState(false);
     let timeoutId: NodeJS.Timeout;
@@ -29,9 +30,29 @@ const Song : FC<ISong> = ({song}) => {
         }, 100);
     };
 
-    const handleRemoveSong = (songId: string) => {
-        removeSongFromBucket(songId).then(r => console.log(r))
-        window.location.reload()
+    const handleLikeClick = () => {
+        if(!isInLikeProcess) {
+            isInLikeProcess = true;
+            if (!song.isInFavorite) {
+                tryAddSongToFavorites(song.songId)
+                    .then(isSuccessful => {
+                        if(isSuccessful) {
+                            setIsLiked(true);
+                            isInLikeProcess = false;
+                            song.isInFavorite = true;
+                        }
+                    });
+            } else {
+                tryRemoveSongFromFavorites(song.songId)
+                    .then(isSuccessful => {
+                        if(isSuccessful){
+                            setIsLiked(false);
+                            isInLikeProcess = false;
+                            song.isInFavorite = false;
+                        }
+                    });
+            }
+        }
     }
 
     return (
@@ -53,7 +74,7 @@ const Song : FC<ISong> = ({song}) => {
                 <span>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</span>
             </div>
             <div className="like-icon-container">
-                <LikeIcon/>
+                <LikeIcon onClick = {handleLikeClick} isLiked={isLiked} />
             </div>
             <button className="music-more-button" onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}>⋮
@@ -62,7 +83,7 @@ const Song : FC<ISong> = ({song}) => {
                 <div className="music-menu" onMouseEnter={handleMouseEnter}
                      onMouseLeave={handleMouseLeave}>
                     <button>Воспроизвести следующей</button>
-                    <button onClick={() => handleRemoveSong(song.songId)}>Удалить из понравившихся</button>
+                    <button>Добавить в плейлист</button>
                 </div>
             )}
         </div>

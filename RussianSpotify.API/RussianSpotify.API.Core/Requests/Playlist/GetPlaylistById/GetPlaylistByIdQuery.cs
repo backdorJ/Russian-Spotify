@@ -1,7 +1,7 @@
 using MediatR;
 using RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
 
-namespace RussianSpotify.API.Core.Requests.Music.GetPlaylistById;
+namespace RussianSpotify.API.Core.Requests.Playlist.GetPlaylistById;
 
 public class GetPlaylistByIdQuery : IRequest<GetFavouritePlaylistByIdResponse>
 {

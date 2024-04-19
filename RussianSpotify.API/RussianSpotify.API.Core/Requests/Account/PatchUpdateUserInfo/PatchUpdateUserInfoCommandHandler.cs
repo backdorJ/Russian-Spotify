@@ -67,7 +67,7 @@ public class PatchUpdateUserInfoCommandHandler
         if (user is null)
             throw new NotFoundUserException($"User with id: {userId}");
 
-        user.UserName = request.UserName ?? user.UserName;
+        user.UserName = !string.IsNullOrWhiteSpace(request.UserName) ? request.UserName : user.UserName;
 
         if (request.FilePhotoId is not null)
         {

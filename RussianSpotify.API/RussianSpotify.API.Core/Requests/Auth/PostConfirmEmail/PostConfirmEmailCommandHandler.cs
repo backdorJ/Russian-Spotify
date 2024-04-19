@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
+using RussianSpotify.API.Core.Exceptions.AuthExceptions;
 
 namespace RussianSpotify.API.Core.Requests.Account.PostConfirmEmail;
 

@@ -12,19 +12,8 @@ const AuthorPage = () => {
 
     const [authorData, setAuthorData] = useState(new Author());
 
-    const canScroll = (index: number, step: number, loadedList: any[]) => {
-        const newIndex = index + step;
-        return loadedList.length > 0 && newIndex < loadedList.length && newIndex >= 0;
-    };
-
-    const scroll = (setter: any, index: number, step: number, loadedList: any[]) => {
-        if (canScroll(index, step, loadedList)) {
-            setter(index + step);
-        }
-    };
-
     useEffect(() => {
-        if(authorName !== undefined)
+        if(authorName)
             getAuthor(authorName, 1, 5, 1, 3)
                 .then(x => setAuthorData(x));
     }, []);
