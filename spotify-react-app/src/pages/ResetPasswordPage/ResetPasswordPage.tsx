@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {resetPassword} from "../../http/authApi";
 import routeNames from "../../utils/routeNames";
 import {useNavigate} from "react-router-dom";
-import UserNewPasswordDto from "../../utils/dto/user/userNewPasswordDto";
+import UserResetPasswordDto from "../../utils/dto/user/userResetPasswordDto";
 import {codeConfirmationOperations} from "../../utils/operations/codeConfirmationOperations";
 import {ShowHideSvg} from "../../assets/mock/loginpage/buttons-SVGs/ShowHideSvg";
 
@@ -19,16 +19,17 @@ const ResetPasswordPage = () => {
 
     let handleResetnewPassword = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        let user = new UserNewPasswordDto(email, newPassword, newPasswordConfirm)
+        let user = new UserResetPasswordDto(email)
         resetPassword(user)
             .then(success => {
                 if (success) {
-                    alert("Registered successfully! Please check your Email to confirm it")
+                    alert("The password was reset successfully! Please check your Email to confirm it")
                     navigate(routeNames.CONFIRMATION_CODE_PAGE, {
                         state: {
                             email: email,
                             operation: codeConfirmationOperations.ResetPassword,
-                            newnewPassword: newPassword
+                            newPassword: newPassword,
+                            newPasswordConfirm: newPasswordConfirm
                         }
                     })
                 } else
