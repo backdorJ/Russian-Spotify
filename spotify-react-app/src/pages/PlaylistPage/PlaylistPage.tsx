@@ -13,11 +13,17 @@ import SongCard from "./components/SongCard";
 import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
-import {getImage} from "../../http/fileApi";
-import {getSong, getSongsByFilter, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
+import {getSong, getSongsByFilter} from "../../http/songApi";
 import Song from "../../models/Song";
 import {formatDuration} from "../../functions/formatDuration";
 import {songFilters} from "../../http/filters/songFilters";
+import {PlaylistType} from "./enums/playlistTypes";
+import {$authHost} from "../../http";
+import {getUserId} from "../../functions/getUserId";
+import {getImage} from "../../http/fileApi";
+// @ts-ignore
+import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
+
 
 const PlaylistPage = () => {
     const { id } = useParams();
@@ -36,18 +42,51 @@ const PlaylistPage = () => {
     const [isLikedPlaylist, setIsLikedPlaylist] = useState(playlistInfo.isInFavorite);
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
+    const [playlistType, setPlaylistType] = useState<PlaylistType | null>(null);
 
     useEffect(() => {
-        getPlaylistInfo(id).then(r => {
-            setPlaylistInfo(r);
-            setIsLikedPlaylist(r.isInFavorite);
-        });
+        if(id === 'favorite-songs'){
+            setPlaylistType(PlaylistType.FavoriteSongs);
+            setPlaylistInfo(Playlist.init("",
+                "Favorite Songs",
+                "",
+                "",
+                new Date(),
+                false,
+                true));
+            setIsLikedPlaylist(true);
+        } else if(id?.includes('author-')){
+            let authorName = id.split("author-")[1];
+            console.log(authorName);
+            $authHost.get(`api/Author/Author?Name=${authorName}`)
+                .then(x => {
+                    setPlaylistInfo(Playlist.init("",
+                        `Songs by ${x.data.name}`,
+                        x.data.authorPhotoId,
+                        x.data.name,
+                        new Date(),
+                        false,
+                        false));
+                    setPlaylistType(PlaylistType.ArtistSongs);
+                })
+        }else {
+            setPlaylistType(PlaylistType.Playlist);
+            getPlaylistInfo(id).then(r => {
+                setPlaylistInfo(r);
+                setIsLikedPlaylist(r.isInFavorite);
+            });
+        }
     }, [])
 
     useEffect(() => {
         const fetchData = async () => {
-            const result: Song[] =
-                await getSongsByFilter(songFilters.songsInPlaylistFilter, id!, page, 50);
+            let result : Song[] = [];
+            if(playlistType === PlaylistType.Playlist)
+                result = await getSongsByFilter(songFilters.songsInPlaylistFilter, id!, page, 50);
+            else if(playlistType === PlaylistType.FavoriteSongs)
+                result = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 50);
+            else if(playlistType === PlaylistType.ArtistSongs)
+                result = await getSongsByFilter(songFilters.authorSongsFilter, playlistInfo.authorName, page, 50);
 
             setPage(page+1);
 
@@ -62,10 +101,10 @@ const PlaylistPage = () => {
             console.log(page);
         };
 
-        if (!getting) {
+        if (!getting && playlistType != null) {
             fetchData().then(_ => console.log("fetched"));
         }
-    }, [getting]);
+    }, [getting, playlistType]);
 
     const updateWindowWidth = () => {
         setWindowWidth(document.body.clientWidth)
@@ -154,7 +193,10 @@ const PlaylistPage = () => {
             <div className="playlist-page">
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
-                        <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>
+                        {PlaylistType.FavoriteSongs !== playlistType &&
+                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>}
+                        {PlaylistType.FavoriteSongs === playlistType &&
+                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>}
                     </div>
                     <div className="playlist-page__main__info">
                         <h1 className="playlist-page__main__info__name">
@@ -174,21 +216,23 @@ const PlaylistPage = () => {
                             <div className="playlist-page__songs__header__buttons__play">
                                 <img onClick={() => handlePlay(songs[0])} src={play_icon} alt="Play"/>
                             </div>
-                            <div className="playlist-page__songs__header__buttons__like-wrapper">
-                                <img
-                                    onClick = {handleLikeClick}
-                                    onMouseEnter={() => setIsHover(true)}
-                                    className={`playlist-page__songs__header__buttons__like ${isHover ? "img-hidden" : "img-not-hidden"}`}
-                                    src={like_icon}
-                                    alt="Like"/>
-                                <img
-                                    onClick = {handleLikeClick}
-                                    onMouseEnter={() => setIsHover(true)}
-                                    onMouseLeave={() => setIsHover(false)}
-                                    className={`playlist-page__songs__header__buttons__like ${isHover || isLikedPlaylist ? "img-not-hidden" : "img-hidden"}`}
-                                    src={like_icon_hover}
-                                    alt="Like"/>
-                            </div>
+                            {playlistType === PlaylistType.Playlist &&
+                                <div className="playlist-page__songs__header__buttons__like-wrapper">
+                                    <img
+                                        onClick={handleLikeClick}
+                                        onMouseEnter={() => setIsHover(true)}
+                                        className={`playlist-page__songs__header__buttons__like ${isHover ? "img-hidden" : "img-not-hidden"}`}
+                                        src={like_icon}
+                                        alt="Like"/>
+                                    <img
+                                        onClick={handleLikeClick}
+                                        onMouseEnter={() => setIsHover(true)}
+                                        onMouseLeave={() => setIsHover(false)}
+                                        className={`playlist-page__songs__header__buttons__like ${isHover || isLikedPlaylist ? "img-not-hidden" : "img-hidden"}`}
+                                        src={like_icon_hover}
+                                        alt="Like"/>
+                                </div>
+                            }
                             <img
                                 className="playlist-page__songs__header__buttons__options"
                                 src={options_icon}
@@ -207,7 +251,7 @@ const PlaylistPage = () => {
                                 <p>ALBUM</p>
                             </div>
                             <div className="playlist-page__songs__list__header__added">
-                                <p>DATE ADDED</p>
+                            <p>DATE ADDED</p>
                             </div>
                             <div className="">
                                 <p>LENGTH</p>

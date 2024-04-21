@@ -8,8 +8,6 @@ import PlaylistPage from "../pages/PlaylistPage/PlaylistPage";
 import ConfirmationCodePage from "../pages/ConfirmationCodePage/ConfirmationCodePage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import AuthorPage from "../pages/AuthorPage/AuthorPage";
-import FavoriteSongsPlaylist from "../pages/FavoriteSongsPlaylist/FavoriteSongsPlaylist";
-import AuthorSongsPlaylist from "../pages/AuthorSongsPlaylist/AuthorSongsPlaylist";
 // @ts-ignore
 import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 
@@ -58,13 +56,5 @@ export const authRoutes = [
     {
         path: routeNames.AUTHOR_PAGE_ROUTE,
         Component: AuthorPage
-    },
-    {
-        path: routeNames.FAVORITE_SONGS,
-        Component: FavoriteSongsPlaylist
-    },
-    {
-        path: routeNames.AUTHOR_SONGS_ROUTE,
-        Component: AuthorSongsPlaylist
     }
 ]

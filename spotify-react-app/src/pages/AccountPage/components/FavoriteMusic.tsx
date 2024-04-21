@@ -10,10 +10,9 @@ const FavoriteMusic: FC<IFavoriteMusic> = ({favoriteSongs}) => {
     const params = useParams();
     const navigate = useNavigate();
 
-    const link = params.authorName ? `/songs/${params.authorName}` : "/favorite-songs";
+    const link = params.authorName ? `/playlist/author-${params.authorName}` : "/playlist/favorite-songs";
 
     const [songs, setSongs] = useState(favoriteSongs);
-
 
     return (
         <>

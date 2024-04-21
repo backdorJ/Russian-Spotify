@@ -15,8 +15,6 @@ export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSiz
         const authorInfoResponse =
             await $authHost.get(`api/Author/Author?Name=${authorName}`);
 
-        console.log(`author: ${authorInfoResponse.status}`)
-
         if(authorInfoResponse.status !== 200 || authorInfoResponse.data === undefined)
             return new AuthorPage();
 
