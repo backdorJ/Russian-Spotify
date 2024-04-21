@@ -7,10 +7,11 @@ export default {
     CONFIRMATION_CODE_PAGE: '/code-confirmation',
     RESET_PASSWORD_PAGE: '/reset-password',
     SEARCH_PAGE: '/search',
-    PLAYLIST_PAGE: '/playlist/:id',
-    AUTHOR_PAGE: '/author/:authorName',
-    PLAYLIST_PAGE_ROUTE: '/playlist/:id',
-    PLAYLIST_PAGE_NAV: '/playlist/',
     FAVORITE_SONGS: '/favorite-songs',
-    AUTHOR_SONGS: '/songs/:authorName'
+    AUTHOR_PAGE_ROUTE: '/author/:authorName',
+    AUTHOR_PAGE_NAV: '/author/',
+    AUTHOR_SONGS_ROUTE: '/songs/:authorName',
+    AUTHOR_SONGS_NAV: '/songs/',
+    PLAYLIST_PAGE_ROUTE: '/playlist/:id',
+    PLAYLIST_PAGE_NAV: '/playlist/'
 }

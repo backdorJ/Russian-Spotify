@@ -3,6 +3,7 @@ import {IAuthor} from "../../../commonComponents/interfaces/IAuthor";
 import {getImage} from "../../../http/fileApi";
 import {useNavigate} from "react-router-dom";
 import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
+import routeNames from "../../../utils/routeNames";
 
 const DiscoveryCard: FC<IAuthor> = ({author}) => {
     const role = 'Artist'
@@ -10,7 +11,7 @@ const DiscoveryCard: FC<IAuthor> = ({author}) => {
 
     return (
         <div
-            // onClick={() => navigate()}
+            onClick={() => navigate(routeNames.AUTHOR_PAGE_NAV + author.authorName)}
             className="home-page__discovery-card">
             <div className="home-page__discovery-card__image-div">
                 <img
