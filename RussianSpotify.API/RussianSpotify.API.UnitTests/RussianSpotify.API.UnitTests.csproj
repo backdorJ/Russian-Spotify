@@ -27,9 +27,5 @@
       <ProjectReference Include="..\RussianSpotify.API.Data.PostgreSQL\RussianSpotify.API.Data.PostgreSQL.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Commons\" />
-      <Folder Include="Requests\" />
-    </ItemGroup>
 
 </Project>

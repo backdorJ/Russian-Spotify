@@ -2,10 +2,10 @@
 
 namespace RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 
-public class GetPlaylistsByFilterRequest
+public class GetPlaylistsByFilterRequest : IPaginationFilter
 {
-    private int _pageSize;
-    private int _pageNumber;
+    private readonly int _pageSize;
+    private readonly int _pageNumber;
 
     /// <summary>
     /// Конструктор
@@ -20,7 +20,7 @@ public class GetPlaylistsByFilterRequest
     /// Конструктор
     /// </summary>
     /// <param name="request">Запрос</param>
-    public GetPlaylistsByFilterRequest(GetPlaylistsByFilterRequest request)
+    protected GetPlaylistsByFilterRequest(GetPlaylistsByFilterRequest request)
     {
         PageNumber = request.PageNumber;
         PageSize = request.PageSize;
@@ -32,7 +32,7 @@ public class GetPlaylistsByFilterRequest
     /// Название фильтра(Доступные фильтры: AuthorPlaylists)
     /// </summary>
     public string FilterName { get; set; }
-    
+
     /// <summary>
     /// Значение фильтра
     /// </summary>
@@ -44,7 +44,7 @@ public class GetPlaylistsByFilterRequest
     public int PageNumber
     {
         get => _pageNumber;
-        init => _pageNumber = value > 0 ? value : DefaultsPagination.PageNumber;
+        private init => _pageNumber = value > 0 ? value : DefaultsPagination.PageNumber;
     }
 
     /// <summary>
@@ -53,6 +53,6 @@ public class GetPlaylistsByFilterRequest
     public int PageSize
     {
         get => _pageSize;
-        set => _pageSize = value > 0 ? value : DefaultsPagination.PageSize;
+        private init => _pageSize = value > 0 ? value : DefaultsPagination.PageSize;
     }
 }

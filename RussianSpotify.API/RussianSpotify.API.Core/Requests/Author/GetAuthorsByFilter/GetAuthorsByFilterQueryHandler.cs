@@ -38,36 +38,21 @@ public class GetAuthorsByFilterQueryHandler : IRequestHandler<GetAuthorsByFilter
             throw new ArgumentNullException(nameof(request));
 
         var query = _dbContext.Users.AsQueryable();
-        var isShuffling = request.FilterName.ToLower().Equals("authorshuffled");
-        var totalCount = 0;
-        
-        var filteredAuthors = !isShuffling
-            ? await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken)
-            : query;
 
-        if (!isShuffling)
-            totalCount = await filteredAuthors.CountAsync(cancellationToken);
+        var filteredUsers =
+            await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
 
-        var filteredAuthorsToList = await filteredAuthors
+        var filteredUsersToList = await filteredUsers
             .Include(i => i.AuthorPlaylists)
             .ToListAsync(cancellationToken);
 
-        if (isShuffling)
-        {
-            var random = new Random();
-            filteredAuthorsToList = filteredAuthorsToList
-                .OrderBy(i => random.Next())
-                .ToList();
-        }
+        var authors = filteredUsersToList
+            .Where(i => _roleManager.IsInRole(i, BaseRoles.AuthorRoleName))
+            .Distinct()
+            .ToList();
 
-        var authors = filteredAuthorsToList
-            .Where(i => _roleManager.IsInRole(i, BaseRoles.AuthorRoleName));
-
-        var authorsEnumerable = authors.ToList();
-        if (isShuffling)
-            totalCount = authorsEnumerable.Count;
-        
-        var resultAuthors = authorsEnumerable
+        var totalCount = authors.Count;
+        var resultAuthors = authors
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
             .Select(i => new GetAuthorsByFilterResponseItem
