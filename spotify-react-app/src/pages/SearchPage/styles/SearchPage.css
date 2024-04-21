@@ -133,6 +133,7 @@
 }
 
 .search-playlist__left > img {
+    width: 180px;
     height: 180px;
     margin-right: 30px;
     border-radius: 10px;

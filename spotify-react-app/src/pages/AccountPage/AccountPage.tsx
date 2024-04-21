@@ -17,7 +17,7 @@ const AccountPage = () => {
     const endSubscriptionMonth = userStore.user._subEndDate.getMonth()
     const endSubscriptionYear = userStore.user._subEndDate.getFullYear()
     const formattedDate = `${endSubscriptionDate.toString().padStart(2, '0')}:${endSubscriptionMonth.toString().padStart(2, '0')}:${endSubscriptionYear.toString().padStart(4, '0')}`;
-        
+
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState<Song[]>([]);
     const [favouritePlaylists, setFavouritePlaylists] = useState<Playlist[]>([]);
@@ -25,7 +25,7 @@ const AccountPage = () => {
 
     // Получение списка любимых песен
     useEffect(() => {
-        getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(),1, 5)
+        getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), 1, 5)
             .then(s => setFavoriteSongs(s))
 
         getPlaylistsByFilter(playlistFilters.favoritePlaylistsFilter, getUserId(), 1, 5)
@@ -55,15 +55,15 @@ const AccountPage = () => {
                         </div>
                         <div className="user-image-container">
                             <img className="user-image"
-                                 src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder }
+                                 src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder}
                                  alt="Твое фото"/>
                         </div>
                     </div>
-                    <div className="favorite-container">
-                        {favoriteSongs.length > 0 &&  <><h3>Любимые треки</h3>
+                    <div className="favorite-container" id="favourites">
+                        {favoriteSongs.length > 0 && <><h3>Любимые треки</h3>
                             <FavoriteMusic favoriteSongs={favoriteSongs}/></>}
                         {favouritePlaylists.length > 0 && <><h3>Любимые альбомы & плейлисты</h3>
-                        <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>}
+                            <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>}
                     </div>
                 </div>
             </div>

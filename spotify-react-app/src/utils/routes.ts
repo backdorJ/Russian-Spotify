@@ -13,8 +13,7 @@ import AuthorSongsPlaylist from "../pages/AuthorSongsPlaylist/AuthorSongsPlaylis
 // @ts-ignore
 import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 
-export const routes = [
-]
+export const routes = []
 
 export const notAuthRoutes = [
     {
@@ -57,7 +56,7 @@ export const authRoutes = [
         Component: SearchPage
     },
     {
-        path: routeNames.AUTHOR_PAGE,
+        path: routeNames.AUTHOR_PAGE_ROUTE,
         Component: AuthorPage
     },
     {
@@ -65,7 +64,7 @@ export const authRoutes = [
         Component: FavoriteSongsPlaylist
     },
     {
-        path: routeNames.AUTHOR_SONGS,
+        path: routeNames.AUTHOR_SONGS_ROUTE,
         Component: AuthorSongsPlaylist
     }
 ]

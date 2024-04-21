@@ -1,20 +1,20 @@
-import React, { useState} from "react";
+import React, {useState} from "react";
 // @ts-ignore
 import search_icon from '../../assets/searchPage/search_icon_121212.png'
 import searchTypesProps from "../../utils/search/searchTypesProps";
 import './styles/SearchPage.css'
-import Song from "../../commonComponents/Song/Song";
-import { getSongsByFilter} from "../../http/songApi";
+import {getSongsByFilter} from "../../http/songApi";
 import SongModel from "../../models/Song";
 import SearchPlaylistCard from "./components/SearchPlaylistCard";
 import SearchAuthorCard from "./components/SearchAuthorCard";
-import { getPlaylistsByFilter} from "../../http/playlistApi";
+import {getPlaylistsByFilter} from "../../http/playlistApi";
 import {getAuthorsByFilter} from "../../http/authorApi";
 import {songFilters} from "../../http/filters/songFilters";
 // @ts-ignore
 import {playlistFilters} from "../../http/filters/playlistFilters";
 // @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
+import SongCard from "../PlaylistPage/components/SongCard";
 
 
 const SearchPage = () => {
@@ -26,6 +26,10 @@ const SearchPage = () => {
     const [authors, setAuthors] = useState(new Array<any>())
 
     const handleSearch = () => {
+        if (search === '') {
+            alert("Search is empty")
+            return
+        }
         if (searchType === 1) {
             setAuthors([])
             setPlaylists([])
@@ -43,7 +47,7 @@ const SearchPage = () => {
         if (searchType === 3) {
             setSongs([])
             setPlaylists([])
-            getAuthorsByFilter(authorFilters.authorNameFilter, search, 2, 1,10)
+            getAuthorsByFilter(authorFilters.authorNameFilter, search, 2, 1, 10)
                 .then(response => setAuthors(prev => [...response]))
             setIsSearched(true)
         }
@@ -95,8 +99,8 @@ const SearchPage = () => {
             </div>
             <div className="search__main">
                 {
-                    songs.map(i => (
-                        <Song song={i}/>
+                    songs.map((song, index) => (
+                        <SongCard song={song} order_number={index + 1}/>
                     ))
                 }
                 {

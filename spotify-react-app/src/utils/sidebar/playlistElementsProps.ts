@@ -12,7 +12,7 @@ export default [
     },
     {
         icon: liked_songs,
-        title: 'liked songs',
-        navigateTo: routeNames.ACCOUNT_PAGE
+        title: liked_songs,
+        navigateTo: routeNames.FAVORITE_SONGS
     }
 ]

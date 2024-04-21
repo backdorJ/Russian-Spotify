@@ -1,7 +1,11 @@
 import './SideBar.css'
 import navigationElementsProps from "../../utils/sidebar/navigationElementsProps";
-import playlistElementsProps from "../../utils/sidebar/playlistElementsProps";
+// @ts-ignore
+import create_playlist from '../../assets/sidebar/create_playlist.png'
+// @ts-ignore
+import liked_songs from '../../assets/sidebar/liked_songs.png'
 import {useNavigate} from "react-router-dom";
+import routeNames from "../../utils/routeNames";
 
 const SideBar = (props: any) => {
     const {setCreatePlaylistModal} = props
@@ -14,15 +18,16 @@ const SideBar = (props: any) => {
                     <div className="sidebar__nav__main">
                         {
                             navigationElementsProps.map(i => (
-                                <NavigationElement image={i.icon} title={i.title} onClick={() => navigate(i.navigateTo)}/>
+                                <NavigationElement image={i.icon} title={i.title}
+                                                   onClick={() => navigate(i.navigateTo)}/>
                             ))
                         }
                     </div>
                     <div className="sidebar__nav__playlists">
-                        <PlaylistElement image={playlistElementsProps[0].icon} title={playlistElementsProps[0].title}
+                        <PlaylistElement image={create_playlist} title={'create playlist'}
                                          onClick={() => setCreatePlaylistModal(true)}/>
-                        <PlaylistElement image={playlistElementsProps[1].icon} title={playlistElementsProps[1].title}
-                                         onClick={() => navigate(playlistElementsProps[1].navigateTo)}/>
+                        <PlaylistElement image={liked_songs} title={'liked songs'}
+                                         onClick={() => navigate(routeNames.FAVORITE_SONGS)}/>
                     </div>
                 </div>
                 <div className="sidebar__playlists">

@@ -12,7 +12,8 @@ import {useNavigate} from "react-router-dom";
 import CloseExpandedPlayer from "./components/CloseExpandedPlayer";
 
 /** Музыкальный плеер снизу экрана */
-const Player = () => {
+const Player = (props: any) => {
+    const {showExpanded, setShowExpanded} = props
     const playerStore = useContext(PlayerContext);
     const userStore = useContext(UserContext);
     const [currentPlayingSong, setCurrentPlayingSong] =
@@ -20,7 +21,6 @@ const Player = () => {
     const [volume, setVolume] = useState(playerStore.Volume);
     const [volumeVisibility, setVolumeVisibility] = useState("none");
     const navigate = useNavigate();
-    const [showExpanded, setShowExpanded] = useState(false);
     const [isLiked, setIsLiked] = useState(playerStore.Player.currentSong!.isInFavorite);
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;

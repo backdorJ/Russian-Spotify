@@ -1,3 +1,4 @@
+import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
 import {FC} from "react";
 import {IPlaylist} from "../../../commonComponents/Playlist/interfaces/IPlaylist";
 import {getImage} from "../../../http/fileApi";
@@ -12,7 +13,11 @@ const PlaylistLittle: FC<IPlaylist> = ({playlist}) => {
             onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.playlistId)}
             className="homepage__playlist-little">
             <div className="homepage__playlist-little__image-div">
-                <img src={getImage(playlist.imageId)} alt={playlist.playlistName} className="homepage__playlist-little__image"/>
+                <img
+                    src={getImage(playlist.imageId)}
+                    alt={playlist.playlistName}
+                    onError={handleImageNotLoaded}
+                    className="homepage__playlist-little__image"/>
             </div>
             <div className="homepage__playlist-little__name-div">
                 <p>

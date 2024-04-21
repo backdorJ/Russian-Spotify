@@ -197,6 +197,7 @@
 }
 
 .playlist-page__songs__list__main__song-card {
+    width: 100%;
     display: flex;
     align-items: center;
     color: #B3B3B3;

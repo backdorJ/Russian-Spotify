@@ -2,12 +2,23 @@ import {IPlaylist} from "./interfaces/IPlaylist";
 import {FC} from "react";
 import './styles/Playlist.css'
 import {getImage} from "../../http/fileApi";
+import {useNavigate} from "react-router-dom";
+import routeNames from "../../utils/routeNames";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
 const Playlist: FC<IPlaylist> = ({playlist}) => {
+    const navigate = useNavigate()
+
     return (
-        <div className="home-page__playlist-normal">
+        <div
+            onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.playlistId)}
+            className="home-page__playlist-normal">
             <div className="home-page__playlist-normal__image-div">
-                <img src={getImage(playlist.imageId)} alt="Фотка альбома" className="home-page__playlist-normal__image"/>
+                <img
+                    src={getImage(playlist.imageId)}
+                    alt="Фотка альбома"
+                    onError={handleImageNotLoaded}
+                    className="home-page__playlist-normal__image"/>
             </div>
             <div className="home-page__playlist-normal__text">
                 <div className="home-page__playlist-normal__text__title">

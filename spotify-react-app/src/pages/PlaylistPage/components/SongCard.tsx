@@ -2,39 +2,42 @@
 import not_liked_icon from "../../../assets/mock/playlistpage/like.png"
 // @ts-ignore
 import liked_icon from "../../../assets/mock/playlistpage/songs/liked.png"
-import {Fragment, useState} from "react";
+import {FC, Fragment, useContext, useState} from "react";
 import {getImage} from "../../../http/fileApi";
 import {useNavigate} from "react-router-dom";
-import {tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../../http/songApi";
+import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../../http/songApi";
+import {ISong} from "../../../commonComponents/Song/interfaces/ISong";
+import {PlayerContext, UserContext} from "../../../index";
+import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
 
-const SongCard = (props: any) => {
+const SongCard: FC<ISong> = ({song, order_number}) => {
+    const userStore = useContext(UserContext)
+    const playerStore = useContext(PlayerContext)
     const navigate = useNavigate();
-    const {id, name, artists, album, length, isLiked, imageId} = props
-    const [isLikedSong, setIsLikedSong] = useState(isLiked)
+    const [isLikedSong, setIsLikedSong] = useState(song.isInFavorite)
     let isInLikeProcess = false;
-    let artistCount = artists.length
-    let artistsArray = [...artists]
-    let artistsMapped = artistsArray.map((artist, index) => {
+    let artistCount = song.authors.length
+    let artistsMapped = song.authors.map((artist, index) => {
         if (index < artistCount - 1)
             return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span>, </Fragment>)
         return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span></Fragment>)
     })
 
     const handleLikeClick = () => {
-        if(!isInLikeProcess) {
+        if (!isInLikeProcess) {
             isInLikeProcess = true;
             if (!isLikedSong) {
-                tryAddSongToFavorites(id)
+                tryAddSongToFavorites(song.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful) {
+                        if (isSuccessful) {
                             setIsLikedSong(true);
                             isInLikeProcess = false;
                         }
                     });
             } else {
-                tryRemoveSongFromFavorites(id)
+                tryRemoveSongFromFavorites(song.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful){
+                        if (isSuccessful) {
                             setIsLikedSong(false);
                             isInLikeProcess = false;
                         }
@@ -43,17 +46,29 @@ const SongCard = (props: any) => {
         }
     }
 
+    const handlePlay = () => {
+        playerStore.Player = getSong(song, userStore.user);
+    }
+
     return (
-        <div className="playlist-page__songs__list__main__song-card">
-            <div className="playlist-page__songs__list__main__song-card__id">
-                <p>{id}</p>
+        <div
+            className="playlist-page__songs__list__main__song-card">
+            <div
+                onClick={handlePlay}
+                className="playlist-page__songs__list__main__song-card__id">
+                <p>{order_number}</p>
             </div>
-            <div className="playlist-page__songs__list__main__song-card__title">
-                <img src={getImage(imageId)} alt={name}
-                     className="playlist-page__songs__list__main__song-card__title__img"/>
+            <div
+                onClick={handlePlay}
+                className="playlist-page__songs__list__main__song-card__title">
+                <img
+                    src={getImage(song.imageId)}
+                    alt={song.songName}
+                    onError={handleImageNotLoaded}
+                    className="playlist-page__songs__list__main__song-card__title__img"/>
                 <div className="playlist-page__songs__list__main__song-card__title__info">
                     <div className="playlist-page__songs__list__main__song-card__title__info__song-name">
-                        <p>{name}</p>
+                        <p>{song.songName}</p>
                     </div>
                     <div className="playlist-page__songs__list__main__song-card__title__info__artist-names">
                         <p>{artistsMapped}</p>
@@ -61,10 +76,10 @@ const SongCard = (props: any) => {
                 </div>
             </div>
             <div className="playlist-page__songs__list__main__song-card__album">
-                <p>{album}</p>
+                <p>Some album</p>
             </div>
             <div className="playlist-page__songs__list__main__song-card__added">
-
+                <p></p>
             </div>
             <div onClick={handleLikeClick} className="playlist-page__songs__list__main__song-card__liked">
                 {
@@ -74,7 +89,7 @@ const SongCard = (props: any) => {
                 }
             </div>
             <div className="playlist-page__songs__list__main__song-card__length">
-                <p>{length}</p>
+                <p>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</p>
             </div>
         </div>
     )
