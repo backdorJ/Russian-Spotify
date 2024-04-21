@@ -35,7 +35,8 @@ const ConfirmationCodePage = () => {
                 });
         } else if (operation === codeConfirmationOperations.ResetPassword) {
             let newPassword = location.state.newPassword
-            let confirmNewPasswordDto = new UserConfirmNewPasswordDto(email, newPassword, confirmationCode);
+            let newPasswordConfirm = location.state.newPasswordConfirm
+            let confirmNewPasswordDto = new UserConfirmNewPasswordDto(email, newPassword, newPasswordConfirm ,confirmationCode);
             confirmNewPassword(confirmNewPasswordDto)
                 .then(success => {
                     if (success) {

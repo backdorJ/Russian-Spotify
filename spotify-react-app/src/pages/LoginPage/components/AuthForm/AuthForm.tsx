@@ -34,6 +34,7 @@ const AuthForm = observer(() => {
                     // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
                     alert("Something went wrong. Try again")
             })
+            .catch(_ => alert("The password is incorrect. Try again"))
     }
 
     return (

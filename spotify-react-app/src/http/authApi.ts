@@ -6,7 +6,7 @@ import UserEditDto from "../utils/dto/user/userEditDto";
 // @ts-ignore
 import UserConfirmEmailDto from "../utils/dto/user/userConfirmEmailDto";
 // @ts-ignore
-import UserNewPasswordDto from "../utils/dto/user/userNewPasswordDto";
+import UserResetPasswordDto from "../utils/dto/user/userResetPasswordDto";
 // @ts-ignore
 import UserConfirmNewPasswordDto from "../utils/dto/user/userConfirmNewPasswordDto";
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
@@ -65,7 +65,7 @@ export const confirmEmail = async (user: UserConfirmEmailDto) => {
     return response.status === 200
 }
 
-export const resetPassword = async (user: UserNewPasswordDto) => {
+export const resetPassword = async (user: UserResetPasswordDto) => {
     const response = await $host.post("api/auth/ResetPassword", user)
     return response.status === 200
 }
@@ -81,7 +81,7 @@ export const login = async (user: UserLoginDto) => {
     const response = await $host.post("api/auth/Login", user)
     localStorage.setItem('token', response.data.accessToken)
     localStorage.setItem('refresh', response.data.refreshToken);
-    return !!(response.status === 200 && response.data.accessToken && response.data.refreshToken);
+    return (response.status === 200 && response.data.accessToken && response.data.refreshToken);
 }
 
 export const edit = async (user: UserEditDto) => {
