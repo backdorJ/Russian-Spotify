@@ -1,6 +1,5 @@
 import './styles/HomePage.css'
 import {useContext, useEffect, useState} from "react";
-import playlistsLittle from "../../utils/mocks/homepage/playlistsLittle";
 import PlaylistLittle from "./components/PlaylistLittle";
 import DiscoveryCard from "./components/DiscoveryCard";
 import PlaylistNormal from "./components/PlaylistNormal";
@@ -9,18 +8,19 @@ import {observer} from "mobx-react-lite";
 import Playlist from "../../models/Playlist";
 import Author from "../../models/Author";
 import {getAuthorsByFilter} from "../../http/authorApi";
-// @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
 import {getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
+import {getUserId} from "../../functions/getUserId";
 
 
 const HomePage = observer((props: any) => {
     const userStore = useContext(UserContext);
     const [isLoadedTrigger, setIsLoadedTrigger] = useState(false)
+    const [playlistsLittle, setPlaylistsLittle] = useState(new Array<Playlist>())
     const [playlistsNormal, setPlaylistsNormal] = useState(new Array<Playlist>())
     const [discoveryCards, setDiscoveryCards] = useState(new Array<Author>())
-    const [playlistsLittleShow, setPlaylistsLittleShow] = useState(playlistsLittle)
+    const [playlistsLittleShow, setPlaylistsLittleShow] = useState(new Array<Playlist>())
     const [discoveryCardsShow, setDiscoveryCardsShow] = useState(new Array<Author>())
     const [playlistsNormalShow, setPlaylistsNormalShow] = useState(new Array<Playlist>())
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -35,7 +35,19 @@ const HomePage = observer((props: any) => {
             .then(() => {
                 getPlaylistsByFilter(playlistFilters.albumShuffledFilter, "smth", 6, 1)
                     .then(response => setPlaylistsNormal([...response]))
-                    .then(() => setIsLoadedTrigger(true))
+                    .then(() => {
+                        getPlaylistsByFilter(playlistFilters.favoritePlaylistsFilter, getUserId(), 1, 1000)
+                            .then(response => {
+                                if (response.length > 3) {
+                                    let playlistsToShow = response.slice(response.length - 3, response.length)
+                                    setPlaylistsLittle(playlistsToShow)
+                                }
+                                else {
+                                    setPlaylistsLittle(response)
+                                }
+                            })
+                            .then(() => setIsLoadedTrigger(true))
+                    })
             })
         let currentHours = currentTime.getHours()
         if (currentHours >= 23 && currentHours < 4)
@@ -112,10 +124,7 @@ const HomePage = observer((props: any) => {
                     {
                         playlistsLittleShow.map(i => (
                             <PlaylistLittle
-                                imageUrl={i.imageUrl}
-                                name={i.name}
-                                playlistId={i.playlistId}
-                                key={i.playlistId}/>
+                                playlist={i}/>
                         ))
                     }
                 </div>

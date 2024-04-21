@@ -21,22 +21,22 @@ public class User : IdentityUser<Guid>
     /// JWT
     /// </summary>
     public string? AccessToken { get; set; }
-    
+
     /// <summary>
     /// Токен для обновления JWT
     /// </summary>
     public string? RefreshToken { get; set; }
-    
+
     /// <summary>
     /// Время жизни Refresh Token
     /// </summary>
     public DateTime? RefreshTokenExpiryTime { get; set; }
-    
+
     /// <summary>
     /// Id фото в профиле юзера
     /// </summary>
     public Guid? UserPhotoId { get; set; }
-    
+
     /// <summary>
     /// Фото в профиле юзера
     /// </summary>
@@ -46,7 +46,7 @@ public class User : IdentityUser<Guid>
     /// Файлы, добавленные пользователем
     /// </summary>
     public List<File> Files { get; set; }
-    
+
     /// <summary>
     /// День рождения пользователя
     /// </summary>
@@ -66,7 +66,7 @@ public class User : IdentityUser<Guid>
     /// Корзина
     /// </summary>
     public Bucket? Bucket { get; set; }
-    
+
     /// <summary>
     /// Подписка
     /// </summary>
@@ -77,6 +77,14 @@ public class User : IdentityUser<Guid>
     /// </summary>
     public List<Playlist>? Playlists { get; protected set; }
 
+    /// <summary>
+    /// Таблица со связями {<see cref="User"/>, <see cref="Playlist"/>}
+    /// </summary>
+    public List<PlaylistUser> PlaylistUsers { get; set; } = new();
+
+    /// <summary>
+    /// Плейлисты, созданные этим автором
+    /// </summary>
     public List<Playlist> AuthorPlaylists { get; set; }
 
     /// <summary>
