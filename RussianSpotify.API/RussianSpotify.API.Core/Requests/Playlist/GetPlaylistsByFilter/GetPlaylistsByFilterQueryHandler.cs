@@ -22,7 +22,10 @@ public class GetPlaylistsByFilterQueryHandler
     /// <param name="dbContext">Контекст БД</param>
     /// <param name="filterHandler">Маршрутизатор фильтров</param>
     /// <param name="userContext">Контекст юзера</param>
-    public GetPlaylistsByFilterQueryHandler(IDbContext dbContext, IFilterHandler filterHandler, IUserContext userContext)
+    public GetPlaylistsByFilterQueryHandler(
+        IDbContext dbContext,
+        IFilterHandler filterHandler,
+        IUserContext userContext)
     {
         _dbContext = dbContext;
         _filterHandler = filterHandler;

@@ -28,11 +28,13 @@ public class PostCreatePlaylistCommandHandler : IRequestHandler<PostCreatePlayli
     /// <param name="userContext">Контекст пользователя</param>
     /// <param name="userManager">Хуйня для проверки роли</param>
     /// <param name="dateTimeProvider">Провайдер даты</param>
+    /// <param name="fileHelper">Хелпер по файлу</param>
     public PostCreatePlaylistCommandHandler(
         IDbContext dbContext,
         IUserContext userContext,
         UserManager<User> userManager,
-        IDateTimeProvider dateTimeProvider, IFileHelper fileHelper)
+        IDateTimeProvider dateTimeProvider,
+        IFileHelper fileHelper)
     {
         _dbContext = dbContext;
         _userContext = userContext;
@@ -71,23 +73,22 @@ public class PostCreatePlaylistCommandHandler : IRequestHandler<PostCreatePlayli
             Songs = songs,
             Author = currentUser,
             ReleaseDate = _dateTimeProvider.CurrentDate,
-            Users = new List<User>
-            {
-                currentUser
-            }
+            Users = new List<User> { }
         };
 
-        if (request.ImageId != null)
+        if (request.ImageId.HasValue)
         {
             var imageFromDb = await _dbContext.Files
-                                  .FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken)
-                              ?? throw new EntityNotFoundException<Entities.File>(request.ImageId.Value);
+                .FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken)
+                ?? throw new EntityNotFoundException<Entities.File>(request.ImageId.Value);
 
             if (!_fileHelper.IsImage(imageFromDb))
                 throw new PlaylistFileException("File is not Image");
                 
             playlist.Image = imageFromDb;
         }
+        
+        currentUser.AuthorPlaylists.Add(playlist);
 
         await _dbContext.Playlists.AddAsync(playlist, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
