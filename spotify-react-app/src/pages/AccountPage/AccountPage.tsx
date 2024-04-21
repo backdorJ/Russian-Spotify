@@ -10,7 +10,6 @@ import {songFilters} from "../../http/filters/songFilters";
 import {getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 import {getUserId} from "../../functions/getUserId";
-import {useLocation} from "react-router-dom";
 
 const AccountPage = () => {
     const userStore = useContext(UserContext)
@@ -26,7 +25,7 @@ const AccountPage = () => {
 
     // Получение списка любимых песен
     useEffect(() => {
-        getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(),1, 5)
+        getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), 1, 5)
             .then(s => setFavoriteSongs(s))
 
         getPlaylistsByFilter(playlistFilters.favoritePlaylistsFilter, getUserId(), 1, 5)
@@ -56,15 +55,15 @@ const AccountPage = () => {
                         </div>
                         <div className="user-image-container">
                             <img className="user-image"
-                                 src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder }
+                                 src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder}
                                  alt="Твое фото"/>
                         </div>
                     </div>
                     <div className="favorite-container" id="favourites">
-                        {favoriteSongs.length > 0 &&  <><h3>Любимые треки</h3>
+                        {favoriteSongs.length > 0 && <><h3>Любимые треки</h3>
                             <FavoriteMusic favoriteSongs={favoriteSongs}/></>}
                         {favouritePlaylists.length > 0 && <><h3>Любимые альбомы & плейлисты</h3>
-                        <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>}
+                            <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>}
                     </div>
                 </div>
             </div>

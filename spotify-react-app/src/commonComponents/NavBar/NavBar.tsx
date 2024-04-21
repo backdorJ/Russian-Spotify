@@ -9,9 +9,9 @@ import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import wideOpenElements from "../../utils/navbar/wideOpenElements";
 import routeNames from "../../utils/routeNames";
-import MakeSubscriptionModal from "./components/makeSubscriptionModal/makeSubscriptionModal";
-import {PlayerContext, UserContext} from "../../index";
+import {UserContext} from "../../index";
 import {observer} from "mobx-react-lite";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
 
 const NavBar = observer((props: any) => {
@@ -40,8 +40,9 @@ const NavBar = observer((props: any) => {
                         onClick={() => navigate(routeNames.ACCOUNT_PAGE)}
                         className="navbar__account__main__image__div">
                         <img
-                            src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder }
-                            alt=""
+                            src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder}
+                            alt={userStore.user.username}
+                            onError={handleImageNotLoaded}
                             style={userStore.user.isSubscribed ? subscribedStyles : {}}
                             className="navbar__account__main__image"/>
                     </div>

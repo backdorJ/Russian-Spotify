@@ -2,6 +2,7 @@ import {Fragment} from "react";
 import {getImage} from "../../../http/fileApi";
 import {useNavigate} from "react-router-dom";
 import routeNames from "../../../utils/routeNames";
+import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
 
 
 const SearchAuthorCard = (props: any) => {
@@ -12,8 +13,11 @@ const SearchAuthorCard = (props: any) => {
 
     let playlistsMapped = playlists.map((playlist, index) => {
         if (index < playlists.length - 1)
-            return (<Fragment><span onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span>, </Fragment>)
-        return (<Fragment><span onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span></Fragment>)
+            return (<Fragment><span
+                onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span>,
+            </Fragment>)
+        return (<Fragment><span
+            onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span></Fragment>)
     })
 
     let additionalPlaylistCountDisplay = author.totalCount > playlists.length
@@ -26,7 +30,10 @@ const SearchAuthorCard = (props: any) => {
     return (
         <div className="search-author">
             <div className="search-author__left">
-                <img src={getImage(author.imageId)} alt={author.authorName}/>
+                <img
+                    src={getImage(author.imageId)}
+                    alt={author.authorName}
+                    onError={handleImageNotLoaded}/>
             </div>
             <div className="search-author__right">
                 <h2>{author.authorName}</h2>

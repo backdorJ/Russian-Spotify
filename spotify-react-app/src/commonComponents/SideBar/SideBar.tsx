@@ -1,6 +1,5 @@
 import './SideBar.css'
 import navigationElementsProps from "../../utils/sidebar/navigationElementsProps";
-import playlistElementsProps from "../../utils/sidebar/playlistElementsProps";
 // @ts-ignore
 import create_playlist from '../../assets/sidebar/create_playlist.png'
 // @ts-ignore
@@ -19,7 +18,8 @@ const SideBar = (props: any) => {
                     <div className="sidebar__nav__main">
                         {
                             navigationElementsProps.map(i => (
-                                <NavigationElement image={i.icon} title={i.title} onClick={() => navigate(i.navigateTo)}/>
+                                <NavigationElement image={i.icon} title={i.title}
+                                                   onClick={() => navigate(i.navigateTo)}/>
                             ))
                         }
                     </div>

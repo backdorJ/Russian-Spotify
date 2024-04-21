@@ -1,8 +1,8 @@
 import {FC} from "react";
-import Author from "../../../models/Author";
 import {IAuthor} from "../../../commonComponents/interfaces/IAuthor";
 import {getImage} from "../../../http/fileApi";
 import {useNavigate} from "react-router-dom";
+import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
 
 const DiscoveryCard: FC<IAuthor> = ({author}) => {
     const role = 'Artist'
@@ -13,7 +13,11 @@ const DiscoveryCard: FC<IAuthor> = ({author}) => {
             // onClick={() => navigate()}
             className="home-page__discovery-card">
             <div className="home-page__discovery-card__image-div">
-                <img src={getImage(author.imageId)} alt={author.authorName} className="home-page__discovery-card__image"/>
+                <img
+                    src={getImage(author.imageId)}
+                    alt={author.authorName}
+                    onError={handleImageNotLoaded}
+                    className="home-page__discovery-card__image"/>
             </div>
             <div className="home-page__discovery-card__text">
                 <div className="home-page__discovery-card__text__name">

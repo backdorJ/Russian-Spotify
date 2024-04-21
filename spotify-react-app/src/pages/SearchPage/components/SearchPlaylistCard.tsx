@@ -15,7 +15,7 @@ const SearchPlaylistCard = (props: any) => {
             <div className="search-playlist__left">
                 <img
                     src={getImage(playlist.imageId)}
-                     alt={playlist.playlistName}
+                    alt={playlist.playlistName}
                     onError={handleImageNotLoaded}/>
             </div>
             <div className="search-playlist__right">
