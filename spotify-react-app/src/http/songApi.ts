@@ -51,6 +51,9 @@ export const getSongsByFilter: (filterName: string, filterValue: string, pageNum
         for (let i = 0; i < response.data.entities.length - 1; ++i)
             result[i].nextSong = result[i + 1];
 
+        if (result.length > 1)
+            result[result.length - 1].nextSong = result[0]
+
         return result;
     }
 

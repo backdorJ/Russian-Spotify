@@ -20,6 +20,6 @@ export default [
     {
         icon: library_icon,
         title: 'your library',
-        navigateTo: routeNames.HOME_PAGE
+        navigateTo: routeNames.ACCOUNT_PAGE + "#favourites"
     }
 ]

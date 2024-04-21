@@ -29,8 +29,8 @@ const NavBar = observer((props: any) => {
     return (
         userStore.isAuth &&
         <div
-            onMouseEnter={() => setIsOpen(prev => true)}
-            onMouseLeave={() => setIsOpen(prev => false)}
+            onMouseEnter={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
             onClick={() => setIsOpen(false)}
             className="navbar">
             <div className="navbar__account">

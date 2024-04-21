@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {getSong, getSongsByFilter} from "../../http/songApi";
 import {PlayerContext, UserContext} from "../../index";
 // @ts-ignore
 import play_song from '../../assets/mock/playlistpage/player_triangle.png'
 import Song from "../../models/Song";
 import SongCard from "../PlaylistPage/components/SongCard";
-import {formatDuration} from "../../functions/formatDuration";
 import {songFilters} from "../../http/filters/songFilters";
 import {getUserId} from "../../functions/getUserId";
 
@@ -24,12 +23,12 @@ const FavoriteSongsPlaylist = () => {
         const fetchData = async () => {
             const result: Song[] = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 20);
 
-            setPage(page+1);
+            setPage(page + 1);
 
-            if(result.length === 0)
+            if (result.length === 0)
                 stop = true;
 
-            if(result.length === 0)
+            if (result.length === 0)
                 stop = true;
 
             setSongs([...songs, ...result]);
@@ -73,7 +72,7 @@ const FavoriteSongsPlaylist = () => {
         };
     }, []);
 
-    const scrollHandler = (event:any) => {
+    const scrollHandler = (event: any) => {
         if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 100)
             && !stop && !getting) {
             setGetting(true);
@@ -123,14 +122,7 @@ const FavoriteSongsPlaylist = () => {
                                 songs.map((song, index) => {
                                     return <SongCard
                                         song={song}
-                                        handlePlay={handlePlay}
-                                        id={index + 1}
-                                        name={song.songName}
-                                        artists={song.authors}
-                                        length={formatDuration(song.duration)}
-                                        isLiked={true}
-                                        imageId={song.imageId}
-                                    />
+                                        order_number={index + 1}/>
                                 })
                             }
                         </div>

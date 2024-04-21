@@ -19,6 +19,7 @@ const App = observer(() => {
     const [showCreatePlaylistModal, setShowCreatePlaylistModal] = useState(false)
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [canShowPlayer, setCanShowPlayer] = useState(false);
+    const [showPlayerExpanded, setShowPlayerExpanded] = useState(false);
 
     // TODO: тут идет запрос на подписку в loadUser, и с юзера можешь брать подписку
     useEffect(() => {
@@ -51,7 +52,9 @@ const App = observer(() => {
 
     return (
         <BrowserRouter>
-            <div className="app">
+            <div
+                onClick={() => setShowPlayerExpanded(false)}
+                className="app">
                 {
                     userStore.isAuth &&
                     <SideBar setCreatePlaylistModal={setShowCreatePlaylistModal}/>
@@ -64,7 +67,7 @@ const App = observer(() => {
                 <CreatePlaylistModal show={showCreatePlaylistModal} onHide={() => setShowCreatePlaylistModal(false)}/>
             </div>
             {
-                canShowPlayer && <Player/>
+                canShowPlayer && <Player showExpanded={showPlayerExpanded} setShowExpanded={setShowPlayerExpanded}/>
             }
         </BrowserRouter>
     );

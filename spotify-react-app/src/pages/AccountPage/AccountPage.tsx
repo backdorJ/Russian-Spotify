@@ -59,7 +59,7 @@ const AccountPage = () => {
                                  alt="Твое фото"/>
                         </div>
                     </div>
-                    <div className="favorite-container">
+                    <div className="favorite-container" id="favourites">
                         {favoriteSongs.length > 0 &&  <><h3>Любимые треки</h3>
                             <FavoriteMusic favoriteSongs={favoriteSongs}/></>}
                         {favouritePlaylists.length > 0 && <><h3>Любимые альбомы & плейлисты</h3>

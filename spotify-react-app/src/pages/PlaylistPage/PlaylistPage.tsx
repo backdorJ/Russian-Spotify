@@ -219,14 +219,7 @@ const PlaylistPage = () => {
                                 songs.map((song, index) => {
                                     return <SongCard
                                         song={song}
-                                        handlePlay={handlePlay}
-                                        id={index + 1}
-                                        name={song.songName}
-                                        album={playlistInfo.playlistName}
-                                        artists={song.authors}
-                                        length={formatDuration(song.duration)}
-                                        isLiked={song.isInFavorite}
-                                        imageId={song.imageId}
+                                        order_number={index + 1}
                                     />
                                 })
                             }

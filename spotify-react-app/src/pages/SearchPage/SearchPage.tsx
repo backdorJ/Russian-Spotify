@@ -95,8 +95,8 @@ const SearchPage = () => {
             </div>
             <div className="search__main">
                 {
-                    songs.map(i => (
-                        <Song song={i}/>
+                    songs.map((song, index) => (
+                        <Song song={song} order_number={index + 1}/>
                     ))
                 }
                 {
