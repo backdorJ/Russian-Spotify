@@ -34,7 +34,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .HasMany(i => i.Playlists)
-            .WithMany(i => i.Users);
+            .WithMany(i => i.Users)
+            .UsingEntity<PlaylistUser>()
+            .HasKey(i => new { i.PlaylistId, i.UserId });
 
         builder
             .HasMany(x => x.Songs)
