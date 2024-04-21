@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RussianSpotift.API.Data.PostgreSQL;
@@ -11,9 +12,11 @@ using RussianSpotift.API.Data.PostgreSQL;
 namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 {
     [DbContext(typeof(EfContext))]
-    partial class EfContextModelSnapshot : ModelSnapshot
+    [Migration("20240405175929_addedFileOnSongDeleteCascade")]
+    partial class addedFileOnSongDeleteCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,14 +252,9 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Property<Guid?>("SongId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SongId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Files");
                 });
@@ -279,11 +277,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Property<string>("PlaylistName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<long>("PlaysNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasDefaultValue(0L);
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("timestamp with time zone");
@@ -358,11 +351,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
                     b.Property<Guid?>("ImageId")
                         .HasColumnType("uuid");
-
-                    b.Property<long>("PlaysNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasDefaultValue(0L);
 
                     b.Property<string>("SongName")
                         .IsRequired()
@@ -471,9 +459,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<Guid?>("UserPhotoId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -482,9 +467,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("UserPhotoId")
-                        .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -618,13 +600,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("RussianSpotify.API.Core.Entities.User", "User")
-                        .WithMany("Files")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Song");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RussianSpotify.API.Core.Entities.Playlist", b =>
@@ -637,8 +613,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
                     b.HasOne("RussianSpotify.API.Core.Entities.File", "Image")
                         .WithOne("Playlist")
-                        .HasForeignKey("RussianSpotify.API.Core.Entities.Playlist", "ImageId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("RussianSpotify.API.Core.Entities.Playlist", "ImageId");
 
                     b.Navigation("Author");
 
@@ -666,8 +641,7 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
 
                     b.HasOne("RussianSpotify.API.Core.Entities.File", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("ImageId");
 
                     b.Navigation("Category");
 
@@ -683,15 +657,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RussianSpotify.API.Core.Entities.User", b =>
-                {
-                    b.HasOne("RussianSpotify.API.Core.Entities.File", "UserPhoto")
-                        .WithOne()
-                        .HasForeignKey("RussianSpotify.API.Core.Entities.User", "UserPhotoId");
-
-                    b.Navigation("UserPhoto");
                 });
 
             modelBuilder.Entity("SongUser", b =>
@@ -734,8 +699,6 @@ namespace RussianSpotift.API.Data.PostgreSQL.Migrations
                     b.Navigation("AuthorPlaylists");
 
                     b.Navigation("Bucket");
-
-                    b.Navigation("Files");
 
                     b.Navigation("Subscribe");
                 });

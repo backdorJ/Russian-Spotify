@@ -9,6 +9,7 @@ import UserConfirmEmailDto from "../utils/dto/user/userConfirmEmailDto";
 import UserNewPasswordDto from "../utils/dto/user/userNewPasswordDto";
 // @ts-ignore
 import UserConfirmNewPasswordDto from "../utils/dto/user/userConfirmNewPasswordDto";
+import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
 import {getCookieValueByName} from "../functions/getCookieValueByName";
 
 export const getUser = async () => {
@@ -51,7 +52,7 @@ export const getUser = async () => {
     return response!.status === 200
         ? User.init(0, data.email, data.userName,
             `${process.env.REACT_APP_SPOTIFY_API}api/File/image/${data.userPhotoId}`)
-        : new User()
+        : undefined
 }
 
 export const register = async (user: UserRegisterDto) => {
@@ -84,6 +85,22 @@ export const login = async (user: UserLoginDto) => {
 }
 
 export const edit = async (user: UserEditDto) => {
-    const response = await $authHost.patch("api/Account/UpdateUserInfo", user)
+    let userToSend: any = user
+    if (user.userName === '')
+        userToSend.userName = null
+    if (user.currentPassword === '') {
+        userToSend.currentPassword = null
+        userToSend.newPassword = null
+        userToSend.newPasswordConfirm = null
+    }
+    if (user.filePhotoId === '')
+        userToSend.imageId = null
+
+    const response = await $authHost.patch("api/Account/UpdateUserInfo", userToSend)
+
     return response.status === 200
+        ? new ResponseWithMessage(response.status, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message)
+
+
 }

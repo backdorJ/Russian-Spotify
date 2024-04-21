@@ -25,7 +25,10 @@ const AuthForm = observer(() => {
             .then(success => {
                 if (success) {
                     loadUser()
-                        .then(user => userStore.login(user))
+                        .then(user => {
+                            if (user !== undefined)
+                                userStore.login(user)
+                        })
                         .then(_ => navigate(routeNames.HOME_PAGE))
                 } else
                     // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки

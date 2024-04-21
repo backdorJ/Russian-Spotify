@@ -42,9 +42,20 @@ body.active-modal {
     min-width: 500px;
 }
 
-.modal-content > h2 {
+.modal-content__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
+}
+
+.modal-content__header > h2 {
     color: #b4b4b4;
+}
+
+.modal-content__header > p {
+    font-size: 14px;
+    color: #6e6e6e;
 }
 
 .edit-profile__form {
@@ -69,6 +80,7 @@ body.active-modal {
 }
 
 .edit-profile__field {
+    max-width: 309px;
     font-size: 21px;
     padding: 12px 22px;
     margin-bottom: 15px;
@@ -77,6 +89,10 @@ body.active-modal {
     color: #000000;
     border: none;
     outline: none;
+}
+
+.edit-profile__field__file {
+    font-size: 16px;
 }
 
 .edit-profile__field-disabled {

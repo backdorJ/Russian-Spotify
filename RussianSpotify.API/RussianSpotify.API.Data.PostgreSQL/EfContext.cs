@@ -62,7 +62,6 @@ public class EfContext
     {
         builder.ApplyConfiguration(new RoleConfiguration());
         builder.ApplyConfiguration(new UserConfiguration());
-        builder.ApplyConfiguration(new RolePrivilegeConfiguration());
         builder.ApplyConfiguration(new SubscribeConfiguration());
         builder.ApplyConfiguration(new PlaylistConfiguration());
         builder.ApplyConfiguration(new SongConfiguration());

@@ -28,6 +28,11 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
         builder.HasMany(x => x.Files)
             .WithOne(y => y.Song);
 
+        builder.HasOne(i => i.Image)
+            .WithMany()
+            .HasForeignKey(i => i.ImageId)
+            .OnDelete(DeleteBehavior.SetNull);
+        
         builder.Property(x => x.PlaysNumber).HasDefaultValue(0);
     }
 }

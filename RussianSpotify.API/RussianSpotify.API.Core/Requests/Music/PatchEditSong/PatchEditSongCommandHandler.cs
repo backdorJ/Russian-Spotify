@@ -33,6 +33,7 @@ public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand>
         // Достаем песню из бд
         var songFromDb = await _dbContext.Songs
             .Include(i => i.Authors)
+            .Include(i => i.Image)
             .FirstOrDefaultAsync(i => i.Id == request.SongId, cancellationToken);
 
         if (songFromDb is null)
@@ -72,7 +73,8 @@ public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand>
             songFromDb.Category = categoryFromDb;
         }
 
-        // Проверяем, был ли введен Id картинги
+        Console.WriteLine(request.ImageId);
+        // Проверяем, был ли введен Id картинки
         if (request.ImageId is not null)
         {
             // Достаем картину из бд
@@ -85,6 +87,11 @@ public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand>
             // Проверка, является ли файл картинкой и присвоение
             if (!_fileHelper.IsImage(imageFromDb))
                 throw new SongBadImageException("File's content type is not Image");
+
+            // Удаляем текущую картинку
+            if (songFromDb.Image is not null)
+                await _fileHelper.DeleteFileAsync(songFromDb.Image, cancellationToken);
+            
             songFromDb.Image = imageFromDb;
         }
 

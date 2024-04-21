@@ -23,4 +23,12 @@ public interface IFileHelper
     /// <returns>Результат проверки</returns>
     /// <exception cref="FileInternalException">У файла не указан ContentType</exception>
     bool IsAudio(File file);
+
+    /// <summary>
+    /// Удалить файл из бд и из хранилища
+    /// </summary>
+    /// <param name="file">Файл для удаления</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns></returns>
+    Task DeleteFileAsync(File file, CancellationToken cancellationToken);
 }
