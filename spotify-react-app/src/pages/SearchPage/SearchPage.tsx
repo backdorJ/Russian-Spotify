@@ -15,6 +15,7 @@ import {songFilters} from "../../http/filters/songFilters";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 // @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
+import SongCard from "../PlaylistPage/components/SongCard";
 
 
 const SearchPage = () => {
@@ -26,6 +27,10 @@ const SearchPage = () => {
     const [authors, setAuthors] = useState(new Array<any>())
 
     const handleSearch = () => {
+        if (search === '') {
+            alert("Search is empty")
+            return
+        }
         if (searchType === 1) {
             setAuthors([])
             setPlaylists([])
@@ -96,7 +101,7 @@ const SearchPage = () => {
             <div className="search__main">
                 {
                     songs.map((song, index) => (
-                        <Song song={song} order_number={index + 1}/>
+                        <SongCard song={song} order_number={index + 1}/>
                     ))
                 }
                 {

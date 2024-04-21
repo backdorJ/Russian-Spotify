@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../../http/songApi";
 import {ISong} from "../../../commonComponents/Song/interfaces/ISong";
 import {PlayerContext, UserContext} from "../../../index";
+import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
 
 const SongCard: FC<ISong> = ({song, order_number}) => {
     const userStore = useContext(UserContext)
@@ -23,12 +24,12 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
     })
 
     const handleLikeClick = () => {
-        if(!isInLikeProcess) {
+        if (!isInLikeProcess) {
             isInLikeProcess = true;
             if (!isLikedSong) {
                 tryAddSongToFavorites(song.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful) {
+                        if (isSuccessful) {
                             setIsLikedSong(true);
                             isInLikeProcess = false;
                         }
@@ -36,7 +37,7 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
             } else {
                 tryRemoveSongFromFavorites(song.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful){
+                        if (isSuccessful) {
                             setIsLikedSong(false);
                             isInLikeProcess = false;
                         }
@@ -60,8 +61,11 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
             <div
                 onClick={handlePlay}
                 className="playlist-page__songs__list__main__song-card__title">
-                <img src={getImage(song.imageId)} alt={song.songName}
-                     className="playlist-page__songs__list__main__song-card__title__img"/>
+                <img
+                    src={getImage(song.imageId)}
+                    alt={song.songName}
+                    onError={handleImageNotLoaded}
+                    className="playlist-page__songs__list__main__song-card__title__img"/>
                 <div className="playlist-page__songs__list__main__song-card__title__info">
                     <div className="playlist-page__songs__list__main__song-card__title__info__song-name">
                         <p>{song.songName}</p>

@@ -10,6 +10,7 @@ import {songFilters} from "../../http/filters/songFilters";
 import {getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 import {getUserId} from "../../functions/getUserId";
+import {useLocation} from "react-router-dom";
 
 const AccountPage = () => {
     const userStore = useContext(UserContext)
@@ -17,7 +18,7 @@ const AccountPage = () => {
     const endSubscriptionMonth = userStore.user._subEndDate.getMonth()
     const endSubscriptionYear = userStore.user._subEndDate.getFullYear()
     const formattedDate = `${endSubscriptionDate.toString().padStart(2, '0')}:${endSubscriptionMonth.toString().padStart(2, '0')}:${endSubscriptionYear.toString().padStart(4, '0')}`;
-        
+
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState<Song[]>([]);
     const [favouritePlaylists, setFavouritePlaylists] = useState<Playlist[]>([]);

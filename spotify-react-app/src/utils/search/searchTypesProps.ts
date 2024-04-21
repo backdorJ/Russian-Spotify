@@ -2,8 +2,8 @@ export default [
     {
         value: 1,
         title: 'songs',
-        color: '#b28a20',
-        highlight: '#eac14e'
+        color: '#8c4d19',
+        highlight: '#f3a564'
     },
     {
         value: 2,

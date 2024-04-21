@@ -3,9 +3,8 @@ import {FC, useState} from "react";
 import playlistsNormal from "../../../utils/mocks/homepage/playlistsNormal";
 import '../styles/AccountPage.css'
 import Playlist from "../../../commonComponents/Playlist/Playlist";
-import {Link} from "react-router-dom";
 
-const FavouritePlaylist : FC<IFavouritePlaylist> = ({favouritePlaylists}) => {
+const FavouritePlaylist: FC<IFavouritePlaylist> = ({favouritePlaylists}) => {
     const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
     const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
 
@@ -25,17 +24,15 @@ const FavouritePlaylist : FC<IFavouritePlaylist> = ({favouritePlaylists}) => {
                 <button className="arrow-button arrow-button-left"
                         onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, -3, playlistsNormalLoaded)}
                         disabled={!canScroll(currentStartPlaylistIndex, -3, playlistsNormalLoaded)}>&lt;</button>
-                    <div className="home-page__latest-albums__cards ">
-                        {
-                            favouritePlaylists.map(playlist => (
-                                <Link to={`/playlist/${playlist.playlistId}`}>
-                                    <div className="card">
-                                        <Playlist playlist={playlist}/>
-                                    </div>
-                                </Link>
-                            ))
-                        }
-                    </div>
+                <div className="home-page__latest-albums__cards ">
+                    {
+                        favouritePlaylists.map(playlist => (
+                            <div className="card">
+                                <Playlist playlist={playlist}/>
+                            </div>
+                        ))
+                    }
+                </div>
                 <button className="arrow-button arrow-button-right"
                         onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, 3, playlistsNormalLoaded)}
                         disabled={!canScroll(currentStartPlaylistIndex, 3, playlistsNormalLoaded)}>&gt;</button>
