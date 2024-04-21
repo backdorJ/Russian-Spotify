@@ -1,7 +1,9 @@
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace RussianSpotify.API.Core.Entities;
 
 /// <summary>
-/// Альбом  
+/// Плейлист или альбом
 /// </summary>
 public class Playlist
 {
@@ -13,7 +15,7 @@ public class Playlist
         Songs = new List<Song>();
         Users = new List<User>();
     }
-    
+
     /// <summary>
     /// Ид альбома
     /// </summary>
@@ -48,7 +50,7 @@ public class Playlist
     /// Дата опубликования
     /// </summary>
     public DateTime ReleaseDate { get; set; }
-    
+
     /// <summary>
     /// Количество прослушиваний плейлиста
     /// </summary>
@@ -63,6 +65,11 @@ public class Playlist
     /// Лайкнувшие пользователи
     /// </summary>
     public List<User>? Users { get; set; }
+
+    /// <summary>
+    /// Таблица со связями {<see cref="User"/>, <see cref="Playlist"/>}
+    /// </summary>
+    public List<PlaylistUser> PlaylistUsers { get; set; } = new();
 
     /// <summary>
     /// Является ли альбомом
