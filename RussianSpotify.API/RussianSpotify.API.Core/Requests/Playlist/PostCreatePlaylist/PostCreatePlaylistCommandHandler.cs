@@ -73,7 +73,10 @@ public class PostCreatePlaylistCommandHandler : IRequestHandler<PostCreatePlayli
             Songs = songs,
             Author = currentUser,
             ReleaseDate = _dateTimeProvider.CurrentDate,
-            Users = new List<User> { }
+            Users = new List<User>
+            {
+                currentUser
+            }
         };
 
         if (request.ImageId.HasValue)
