@@ -13,6 +13,8 @@ const createPlaylistWithFile = async (createPlaylistDto: CreatePlaylistDto) => {
             await deleteFile(fileUploadResponse.value)
             return addPlaylistResponse
         }
+
+        return addPlaylistResponse
     }
 
     return await addPlaylist(createPlaylistDto.name, '')
