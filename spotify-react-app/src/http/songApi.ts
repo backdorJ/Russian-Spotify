@@ -63,8 +63,10 @@ export const getSongsByFilter: (filterName: string, filterValue: string, pageNum
  * */
 export const getSong: (song: Song, user: User) => Player
     = (song, user) => {
-    if (!user.isSubscribed)
+    if (!user.isSubscribed){
+        alert("Необходимо оформить подписку")
         return new Player();
+    }
 
     return Player.init(song, `${process.env.REACT_APP_SPOTIFY_API}api/Song/${song.songId}`);
 }
