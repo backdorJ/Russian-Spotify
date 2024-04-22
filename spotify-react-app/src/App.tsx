@@ -10,7 +10,8 @@ import {getSubscription} from "./http/subApi";
 import loadUser from "./functions/loadUser";
 import Player from "./commonComponents/Player/Player";
 import SideBar from "./commonComponents/SideBar/SideBar";
-import CreatePlaylistModal from "./commonComponents/SideBar/components/CreatePlaylistModal/CreatePlaylistModal";
+import CreateOrEditPlaylistModal
+    from "./commonComponents/SideBar/components/CreatePlaylistModal/CreateOrEditPlaylistModal";
 
 const App = observer(() => {
     const userStore = useContext(UserContext);
@@ -44,7 +45,7 @@ const App = observer(() => {
         document.getElementById("body")!.style.overflowY = 'visible';
 
     useEffect(() => {
-        if(userStore.isAuth && localStorage.getItem('token') && isSubscribed && playerStore.Player.currentSong)
+        if (userStore.isAuth && localStorage.getItem('token') && isSubscribed && playerStore.Player.currentSong)
             setCanShowPlayer(true);
         else
             setCanShowPlayer(false);
@@ -64,7 +65,12 @@ const App = observer(() => {
                     <AppRouter/>
                 </div>
                 <MakeSubscriptionModal show={showSubscriptionModal} onHide={() => setShowSubscriptionModal(false)}/>
-                <CreatePlaylistModal show={showCreatePlaylistModal} onHide={() => setShowCreatePlaylistModal(false)}/>
+                <CreateOrEditPlaylistModal
+                    show={showCreatePlaylistModal}
+                    onHide={() => setShowCreatePlaylistModal(false)}
+                    playlist={undefined}
+                    songsIds={[]}
+                    reloadTrigger={() => {}}/>
             </div>
             {
                 canShowPlayer && <Player showExpanded={showPlayerExpanded} setShowExpanded={setShowPlayerExpanded}/>

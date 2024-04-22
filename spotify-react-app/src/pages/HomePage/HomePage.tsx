@@ -33,7 +33,7 @@ const HomePage = observer((props: any) => {
         getAuthorsByFilter(authorFilters.authorShuffledFilter, "smth", 2, 1, 10)
             .then(response => setDiscoveryCards(response))
             .then(() => {
-                getPlaylistsByFilter(playlistFilters.albumShuffledFilter, "smth", 6, 1)
+                getPlaylistsByFilter(playlistFilters.albumShuffledFilter, "smth", 1, 6)
                     .then(response => setPlaylistsNormal([...response]))
                     .then(() => {
                         getPlaylistsByFilter(playlistFilters.favoritePlaylistsFilter, getUserId(), 1, 1000)

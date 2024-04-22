@@ -6,7 +6,7 @@ namespace RussianSpotify.API.Core.Requests.Playlist.PutPlaylist;
 /// <summary>
 /// Команда на редактирование плейлиста/альбома
 /// </summary>
-public class PutPlaylistCommand : PutPlaylistRequest, IRequest
+public class PutPlaylistCommand : PutPlaylistRequest, IRequest<PutPlaylistResponse>
 {
     /// <summary>
     /// Конструктор

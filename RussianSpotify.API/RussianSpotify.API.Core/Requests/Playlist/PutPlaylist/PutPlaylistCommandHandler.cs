@@ -5,13 +5,14 @@ using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.API.Core.Exceptions.Playlist;
+using RussianSpotify.Contracts.Requests.Playlist.PutPlaylist;
 
 namespace RussianSpotify.API.Core.Requests.Playlist.PutPlaylist;
 
 /// <summary>
 /// Обработчик для <see cref="PutPlaylistCommand"/>
 /// </summary>
-public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
+public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand, PutPlaylistResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
@@ -34,7 +35,7 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
     }
 
     /// <inheritdoc />
-    public async Task Handle(PutPlaylistCommand request, CancellationToken cancellationToken)
+    public async Task<PutPlaylistResponse> Handle(PutPlaylistCommand request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -99,5 +100,10 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand>
         }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
+        return new PutPlaylistResponse
+        {
+            PlaylistName = playlist.PlaylistName,
+            PlaylistId = playlist.Id
+        };
     }
 }

@@ -53,6 +53,10 @@ body.active-modal {
     color: #b4b4b4;
 }
 
+.modal-content__header > h2 > span {
+    color: #dc8140;
+}
+
 .modal-content__header > p {
     font-size: 14px;
     color: #6e6e6e;

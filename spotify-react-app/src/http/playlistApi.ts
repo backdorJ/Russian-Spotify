@@ -2,6 +2,7 @@ import Playlist from "../models/Playlist";
 import {$authHost} from "./index";
 // @ts-ignore
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
+import playlist from "../commonComponents/Playlist/Playlist";
 
 /** Возвращает список альбомов по фильтру
  @param filterName - название фильтра
@@ -53,6 +54,26 @@ export const addPlaylist = async (playlistName: string, fileId: string) => {
         body.imageId = fileId
 
     const response = await $authHost.post('api/Playlist/CreatePlaylist', body)
+
+    if (response.status === 200)
+        return new ResponseWithMessage(200, '', response.data)
+
+    return new ResponseWithMessage(response.status, response.data.message)
+}
+
+export const editPlaylist = async (playlistId: string, playlistName: string, fileId: string, songsIds: Array<string>) => {
+    let body: any = {
+        playlistName: playlistName,
+        songsIds: songsIds
+    }
+
+    if (playlistName === '')
+        body.playlistName = null
+
+    if (fileId !== '')
+        body.imageId = fileId
+
+    const response = await $authHost.put(`api/Playlist/EditPlaylist/${playlistId}`, body)
 
     if (response.status === 200)
         return new ResponseWithMessage(200, '', response.data)
