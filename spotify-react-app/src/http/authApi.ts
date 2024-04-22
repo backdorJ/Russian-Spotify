@@ -81,7 +81,9 @@ export const login = async (user: UserLoginDto) => {
     const response = await $host.post("api/auth/Login", user)
     localStorage.setItem('token', response.data.accessToken)
     localStorage.setItem('refresh', response.data.refreshToken);
-    return (response.status === 200 && response.data.accessToken && response.data.refreshToken);
+    return (response.status === 200 && response.data.accessToken && response.data.refreshToken
+        ? new ResponseWithMessage(response.status, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message));
 }
 
 export const edit = async (user: UserEditDto) => {

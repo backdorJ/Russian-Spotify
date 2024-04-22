@@ -11,6 +11,7 @@ import routeNames from "../../../../utils/routeNames";
 import {UserContext} from "../../../../index";
 import {observer} from "mobx-react-lite";
 import loadUser from "../../../../functions/loadUser";
+import {codeConfirmationOperations} from "../../../../utils/operations/codeConfirmationOperations";
 
 const AuthForm = observer(() => {
     const [email, setEmail] = useState("")
@@ -22,8 +23,8 @@ const AuthForm = observer(() => {
         e.preventDefault()
         let user = new UserLoginDto(email, password)
         login(user)
-            .then(success => {
-                if (success) {
+            .then(response => {
+                if (response.status === 200) {
                     loadUser()
                         .then(user => {
                             if (user !== undefined)
@@ -32,6 +33,17 @@ const AuthForm = observer(() => {
                         .then(_ => navigate(routeNames.HOME_PAGE))
                 } else
                     // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
+                    if (response.message === "You need to confirm your Email Address") {
+                        alert(response.message)
+                        navigate(routeNames.CONFIRMATION_CODE_PAGE, {
+                            state: {
+                                email: email,
+                                operation: codeConfirmationOperations.ConfirmEmail
+                            }
+                        })
+                        
+                        return;
+                    }
                     alert("Something went wrong. Try again")
             })
     }
