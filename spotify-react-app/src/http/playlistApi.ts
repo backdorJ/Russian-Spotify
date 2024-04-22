@@ -2,7 +2,6 @@ import Playlist from "../models/Playlist";
 import {$authHost} from "./index";
 // @ts-ignore
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
-import playlist from "../commonComponents/Playlist/Playlist";
 
 /** Возвращает список альбомов по фильтру
  @param filterName - название фильтра
@@ -11,37 +10,37 @@ import playlist from "../commonComponents/Playlist/Playlist";
  @param pageSize - количество плейлистов, которые должны вернуться с api
  * */
 export const getPlaylistsByFilter = async (filterName: string, filterValue: string, pageNumber: number, pageSize: number) => {
-    if(!filterValue || !filterName)
+    if (!filterValue || !filterName)
         return [];
 
-        const response = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
-            new URLSearchParams({
-                filterName: filterName,
-                filterValue: filterValue,
-                pageNumber: pageNumber.toString(),
-                pageSize: pageSize.toString()
-            }));
-        
-        if (response.status !== 200 || response.data === undefined)
-            return new Array<Playlist>();
+    const response = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
+        new URLSearchParams({
+            filterName: filterName,
+            filterValue: filterValue,
+            pageNumber: pageNumber.toString(),
+            pageSize: pageSize.toString()
+        }));
 
-        let result: Array<Playlist> = [];
+    if (response.status !== 200 || response.data === undefined)
+        return new Array<Playlist>();
 
-        for (let i = 0; i < response.data.entities.length; i++) {
-            const playlist = response.data.entities[i];
+    let result: Array<Playlist> = [];
 
-            result[i] = Playlist.init(
-                playlist.id,
-                playlist.playlistName,
-                playlist.imageId,
-                playlist.authorName,
-                playlist.releaseDate,
-                playlist.isAlbum,
-                playlist.isInFavorite);
-        }
+    for (let i = 0; i < response.data.entities.length; i++) {
+        const playlist = response.data.entities[i];
 
-        return result;
+        result[i] = Playlist.init(
+            playlist.id,
+            playlist.playlistName,
+            playlist.imageId,
+            playlist.authorName,
+            playlist.releaseDate,
+            playlist.isAlbum,
+            playlist.isInFavorite);
     }
+
+    return result;
+}
 
 export const addPlaylist = async (playlistName: string, fileId: string) => {
     let body: any = {

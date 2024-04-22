@@ -1,5 +1,5 @@
 import {deleteFile, uploadFile} from "../http/fileApi";
-import {addPlaylist, editPlaylist} from "../http/playlistApi";
+import {editPlaylist} from "../http/playlistApi";
 import EditPlaylistDto from "../utils/dto/playlist/editPlaylistDto";
 
 const editPlaylistWithFile = async (editPlaylistDto: EditPlaylistDto) => {

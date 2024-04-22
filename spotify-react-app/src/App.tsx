@@ -70,7 +70,8 @@ const App = observer(() => {
                     onHide={() => setShowCreatePlaylistModal(false)}
                     playlist={undefined}
                     songsIds={[]}
-                    reloadTrigger={() => {}}/>
+                    reloadTrigger={() => {
+                    }}/>
             </div>
             {
                 canShowPlayer && <Player showExpanded={showPlayerExpanded} setShowExpanded={setShowPlayerExpanded}/>

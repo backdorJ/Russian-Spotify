@@ -41,8 +41,7 @@ const HomePage = observer((props: any) => {
                                 if (response.length > 3) {
                                     let playlistsToShow = response.slice(response.length - 3, response.length)
                                     setPlaylistsLittle(playlistsToShow)
-                                }
-                                else {
+                                } else {
                                     setPlaylistsLittle(response)
                                 }
                             })
