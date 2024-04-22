@@ -2,8 +2,7 @@
  * @param jwt - JWT
  * */
 export const isJwtDied : (jwt : string | null) => boolean = (jwt): boolean => {
-    if (jwt === null || jwt == undefined || jwt == '')
-        return false;
+    if (!jwt) return false;
 
     const [_, encodedPayload, __] = jwt!.split('.');
 
