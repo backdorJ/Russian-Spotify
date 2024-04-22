@@ -6,7 +6,12 @@ export const isJwtDied : (jwt : string | null) => boolean = (jwt): boolean => {
 
     const [_, encodedPayload, __] = jwt!.split('.');
 
-    const payload = JSON.parse(base64UrlDecode(encodedPayload));
+    let decodedPayLoad = base64UrlDecode(encodedPayload)
+    
+    if (!decodedPayLoad) 
+        return false;
+    
+    const payload = JSON.parse(decodedPayLoad);
 
     let tokenExpiryTime = new Date(Number(payload.exp) * 1000);
 
@@ -14,7 +19,9 @@ export const isJwtDied : (jwt : string | null) => boolean = (jwt): boolean => {
 }
 
 export function base64UrlDecode(str: string) {
-    console.log(str);
+    if (!str) 
+        return '';
+    
     str = str.replace(/-/g, '+').replace(/_/g, '/');
 
     while (str.length % 4 !== 0)
