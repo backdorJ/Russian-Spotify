@@ -10,6 +10,7 @@ import {songFilters} from "../../http/filters/songFilters";
 import {getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 import {getUserId} from "../../functions/getUserId";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
 const AccountPage = () => {
     const userStore = useContext(UserContext)
@@ -21,9 +22,7 @@ const AccountPage = () => {
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState<Song[]>([]);
     const [favouritePlaylists, setFavouritePlaylists] = useState<Playlist[]>([]);
-    let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
-
-    // Получение списка любимых песен
+// Получение списка любимых песен
     useEffect(() => {
         getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), 1, 5)
             .then(s => setFavoriteSongs(s))
@@ -55,8 +54,9 @@ const AccountPage = () => {
                         </div>
                         <div className="user-image-container">
                             <img className="user-image"
-                                 src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder}
-                                 alt="Твое фото"/>
+                                 src={userStore.user.photoUrl}
+                                 alt={userStore.user.username}
+                                 onError={handleImageNotLoaded}/>
                         </div>
                     </div>
                     <div className="favorite-container" id="favourites">

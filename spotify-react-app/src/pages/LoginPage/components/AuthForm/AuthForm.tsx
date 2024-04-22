@@ -31,7 +31,7 @@ const AuthForm = observer(() => {
                                 userStore.login(user)
                         })
                         .then(_ => navigate(routeNames.HOME_PAGE))
-                } else
+                } else {
                     // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
                     if (response.message === "You need to confirm your Email Address") {
                         alert(response.message)
@@ -41,10 +41,11 @@ const AuthForm = observer(() => {
                                 operation: codeConfirmationOperations.ConfirmEmail
                             }
                         })
-                        
+
                         return;
                     }
                     alert("Something went wrong. Try again")
+                }
             })
     }
 
@@ -85,7 +86,8 @@ const AuthForm = observer(() => {
                     setPassword={setPassword}/>
                 <div className="login-section-controls">
                     <div className="password-reset-section">
-                        <a className="password-reset-link-text-style" onClick={() => navigate(routeNames.RESET_PASSWORD_PAGE)}>Forgot your password?</a>
+                        <a className="password-reset-link-text-style"
+                           onClick={() => navigate(routeNames.RESET_PASSWORD_PAGE)}>Forgot your password?</a>
                     </div>
                     <div className="login-section1">
                         <button

@@ -5,7 +5,7 @@ import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
  * @param imageId - id картинки в бд
  * */
 export const getImage: (imageId: string) => string
-    =  (imageId) => {
+    = (imageId) => {
     return `${process.env.REACT_APP_SPOTIFY_API}api/File/image/${imageId}`;
 }
 
@@ -27,9 +27,9 @@ export const uploadFile = async (file: File) => {
 
 export const deleteFile = async (fileId: string) => {
     const response = await $authHost.delete('api/File/Delete?' +
-    new URLSearchParams({
-        fileId: fileId
-    }))
+        new URLSearchParams({
+            fileId: fileId
+        }))
 
     return response.status === 200
         ? new ResponseWithMessage(response.status, '')
