@@ -17,7 +17,7 @@ const AccountPage = () => {
     const endSubscriptionDate = userStore.user._subEndDate.getDate()
     const endSubscriptionMonth = userStore.user._subEndDate.getMonth()
     const endSubscriptionYear = userStore.user._subEndDate.getFullYear()
-    const formattedDate = `${endSubscriptionDate.toString().padStart(2, '0')}:${endSubscriptionMonth.toString().padStart(2, '0')}:${endSubscriptionYear.toString().padStart(4, '0')}`;
+    const formattedDate = `${endSubscriptionDate.toString().padStart(2, '0')}.${endSubscriptionMonth.toString().padStart(2, '0')}.${endSubscriptionYear.toString().padStart(4, '0')}`;
 
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState<Song[]>([]);
