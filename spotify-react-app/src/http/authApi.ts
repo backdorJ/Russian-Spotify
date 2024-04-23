@@ -98,7 +98,7 @@ export const edit = async (user: UserEditDto) => {
         userToSend.newPasswordConfirm = null
     }
     if (user.filePhotoId === '')
-        userToSend.imageId = null
+        userToSend.filePhotoId = null
 
     const response = await $authHost.patch("api/Account/UpdateUserInfo", userToSend)
 

@@ -61,7 +61,7 @@ public class PatchUpdateUserInfoCommandHandler
         if (userId is null)
             throw new CurrentUserIdNotFound("User Id was not found");
 
-        var user = await _dbContext.Users.Include(i => i.UserPhoto)
+        var user = await _userManager.Users.Include(i => i.UserPhoto)
             .FirstOrDefaultAsync(i => i.Id == userId, cancellationToken);
 
         if (user is null)
