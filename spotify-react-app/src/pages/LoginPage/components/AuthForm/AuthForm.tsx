@@ -32,7 +32,6 @@ const AuthForm = observer(() => {
                         })
                         .then(_ => navigate(routeNames.HOME_PAGE))
                 } else {
-                    // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
                     if (response.message === "You need to confirm your Email Address") {
                         alert(response.message)
                         navigate(routeNames.CONFIRMATION_CODE_PAGE, {
@@ -41,7 +40,6 @@ const AuthForm = observer(() => {
                                 operation: codeConfirmationOperations.ConfirmEmail
                             }
                         })
-
                         return;
                     }
                     alert("Something went wrong. Try again")

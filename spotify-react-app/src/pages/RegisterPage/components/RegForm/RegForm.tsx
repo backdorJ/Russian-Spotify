@@ -23,15 +23,24 @@ const RegForm = () => {
         e.preventDefault()
         let user = new UserRegisterDto(username, email, password, passwordConfirm, role)
         register(user)
-            .then(success => {
-                if (success) {
+            .then(response => {
+                if (response.status === 200) {
                     alert("Registered successfully! Please check your Email to confirm it")
-                    navigate(routeNames.CONFIRMATION_CODE_PAGE, {state: {email: email, operation: codeConfirmationOperations.ConfirmEmail}})
-                    
-                } else
-                    // TODO: Заменить alert на подсказки, где юзер ошибся в случае BadRequest или Redirect на страницу 5XX ошибки
-                    alert("Something went wrong. Try again")
-               
+                    navigate(routeNames.CONFIRMATION_CODE_PAGE, {
+                        state: {
+                            email: email,
+                            operation: codeConfirmationOperations.ConfirmEmail
+                        }
+                    })
+
+                } else {
+                    if (response.message === "User with same email already registered") {
+                        alert(response.message)
+                        navigate(routeNames.LOGIN_PAGE)
+                    } else {
+                        alert(response.message)
+                    }
+                }
             })
     }
 

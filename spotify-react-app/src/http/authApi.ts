@@ -18,16 +18,16 @@ export const getUser = async () => {
         .then(x => response = x)
         .catch(error => console.log(error))
         .then(_ => {
-            if(getCookieValueByName("token")) {
+            if (getCookieValueByName("token")) {
                 localStorage.setItem("token", getCookieValueByName("token")!);
                 localStorage.setItem("refresh", getCookieValueByName("refresh")!);
             }
         });
 
-    if(localStorage.getItem("token"))
+    if (localStorage.getItem("token"))
         response = await $authHost("api/Account/UserInfo");
 
-    if(response === null) {
+    if (response === null) {
         await $host.post("api/Auth/RefreshToken", {
             accessToken: localStorage.getItem("token"),
             refreshToken: localStorage.getItem("refresh")
@@ -57,7 +57,9 @@ export const getUser = async () => {
 
 export const register = async (user: UserRegisterDto) => {
     const response = await $host.post("api/auth/Register", user)
-    return response.status === 200
+    return (response.status === 200
+        ? new ResponseWithMessage(response.status, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message));
 }
 
 export const confirmEmail = async (user: UserConfirmEmailDto) => {
