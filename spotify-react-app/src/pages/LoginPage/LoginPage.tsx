@@ -3,13 +3,14 @@ import {useNavigate} from "react-router-dom";
 import "./styles/LoginPage.css"
 import AuthForm from "./components/AuthForm/AuthForm";
 import Header from "../../commonComponents/Header/Header";
+import routeNames from "../../utils/routeNames";
 
 
 const LoginPage = (props: any) => {
     const navigate = useNavigate();
 
     const navigateToSignup = () => {
-        navigate('/register')
+        navigate(routeNames.REGISTRATION_PAGE);
     }
 
     return (

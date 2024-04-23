@@ -15,8 +15,8 @@ const InputLoginWidget = (props: any) => {
                     <input
                         value={props.email}
                         onChange={e => props.setEmail(e.target.value)}
-                        id="email address or username"
-                        placeholder="Email address or username"
+                        id="email address"
+                        placeholder="Email address"
                         type="text"
                         className="input-container" required/>
                 </div>

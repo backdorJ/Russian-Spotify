@@ -9,7 +9,7 @@ import {tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/song
 
 /**Компонент для песни
  * @param song - Song песня*/
-const Song : FC<ISong> = ({song}) => {
+const Song: FC<ISong> = ({song}) => {
     const navigate = useNavigate()
     const [isLiked, setIsLiked] = useState(song.isInFavorite);
 
@@ -31,12 +31,12 @@ const Song : FC<ISong> = ({song}) => {
     };
 
     const handleLikeClick = () => {
-        if(!isInLikeProcess) {
+        if (!isInLikeProcess) {
             isInLikeProcess = true;
             if (!song.isInFavorite) {
                 tryAddSongToFavorites(song.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful) {
+                        if (isSuccessful) {
                             setIsLiked(true);
                             isInLikeProcess = false;
                             song.isInFavorite = true;
@@ -45,7 +45,7 @@ const Song : FC<ISong> = ({song}) => {
             } else {
                 tryRemoveSongFromFavorites(song.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful){
+                        if (isSuccessful) {
                             setIsLiked(false);
                             isInLikeProcess = false;
                             song.isInFavorite = false;
@@ -74,10 +74,11 @@ const Song : FC<ISong> = ({song}) => {
                 <span>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</span>
             </div>
             <div className="like-icon-container">
-                <LikeIcon onClick = {handleLikeClick} isLiked={isLiked} />
+                <LikeIcon onClick={handleLikeClick} isLiked={isLiked}/>
             </div>
             <button className="music-more-button" onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}>⋮
+                    onMouseLeave={handleMouseLeave}>
+                ⋮
             </button>
             {menuOpen && (
                 <div className="music-menu" onMouseEnter={handleMouseEnter}

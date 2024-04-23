@@ -19,8 +19,6 @@ const NavBar = observer((props: any) => {
     const {setShowSubModal} = props
     const [isOpen, setIsOpen] = useState(false)
     const navigate = useNavigate()
-    let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
-
     let subscribedStyles = {
         border: "2px solid mediumpurple",
         padding: "2px"
@@ -40,7 +38,7 @@ const NavBar = observer((props: any) => {
                         onClick={() => navigate(routeNames.ACCOUNT_PAGE)}
                         className="navbar__account__main__image__div">
                         <img
-                            src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder}
+                            src={userStore.user.photoUrl}
                             alt={userStore.user.username}
                             onError={handleImageNotLoaded}
                             style={userStore.user.isSubscribed ? subscribedStyles : {}}

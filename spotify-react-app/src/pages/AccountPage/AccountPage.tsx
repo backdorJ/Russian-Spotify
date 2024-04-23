@@ -10,20 +10,19 @@ import {songFilters} from "../../http/filters/songFilters";
 import {getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 import {getUserId} from "../../functions/getUserId";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
 const AccountPage = () => {
     const userStore = useContext(UserContext)
     const endSubscriptionDate = userStore.user._subEndDate.getDate()
     const endSubscriptionMonth = userStore.user._subEndDate.getMonth()
     const endSubscriptionYear = userStore.user._subEndDate.getFullYear()
-    const formattedDate = `${endSubscriptionDate.toString().padStart(2, '0')}:${endSubscriptionMonth.toString().padStart(2, '0')}:${endSubscriptionYear.toString().padStart(4, '0')}`;
+    const formattedDate = `${endSubscriptionDate.toString().padStart(2, '0')}.${endSubscriptionMonth.toString().padStart(2, '0')}.${endSubscriptionYear.toString().padStart(4, '0')}`;
 
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState<Song[]>([]);
     const [favouritePlaylists, setFavouritePlaylists] = useState<Playlist[]>([]);
-    let imagePlaceholder = "https://www.kurin.com/wp-content/uploads/placeholder-square.jpg"
-
-    // Получение списка любимых песен
+// Получение списка любимых песен
     useEffect(() => {
         getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), 1, 5)
             .then(s => setFavoriteSongs(s))
@@ -55,8 +54,9 @@ const AccountPage = () => {
                         </div>
                         <div className="user-image-container">
                             <img className="user-image"
-                                 src={userStore.user.photoUrl ? userStore.user.photoUrl : imagePlaceholder}
-                                 alt="Твое фото"/>
+                                 src={userStore.user.photoUrl}
+                                 alt={userStore.user.username}
+                                 onError={handleImageNotLoaded}/>
                         </div>
                     </div>
                     <div className="favorite-container" id="favourites">
