@@ -93,7 +93,7 @@ public class PlaylistController : ControllerBase
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task PutPlaylistAsync(
+    public async Task<PutPlaylistResponse> PutPlaylistAsync(
         [FromRoute] Guid playlistId,
         [FromBody] PutPlaylistRequest request, CancellationToken cancellationToken)
         => await _mediator.Send(new PutPlaylistCommand(

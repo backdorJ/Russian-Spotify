@@ -44,7 +44,7 @@ public class GetPlaylistsByFilterRequest : IPaginationFilter
     public int PageNumber
     {
         get => _pageNumber;
-        private init => _pageNumber = value > 0 ? value : DefaultsPagination.PageNumber;
+        init => _pageNumber = value > 0 ? value : DefaultsPagination.PageNumber;
     }
 
     /// <summary>
@@ -53,6 +53,6 @@ public class GetPlaylistsByFilterRequest : IPaginationFilter
     public int PageSize
     {
         get => _pageSize;
-        private init => _pageSize = value > 0 ? value : DefaultsPagination.PageSize;
+        init => _pageSize = value > 0 ? value : DefaultsPagination.PageSize;
     }
 }

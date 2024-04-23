@@ -1,10 +1,7 @@
 import React, {useContext, useState} from "react";
 import './editUserInfoModal.css'
 import {UserContext} from "../../../../../index";
-import UserEditDto from "../../../../../utils/dto/user/userEditDto";
-import {edit} from "../../../../../http/authApi";
 import loadUser from "../../../../../functions/loadUser";
-import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import editUserInfoWithFile from "../../../../../functions/editUserInfoWithFile";
 
@@ -32,8 +29,7 @@ const EditUserInfoModal = observer((props: any) => {
                             reset()
                             onHide()
                         })
-                }
-                else {
+                } else {
                     if (response.status >= 500)
                         alert("Internal error occurred! Please try later!")
                     else

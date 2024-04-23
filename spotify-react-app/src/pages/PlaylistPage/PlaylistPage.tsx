@@ -7,6 +7,8 @@ import like_icon from "../../assets/mock/playlistpage/like.png"
 import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg.svg"
 // @ts-ignore
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
+// @ts-ignore
+import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
 import {Fragment, useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
 import SongCard from "./components/SongCard";
@@ -21,16 +23,17 @@ import {PlaylistType} from "./enums/playlistTypes";
 import {$authHost} from "../../http";
 import {getUserId} from "../../functions/getUserId";
 import {getImage} from "../../http/fileApi";
-// @ts-ignore
-import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
+import CreateOrEditPlaylistModal
+    from "../../commonComponents/SideBar/components/CreatePlaylistModal/CreateOrEditPlaylistModal";
 
 
 const PlaylistPage = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const navigate = useNavigate();
     const sidebarWidth = 280
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
+    const [reloadTrigger, setReloadTrigger] = useState(false)
     const [backgroundWidth, setBackgroundWidth] = useState(0)
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
     const [isHover, setIsHover] = useState(false)
@@ -43,9 +46,10 @@ const PlaylistPage = () => {
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
     const [playlistType, setPlaylistType] = useState<PlaylistType | null>(null);
+    const [showEditModal, setShowEditModal] = useState(false)
 
     useEffect(() => {
-        if(id === 'favorite-songs'){
+        if (id === 'favorite-songs') {
             setPlaylistType(PlaylistType.FavoriteSongs);
             setPlaylistInfo(Playlist.init("",
                 "Favorite Songs",
@@ -55,7 +59,7 @@ const PlaylistPage = () => {
                 false,
                 true));
             setIsLikedPlaylist(true);
-        } else if(id?.includes('author-')){
+        } else if (id?.includes('author-')) {
             let authorName = id.split("author-")[1];
             console.log(authorName);
             $authHost.get(`api/Author/Author?Name=${authorName}`)
@@ -69,31 +73,31 @@ const PlaylistPage = () => {
                         false));
                     setPlaylistType(PlaylistType.ArtistSongs);
                 })
-        }else {
+        } else {
             setPlaylistType(PlaylistType.Playlist);
             getPlaylistInfo(id).then(r => {
                 setPlaylistInfo(r);
                 setIsLikedPlaylist(r.isInFavorite);
             });
         }
-    }, [])
+    }, [reloadTrigger])
 
     useEffect(() => {
         const fetchData = async () => {
-            let result : Song[] = [];
-            if(playlistType === PlaylistType.Playlist)
+            let result: Song[] = [];
+            if (playlistType === PlaylistType.Playlist)
                 result = await getSongsByFilter(songFilters.songsInPlaylistFilter, id!, page, 50);
-            else if(playlistType === PlaylistType.FavoriteSongs)
+            else if (playlistType === PlaylistType.FavoriteSongs)
                 result = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 50);
-            else if(playlistType === PlaylistType.ArtistSongs)
+            else if (playlistType === PlaylistType.ArtistSongs)
                 result = await getSongsByFilter(songFilters.authorSongsFilter, playlistInfo.authorName, page, 50);
 
-            setPage(page+1);
+            setPage(page + 1);
 
-            if(result.length === 0)
+            if (result.length === 0)
                 stop = true;
 
-            if(songs.length > 0)
+            if (songs.length > 0)
                 songs[songs.length - 1].nextSong = result[0];
 
             setSongs([...songs, ...result]);
@@ -138,7 +142,7 @@ const PlaylistPage = () => {
         };
     }, []);
 
-    const scrollHandler = (event:any) => {
+    const scrollHandler = (event: any) => {
         if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 100)
             && !stop && !getting) {
             setGetting(true);
@@ -161,12 +165,12 @@ const PlaylistPage = () => {
     })
 
     const handleLikeClick = () => {
-        if(!isInLikeProcess) {
+        if (!isInLikeProcess) {
             isInLikeProcess = true;
             if (!playlistInfo.isInFavorite) {
                 tryAddPlaylistToFavorites(playlistInfo.playlistId)
                     .then(isSuccessful => {
-                        if(isSuccessful) {
+                        if (isSuccessful) {
                             setIsLikedPlaylist(true);
                             isInLikeProcess = false;
                             playlistInfo.isInFavorite = true;
@@ -176,7 +180,7 @@ const PlaylistPage = () => {
             } else {
                 tryRemovePlaylistFromFavorites(playlistInfo.playlistId)
                     .then(isSuccessful => {
-                        if(isSuccessful){
+                        if (isSuccessful) {
                             setIsLikedPlaylist(false);
                             isInLikeProcess = false;
                             playlistInfo.isInFavorite = false;
@@ -206,7 +210,8 @@ const PlaylistPage = () => {
                             <span>{authorsMapped}</span>
                         </p>
                         <p className="playlist-page__main__info__additional">
-                            Made by <span onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span> ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
+                            Made by <span
+                            onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span> ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
                         </p>
                     </div>
                 </div>
@@ -234,6 +239,7 @@ const PlaylistPage = () => {
                                 </div>
                             }
                             <img
+                                onClick={() => setShowEditModal(true)}
                                 className="playlist-page__songs__header__buttons__options"
                                 src={options_icon}
                                 alt="Options"/>
@@ -251,7 +257,7 @@ const PlaylistPage = () => {
                                 <p>ALBUM</p>
                             </div>
                             <div className="playlist-page__songs__list__header__added">
-                            <p>DATE ADDED</p>
+                                <p>DATE ADDED</p>
                             </div>
                             <div className="">
                                 <p>LENGTH</p>
@@ -271,6 +277,12 @@ const PlaylistPage = () => {
                     </div>
                 </div>
             </div>
+            <CreateOrEditPlaylistModal
+                show={showEditModal}
+                onHide={() => setShowEditModal(false)}
+                playlist={playlistInfo}
+                songsIds={songs.map(i => i.songId)}
+                reloadTrigger={() => setReloadTrigger(prev => !prev)}/>
         </div>
     )
 }
