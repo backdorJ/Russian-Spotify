@@ -25,6 +25,7 @@ import {getUserId} from "../../functions/getUserId";
 import {getImage} from "../../http/fileApi";
 import CreateOrEditPlaylistModal
     from "../../commonComponents/SideBar/components/CreatePlaylistModal/CreateOrEditPlaylistModal";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
 
 const PlaylistPage = () => {
@@ -198,9 +199,9 @@ const PlaylistPage = () => {
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
                         {PlaylistType.FavoriteSongs !== playlistType &&
-                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>}
+                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img" onError={handleImageNotLoaded}/>}
                         {PlaylistType.FavoriteSongs === playlistType &&
-                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>}
+                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img" onError={handleImageNotLoaded}/>}
                     </div>
                     <div className="playlist-page__main__info">
                         <h1 className="playlist-page__main__info__name">
