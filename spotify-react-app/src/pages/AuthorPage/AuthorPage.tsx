@@ -13,7 +13,7 @@ const AuthorPage = () => {
     const [authorData, setAuthorData] = useState(new Author());
 
     useEffect(() => {
-        if(authorName)
+        if (authorName)
             getAuthor(authorName, 1, 5, 1, 3)
                 .then(x => setAuthorData(x));
     }, []);
@@ -36,13 +36,14 @@ const AuthorPage = () => {
                     </div>
                     <div className="favorite-container">
                     </div>
-                        {authorData.authorMusic.length > 0 && <><h3>Треки автора</h3><FavoriteMusic favoriteSongs={authorData.authorMusic}/></>}
-                    </div>
-                        {authorData.authorPlaylists.length > 0 &&
-                            <><h3>Альбомы автора</h3><FavouritePlaylist favouritePlaylists={authorData.authorPlaylists}/></>
-                        }
+                    {authorData.authorMusic.length > 0 && <><h3>Треки автора</h3><FavoriteMusic
+                        favoriteSongs={authorData.authorMusic}/></>}
                 </div>
+                {authorData.authorPlaylists.length > 0 &&
+                    <><h3>Альбомы автора</h3><FavouritePlaylist favouritePlaylists={authorData.authorPlaylists}/></>
+                }
             </div>
+        </div>
     );
 };
 
