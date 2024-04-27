@@ -6,6 +6,7 @@ import {ISong} from "./interfaces/ISong";
 import "./styles/Song.css"
 import {useNavigate} from "react-router-dom";
 import {tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
 /**Компонент для песни
  * @param song - Song песня*/
@@ -62,7 +63,7 @@ const Song: FC<ISong> = ({song}) => {
             </div>
             <div className="music-image-container">
                 <img className="music-image" alt="music-image"
-                     src={getImage(song.imageId)}/>
+                     src={getImage(song.imageId)} onError={handleImageNotLoaded}/>
             </div>
             <div className="music-name-authors">
                 <span>{song.songName}</span>
