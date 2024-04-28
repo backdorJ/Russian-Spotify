@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react';
 import {IFavoriteMusic} from "./interfaces/IFavoriteMusic";
 import "./styles/FavoriteMusic.css"
 import {useNavigate, useParams} from "react-router-dom";
-import SongCard from "../../PlaylistPage/components/SongCard";
+import SongCard from "../../PlaylistPage/components/SongCard/SongCard";
 
 /** Компонент для превью треков
  * @param favoriteSongs - Song[] треки*/

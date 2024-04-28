@@ -23,6 +23,7 @@
 .buttons {
     display: flex;
     align-items: center;
+    gap: 10px;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
@@ -35,7 +36,6 @@
     border-radius: 50%;
     background-color: #444; /* Цвет кнопок */
     cursor: pointer;
-    margin-right: 10px; /* Отступ между кнопками */
     transition: margin-bottom 0.3s ease-in-out;
 }
 
@@ -86,11 +86,11 @@
 }
 
 .song-name {
+    display: flex;
     justify-content: center;
-    align-content: center;
     align-items: center;
-    text-align: center;
     transition: margin-bottom 0.3s ease-in-out;
+    gap: 5px;
 }
 
 .progress {
@@ -104,15 +104,19 @@
 .volume-button {
     display: flex;
     align-items: center;
-    margin-left: 10px;
-    margin-right: 20px;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
 .like-button {
+    margin: 20px;
     display: flex;
     align-items: center;
     transition: margin-bottom 0.3s ease-in-out;
+}
+
+.player-artist-link {
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .player-artist-link:hover {
@@ -124,28 +128,31 @@
 .actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
 .volume {
+    margin: 10px 20px;
     height: 40px;
-    padding-top: 11px;
     transition: margin-bottom 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .volume-slider{
     transform: rotate(-360deg);
     -webkit-appearance: slider-vertical;
     position: absolute;
-    top: -94px;
     width: 50px;
+    bottom: 70px;
     background-color: rgba(255, 255, 255, 0);
-    right: 23.39%;
 }
 
 input[type=range]  {
-    width: 200px;
+    width: 100px;
     height: 30px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -155,7 +162,7 @@ input[type=range]  {
 }
 input[type=range]::-webkit-slider-runnable-track {
     border-radius: 10px/100%;
-    height: 7px;
+    height: 10px;
     border: 2px solid #333;
     background: linear-gradient(to right, #333, #555555);
     transform: rotate(-360deg);
@@ -171,6 +178,7 @@ input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     margin-top: -4px;
     transform: rotate(-360deg);
+    align-self: center;
 }
 
 input[type=range]::-moz-range-track {
@@ -230,7 +238,6 @@ input[type=range] {
     transform: translate(-50%, -50%);
     width: 50%;
     left: 30%;
-    bottom: -25%;
     max-width: 600px; /* Максимальная ширина плеера */
     background-color: #333; /* Тёмно-тёмно-серый фон */
     border-radius: 10px; /* Закругленные углы */
@@ -243,18 +250,14 @@ input[type=range] {
 }
 
 .buttons.expanded {
-    width: 100%;
-    margin-bottom: 20px;
-    position: absolute;
-    bottom: 0;
-    left: 35%;
     transition: margin-top 0.3s ease-in-out;
+    display: flex;
+    justify-content: space-between;
 }
 
 .btn.expanded {
     width: 60px;
     height: 60px;
-    margin-right: 15px;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
@@ -293,25 +296,31 @@ input[type=range] {
 }
 
 .volume.expanded {
-    margin-bottom: 20px;
+    margin: 20px;
+   
     z-index: 1;
     transition: margin-bottom 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .volume-slider.expanded {
+    bottom: 70px;
     width: 100px;
-    top: 75%;
-    left: 83%;
     z-index: 1;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
 .close-expanded {
+    position: absolute;
+    top: 20px;
+    right: 20px;
     z-index: 1;
-    margin-top: -50.2%;
-    margin-left: 36.6%;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;

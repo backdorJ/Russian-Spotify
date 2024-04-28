@@ -30,7 +30,7 @@ const Player = (props: any) => {
 
     /** Проиграть следующий трек */
     const handleNextClick = () => {
-        if(currentPlayingSong.nextSong !== null) {
+        if (currentPlayingSong.nextSong !== null) {
             playerStore.Player = getSong(currentPlayingSong.nextSong, userStore.user);
             setCurrentPlayingSong(playerStore.Player.currentSong!);
         }
@@ -38,13 +38,13 @@ const Player = (props: any) => {
 
     /** Смена текущего играющего трека */
     useEffect(() => {
-        if(currentPlayingSong != playerStore.Player.currentSong)
+        if (currentPlayingSong != playerStore.Player.currentSong)
             setCurrentPlayingSong(playerStore.Player.currentSong!);
     }, [playerStore.Player.currentSong]);
 
     /** Проиграть предыдыщий трек */
     const handlePrevClick = () => {
-        if(currentPlayingSong.prevSong !== null) {
+        if (currentPlayingSong.prevSong !== null) {
             playerStore.Player = getSong(currentPlayingSong.prevSong, userStore.user);
             setCurrentPlayingSong(playerStore.Player.currentSong!);
         }
@@ -55,7 +55,7 @@ const Player = (props: any) => {
         const audio = document.getElementById("audio-player");
 
         const handleTimeUpdate = (e: any) => {
-            const { duration, currentTime } = e.srcElement;
+            const {duration, currentTime} = e.srcElement;
             setCurrentProgressBarPercent((currentTime / duration) * 100);
         };
 
@@ -94,7 +94,7 @@ const Player = (props: any) => {
         const audio: any = document.getElementById("audio-player");
 
         const onEndedPlayNext = () => {
-            if(!isOnRepeat)
+            if (!isOnRepeat)
                 handleNextClick();
         }
 
@@ -117,12 +117,12 @@ const Player = (props: any) => {
     const closeExpanded = () => setShowExpanded(false);
 
     const handleLikeClick = () => {
-        if(!isInLikeProcess) {
+        if (!isInLikeProcess) {
             isInLikeProcess = true;
             if (!playerStore.Player.currentSong!.isInFavorite) {
                 tryAddSongToFavorites(playerStore.Player.currentSong!.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful) {
+                        if (isSuccessful) {
                             setIsLiked(true);
                             isInLikeProcess = false;
                             playerStore.Player.currentSong!.isInFavorite = true;
@@ -131,7 +131,7 @@ const Player = (props: any) => {
             } else {
                 tryRemoveSongFromFavorites(playerStore.Player.currentSong!.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful){
+                        if (isSuccessful) {
                             setIsLiked(false);
                             isInLikeProcess = false;
                             playerStore.Player.currentSong!.isInFavorite = false;
@@ -144,35 +144,51 @@ const Player = (props: any) => {
     return (
         <>
             <div className={`player-wrapper ${showExpanded ? "expanded" : ""}`}>
-                {showExpanded && <div className="close-expanded"><CloseExpandedPlayer onClick={closeExpanded}/></div>}
                 <audio autoPlay={playerStore.IsPlaying} id="audio-player"
                        src={getSong(currentPlayingSong, userStore.user).currentSongUrl}/>
                 <div className={`player${showExpanded ? " expanded" : ""}`}>
-                    <div className={`buttons${showExpanded ? " expanded" : ""}`}>
-                        <div className={`btn prev${showExpanded ? " expanded" : ""}`}><PrevIcon handlePrev={handlePrevClick}/></div>
-                        <div className={`btn play${showExpanded ? " expanded" : ""}`}><StartStopIcon isPlaying={true}/></div>
-                        <div className={`btn next${showExpanded ? " expanded" : ""}`}><NextIcon handleNext={handleNextClick}/></div>
-                    </div>
-                    <div onClick={handleShowExpanded} className={`player-music-image-container${showExpanded ? " expanded" : ""}`}>
-                        <img className={`player-music-image ${showExpanded ? " expanded" : ""}`} src={getImage(currentPlayingSong.imageId!)}
+                    <div onClick={handleShowExpanded}
+                         className={`player-music-image-container${showExpanded ? " expanded" : ""}`}>
+                        <img className={`player-music-image ${showExpanded ? " expanded" : ""}`}
+                             src={getImage(currentPlayingSong.imageId!)}
                              alt="Song Image"/>
                     </div>
+                    {showExpanded &&
+                        <div className="close-expanded"><CloseExpandedPlayer onClick={closeExpanded}/></div>}
                     <div className={`player-content${showExpanded ? " expanded" : ""}`}>
-                        <div onClick={() => setShowExpanded(false)} className={`song-name${showExpanded ? " expanded" : ""}`}>{currentPlayingSong.songName}
-                            <span> - {currentPlayingSong.authors.map((author, index) => <span
-                                onClick={() => navigate(`/author/${author}`)}
-                                className={`player-artist-link${showExpanded ? " expanded" : ""}`}>{author}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
+                        <div onClick={() => setShowExpanded(false)}
+                             className={`song-name${showExpanded ? " expanded" : ""}`}>{currentPlayingSong.songName}
+                            <span>-</span>
+                            <span>
+                                 {currentPlayingSong.authors.map((author, index) => <span
+                                     onClick={() => navigate(`/author/${author}`)}
+                                     className={`player-artist-link${showExpanded ? " expanded" : ""}`}>{author}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
                         </div>
                         <div className={`progress__container${showExpanded ? " expanded" : ""}`}>
-                            <div style={{width: currentProgressBarPercent + "%"}} className={`progress${showExpanded ? " expanded" : ""}`}></div>
+                            <div style={{width: currentProgressBarPercent + "%"}}
+                                 className={`progress${showExpanded ? " expanded" : ""}`}></div>
                         </div>
                     </div>
                     <div className={`actions${showExpanded ? " expanded" : ""}`}>
-                        <div className={`like-button${showExpanded ? " expanded" : ""}`}><LikeIcon onClick = {handleLikeClick} isLiked={isLiked}/></div>
-                        <div onMouseEnter={() => setVolumeVisibility("block")} onMouseLeave={() => setVolumeVisibility("none")}  className={`volume ${showExpanded ? "expanded" : ""}`}>
-                            <VolumeIcon />
-                            <input style={{display: volumeVisibility}} className={`volume-slider${showExpanded ? " expanded" : ""}`} onInput={handleVolumeChange} type="range" id="volume-slider" min="0" max="1" step="0.01"
-                                value={volume}/>
+                        <div className={`like-button${showExpanded ? " expanded" : ""}`}><LikeIcon
+                            onClick={handleLikeClick} isLiked={isLiked}/></div>
+                        <div className={`buttons${showExpanded ? " expanded" : ""}`}>
+                            <div className={`btn prev${showExpanded ? " expanded" : ""}`}><PrevIcon
+                                handlePrev={handlePrevClick}/></div>
+                            <div className={`btn play${showExpanded ? " expanded" : ""}`}><StartStopIcon
+                                isPlaying={true}/></div>
+                            <div className={`btn next${showExpanded ? " expanded" : ""}`}><NextIcon
+                                handleNext={handleNextClick}/></div>
+                        </div>
+                        <div onMouseEnter={() => setVolumeVisibility("block")}
+                             onMouseLeave={() => setVolumeVisibility("none")}
+                             className={`volume ${showExpanded ? "expanded" : ""}`}>
+                            <VolumeIcon/>
+                            <input style={{display: volumeVisibility}}
+                                   className={`volume-slider${showExpanded ? " expanded" : ""}`}
+                                   onInput={handleVolumeChange} type="range" id="volume-slider" min="0" max="1"
+                                   step="0.01"
+                                   value={volume}/>
                         </div>
                     </div>
                 </div>

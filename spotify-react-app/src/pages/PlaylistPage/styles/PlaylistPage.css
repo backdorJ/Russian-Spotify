@@ -272,7 +272,7 @@
 }
 
 .playlist-page__songs__list__main__song-card__album {
-    width: 30%;
+    width: 20%;
 }
 
 .playlist-page__songs__list__main__song-card__album > p {
@@ -287,7 +287,7 @@
 }
 
 .playlist-page__songs__list__main__song-card__added {
-    width: 16%;
+    width: 8%;
 }
 
 .playlist-page__songs__list__main__song-card__liked {

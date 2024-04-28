@@ -11,7 +11,7 @@ import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
 import {Fragment, useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
-import SongCard from "./components/SongCard";
+import SongCard from "./components/SongCard/SongCard";
 import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";

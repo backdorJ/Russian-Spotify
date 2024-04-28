@@ -1,14 +1,15 @@
 // @ts-ignore
-import not_liked_icon from "../../../assets/mock/playlistpage/like.png"
+import not_liked_icon from "../../../../assets/mock/playlistpage/like.png"
 // @ts-ignore
-import liked_icon from "../../../assets/mock/playlistpage/songs/liked.png"
-import {FC, Fragment, useContext, useState} from "react";
-import {getImage} from "../../../http/fileApi";
+import liked_icon from "../../../../assets/mock/playlistpage/songs/liked.png"
+import React, {FC, Fragment, useContext, useState} from "react";
+import {getImage} from "../../../../http/fileApi";
 import {useNavigate} from "react-router-dom";
-import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../../http/songApi";
-import {ISong} from "../../../commonComponents/Song/interfaces/ISong";
-import {PlayerContext, UserContext} from "../../../index";
-import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
+import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../../../http/songApi";
+import {ISong} from "../../../../commonComponents/Song/interfaces/ISong";
+import {PlayerContext, UserContext} from "../../../../index";
+import handleImageNotLoaded from "../../../../functions/handleImageNotLoaded";
+import "./styles/SongCard.css"
 
 const SongCard: FC<ISong> = ({song, order_number}) => {
     const userStore = useContext(UserContext)
@@ -22,6 +23,20 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
             return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span>, </Fragment>)
         return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span></Fragment>)
     })
+
+    const [menuOpen, setMenuOpen] = useState(false);
+    let timeoutId: NodeJS.Timeout;
+
+    const handleMouseEnter = () => {
+        clearTimeout(timeoutId);
+        setMenuOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        timeoutId = setTimeout(() => {
+            setMenuOpen(false);
+        }, 100);
+    };
 
     const handleLikeClick = () => {
         if (!isInLikeProcess) {
@@ -91,6 +106,18 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
             <div className="playlist-page__songs__list__main__song-card__length">
                 <p>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</p>
             </div>
+            <button className="music-more-button" onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}>
+                ⋮
+            </button>
+            {menuOpen && (
+                <div className="music-menu" onMouseEnter={handleMouseEnter}
+                     onMouseLeave={handleMouseLeave}>
+                    <button>Воспроизвести следующей</button>
+                    <button>Добавить в плейлист</button>
+                    <button>Удалить из плейлиста</button>
+                </div>
+            )}
         </div>
     )
 }
