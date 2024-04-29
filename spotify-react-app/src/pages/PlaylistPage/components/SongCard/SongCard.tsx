@@ -106,18 +106,18 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
             <div className="playlist-page__songs__list__main__song-card__length">
                 <p>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</p>
             </div>
-            <button className="music-more-button" onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}>
-                ⋮
-            </button>
-            {menuOpen && (
-                <div className="music-menu" onMouseEnter={handleMouseEnter}
-                     onMouseLeave={handleMouseLeave}>
-                    <button>Воспроизвести следующей</button>
-                    <button>Добавить в плейлист</button>
-                    <button>Удалить из плейлиста</button>
-                </div>
-            )}
+            <div className="music-more-button" onMouseEnter={handleMouseEnter}
+                 onMouseLeave={handleMouseLeave}>
+                <span>⋮</span>
+                {menuOpen && (
+                    <div className="music-menu" onMouseEnter={handleMouseEnter}
+                         onMouseLeave={handleMouseLeave}>
+                        <button>Воспроизвести следующей</button>
+                        <button>Добавить в плейлист</button>
+                        <button>Удалить из плейлиста</button>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

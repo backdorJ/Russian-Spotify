@@ -7,7 +7,7 @@ export default {
     CONFIRMATION_CODE_PAGE: '/code-confirmation',
     RESET_PASSWORD_PAGE: '/reset-password',
     SEARCH_PAGE: '/search',
-    FAVORITE_SONGS: '/favorite-songs',
+    FAVORITE_SONGS: '/playlist/favorite-songs',
     AUTHOR_PAGE_ROUTE: '/author/:authorName',
     AUTHOR_PAGE_NAV: '/author/',
     AUTHOR_SONGS_ROUTE: '/songs/:authorName',

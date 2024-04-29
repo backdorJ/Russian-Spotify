@@ -4,12 +4,13 @@ import "./styles/Player.css"
 import {getImage} from "../../http/fileApi";
 import PrevIcon from "./components/PrevIcon";
 import NextIcon from "./components/NextIcon";
-import StartStopIcon from "./components/StartStopIcon";
+import StartIcon from "./components/StartIcon";
 import LikeIcon from "../../assets/mock/common/LikeIcon";
 import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
 import VolumeIcon from "./components/VolumeIcon";
 import {useNavigate} from "react-router-dom";
 import CloseExpandedPlayer from "./components/CloseExpandedPlayer";
+import StopIcon from "./components/StopIcon";
 
 /** Музыкальный плеер снизу экрана */
 const Player = (props: any) => {
@@ -141,6 +142,28 @@ const Player = (props: any) => {
         }
     }
 
+    const playerContext = useContext(PlayerContext);
+    const [isPlaying, setIsPlaying] = useState(true);
+
+    const handleStartStopClick = () => {
+        const audio: any = document.getElementById("audio-player");
+        const image: any = document.querySelector(".player-music-image");
+
+        if (audio !== null) {
+            if (audio?.paused) {
+                playerContext.IsPlaying = true;
+                setIsPlaying(true);
+                audio.play();
+                image.style.animation = "3s linear 0s normal none infinite running rot";
+            } else {
+                playerContext.IsPlaying = false;
+                setIsPlaying(false);
+                audio.pause();
+                image.style.animation = "none";
+            }
+        }
+    }
+
     return (
         <>
             <div className={`player-wrapper ${showExpanded ? "expanded" : ""}`}>
@@ -173,12 +196,17 @@ const Player = (props: any) => {
                         <div className={`like-button${showExpanded ? " expanded" : ""}`}><LikeIcon
                             onClick={handleLikeClick} isLiked={isLiked}/></div>
                         <div className={`buttons${showExpanded ? " expanded" : ""}`}>
-                            <div className={`btn prev${showExpanded ? " expanded" : ""}`}><PrevIcon
-                                handlePrev={handlePrevClick}/></div>
-                            <div className={`btn play${showExpanded ? " expanded" : ""}`}><StartStopIcon
-                                isPlaying={true}/></div>
-                            <div className={`btn next${showExpanded ? " expanded" : ""}`}><NextIcon
-                                handleNext={handleNextClick}/></div>
+                            <div className={`btn prev${showExpanded ? " expanded" : ""}`} onClick={handlePrevClick}>
+                                <PrevIcon
+                                /></div>
+                            {isPlaying ?
+                                <div className={`btn play${showExpanded ? " expanded" : ""}`}
+                                     onClick={handleStartStopClick}><StartIcon/></div>
+                                : <div className={`btn play${showExpanded ? " expanded" : ""}`}
+                                       onClick={handleStartStopClick}><StopIcon/></div>}
+                            <div className={`btn next${showExpanded ? " expanded" : ""}`} onClick={handleNextClick}>
+                                <NextIcon
+                                /></div>
                         </div>
                         <div onMouseEnter={() => setVolumeVisibility("block")}
                              onMouseLeave={() => setVolumeVisibility("none")}
