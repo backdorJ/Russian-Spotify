@@ -1,7 +1,4 @@
-import React, {FC, useContext} from 'react';
-import {getSong} from "../../../http/songApi";
-import {PlayerContext, UserContext} from "../../../index";
-import {ISong} from "../../Song/interfaces/ISong";
+import React from 'react';
 
 const PrevIcon= () => {
     return (
