@@ -11,6 +11,7 @@ import VolumeIcon from "./components/VolumeIcon";
 import {useNavigate} from "react-router-dom";
 import CloseExpandedPlayer from "./components/CloseExpandedPlayer";
 import StopIcon from "./components/StopIcon";
+import {CurrentPlaylistIcon} from "./components/CurrentPlaylistIcon";
 
 /** Музыкальный плеер снизу экрана */
 const Player = (props: any) => {
@@ -218,6 +219,9 @@ const Player = (props: any) => {
                                    step="0.01"
                                    value={volume}/>
                         </div>
+                    </div>
+                    <div className={`current-playlist${showExpanded ? " expanded" : ""}`}>
+                        <CurrentPlaylistIcon/>
                     </div>
                 </div>
             </div>
