@@ -1,9 +1,6 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
-import {ISong} from "../../Song/interfaces/ISong";
-import {PlayerContext} from "../../../index";
+import React from 'react';
 
 const StopIcon = () => {
-
     return (
         <svg cursor="pointer" width="24px" viewBox="0 0 24 24" fill="white"
              className="like-icon">

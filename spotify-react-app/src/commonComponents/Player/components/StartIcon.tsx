@@ -1,6 +1,4 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
-import {ISong} from "../../Song/interfaces/ISong";
-import {PlayerContext} from "../../../index";
+import React from 'react';
 
 const StartIcon = () => {
     return (
