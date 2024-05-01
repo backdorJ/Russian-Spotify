@@ -2,14 +2,10 @@ import "./styles/PlaylistPage.css"
 // @ts-ignore
 import play_icon from "../../assets/mock/playlistpage/player_triangle.png"
 // @ts-ignore
-import like_icon from "../../assets/mock/playlistpage/like.png"
-// @ts-ignore
-import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg.svg"
-// @ts-ignore
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 // @ts-ignore
 import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
-import React, {Fragment, useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
 import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
@@ -38,7 +34,6 @@ const PlaylistPage = () => {
     const [reloadTrigger, setReloadTrigger] = useState(false)
     const [backgroundWidth, setBackgroundWidth] = useState(0)
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
-    const [isHover, setIsHover] = useState(false)
     const [playlistInfo, setPlaylistInfo] = useState(new Playlist())
     const [songs, setSongs] = useState<Song[]>([]);
     let stop = false;
@@ -160,12 +155,6 @@ const PlaylistPage = () => {
         })
     })
 
-    const authorsMapped = allAuthorsTogetherUnique.map((author, index) => {
-        if (index < allAuthorsTogetherUnique.length - 1)
-            return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span>, </Fragment>)
-        return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span></Fragment>)
-    })
-
     const handleLikeClick = () => {
         if (!isInLikeProcess) {
             isInLikeProcess = true;
@@ -200,17 +189,16 @@ const PlaylistPage = () => {
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
                         {PlaylistType.FavoriteSongs !== playlistType &&
-                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img" onError={handleImageNotLoaded}/>}
+                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"
+                                 onError={handleImageNotLoaded}/>}
                         {PlaylistType.FavoriteSongs === playlistType &&
-                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img" onError={handleImageNotLoaded}/>}
+                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"
+                                 onError={handleImageNotLoaded}/>}
                     </div>
                     <div className="playlist-page__main__info">
                         <h1 className="playlist-page__main__info__name">
                             {playlistInfo.playlistName}
                         </h1>
-                        <p className="playlist-page__main__info__singers">
-                            <span>{authorsMapped}</span>
-                        </p>
                         <p className="playlist-page__main__info__additional">
                             Made by <span
                             onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span> ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
@@ -220,12 +208,14 @@ const PlaylistPage = () => {
                 <div className="playlist-page__songs">
                     <div className="playlist-page__songs__header">
                         <div className="playlist-page__songs__header__buttons">
-                            <div className="playlist-page__songs__header__buttons__play">
-                                <img onClick={() => handlePlay(songs[0])} src={play_icon} alt="Play"/>
+                            <div className="playlist-page__songs__header__buttons__play"
+                                 onClick={() => handlePlay(songs[0])}>
+                                <img src={play_icon} alt="Play"/>
                             </div>
                             {playlistType === PlaylistType.Playlist &&
                                 <div className="playlist-page__songs__header__buttons__like-wrapper">
-                                    <LikeIcon onClick={handleLikeClick} isLiked={isLikedPlaylist} classname="like-icon"/>
+                                    <LikeIcon onClick={handleLikeClick} isLiked={isLikedPlaylist}
+                                              classname="like-icon"/>
                                 </div>
                             }
                             <img
