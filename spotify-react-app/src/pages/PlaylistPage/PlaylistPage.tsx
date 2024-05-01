@@ -9,9 +9,8 @@ import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 // @ts-ignore
 import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
-import {Fragment, useContext, useEffect, useState} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
-import SongCard from "./components/SongCard/SongCard";
 import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
@@ -26,6 +25,8 @@ import {getImage} from "../../http/fileApi";
 import CreateOrEditPlaylistModal
     from "../../commonComponents/SideBar/components/CreatePlaylistModal/CreateOrEditPlaylistModal";
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
+import SongCard from "../../commonComponents/SongCard/SongCard";
+import LikeIcon from "../../commonComponents/Player/components/LikeIcon";
 
 
 const PlaylistPage = () => {
@@ -132,7 +133,7 @@ const PlaylistPage = () => {
 
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {
-        playerStore.Player = getSong(song, userStore.user);
+        playerStore.Player = getSong(song, userStore.user, songs);
     }
 
     useEffect(() => {
@@ -224,19 +225,7 @@ const PlaylistPage = () => {
                             </div>
                             {playlistType === PlaylistType.Playlist &&
                                 <div className="playlist-page__songs__header__buttons__like-wrapper">
-                                    <img
-                                        onClick={handleLikeClick}
-                                        onMouseEnter={() => setIsHover(true)}
-                                        className={`playlist-page__songs__header__buttons__like ${isHover ? "img-hidden" : "img-not-hidden"}`}
-                                        src={like_icon}
-                                        alt="Like"/>
-                                    <img
-                                        onClick={handleLikeClick}
-                                        onMouseEnter={() => setIsHover(true)}
-                                        onMouseLeave={() => setIsHover(false)}
-                                        className={`playlist-page__songs__header__buttons__like ${isHover || isLikedPlaylist ? "img-not-hidden" : "img-hidden"}`}
-                                        src={like_icon_hover}
-                                        alt="Like"/>
+                                    <LikeIcon onClick={handleLikeClick} isLiked={isLikedPlaylist} classname="like-icon"/>
                                 </div>
                             }
                             <img
@@ -271,6 +260,7 @@ const PlaylistPage = () => {
                                     return <SongCard
                                         song={song}
                                         order_number={index + 1}
+                                        current_playlist={songs}
                                     />
                                 })
                             }

@@ -1,0 +1,165 @@
+.playlist-page__songs__list__main__song-card__id {
+    display: flex;
+}
+
+.playlist-page__songs__list__main__song-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #B3B3B3;
+    padding: 5px 20px;
+    transition: .05s;
+}
+
+.playlist-page__songs__list__main__song-card:hover {
+    background-color: rgba(147, 112, 219, 0.1);
+    transition: .05s;
+}
+
+.playlist-page__songs__list__main__song-card p {
+    color: #B3B3B3;
+}
+
+.playlist-page__songs__list__main__song-card__id {
+    width: 36px;
+}
+
+.playlist-page__songs__list__main__song-card__id p {
+    font-size: 22px;
+}
+
+.playlist-page__songs__list__main__song-card__title {
+    width: 40%;
+    display: flex;
+    align-items: end;
+    padding-left: 2px;
+}
+
+.playlist-page__songs__list__main__song-card__title__img {
+    width: 52px;
+    height: 52px;
+    margin-right: 15px;
+}
+
+.playlist-page__songs__list__main__song-card__title__info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 1px;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__song-name {
+    margin-bottom: 2px;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__song-name p {
+    font-size: 20px;
+    color: mediumpurple;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__song-name p:hover {
+    /*color: #b0f1b5;*/
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__artist-names p {
+
+}
+
+.playlist-page__songs__list__main__song-card__title__info__artist-names span {
+    font-size: 18px;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__artist-names span:hover {
+    color: white;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__album {
+    width: 20%;
+}
+
+.playlist-page__songs__list__main__song-card__album > p {
+    font-size: 18px;
+    width: fit-content;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__album > p:hover {
+    color: white;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__added {
+    width: 8%;
+}
+
+.playlist-page__songs__list__main__song-card__liked {
+    width: 4%;
+    display: flex;
+    margin-right: 10px;
+}
+
+.playlist-page__songs__list__main__song-card__liked img {
+    width: 22px;
+}
+
+.playlist-page__songs__list__main__song-card__length {
+    width: 7%;
+}
+
+.playlist-page__songs__list__main__song-card__length p {
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+.music-more-button {
+    margin: 1% 5%;
+    align-self: center;
+    background: none;
+    color: white;
+    border: none;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.music-menu button {
+    position: relative;
+    display: block;
+    padding: 3% 1%;
+    background: none;
+    text-align: center;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 2%;
+}
+
+.music-menu button:hover {
+    transform: scale(1.1);
+    background-color: mediumpurple;
+}
+
+.music-menu {
+    position: absolute;
+    z-index: 2;
+    background: #120F0F;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2px 8px;
+    border-radius: 5%;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

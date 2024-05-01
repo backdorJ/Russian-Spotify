@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import Author from "../../models/AuthorPage";
 import {getAuthor} from "../../http/authorApi";
-import FavouritePlaylist from "../AccountPage/components/FavouritePlaylist";
-import FavoriteMusic from "../AccountPage/components/FavoriteMusic";
+import FavouritePlaylist from "../../commonComponents/FavoritePlaylist/FavouritePlaylist";
+import Music from "../../commonComponents/Music/Music";
 import '../AuthorPage/styles/AuthorPage.css'
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
@@ -38,8 +38,8 @@ const AuthorPage = () => {
                     </div>
                     <div className="favorite-container">
                     </div>
-                    {authorData.authorMusic.length > 0 && <><h3>Треки автора</h3><FavoriteMusic
-                        favoriteSongs={authorData.authorMusic}/></>}
+                    {authorData.authorMusic.length > 0 && <><h3>Треки автора</h3><Music
+                        Songs={authorData.authorMusic}/></>}
                 </div>
                 {authorData.authorPlaylists.length > 0 &&
                     <><h3>Альбомы автора</h3><FavouritePlaylist favouritePlaylists={authorData.authorPlaylists}/></>

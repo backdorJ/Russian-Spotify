@@ -14,7 +14,7 @@ import {songFilters} from "../../http/filters/songFilters";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 // @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
-import SongCard from "../PlaylistPage/components/SongCard/SongCard";
+import Song from "../../commonComponents/SongCard/SongCard";
 
 
 const SearchPage = () => {
@@ -100,7 +100,7 @@ const SearchPage = () => {
             <div className="search__main">
                 {
                     songs.map((song, index) => (
-                        <SongCard song={song} order_number={index + 1}/>
+                        <Song song={song} order_number={index + 1} current_playlist={[]}/>
                     ))
                 }
                 {

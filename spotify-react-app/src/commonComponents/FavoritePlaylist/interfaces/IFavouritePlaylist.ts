@@ -1,4 +1,4 @@
-import Playlist from "../../../../models/Playlist";
+import Playlist from "../../../models/Playlist";
 
 export interface IFavouritePlaylist{
     favouritePlaylists: Playlist[];

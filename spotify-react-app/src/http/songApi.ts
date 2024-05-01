@@ -61,14 +61,14 @@ export const getSongsByFilter: (filterName: string, filterValue: string, pageNum
  * @param song - песня, которая будет сейчас играть
  * @param user - для проверки наличия актуальной подписки
  * */
-export const getSong: (song: Song, user: User) => Player
-    = (song, user) => {
+export const getSong: (song: Song, user: User, currentPlaylist: Song[]) => Player
+    = (song, user, currentPlaylist) => {
     if (!user.isSubscribed){
         alert("Необходимо оформить подписку")
         return new Player();
     }
 
-    return Player.init(song, `${process.env.REACT_APP_SPOTIFY_API}api/Song/${song.songId}`);
+    return Player.init(song, `${process.env.REACT_APP_SPOTIFY_API}api/Song/${song.songId}`, currentPlaylist);
 }
 
 export const tryAddSongToFavorites: (songId: string) => Promise<boolean> =

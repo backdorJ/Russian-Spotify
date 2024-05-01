@@ -1,7 +1,7 @@
 import {IFavouritePlaylist} from "./interfaces/IFavouritePlaylist";
 import {FC, useState} from "react";
-import '../styles/AccountPage.css'
-import Playlist from "../../../commonComponents/Playlist/Playlist";
+import '../../pages/AccountPage/styles/AccountPage.css'
+import Playlist from "../Playlist/Playlist";
 
 const FavouritePlaylist: FC<IFavouritePlaylist> = ({favouritePlaylists}) => {
     const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);

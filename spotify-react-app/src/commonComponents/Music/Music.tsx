@@ -1,24 +1,24 @@
 import React, {FC, useState} from 'react';
-import {IFavoriteMusic} from "./interfaces/IFavoriteMusic";
-import "./styles/FavoriteMusic.css"
+import {IMusic} from "./Interfaces/IMusic";
+import "./styles/Music.css"
 import {useNavigate, useParams} from "react-router-dom";
-import SongCard from "../../PlaylistPage/components/SongCard/SongCard";
+import SongCard from "../SongCard/SongCard";
 
 /** Компонент для превью треков
- * @param favoriteSongs - Song[] треки*/
-const FavoriteMusic: FC<IFavoriteMusic> = ({favoriteSongs}) => {
+ * @param favoriteSongs - SongCard[] треки*/
+const Music: FC<IMusic> = ({Songs}) => {
     const params = useParams();
     const navigate = useNavigate();
 
     const link = params.authorName ? `/playlist/author-${params.authorName}` : "/playlist/favorite-songs";
 
-    const [songs, setSongs] = useState(favoriteSongs);
+    const [songs, setSongs] = useState(Songs);
 
     return (
         <>
             <div className="music-container">
                 <div className="music-container-wrapper">
-                    {songs.map((song, index) => <SongCard song={song} order_number={index + 1}/>)}
+                    {songs.map((song, index) => <SongCard song={song} order_number={index + 1} current_playlist={songs}/>)}
                 </div>
                 <button onClick={() => navigate(link)} className="show-all-music-button">Показать все</button>
             </div>
@@ -26,4 +26,4 @@ const FavoriteMusic: FC<IFavoriteMusic> = ({favoriteSongs}) => {
     );
 };
 
-export default FavoriteMusic;
+export default Music;

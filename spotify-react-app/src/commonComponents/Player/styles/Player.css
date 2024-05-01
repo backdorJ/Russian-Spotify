@@ -12,6 +12,11 @@
     transition: margin-left 0.3s ease-in-out;
 }
 
+.shadow {
+    box-shadow: 0 0 0 9999px rgba(0,0,0, 0.5);
+    transition: all 0.3ms ease;
+}
+
 .player {
     display: flex;
     flex-direction: row;
@@ -46,16 +51,16 @@
     transition: margin-bottom 0.3s ease-in-out;
 }
 
-.player-music-image-container:hover{
+.player-music-image-container:hover {
     cursor: pointer;
 }
 
-.player-music-image-container:hover img{
+.player-music-image-container:hover img {
     box-shadow: 0 0 10px rgb(168, 2, 255);
     transition: 0.5s;
 }
 
-.close-expanded:hover{
+.close-expanded:hover {
     cursor: pointer;
     box-shadow: 0 0 10px rgb(168, 2, 255);
     transition: 0.4s;
@@ -143,7 +148,7 @@
     position: relative;
 }
 
-.volume-slider{
+.volume-slider {
     transform: rotate(-360deg);
     -webkit-appearance: slider-vertical;
     position: absolute;
@@ -152,7 +157,7 @@
     background-color: rgba(255, 255, 255, 0);
 }
 
-input[type=range]  {
+input[type=range] {
     width: 100px;
     height: 30px;
     -webkit-appearance: none;
@@ -161,6 +166,7 @@ input[type=range]  {
     transform: rotate(-90deg);
 
 }
+
 input[type=range]::-webkit-slider-runnable-track {
     border-radius: 10px/100%;
     height: 10px;
@@ -174,7 +180,7 @@ input[type=range]::-webkit-slider-thumb {
     box-shadow: 0 0 10px mediumpurple;
     border-radius: 10px/100%;
     cursor: pointer;
-    width:15px;
+    width: 15px;
     height: 15px;
     -webkit-appearance: none;
     margin-top: -4px;
@@ -201,11 +207,15 @@ input[type=range] {
 }
 
 @keyframes ani {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-.player-music-image{
+.player-music-image {
     animation: 12s linear 0s normal none infinite running rot;
     -webkit-animation: 12s linear 0s normal none infinite running rot;
     transition: all 0.3s ease-in-out;
@@ -219,6 +229,7 @@ input[type=range] {
         transform: rotate(360deg);
     }
 }
+
 @-webkit-keyframes rot {
     0% {
         transform: rotate(0deg);
@@ -229,7 +240,7 @@ input[type=range] {
 }
 
 .player-wrapper.expanded {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     bottom: 0;
     transition: margin-left 0.3s ease-in-out;
 }
@@ -298,7 +309,7 @@ input[type=range] {
 
 .volume.expanded {
     margin: 20px;
-   
+
     z-index: 1;
     transition: margin-bottom 0.3s ease-in-out;
     display: flex;
@@ -335,11 +346,66 @@ input[type=range] {
     transform: rotate(90deg);
 }
 
-.current-playlist {
+.current-playlist-div {
     margin-left: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.current-playlist-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.current-playlist-div.expanded {
+    display: none;
+}
+
+.current-playlist-container.opened .music-menu {
+    position: absolute;
+    width: 800px;
+    z-index: 2;
+    background: rgba(18, 15, 15, 0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2px 8px;
+    border-radius: 5px;
+    animation: fadeIn 0.2s ease;
+    bottom: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.opened .playlist-page__songs__list__main__song-card__id {
+    display: none;
+}
+
+.opened .playlist-page__songs__list__main__song-card__liked {
+    display: none;
+}
+
+.opened .music-more-button {
+    display: none;
+}
+
+.opened .playlist-page__songs__list__main__song-card__length {
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.opened .playlist-page__songs__list__main__song-card__album {
+    display: flex;
+    justify-content: center;
+}
+
+.opened .playlist-page__songs__list__main__song-card {
+    margin: 2px 0;
 }
 
 

@@ -1,17 +1,18 @@
 // @ts-ignore
-import not_liked_icon from "../../../../assets/mock/playlistpage/like.png"
+import not_liked_icon from "../../assets/mock/playlistpage/like.png"
 // @ts-ignore
-import liked_icon from "../../../../assets/mock/playlistpage/songs/liked.png"
+import liked_icon from "../../assets/mock/playlistpage/songs/liked.png"
 import React, {FC, Fragment, useContext, useState} from "react";
-import {getImage} from "../../../../http/fileApi";
+import {getImage} from "../../http/fileApi";
 import {useNavigate} from "react-router-dom";
-import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../../../http/songApi";
-import {ISong} from "../../../../commonComponents/Song/interfaces/ISong";
-import {PlayerContext, UserContext} from "../../../../index";
-import handleImageNotLoaded from "../../../../functions/handleImageNotLoaded";
+import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
+import {ISongCard} from "./interfaces/ISongCard";
+import {PlayerContext, UserContext} from "../../index";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 import "./styles/SongCard.css"
+import LikeIcon from "../Player/components/LikeIcon";
 
-const SongCard: FC<ISong> = ({song, order_number}) => {
+const SongCard: FC<ISongCard> = ({song, order_number, current_playlist}) => {
     const userStore = useContext(UserContext)
     const playerStore = useContext(PlayerContext)
     const navigate = useNavigate();
@@ -62,7 +63,7 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
     }
 
     const handlePlay = () => {
-        playerStore.Player = getSong(song, userStore.user);
+        playerStore.Player = getSong(song, userStore.user, current_playlist);
     }
 
     return (
@@ -97,11 +98,7 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
                 <p></p>
             </div>
             <div onClick={handleLikeClick} className="playlist-page__songs__list__main__song-card__liked">
-                {
-                    isLikedSong
-                        ? <img src={liked_icon} alt="Dislike"/>
-                        : <img src={not_liked_icon} alt="Like"/>
-                }
+                <LikeIcon isLiked={isLikedSong} classname="like-icon"/>
             </div>
             <div className="playlist-page__songs__list__main__song-card__length">
                 <p>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</p>

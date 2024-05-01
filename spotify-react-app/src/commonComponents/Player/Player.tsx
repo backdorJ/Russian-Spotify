@@ -5,13 +5,14 @@ import {getImage} from "../../http/fileApi";
 import PrevIcon from "./components/PrevIcon";
 import NextIcon from "./components/NextIcon";
 import StartIcon from "./components/StartIcon";
-import LikeIcon from "../../assets/mock/common/LikeIcon";
+import LikeIcon from "./components/LikeIcon";
 import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
 import VolumeIcon from "./components/VolumeIcon";
 import {useNavigate} from "react-router-dom";
 import CloseExpandedPlayer from "./components/CloseExpandedPlayer";
 import StopIcon from "./components/StopIcon";
 import {CurrentPlaylistIcon} from "./components/CurrentPlaylistIcon";
+import SongCard from "../SongCard/SongCard";
 
 /** Музыкальный плеер снизу экрана */
 const Player = (props: any) => {
@@ -20,6 +21,7 @@ const Player = (props: any) => {
     const userStore = useContext(UserContext);
     const [currentPlayingSong, setCurrentPlayingSong] =
         useState(playerStore.Player.currentSong!);
+    const [currentPlaylist] = useState(playerStore.Player.currentPlaylist);
     const [volume, setVolume] = useState(playerStore.Volume);
     const [volumeVisibility, setVolumeVisibility] = useState("none");
     const navigate = useNavigate();
@@ -33,7 +35,7 @@ const Player = (props: any) => {
     /** Проиграть следующий трек */
     const handleNextClick = () => {
         if (currentPlayingSong.nextSong !== null) {
-            playerStore.Player = getSong(currentPlayingSong.nextSong, userStore.user);
+            playerStore.Player = getSong(currentPlayingSong.nextSong, userStore.user, currentPlaylist);
             setCurrentPlayingSong(playerStore.Player.currentSong!);
         }
     }
@@ -47,7 +49,7 @@ const Player = (props: any) => {
     /** Проиграть предыдыщий трек */
     const handlePrevClick = () => {
         if (currentPlayingSong.prevSong !== null) {
-            playerStore.Player = getSong(currentPlayingSong.prevSong, userStore.user);
+            playerStore.Player = getSong(currentPlayingSong.prevSong, userStore.user, currentPlaylist);
             setCurrentPlayingSong(playerStore.Player.currentSong!);
         }
     }
@@ -165,17 +167,22 @@ const Player = (props: any) => {
         }
     }
 
+    const [isCurrentPlaylistOpened, setCurrentPlaylistOpened] = useState(false);
+    const handleCurrentPlaylistIconClick = () => {
+        setCurrentPlaylistOpened(!isCurrentPlaylistOpened);
+    }
+
     return (
         <>
-            <div className={`player-wrapper ${showExpanded ? "expanded" : ""}`}>
+            <div className={`player-wrapper ${showExpanded ? "expanded" : ""} ${isCurrentPlaylistOpened? "shadow" : ""}`}>
                 <audio autoPlay={playerStore.IsPlaying} id="audio-player"
-                       src={getSong(currentPlayingSong, userStore.user).currentSongUrl}/>
+                       src={getSong(currentPlayingSong, userStore.user, currentPlaylist).currentSongUrl}/>
                 <div className={`player${showExpanded ? " expanded" : ""}`}>
                     <div onClick={handleShowExpanded}
                          className={`player-music-image-container${showExpanded ? " expanded" : ""}`}>
                         <img className={`player-music-image ${showExpanded ? " expanded" : ""}`}
                              src={getImage(currentPlayingSong.imageId!)}
-                             alt="Song Image"/>
+                             alt="SongCard Image"/>
                     </div>
                     {showExpanded &&
                         <div className="close-expanded"><CloseExpandedPlayer onClick={closeExpanded}/></div>}
@@ -198,16 +205,14 @@ const Player = (props: any) => {
                             onClick={handleLikeClick} isLiked={isLiked}/></div>
                         <div className={`buttons${showExpanded ? " expanded" : ""}`}>
                             <div className={`btn prev${showExpanded ? " expanded" : ""}`} onClick={handlePrevClick}>
-                                <PrevIcon
-                                /></div>
+                                <PrevIcon/></div>
                             {isPlaying ?
                                 <div className={`btn play${showExpanded ? " expanded" : ""}`}
                                      onClick={handleStartStopClick}><StartIcon/></div>
                                 : <div className={`btn play${showExpanded ? " expanded" : ""}`}
                                        onClick={handleStartStopClick}><StopIcon/></div>}
                             <div className={`btn next${showExpanded ? " expanded" : ""}`} onClick={handleNextClick}>
-                                <NextIcon
-                                /></div>
+                                <NextIcon/></div>
                         </div>
                         <div onMouseEnter={() => setVolumeVisibility("block")}
                              onMouseLeave={() => setVolumeVisibility("none")}
@@ -220,8 +225,20 @@ const Player = (props: any) => {
                                    value={volume}/>
                         </div>
                     </div>
-                    <div className={`current-playlist${showExpanded ? " expanded" : ""}`}>
-                        <CurrentPlaylistIcon/>
+                    <div className={`current-playlist-div${showExpanded ? " expanded" : ""}`}>
+                        <div className={`current-playlist-icon-container${showExpanded ? " expanded" : ""}`}>
+                            <CurrentPlaylistIcon onClick={handleCurrentPlaylistIconClick}/>
+                        </div>
+                        <div className={`current-playlist-container${isCurrentPlaylistOpened ? " opened" : "closed"}`}>
+                            {isCurrentPlaylistOpened && 
+                                <div className="music-menu">
+                                <div className="music-container">
+                                    <div className="music-container-wrapper">
+                                        {currentPlaylist.map((song, index) => <SongCard song={song} order_number={index + 1} current_playlist={currentPlaylist}/>)}
+                                    </div>
+                                </div>
+                            </div>}
+                        </div>
                     </div>
                 </div>
             </div>
