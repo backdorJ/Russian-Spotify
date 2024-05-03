@@ -50,13 +50,11 @@ const PlaylistPage = () => {
                 "",
                 new Date(),
                 false,
-                true,
-                PlaylistType.FavoriteSongs));
+                true));
+            currentPlaylist.setPlaylistType(PlaylistType.FavoriteSongs);
             console.log(currentPlaylist.playlistType);
             
             setIsLikedPlaylist(true);
-            currentPlaylist.getSongs(page).then(x => setSongs(x));
-
         } else if (id?.includes('author-')) {
             let authorName = id.split("author-")[1];
             $authHost.get(`api/Author/Author?Name=${authorName}`)
@@ -67,18 +65,18 @@ const PlaylistPage = () => {
                         x.data.name,
                         new Date(),
                         false,
-                        false,
-                        PlaylistType.ArtistSongs));
-                    currentPlaylist.getSongs(page).then(x => setSongs(x));
+                        false));
                 })
+            currentPlaylist.setPlaylistType(PlaylistType.ArtistSongs);
         } else {
             currentPlaylist.setPlaylistType(PlaylistType.Playlist);
-            currentPlaylist.getSongs(page).then(x => setSongs(x));
             getPlaylistInfo(id).then(r => {
                 setCurrentPlaylist(r);
                 setIsLikedPlaylist(r.isInFavorite);
             });
         }
+        
+        currentPlaylist.getSongs(page).then(x => setSongs(x));
     }, [reloadTrigger])
 
     useEffect(() => {

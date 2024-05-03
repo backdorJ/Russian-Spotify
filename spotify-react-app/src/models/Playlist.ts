@@ -53,8 +53,7 @@ export default class Playlist {
         authorName: string,
         releaseDate: Date,
         isAlbum: boolean,
-        isInFavorite: boolean,
-        playlistType: PlaylistType) {
+        isInFavorite: boolean) {
         let playlist = new Playlist()
 
         playlist.playlistId = playlistId;
@@ -64,7 +63,6 @@ export default class Playlist {
         playlist.releaseDate = releaseDate;
         playlist.isAlbum = isAlbum;
         playlist.isInFavorite = isInFavorite;
-        playlist.playlistType = playlistType;
 
         return playlist;
     }
