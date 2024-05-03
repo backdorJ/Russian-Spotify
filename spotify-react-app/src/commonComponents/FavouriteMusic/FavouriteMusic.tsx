@@ -18,7 +18,6 @@ const FavouriteMusic: FC<IFavouriteMusic> = ({favouriteSongs}) => {
     const [songs] = useState(favouriteSongs);
     const [playlist] = useState(new Playlist())
     playlist.songs = favouriteSongs
-    console.log(songs)
 
     return (
         <>

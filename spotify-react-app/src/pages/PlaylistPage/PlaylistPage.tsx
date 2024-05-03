@@ -40,7 +40,6 @@ const PlaylistPage = () => {
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
     const [showEditModal, setShowEditModal] = useState(false)
-    console.log(currentPlaylist);
 
     useEffect(() => {
         if (id === 'favorite-songs') {
@@ -52,8 +51,6 @@ const PlaylistPage = () => {
                 false,
                 true));
             currentPlaylist.setPlaylistType(PlaylistType.FavoriteSongs);
-            console.log(currentPlaylist.playlistType);
-            
             setIsLikedPlaylist(true);
         } else if (id?.includes('author-')) {
             let authorName = id.split("author-")[1];
@@ -75,7 +72,7 @@ const PlaylistPage = () => {
                 setIsLikedPlaylist(r.isInFavorite);
             });
         }
-        
+
         currentPlaylist.getSongs(page).then(x => setSongs(x));
     }, [reloadTrigger])
 

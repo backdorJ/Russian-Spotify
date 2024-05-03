@@ -8,6 +8,9 @@ import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 import "./styles/SongCard.css"
 import LikeIcon from "../Player/components/LikeIcon";
 import routeNames from "../../utils/routeNames";
+import {editPlaylist, getPlaylistsByFilter} from "../../http/playlistApi";
+import {playlistFilters} from "../../http/filters/playlistFilters";
+import Playlist from "../../models/Playlist";
 
 const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
     const userStore = useContext(UserContext)
@@ -70,9 +73,47 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
         setIsMenuOpen(!isMenuOpen)
     };
 
-    const handleAddToPlaylistClick = (e: React.MouseEvent<HTMLElement>) => {
-        e.stopPropagation()
-        // editPlaylist()
+    const [isPlaylistsListOpened, setIsPlaylistsListOpened] = useState(false);
+    const [userPlaylists, setUserPlaylists] = useState<Playlist[]>([]);
+    const [isAddingSong, setAddingSong] = useState(true);
+
+    const handleOpenPlaylistsListClick = (option: string) => {
+        setIsPlaylistsListOpened(true)
+        if (option === "add") {
+            setAddingSong(true)
+            getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 5)
+                .then(p => setUserPlaylists(p.filter(x => !x.songs.map(s => s.songId).includes(song.songId))));
+            console.log(userPlaylists)
+        } else {
+            setAddingSong(false)
+            getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 5)
+                .then(p => setUserPlaylists(p.filter(x => x.songs.map(s => s.songId).includes(song.songId))));
+            console.log(userPlaylists)
+        }
+    };
+
+    const handleActionWithSong = (choosenPlaylist: Playlist) => {
+        if (isAddingSong) {
+            AddToPlaylist(choosenPlaylist)
+        } else {
+            DeleteFromPlaylist(choosenPlaylist)
+        }
+    }
+
+    const AddToPlaylist = (choosenPlaylist: Playlist) => {
+        choosenPlaylist?.songs.push(song)
+        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, song.songId, choosenPlaylist.songs.map(x => x.songId)).then(response => {
+            if (response.status === 200)
+                console.log("Песня добавлена успешно")
+
+        }).catch(err => console.log(err));
+    }
+    const DeleteFromPlaylist = (choosenPlaylist: Playlist) => {
+        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, song.songId, choosenPlaylist.songs.map(x => x.songId).filter(x => x !== song.songId)).then(response => {
+            if (response.status === 200)
+                console.log("Песня удалена успешно")
+
+        }).catch(err => console.log(err));
     };
 
     const handlePlay = () => {
@@ -121,8 +162,27 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
                 {isMenuOpen && (
                     <div className="music-menu" onMouseEnter={handleMouseEnter}
                          onMouseLeave={handleMouseLeave}>
-                        <button onClick={handleAddToPlaylistClick}>Добавить в плейлист</button>
-                        <button>Удалить из плейлиста</button>
+                        <button onClick={() => handleOpenPlaylistsListClick("add")}>Добавить в плейлист</button>
+                        <button onClick={() => handleOpenPlaylistsListClick("delete")}>Удалить из плейлиста</button>
+                        {isPlaylistsListOpened && <div className="playlist-page__songs__list__song-card__playlists">
+                            {userPlaylists.map((userPlaylist) => (
+                                <div className="playlist-page__songs__list__song-card__playlists__playlist">
+                                    <div className="playlist-container"
+                                         onClick={() => handleActionWithSong(userPlaylist)}>
+                                        <div className="playlist-wrapper">
+                                            <div className="playlist-image-container">
+                                                <img src={getImage(userPlaylist.imageId)}
+                                                     alt="Фотка альбома"
+                                                     onError={handleImageNotLoaded}/>
+                                            </div>
+                                            <div className="playlist-name-container">
+                                                <p className="playlist-name">{userPlaylist.playlistName}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>}
                     </div>
                 )}
             </div>

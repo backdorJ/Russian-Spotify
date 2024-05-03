@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import Author from "../../models/AuthorPage";
 import {getAuthor} from "../../http/authorApi";
-import FavouritePlaylist from "../../commonComponents/FavoritePlaylist/FavouritePlaylist";
-import FavouriteMusic from "../../commonComponents/Music/FavouriteMusic";
+import FavouritePlaylist from "../../commonComponents/FavouritePlaylist/FavouritePlaylist";
+import FavouriteMusic from "../../commonComponents/FavouriteMusic/FavouriteMusic";
 import '../AuthorPage/styles/AuthorPage.css'
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 

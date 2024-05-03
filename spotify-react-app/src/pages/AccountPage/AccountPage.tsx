@@ -2,9 +2,9 @@ import "../AccountPage/styles/AccountPage.css"
 import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../index";
 import Song from "../../models/Song";
-import FavouriteMusic from "../../commonComponents/Music/FavouriteMusic";
+import FavouriteMusic from "../../commonComponents/FavouriteMusic/FavouriteMusic";
 import Playlist from "../../models/Playlist";
-import FavouritePlaylist from "../../commonComponents/FavoritePlaylist/FavouritePlaylist";
+import FavouritePlaylist from "../../commonComponents/FavouritePlaylist/FavouritePlaylist";
 import {getSongsByFilter} from "../../http/songApi";
 import {songFilters} from "../../http/filters/songFilters";
 import {getPlaylistsByFilter} from "../../http/playlistApi";
