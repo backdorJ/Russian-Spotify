@@ -2,7 +2,7 @@ import "../AccountPage/styles/AccountPage.css"
 import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../index";
 import Song from "../../models/Song";
-import Music from "../../commonComponents/Music/Music";
+import FavouriteMusic from "../../commonComponents/Music/FavouriteMusic";
 import Playlist from "../../models/Playlist";
 import FavouritePlaylist from "../../commonComponents/FavoritePlaylist/FavouritePlaylist";
 import {getSongsByFilter} from "../../http/songApi";
@@ -61,7 +61,7 @@ const AccountPage = () => {
                     </div>
                     <div className="favorite-container" id="favourites">
                         {favoriteSongs.length > 0 && <><h3>Любимые треки</h3>
-                            <Music Songs={favoriteSongs}/></>}
+                            <FavouriteMusic Songs={favoriteSongs}/></>}
                         {favouritePlaylists.length > 0 && <><h3>Любимые альбомы & плейлисты</h3>
                             <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>}
                     </div>

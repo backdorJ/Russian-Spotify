@@ -2,6 +2,7 @@ import Song from "../models/Song";
 import {$authHost} from "./index";
 import Player from "../models/Player";
 import User from "../models/User";
+import Playlist from "../models/Playlist";
 
 /** Возвращает список песен по фильтру
  * @param filterName - название фильтра
@@ -60,8 +61,9 @@ export const getSongsByFilter: (filterName: string, filterValue: string, pageNum
 /** Возвращает Player(SongContent) с api для прослушивания песни
  * @param song - песня, которая будет сейчас играть
  * @param user - для проверки наличия актуальной подписки
+ * @param currentPlaylist - плейлист, в котором эта песня была запущена
  * */
-export const getSong: (song: Song, user: User, currentPlaylist: Song[]) => Player
+export const getSong: (song: Song, user: User, currentPlaylist: Playlist | null) => Player
     = (song, user, currentPlaylist) => {
     if (!user.isSubscribed){
         alert("Необходимо оформить подписку")

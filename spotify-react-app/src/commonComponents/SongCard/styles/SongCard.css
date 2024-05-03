@@ -70,6 +70,7 @@
 .playlist-page__songs__list__main__song-card__title__info__artist-names span {
     font-size: 18px;
     transition: .1s;
+    cursor: pointer;
 }
 
 .playlist-page__songs__list__main__song-card__title__info__artist-names span:hover {
@@ -116,13 +117,17 @@
 }
 
 .music-more-button {
-    margin: 1% 5%;
+    margin: 1% 5% 1% 100px;
     align-self: center;
     background: none;
     color: white;
     border: none;
     font-weight: 700;
     font-size: 18px;
+}
+
+.music-more-button span {
+    cursor: pointer;
 }
 
 .music-menu button {

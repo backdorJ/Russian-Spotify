@@ -1,7 +1,3 @@
-// @ts-ignore
-import not_liked_icon from "../../assets/mock/playlistpage/like.png"
-// @ts-ignore
-import liked_icon from "../../assets/mock/playlistpage/songs/liked.png"
 import React, {FC, Fragment, useContext, useState} from "react";
 import {getImage} from "../../http/fileApi";
 import {useNavigate} from "react-router-dom";
@@ -11,6 +7,7 @@ import {PlayerContext, UserContext} from "../../index";
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 import "./styles/SongCard.css"
 import LikeIcon from "../Player/components/LikeIcon";
+import routeNames from "../../utils/routeNames";
 
 const SongCard: FC<ISongCard> = ({song, order_number, current_playlist}) => {
     const userStore = useContext(UserContext)
@@ -21,25 +18,31 @@ const SongCard: FC<ISongCard> = ({song, order_number, current_playlist}) => {
     let artistCount = song.authors.length
     let artistsMapped = song.authors.map((artist, index) => {
         if (index < artistCount - 1)
-            return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span>, </Fragment>)
-        return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span></Fragment>)
+            return (<Fragment><span onClick={(e) => handleNavigateToAuthor(e, artist)}>{artist}</span>, </Fragment>)
+        return (<Fragment><span onClick={(e) => handleNavigateToAuthor(e, artist)}>{artist}</span></Fragment>)
     })
 
-    const [menuOpen, setMenuOpen] = useState(false);
+    const handleNavigateToAuthor = (e: React.MouseEvent<HTMLElement>, artist: string) => {
+        e.stopPropagation()
+        navigate(routeNames.AUTHOR_PAGE_NAV + artist)
+    }
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     let timeoutId: NodeJS.Timeout;
 
     const handleMouseEnter = () => {
         clearTimeout(timeoutId);
-        setMenuOpen(true);
+        setIsMenuOpen(true);
     };
 
     const handleMouseLeave = () => {
         timeoutId = setTimeout(() => {
-            setMenuOpen(false);
+            setIsMenuOpen(false);
         }, 100);
     };
 
-    const handleLikeClick = () => {
+    const handleLikeClick = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation()
         if (!isInLikeProcess) {
             isInLikeProcess = true;
             if (!isLikedSong) {
@@ -62,20 +65,28 @@ const SongCard: FC<ISongCard> = ({song, order_number, current_playlist}) => {
         }
     }
 
+    const handleOpenMenuClick = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation()
+        setIsMenuOpen(!isMenuOpen)
+    };
+
+    const handleAddToPlaylistClick = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation()
+        // editPlaylist()
+    };
+
     const handlePlay = () => {
-        playerStore.Player = getSong(song, userStore.user, current_playlist);
+        playerStore.Player = getSong(song, userStore.user);
     }
 
     return (
         <div
-            className="playlist-page__songs__list__main__song-card">
+            className="playlist-page__songs__list__main__song-card" onClick={handlePlay}>
             <div
-                onClick={handlePlay}
                 className="playlist-page__songs__list__main__song-card__id">
                 <p>{order_number}</p>
             </div>
             <div
-                onClick={handlePlay}
                 className="playlist-page__songs__list__main__song-card__title">
                 <img
                     src={getImage(song.imageId)}
@@ -104,13 +115,13 @@ const SongCard: FC<ISongCard> = ({song, order_number, current_playlist}) => {
                 <p>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</p>
             </div>
             <div className="music-more-button" onMouseEnter={handleMouseEnter}
-                 onMouseLeave={handleMouseLeave}>
+                 onMouseLeave={handleMouseLeave}
+                 onClick={handleOpenMenuClick}>
                 <span>⋮</span>
-                {menuOpen && (
+                {isMenuOpen && (
                     <div className="music-menu" onMouseEnter={handleMouseEnter}
                          onMouseLeave={handleMouseLeave}>
-                        <button>Воспроизвести следующей</button>
-                        <button>Добавить в плейлист</button>
+                        <button onClick={handleAddToPlaylistClick}>Добавить в плейлист</button>
                         <button>Удалить из плейлиста</button>
                     </div>
                 )}

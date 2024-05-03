@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import Author from "../../models/AuthorPage";
 import {getAuthor} from "../../http/authorApi";
 import FavouritePlaylist from "../../commonComponents/FavoritePlaylist/FavouritePlaylist";
-import Music from "../../commonComponents/Music/Music";
+import FavouriteMusic from "../../commonComponents/Music/FavouriteMusic";
 import '../AuthorPage/styles/AuthorPage.css'
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
@@ -38,7 +38,7 @@ const AuthorPage = () => {
                     </div>
                     <div className="favorite-container">
                     </div>
-                    {authorData.authorMusic.length > 0 && <><h3>Треки автора</h3><Music
+                    {authorData.authorMusic.length > 0 && <><h3>Треки автора</h3><FavouriteMusic
                         Songs={authorData.authorMusic}/></>}
                 </div>
                 {authorData.authorPlaylists.length > 0 &&

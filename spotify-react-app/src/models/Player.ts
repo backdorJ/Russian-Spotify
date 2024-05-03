@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import Song from "./Song";
+import Playlist from "./Playlist";
 
 // TODO: Мэйби стоит изменить связный список в SongCard(song.nextSong, prevSong) на хранение массива SongCard в плэере
 /** DTO для песни которую слушает пользователь*/
@@ -11,16 +12,16 @@ export default class Player {
     currentSongUrl: string;
 
     /** Текущий плейлист */
-    currentPlaylist: Song[]
+    currentPlaylist: Playlist | null
 
     constructor() {
         this.currentSongUrl = "";
         this.currentSong = null;
-        this.currentPlaylist = [];
+        this.currentPlaylist = null;
         makeAutoObservable(this);
     }
 
-    static init(currentSong: Song, url: string, currentPlaylist: Song[]) {
+    static init(currentSong: Song, url: string, currentPlaylist: Playlist | null) {
         let newPlayer = new Player();
 
         newPlayer.currentSong = currentSong;

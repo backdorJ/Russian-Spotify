@@ -234,7 +234,7 @@ const Player = (props: any) => {
                                 <div className="music-menu">
                                 <div className="music-container">
                                     <div className="music-container-wrapper">
-                                        {currentPlaylist.map((song, index) => <SongCard song={song} order_number={index + 1} current_playlist={currentPlaylist}/>)}
+                                        {currentPlaylist.songs.map((song, index) => <SongCard song={song} order_number={index + 1} current_playlist={currentPlaylist}/>)}
                                     </div>
                                 </div>
                             </div>}

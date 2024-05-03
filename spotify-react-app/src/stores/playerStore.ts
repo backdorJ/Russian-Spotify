@@ -1,6 +1,5 @@
 import Player from "../models/Player";
 import {makeAutoObservable} from "mobx";
-import Song from "../models/Song";
 
 /**Store для хранения проигрываемой музыки*/
 export default class PlayerStore {
@@ -9,9 +8,7 @@ export default class PlayerStore {
     _isPlaying: boolean = true;
 
     _volume: number = 0.75;
-
-    _currentPlaylist: Song[] = []
-
+    
     constructor() {
         makeAutoObservable(this)
     }
@@ -38,13 +35,5 @@ export default class PlayerStore {
 
     set Volume(volume: number) {
         this._volume = volume;
-    }
-
-    get CurrentPlaylist() {
-        return this._currentPlaylist;
-    }
-
-    set CurrentPlaylist(currentPlaylist: Song[]) {
-        this._currentPlaylist = currentPlaylist;
     }
 }
