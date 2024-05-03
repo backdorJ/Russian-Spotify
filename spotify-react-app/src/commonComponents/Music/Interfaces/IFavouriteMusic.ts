@@ -1,6 +1,6 @@
-import Playlist from "../../../models/Playlist";
+import Song from "../../../models/Song";
 
 /**Интерфейс для пропса, который содержит SongCard[]*/
 export interface IFavouriteMusic {
-    Playlist: Playlist;
+    favouriteSongs: Song[];
 }

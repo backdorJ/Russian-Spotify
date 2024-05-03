@@ -9,7 +9,7 @@ import "./styles/SongCard.css"
 import LikeIcon from "../Player/components/LikeIcon";
 import routeNames from "../../utils/routeNames";
 
-const SongCard: FC<ISongCard> = ({song, order_number, current_playlist}) => {
+const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
     const userStore = useContext(UserContext)
     const playerStore = useContext(PlayerContext)
     const navigate = useNavigate();
@@ -76,7 +76,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, current_playlist}) => {
     };
 
     const handlePlay = () => {
-        playerStore.Player = getSong(song, userStore.user);
+        playerStore.Player = getSong(song, userStore.user, playlist);
     }
 
     return (

@@ -5,5 +5,5 @@ import Playlist from "../../../models/Playlist";
 export interface ISongCard {
     song: Song;
     order_number: number | undefined
-    current_playlist: Playlist
+    playlist: Playlist | null
 }

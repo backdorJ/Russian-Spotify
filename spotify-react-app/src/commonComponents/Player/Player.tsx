@@ -42,7 +42,7 @@ const Player = (props: any) => {
 
     /** Смена текущего играющего трека */
     useEffect(() => {
-        if (currentPlayingSong != playerStore.Player.currentSong)
+        if (currentPlayingSong !== playerStore.Player.currentSong)
             setCurrentPlayingSong(playerStore.Player.currentSong!);
     }, [playerStore.Player.currentSong]);
 
@@ -174,7 +174,8 @@ const Player = (props: any) => {
 
     return (
         <>
-            <div className={`player-wrapper ${showExpanded ? "expanded" : ""} ${isCurrentPlaylistOpened? "shadow" : ""}`}>
+            <div
+                className={`player-wrapper ${showExpanded ? "expanded" : ""} ${isCurrentPlaylistOpened ? "shadow" : ""}`}>
                 <audio autoPlay={playerStore.IsPlaying} id="audio-player"
                        src={getSong(currentPlayingSong, userStore.user, currentPlaylist).currentSongUrl}/>
                 <div className={`player${showExpanded ? " expanded" : ""}`}>
@@ -230,14 +231,15 @@ const Player = (props: any) => {
                             <CurrentPlaylistIcon onClick={handleCurrentPlaylistIconClick}/>
                         </div>
                         <div className={`current-playlist-container${isCurrentPlaylistOpened ? " opened" : "closed"}`}>
-                            {isCurrentPlaylistOpened && 
+                            {isCurrentPlaylistOpened &&
                                 <div className="music-menu">
-                                <div className="music-container">
-                                    <div className="music-container-wrapper">
-                                        {currentPlaylist.songs.map((song, index) => <SongCard song={song} order_number={index + 1} current_playlist={currentPlaylist}/>)}
+                                    <div className="music-container">
+                                        <div className="music-container-wrapper">
+                                            {currentPlaylist && currentPlaylist.songs.map((song, index) => <SongCard song={song}
+                                                                                                  order_number={index + 1} playlist={currentPlaylist}/>)}
+                                        </div>
                                     </div>
-                                </div>
-                            </div>}
+                                </div>}
                         </div>
                     </div>
                 </div>

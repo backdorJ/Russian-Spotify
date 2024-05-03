@@ -53,7 +53,8 @@ export default class Playlist {
         authorName: string,
         releaseDate: Date,
         isAlbum: boolean,
-        isInFavorite: boolean) {
+        isInFavorite: boolean,
+        playlistType: PlaylistType) {
         let playlist = new Playlist()
 
         playlist.playlistId = playlistId;
@@ -63,6 +64,7 @@ export default class Playlist {
         playlist.releaseDate = releaseDate;
         playlist.isAlbum = isAlbum;
         playlist.isInFavorite = isInFavorite;
+        playlist.playlistType = playlistType;
 
         return playlist;
     }
@@ -74,12 +76,12 @@ export default class Playlist {
     async getSongs(page: number) {
         let result: Song[] = []
         if (this.playlistType === PlaylistType.Playlist)
-            result = await getSongsByFilter(songFilters.songsInPlaylistFilter, this.playlistId, page, 50);
+            result = await getSongsByFilter(songFilters.songsInPlaylistFilter, this.playlistId, page, 5);
         else if (this.playlistType === PlaylistType.FavoriteSongs)
-            result = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 50);
+            result = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 5);
         else if (this.playlistType === PlaylistType.ArtistSongs)
-            result = await getSongsByFilter(songFilters.authorSongsFilter, this.authorName, page, 50);
-        
+            result = await getSongsByFilter(songFilters.authorSongsFilter, this.authorName, page, 5);
+        console.log(result);
         this.songs.push(...result);
         return this.songs
     }

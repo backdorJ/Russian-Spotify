@@ -21,8 +21,6 @@ import CreateOrEditPlaylistModal
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 import SongCard from "../../commonComponents/SongCard/SongCard";
 import LikeIcon from "../../commonComponents/Player/components/LikeIcon";
-import playlist from "../../commonComponents/Playlist/Playlist";
-
 
 const PlaylistPage = () => {
     const {id} = useParams();
@@ -42,6 +40,7 @@ const PlaylistPage = () => {
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
     const [showEditModal, setShowEditModal] = useState(false)
+    console.log(currentPlaylist);
 
     useEffect(() => {
         if (id === 'favorite-songs') {
@@ -51,10 +50,13 @@ const PlaylistPage = () => {
                 "",
                 new Date(),
                 false,
-                true));
-            currentPlaylist.setPlaylistType(PlaylistType.FavoriteSongs)
-            currentPlaylist.getSongs(page).then(x => setSongs(x));
+                true,
+                PlaylistType.FavoriteSongs));
+            console.log(currentPlaylist.playlistType);
+            
             setIsLikedPlaylist(true);
+            currentPlaylist.getSongs(page).then(x => setSongs(x));
+
         } else if (id?.includes('author-')) {
             let authorName = id.split("author-")[1];
             $authHost.get(`api/Author/Author?Name=${authorName}`)
@@ -65,8 +67,8 @@ const PlaylistPage = () => {
                         x.data.name,
                         new Date(),
                         false,
-                        false));
-                    currentPlaylist.setPlaylistType(PlaylistType.ArtistSongs);
+                        false,
+                        PlaylistType.ArtistSongs));
                     currentPlaylist.getSongs(page).then(x => setSongs(x));
                 })
         } else {
@@ -121,7 +123,7 @@ const PlaylistPage = () => {
 
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {
-        playerStore.Player = getSong(song, userStore.user, songs);
+        playerStore.Player = getSong(song, userStore.user, currentPlaylist);
     }
 
     useEffect(() => {
@@ -238,7 +240,7 @@ const PlaylistPage = () => {
                                     return <SongCard
                                         song={song}
                                         order_number={index + 1}
-                                        current_playlist={playlist}
+                                        playlist={currentPlaylist}
                                     />
                                 })
                             }

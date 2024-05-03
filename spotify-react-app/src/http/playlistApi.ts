@@ -2,6 +2,8 @@ import Playlist from "../models/Playlist";
 import {$authHost} from "./index";
 // @ts-ignore
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
+import playlist from "../commonComponents/Playlist/Playlist";
+import {PlaylistType} from "../pages/PlaylistPage/enums/playlistTypes";
 
 /** Возвращает список альбомов по фильтру
  @param filterName - название фильтра
@@ -36,7 +38,8 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
             playlist.authorName,
             playlist.releaseDate,
             playlist.isAlbum,
-            playlist.isInFavorite);
+            playlist.isInFavorite,
+            playlist.playlistType);
     }
 
     return result;
@@ -97,7 +100,8 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
             response.data.authorName,
             response.data.releaseDate,
             response.data.isAlbum,
-            response.data.isInFavorite
+            response.data.isInFavorite,
+            PlaylistType.Playlist
         );
     }
 

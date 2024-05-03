@@ -39,7 +39,7 @@ const AuthorPage = () => {
                     <div className="favorite-container">
                     </div>
                     {authorData.authorMusic.length > 0 && <><h3>Треки автора</h3><FavouriteMusic
-                        Songs={authorData.authorMusic}/></>}
+                        favouriteSongs={authorData.authorMusic}/></>}
                 </div>
                 {authorData.authorPlaylists.length > 0 &&
                     <><h3>Альбомы автора</h3><FavouritePlaylist favouritePlaylists={authorData.authorPlaylists}/></>
