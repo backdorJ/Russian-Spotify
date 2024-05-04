@@ -11,6 +11,9 @@ import routeNames from "../../utils/routeNames";
 import {editPlaylist, getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 import Playlist from "../../models/Playlist";
+import {getUserId} from "../../functions/getUserId";
+import {getAuthor} from "../../http/authorApi";
+import {getUser} from "../../http/authApi";
 
 const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
     const userStore = useContext(UserContext)
@@ -79,17 +82,6 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
 
     const handleOpenPlaylistsListClick = (option: string) => {
         setIsPlaylistsListOpened(true)
-        if (option === "add") {
-            setAddingSong(true)
-            getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 5)
-                .then(p => setUserPlaylists(p.filter(x => !x.songs.map(s => s.songId).includes(song.songId))));
-            console.log(userPlaylists)
-        } else {
-            setAddingSong(false)
-            getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 5)
-                .then(p => setUserPlaylists(p.filter(x => x.songs.map(s => s.songId).includes(song.songId))));
-            console.log(userPlaylists)
-        }
     };
 
     const handleActionWithSong = (choosenPlaylist: Playlist) => {
@@ -119,6 +111,27 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
     const handlePlay = () => {
         playerStore.Player = getSong(song, userStore.user, playlist);
     }
+
+    const handleOpenPlaylistsMouseEnter = (option: string) => {
+        clearTimeout(timeoutId);
+        if (option === "add") {
+            setAddingSong(true)
+            getAuthor(userStore.user.username, 1, 5, 1, 3)
+                .then(p => setUserPlaylists(p.authorPlaylists.filter(x => !x.songs.map(s => s.songId).includes(song.songId))));
+        } else {
+            setAddingSong(false)
+            getAuthor(userStore.user.username, 1, 5, 1, 3)
+                .then(p => setUserPlaylists(p.authorPlaylists.filter(x => x.songs.map(s => s.songId).includes(song.songId))));
+        }
+        
+        setIsPlaylistsListOpened(true);
+    };
+
+    const handleClosePlaylistsMouseEnter = () => {
+        timeoutId = setTimeout(() => {
+            setIsPlaylistsListOpened(false);
+        }, 100);
+    };
 
     return (
         <div
@@ -162,8 +175,10 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
                 {isMenuOpen && (
                     <div className="music-menu" onMouseEnter={handleMouseEnter}
                          onMouseLeave={handleMouseLeave}>
-                        <button onClick={() => handleOpenPlaylistsListClick("add")}>Добавить в плейлист</button>
-                        <button onClick={() => handleOpenPlaylistsListClick("delete")}>Удалить из плейлиста</button>
+                        <button onMouseEnter={() => handleOpenPlaylistsMouseEnter("add")}
+                                onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Добавить в плейлист</button>
+                        <button onMouseEnter={() => handleOpenPlaylistsMouseEnter("delete")}
+                                onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Удалить из плейлиста</button>
                         {isPlaylistsListOpened && <div className="playlist-page__songs__list__song-card__playlists">
                             {userPlaylists.map((userPlaylist) => (
                                 <div className="playlist-page__songs__list__song-card__playlists__playlist">

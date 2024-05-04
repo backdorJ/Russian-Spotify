@@ -157,6 +157,16 @@
     animation: fadeIn 0.2s ease;
 }
 
+.playlist-container {
+    position: absolute;
+    z-index: 3;
+    background: #120F0F;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2px 8px;
+    border-radius: 5%;
+    animation: fadeIn 0.2s ease;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
