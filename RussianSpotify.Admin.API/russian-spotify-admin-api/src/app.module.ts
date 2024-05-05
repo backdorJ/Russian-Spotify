@@ -9,7 +9,7 @@ import {User} from "./DAL/entities/User.entity";
 import {AuthController} from "./modules/auth/auth.controller";
 import { Agent } from 'node:https';
 import {HttpModule} from "@nestjs/axios";
-import {UserInteractionController} from "./modules/databaseInteraction/userInteraction.controller";
+import {UserInteractionController} from "./modules/databaseInteraction/controllers/userInteraction.controller";
 import {UsersService} from "./services/databaseInteraction/usersService";
 import {UserRole} from "./DAL/entities/UserRole.entity";
 import {Role} from "./DAL/entities/Role.entity";

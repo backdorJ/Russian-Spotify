@@ -1,11 +1,11 @@
 import {Body, Controller, Delete, Get, Inject, Patch, Query} from "@nestjs/common";
-import {GetUsersByFilterResponseDto} from "./DTOs/GetUsersByFilter/GetUsersByFilterResponseDto";
-import {GetUsersByFilterRequestDto} from "./DTOs/GetUsersByFilter/GetUsersByFilterRequestDto";
-import {UsersService} from "../../services/databaseInteraction/usersService";
+import {GetUsersByFilterResponseDto} from "../DTOs/userInteractionDTOs/GetUsersByFilter/GetUsersByFilterResponseDto";
+import {GetUsersByFilterRequestDto} from "../DTOs/userInteractionDTOs/GetUsersByFilter/GetUsersByFilterRequestDto";
+import {UsersService} from "../../../services/databaseInteraction/usersService";
 import {ApiTags} from "@nestjs/swagger";
-import {DeleteUserRequestDto} from "./DTOs/DeleteUser/DeleteUserRequestDto";
-import {PatchUpdateUserRequestDto} from "./DTOs/PatchUpdateUser/PatchUpdateUserRequestDto";
-import {DeleteUserResponseDto} from "./DTOs/DeleteUser/DeleteUserResponseDto";
+import {DeleteUserRequestDto} from "../DTOs/userInteractionDTOs/DeleteUser/DeleteUserRequestDto";
+import {PatchUpdateUserRequestDto} from "../DTOs/userInteractionDTOs/PatchUpdateUser/PatchUpdateUserRequestDto";
+import {DeleteUserResponseDto} from "../DTOs/userInteractionDTOs/DeleteUser/DeleteUserResponseDto";
 
 @ApiTags("UserInteraction")
 @Controller("api/databaseInteraction")
