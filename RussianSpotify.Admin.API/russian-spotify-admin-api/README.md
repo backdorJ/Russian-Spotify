@@ -1,6 +1,6 @@
 ### Как запустить?
 
-    1. Надо создать папку secrets в russian-spotify-admin-api/src
+    1. Надо создать папку secrets в russian-spotify-admin-api
        Надо посмотреть видос: https://www.youtube.com/watch?v=Joz9HngdC4M , чтобы создать сертификаты
     
     2. Надо создать файл .env в папке russian-spotify-admin-api и заполнить его данными: Пример
