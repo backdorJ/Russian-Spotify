@@ -116,14 +116,12 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
         clearTimeout(timeoutId);
         if (option === "add") {
             setAddingSong(true)
-            getAuthor(userStore.user.username, 1, 5, 1, 3)
-                .then(p => setUserPlaylists(p.authorPlaylists.filter(x => !x.songs.map(s => s.songId).includes(song.songId))));
+            getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 3).then(p => setUserPlaylists(p.filter(x => !x.songs.map(s => s.songId).includes(song.songId))))
         } else {
             setAddingSong(false)
-            getAuthor(userStore.user.username, 1, 5, 1, 3)
-                .then(p => setUserPlaylists(p.authorPlaylists.filter(x => x.songs.map(s => s.songId).includes(song.songId))));
+            getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 3).then(p => setUserPlaylists(p.filter(x => x.songs.map(s => s.songId).includes(song.songId))))
         }
-        
+
         setIsPlaylistsListOpened(true);
     };
 
@@ -176,9 +174,11 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
                     <div className="music-menu" onMouseEnter={handleMouseEnter}
                          onMouseLeave={handleMouseLeave}>
                         <button onMouseEnter={() => handleOpenPlaylistsMouseEnter("add")}
-                                onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Добавить в плейлист</button>
+                                onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Добавить в плейлист
+                        </button>
                         <button onMouseEnter={() => handleOpenPlaylistsMouseEnter("delete")}
-                                onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Удалить из плейлиста</button>
+                                onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Удалить из плейлиста
+                        </button>
                         {isPlaylistsListOpened && <div className="playlist-page__songs__list__song-card__playlists">
                             {userPlaylists.map((userPlaylist) => (
                                 <div className="playlist-page__songs__list__song-card__playlists__playlist">
