@@ -116,6 +116,8 @@ p, a {
     color: white;
     font-size: 20px;
     margin: 2%;
+    display: flex;
+    justify-content: center;
 }
 
 .home-page__latest-albums__cards {
@@ -129,6 +131,7 @@ p, a {
 .cards-container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .arrow-button {
