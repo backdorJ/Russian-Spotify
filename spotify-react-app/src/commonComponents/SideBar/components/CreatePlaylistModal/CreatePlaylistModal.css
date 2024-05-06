@@ -3,7 +3,7 @@
     flex-direction: column;
 }
 
-.create-playlist-form > h3 {
+.create-playlist-form h3 {
     margin-bottom: 5px;
     font-size: 24px;
     color: #b4b4b4;
@@ -22,4 +22,17 @@
 
 .create-playlist-form__name {
     margin-bottom: 20px;
+}
+
+.create-playlist-form__is-album {
+    display: flex;
+}
+
+.create-playlist-form__is-album h3 {
+    margin-right: 5px;
+}
+
+.create-playlist-form__is-album input {
+    height: 24px;
+    width: 24px;
 }

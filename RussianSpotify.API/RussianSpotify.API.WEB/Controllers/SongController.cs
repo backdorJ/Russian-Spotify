@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongFromBucket;
+using RussianSpotify.API.Core.Requests.Music.GetCategories;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
 using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
@@ -15,6 +16,7 @@ using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.DeleteSong;
 using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.EditSong;
+using RussianSpotify.Contracts.Requests.Music.GetCategories;
 using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -209,4 +211,16 @@ public class SongController : FileBaseController
     [HttpDelete("RemoveSongFromBucket/{songId}")] 
     public async Task DeleteSongFromBucketAsync([FromRoute] Guid songId, CancellationToken cancellationToken)
         => await _mediator.Send(new DeleteSongFromBucketCommand(songId), cancellationToken);
+
+    /// <summary>
+    /// Возвращает все категории(жанры) песен
+    /// </summary>
+    [HttpGet("GetCategories")]
+    public async Task<GetCategoriesResponse> GetCategoriesAsync()
+    {
+        var query = new GetCategoriesQuery();
+        var response = await _mediator.Send(query);
+
+        return response;
+    }
 }

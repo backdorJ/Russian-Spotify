@@ -42,11 +42,11 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
     return result;
 }
 
-export const addPlaylist = async (playlistName: string, fileId: string) => {
+export const addPlaylist = async (playlistName: string, fileId: string, isAlbum: boolean) => {
     let body: any = {
         playlistName: playlistName,
         songsIds: [],
-        isAlbum: false
+        isAlbum,
     }
 
     if (fileId !== '')

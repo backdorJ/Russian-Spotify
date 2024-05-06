@@ -15,6 +15,8 @@ public class GetUserInfoResponse
     /// </summary>
     public string Email { get; set; } = default!;
 
+    public List<string> Roles { get; set; } = new();
+
     /// <summary>
     /// Id фото в профиле юзера
     /// </summary>

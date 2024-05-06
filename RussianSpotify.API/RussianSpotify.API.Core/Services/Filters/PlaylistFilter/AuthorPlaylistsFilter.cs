@@ -6,7 +6,7 @@ namespace RussianSpotify.API.Core.Services.Filters.PlaylistFilter;
 /// <summary>
 /// Фильтрует плейлисты по конкретному автору
 /// </summary>
-public class AuthorPlaylistsFilter : IFilter<Playlist>
+public class ффAuthorPlaylistsFilter : IFilter<Playlist>
 {
     /// <inheritdoc cref="IFilter{T}"/>
     public Task<IOrderedQueryable<Playlist>> FilterAsync(IQueryable<Playlist> queryable, string filterValue,

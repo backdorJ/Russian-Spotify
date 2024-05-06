@@ -3,6 +3,7 @@ import {makeAutoObservable} from "mobx";
 export default class User {
     _id: number;
     _email: string;
+    _roles: string[]
     _username: string;
     _subStartDate: Date;
     _subEndDate: Date;
@@ -11,6 +12,7 @@ export default class User {
     constructor() {
         this._id = 0
         this._email = ""
+        this._roles = new Array<string>()
         this._username = ""
         this._subStartDate = new Date()
         this._subEndDate = new Date()
@@ -18,7 +20,7 @@ export default class User {
         makeAutoObservable(this)
     }
 
-    static init(id: number, email: string, username: string, photoUrl: string) {
+    static init(id: number, email: string, username: string, photoUrl: string, roles: string[]) {
         if (parseInt(String(id)) !== id)
             throw new Error("Wrong id")
 
@@ -28,6 +30,7 @@ export default class User {
         newUser._email = email;
         newUser._username = username;
         newUser.photoUrl = photoUrl;
+        newUser._roles = roles;
 
         return newUser
     }
@@ -43,6 +46,10 @@ export default class User {
 
         let nowDate = new Date(Date.now())
         return (this._subEndDate > nowDate)
+    }
+
+    get roles() {
+        return this._roles
     }
 
     get id() {

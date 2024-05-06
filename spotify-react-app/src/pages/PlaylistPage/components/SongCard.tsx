@@ -9,12 +9,14 @@ import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../
 import {ISong} from "../../../commonComponents/Song/interfaces/ISong";
 import {PlayerContext, UserContext} from "../../../index";
 import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
+import PlayIcon from "../../../assets/mock/common/PlayIcon";
 
 const SongCard: FC<ISong> = ({song, order_number}) => {
     const userStore = useContext(UserContext)
     const playerStore = useContext(PlayerContext)
     const navigate = useNavigate();
     const [isLikedSong, setIsLikedSong] = useState(song.isInFavorite)
+    const [isMouseOverPlay, setIsMouseOverPlay] = useState(false)
     let isInLikeProcess = false;
     let artistCount = song.authors.length
     let artistsMapped = song.authors.map((artist, index) => {
@@ -55,22 +57,31 @@ const SongCard: FC<ISong> = ({song, order_number}) => {
             className="playlist-page__songs__list__main__song-card">
             <div
                 onClick={handlePlay}
+                onMouseEnter={() => setIsMouseOverPlay(true)}
+                onMouseLeave={() => setIsMouseOverPlay(false)}
+                style={{marginRight: isMouseOverPlay ? '25px' : '20px', marginLeft: isMouseOverPlay ? '-5px' : '0'}}
                 className="playlist-page__songs__list__main__song-card__id">
-                <p>{order_number}</p>
+                {
+                    isMouseOverPlay
+                        ? <PlayIcon song={song} order_number={order_number}/>
+                        : <p>{order_number}</p>
+                }
             </div>
-            <div
-                onClick={handlePlay}
-                className="playlist-page__songs__list__main__song-card__title">
+            <div className="playlist-page__songs__list__main__song-card__title">
                 <img
+                    onClick={handlePlay}
                     src={getImage(song.imageId)}
                     alt={song.songName}
                     onError={handleImageNotLoaded}
                     className="playlist-page__songs__list__main__song-card__title__img"/>
                 <div className="playlist-page__songs__list__main__song-card__title__info">
-                    <div className="playlist-page__songs__list__main__song-card__title__info__song-name">
+                    <div
+                        onClick={handlePlay}
+                        className="playlist-page__songs__list__main__song-card__title__info__song-name">
                         <p>{song.songName}</p>
                     </div>
-                    <div className="playlist-page__songs__list__main__song-card__title__info__artist-names">
+                    <div
+                        className="playlist-page__songs__list__main__song-card__title__info__artist-names">
                         <p>{artistsMapped}</p>
                     </div>
                 </div>

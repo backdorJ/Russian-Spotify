@@ -215,7 +215,9 @@
 }
 
 .playlist-page__songs__list__main__song-card__id {
-    width: 36px;
+    width: 16px;
+    justify-content: center;
+    margin-right: 20px;
 }
 
 .playlist-page__songs__list__main__song-card__id p {
@@ -233,6 +235,7 @@
     width: 52px;
     height: 52px;
     margin-right: 15px;
+    cursor: pointer;
 }
 
 .playlist-page__songs__list__main__song-card__title__info {
@@ -250,6 +253,7 @@
     font-size: 20px;
     color: #65D36E;
     transition: .1s;
+    cursor: pointer;
 }
 
 .playlist-page__songs__list__main__song-card__title__info__song-name p:hover {
@@ -279,6 +283,7 @@
     font-size: 18px;
     width: fit-content;
     transition: .1s;
+    cursor: pointer;
 }
 
 .playlist-page__songs__list__main__song-card__album > p:hover {
