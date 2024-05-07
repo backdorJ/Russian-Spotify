@@ -15,10 +15,10 @@ const AuthorPage = () => {
 
     useEffect(() => {
         if (authorName)
-            getAuthor(authorName, 1, 5, 1, 3)
+            getAuthor(authorName, 1, 5, 1, 5)
                 .then(x => setAuthorData(x));
     }, []);
-
+    
     return (
         <div className="account-page">
             <div className="account-page-content">

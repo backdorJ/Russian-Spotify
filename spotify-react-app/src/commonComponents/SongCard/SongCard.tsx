@@ -80,10 +80,6 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
     const [userPlaylists, setUserPlaylists] = useState<Playlist[]>([]);
     const [isAddingSong, setAddingSong] = useState(true);
 
-    const handleOpenPlaylistsListClick = (option: string) => {
-        setIsPlaylistsListOpened(true)
-    };
-
     const handleActionWithSong = (choosenPlaylist: Playlist) => {
         if (isAddingSong) {
             AddToPlaylist(choosenPlaylist)
@@ -94,14 +90,14 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
 
     const AddToPlaylist = (choosenPlaylist: Playlist) => {
         choosenPlaylist?.songs.push(song)
-        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, song.songId, choosenPlaylist.songs.map(x => x.songId)).then(response => {
+        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, choosenPlaylist.imageId, choosenPlaylist.songs.map(x => x.songId)).then(response => {
             if (response.status === 200)
                 console.log("Песня добавлена успешно")
 
         }).catch(err => console.log(err));
     }
     const DeleteFromPlaylist = (choosenPlaylist: Playlist) => {
-        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, song.songId, choosenPlaylist.songs.map(x => x.songId).filter(x => x !== song.songId)).then(response => {
+        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, choosenPlaylist.imageId, choosenPlaylist.songs.map(x => x.songId).filter(x => x !== song.songId)).then(response => {
             if (response.status === 200)
                 console.log("Песня удалена успешно")
 
@@ -128,7 +124,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
     const handleClosePlaylistsMouseEnter = () => {
         timeoutId = setTimeout(() => {
             setIsPlaylistsListOpened(false);
-        }, 100);
+        }, 1000);
     };
 
     return (
@@ -173,26 +169,29 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
                 {isMenuOpen && (
                     <div className="music-menu" onMouseEnter={handleMouseEnter}
                          onMouseLeave={handleMouseLeave}>
-                        <button onMouseEnter={() => handleOpenPlaylistsMouseEnter("add")}
-                                onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Добавить в плейлист
-                        </button>
-                        <button onMouseEnter={() => handleOpenPlaylistsMouseEnter("delete")}
-                                onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Удалить из плейлиста
-                        </button>
+                        <div className="music-menu-buttons">
+                            <button onMouseEnter={() => handleOpenPlaylistsMouseEnter("add")}
+                                    onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Добавить в плейлист
+                            </button>
+                            <button onMouseEnter={() => handleOpenPlaylistsMouseEnter("delete")}
+                                    onMouseLeave={() => handleClosePlaylistsMouseEnter()}>Удалить из плейлиста
+                            </button>
+                        </div>
                         {isPlaylistsListOpened && <div className="playlist-page__songs__list__song-card__playlists">
                             {userPlaylists.map((userPlaylist) => (
-                                <div className="playlist-page__songs__list__song-card__playlists__playlist">
-                                    <div className="playlist-container"
-                                         onClick={() => handleActionWithSong(userPlaylist)}>
-                                        <div className="playlist-wrapper">
-                                            <div className="playlist-image-container">
-                                                <img src={getImage(userPlaylist.imageId)}
-                                                     alt="Фотка альбома"
-                                                     onError={handleImageNotLoaded}/>
-                                            </div>
-                                            <div className="playlist-name-container">
-                                                <p className="playlist-name">{userPlaylist.playlistName}</p>
-                                            </div>
+                                <div className="playlist-container"
+                                     onClick={() => handleActionWithSong(userPlaylist)}
+                                     onMouseEnter={handleMouseEnter}
+                                     onMouseLeave={handleMouseLeave}>
+                                    <div className="playlist-wrapper">
+                                        <div className="playlist-image-container">
+                                            <img src={getImage(userPlaylist.imageId)}
+                                                 alt="Фотка альбома"
+                                                 onError={handleImageNotLoaded}
+                                                 className="playlist-image"/>
+                                        </div>
+                                        <div className="playlist-name-container">
+                                            <p className="playlist-name">{userPlaylist.playlistName}</p>
                                         </div>
                                     </div>
                                 </div>
