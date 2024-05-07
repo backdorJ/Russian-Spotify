@@ -6,7 +6,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import { AuthModule } from './modules/auth/auth.module';
 import * as process from "node:process";
 import {User} from "./DAL/entities/User.entity";
-import {AuthController} from "./modules/auth/auth.controller";
+import {AuthController} from "./modules/auth/controllers/auth.controller";
 import { Agent } from 'node:https';
 import {HttpModule} from "@nestjs/axios";
 import {UserInteractionController} from "./modules/databaseInteraction/controllers/userInteraction.controller";
@@ -17,6 +17,20 @@ import {File} from "./DAL/entities/File.entity";
 import {Song} from "./DAL/entities/Song.entity";
 import {Playlist} from "./DAL/entities/Playlist.entity";
 import {Bucket} from "./DAL/entities/Bucket.entity";
+import {BucketSong} from "./DAL/entities/BucketSong.entity";
+import {BucketService} from "./services/databaseInteraction/bucketService";
+import {BucketInteractionController} from "./modules/databaseInteraction/controllers/bucketInteraction.controller";
+import {SongInteractionController} from "./modules/databaseInteraction/controllers/songInteraction.controller";
+import {SongService} from "./services/databaseInteraction/songService";
+import {SongUser} from "./DAL/entities/SongUser.entity";
+import {Subscription} from "rxjs";
+import {SubscriptionService} from "./services/databaseInteraction/subscriptionService";
+import {Subscribe} from "./DAL/entities/Subscribe.entity";
+import {
+    SubscriptionInteractionController
+} from "./modules/databaseInteraction/controllers/subscriptionInteraction.controller";
+import {PlaylistInteractionController} from "./modules/databaseInteraction/controllers/playlistInteraction.controller";
+import {PlaylistService} from "./services/databaseInteraction/playlistService";
 
 const httpsAgent = new Agent({ rejectUnauthorized: false });
 
@@ -41,19 +55,39 @@ const httpsAgent = new Agent({ rejectUnauthorized: false });
           synchronize: false,
           entities: ['dist/DAL/entities/**/*.entity.ts'],
       }),
-      TypeOrmModule.forFeature([User, UserRole, Role, File, Song, Playlist, Bucket]),
+      TypeOrmModule.forFeature([
+          User,
+          UserRole,
+          Role,
+          File,
+          Song,
+          Playlist,
+          Bucket,
+          BucketSong,
+          SongUser,
+          Subscribe]),
       AuthModule,
       HttpModule.register({
           httpsAgent,
       }),
   ],
-  controllers: [AuthController, UserInteractionController],
+  controllers: [
+      AuthController,
+      UserInteractionController,
+      BucketInteractionController,
+      SongInteractionController,
+      SubscriptionInteractionController,
+      PlaylistInteractionController],
   providers: [
       {
         provide: APP_GUARD,
         useClass: ThrottlerGuard,
       },
-      UsersService
+      UsersService,
+      BucketService,
+      SongService,
+      SubscriptionService,
+      PlaylistService
   ],
 })
 export class AppModule {}

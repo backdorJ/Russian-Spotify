@@ -124,7 +124,7 @@ export class UsersService {
 
         await this.userRepository
             .createQueryBuilder()
-            .softDelete()
+            .delete()
             .from(User)
             .where("Id = :id", { id: request.id })
             .execute()

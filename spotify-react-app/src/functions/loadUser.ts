@@ -1,4 +1,3 @@
-import User from "../models/User";
 import {getSubscription} from "../http/subApi";
 import {getUser} from "../http/authApi";
 

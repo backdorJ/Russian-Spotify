@@ -8,13 +8,13 @@ import {PatchUpdateUserRequestDto} from "../DTOs/userInteractionDTOs/PatchUpdate
 import {DeleteUserResponseDto} from "../DTOs/userInteractionDTOs/DeleteUser/DeleteUserResponseDto";
 
 @ApiTags("UserInteraction")
-@Controller("api/databaseInteraction")
+@Controller("api/UserInteraction")
 export class UserInteractionController {
     constructor(@Inject(UsersService) private readonly usersService: UsersService) {}
 
     @Get("GetUsers")
-    async getUsers(@Query() getUserRequestDto: GetUsersByFilterRequestDto): Promise<GetUsersByFilterResponseDto> {
-        return await this.usersService.getUsersByFilter(getUserRequestDto);
+    async getUsers(@Query() getUsersRequestDto: GetUsersByFilterRequestDto): Promise<GetUsersByFilterResponseDto> {
+        return await this.usersService.getUsersByFilter(getUsersRequestDto);
     }
 
     @Delete("DeleteUser")
