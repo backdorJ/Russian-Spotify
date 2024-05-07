@@ -7,6 +7,7 @@ import createSongWithFiles from "../../../../functions/createSongWithFiles";
 import CreateSongDto from "../../../../utils/dto/song/createSongDto";
 import {Category} from "../../../../models/Category";
 import {getCategories} from "../../../../http/songApi";
+import editSongWithFile from "../../../../functions/editSongWithFile";
 
 
 const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
@@ -73,27 +74,29 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
         }
 
         const handleEditPlaylist = () => {
-            if ((name === '' || name === song?.songName) && audioFiles.length === 0) {
+            if ((name === '' || name === song?.songName)
+                && (duration === song?.duration)
+                && (song.category === categories.filter(i => i.categoryNumber == category)[0].categoryName)
+                && (imageFiles.length === 0)) {
                 alert("You didn't change anything!")
                 return
             }
 
-            let editSongDto = new EditSongDto(name, 1, 1, audioFiles[0], audioFiles[1])
-            // editPlaylistWithFile(editPlaylistDto)
-            //     .then(response => {
-            //         if (response.status === 200) {
-            //             alert(`Playlist ${response.value.playlistName} was successfully updated!`)
-            //             onHide()
-            //             reset()
-            //             navigate(routeNames.PLAYLIST_PAGE_NAV + response.value.playlistId)
-            //             reloadTrigger()
-            //         } else {
-            //             if (response.status >= 500)
-            //                 alert('Internal error happened. Please try later!')
-            //             else
-            //                 alert(response.message)
-            //         }
-            //     })
+            let editSongDto = new EditSongDto(song!, name, duration, category, imageFiles[0])
+            editSongWithFile(editSongDto)
+                .then(response => {
+                    if (response.status === 200) {
+                        alert(`Song ${response.value.songName} was successfully updated!`)
+                        onHide()
+                        reset()
+                        reloadTrigger()
+                    } else {
+                        if (response.status >= 500)
+                            alert('Internal error happened. Please try later!')
+                        else
+                            alert(response.message)
+                    }
+                })
         }
 
         useEffect(() => {
@@ -107,9 +110,9 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                             categoriesMapped.push(new Category(entity.categoryNumber, entity.categoryName))
                         ))
                         setCategories(categoriesMapped)
-                        setCategory(categoriesMapped[0].categoryNumber)
-                    }
-                    else if (response.status >= 500)
+                        setCategory(categoriesMapped.filter(i =>
+                            i.categoryName === song?.category)[0].categoryNumber)
+                    } else if (response.status >= 500)
                         alert('Internal error happened. Please try later!')
                     else
                         alert(response.message)
@@ -126,12 +129,12 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                         {
                             isCreating
                                 ? <h2>New Song</h2>
-                                : <h2>Editing song<span>{song?.songName}</span></h2>
+                                : <h2>Editing song <span>{song?.songName}</span></h2>
                         }
                     </div>
                     <div className="modal-hr"></div>
                     <div className="create-song-form">
-                        <h3>Song name:<span className="required-red">*</span></h3>
+                        <h3>Song name:</h3>
                         <input
                             value={name}
                             onChange={handleNameChange}
@@ -140,7 +143,7 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                             required/>
                         <div className="create-song-form__additional">
                             <div className="create-song-form__additional__duration">
-                                <h3>Song duration:<span className="required-red">*</span></h3>
+                                <h3>Song duration:</h3>
                                 <input
                                     value={duration}
                                     onChange={e => setDuration(parseInt(e.target.value))}
@@ -149,9 +152,10 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                                     required/>
                             </div>
                             <div className="create-song-form__additional__category">
-                                <h3>Song category:<span className="required-red">*</span></h3>
+                                <h3>Song category:</h3>
                                 <select
                                     onChange={e => setCategory(parseInt(e.target.value))}
+                                    value={category}
                                     name="Choose genre">
                                     {
                                         categories.map(category => (
@@ -164,16 +168,21 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                                 </select>
                             </div>
                         </div>
-                        <h3>Song audio:<span className="required-red">*</span></h3>
-                        <input
-                            onChange={e => {
-                                if (e.target.files !== null) {
-                                    const file = e.target.files[0]
-                                    setAudioFiles([file])
-                                }
-                            }}
-                            type="file"
-                            className="create-playlist-form__image"/>
+                        {
+                            isCreating &&
+                            <div>
+                                <h3>Song audio:</h3>
+                                <input
+                                    onChange={e => {
+                                        if (e.target.files !== null) {
+                                            const file = e.target.files[0]
+                                            setAudioFiles([file])
+                                        }
+                                    }}
+                                    type="file"
+                                    className="create-playlist-form__image"/>
+                            </div>
+                        }
                         <h3>Song image:</h3>
                         <input
                             onChange={e => {

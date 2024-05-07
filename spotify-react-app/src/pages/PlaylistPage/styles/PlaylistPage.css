@@ -222,6 +222,7 @@
 
 .playlist-page__songs__list__main__song-card__id p {
     font-size: 22px;
+    width: 16px;
 }
 
 .playlist-page__songs__list__main__song-card__title {

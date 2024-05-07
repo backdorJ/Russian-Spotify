@@ -121,3 +121,28 @@ export const getCategories = async () => {
         ? new ResponseWithMessage(200, '', response.data)
         : new ResponseWithMessage(response.status, response.data.message)
 }
+
+export const editSong = async (songId: string, songName: string | undefined, category: number | undefined,
+                                 duration: number | undefined, imageId: string | undefined) => {
+    let body: any = {
+        songId
+    }
+
+    if (imageId !== undefined && imageId.replace(' ', '') !== '')
+        body.imageId = imageId
+
+    if (songName !== undefined && songName.replace(' ', '') !== '')
+        body.songName = songName
+
+    if (category !== undefined && category > 0)
+        body.category = category
+
+    if (duration !== undefined && duration > 0)
+        body.duration = duration
+
+    let response = await $authHost.patch('api/Song/UpdateSong', body)
+
+    return response.status === 200
+        ? new ResponseWithMessage(200, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message)
+}

@@ -11,7 +11,8 @@
     color: #b4b4b4;
 }
 
-.create-song-form > input {
+.create-song-form input {
+    width: 100%;
     font-size: 21px;
     padding: 12px 22px;
     margin-bottom: 15px;

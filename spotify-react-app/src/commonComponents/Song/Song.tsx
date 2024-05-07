@@ -58,7 +58,7 @@ const Song: FC<ISong> = ({song}) => {
     return (
         <div key={song.songId} className="music-card-button">
             <div className="play-icon-container">
-                <PlayIcon song={song} order_number={undefined}/>
+                <PlayIcon song={song} order_number={undefined} onModalOpen={undefined}/>
             </div>
             <div className="music-image-container">
                 <img className="music-image" alt="music-image"

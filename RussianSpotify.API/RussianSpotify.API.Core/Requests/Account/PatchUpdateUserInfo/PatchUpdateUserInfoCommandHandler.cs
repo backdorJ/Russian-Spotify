@@ -90,12 +90,6 @@ public class PatchUpdateUserInfoCommandHandler
             user.UserPhoto = imageFromDb;
         }
 
-        var changePasswordResult = IdentityResult.Success;
-
-        if (!changePasswordResult.Succeeded)
-            throw new InvalidChangePasswordException(string.Join("\n",
-                changePasswordResult.Errors.Select(x => x.Description)));
-
         var claims = await _claimsManager.GetUserClaimsAsync(user, cancellationToken);
 
         user.AccessToken = _jwtGenerator.GenerateToken(claims);
@@ -107,6 +101,8 @@ public class PatchUpdateUserInfoCommandHandler
                 cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        var changePasswordResult = IdentityResult.Success;
         
         if (!string.IsNullOrWhiteSpace(request.NewPassword)
             && !string.IsNullOrWhiteSpace(request.NewPasswordConfirm)
@@ -125,6 +121,11 @@ public class PatchUpdateUserInfoCommandHandler
                     await _userManager.ChangePasswordAsync(identityUser,
                         request.CurrentPassword!, request.NewPassword);
         }
+        
+        if (!changePasswordResult.Succeeded)
+            throw new InvalidChangePasswordException(string.Join("\n",
+                changePasswordResult.Errors.Select(x => x.Description)));
+        
         await _emailSender.SendEmailAsync(user.Email!, message, cancellationToken);
 
         return new PatchUpdateUserInfoResponse { AccessToken = user.AccessToken, RefreshToken = user.RefreshToken };

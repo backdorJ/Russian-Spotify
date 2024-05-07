@@ -4,4 +4,5 @@ import Song from "../../../models/Song";
 export interface ISong{
     song: Song;
     order_number: number | undefined
+    onModalOpen: (() => void) | undefined
 }

@@ -18,7 +18,9 @@ const FavoriteMusic: FC<IFavoriteMusic> = ({favoriteSongs}) => {
         <>
             <div className="music-container">
                 <div className="music-container-wrapper">
-                    {songs.map((song, index) => <SongCard song={song} order_number={index + 1}/>)}
+                    {songs.map((song, index) => (
+                        <SongCard song={song} order_number={index + 1} onModalOpen={undefined}/>
+                    ))}
                 </div>
                 <button onClick={() => navigate(link)} className="show-all-music-button">Показать все</button>
             </div>

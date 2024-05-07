@@ -43,10 +43,19 @@ const PlaylistPage = () => {
     const [getting, setGetting] = useState(false);
     const [page, setPage] = useState(1)
     const [isLikedPlaylist, setIsLikedPlaylist] = useState(playlistInfo.isInFavorite);
+    const [showEditModal, setShowEditModal] = useState(false)
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
     const [playlistType, setPlaylistType] = useState<PlaylistType | null>(null);
-    const [showEditModal, setShowEditModal] = useState(false)
+
+    useEffect(() => {
+        if (showEditModal)
+            document.getElementById("body")!.style.overflowY = 'hidden';
+        else
+            document.getElementById("body")!.style.overflowY = 'visible';
+
+        updateWindowWidth()
+    }, [showEditModal]);
 
     useEffect(() => {
         if (id === 'favorite-songs') {
@@ -270,6 +279,7 @@ const PlaylistPage = () => {
                                     return <SongCard
                                         song={song}
                                         order_number={index + 1}
+                                        onModalOpen={() => updateWindowWidth()}
                                     />
                                 })
                             }

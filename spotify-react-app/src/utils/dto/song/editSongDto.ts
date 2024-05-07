@@ -1,15 +1,17 @@
+import Song from "../../../models/Song";
+
 export default class EditSongDto {
+    song: Song
     name: string;
     duration: number | undefined;
     category: number | undefined;
-    songFile: File | undefined;
     imageFile: File | undefined;
 
-    constructor(name: string, duration: number, category: number, songFile: File, imageFile: File) {
+    constructor(song: Song, name: string, duration: number, category: number, imageFile: File) {
+        this.song = song;
         this.name = name;
         this.duration = duration;
         this.category = category;
-        this.songFile = songFile;
         this.imageFile = imageFile;
     }
 }

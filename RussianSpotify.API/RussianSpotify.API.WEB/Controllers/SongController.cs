@@ -139,10 +139,12 @@ public class SongController : FileBaseController
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task UpdateSongAsync([FromBody] EditSongRequest editSongRequest, CancellationToken cancellationToken)
+    public async Task<EditSongResponse> UpdateSongAsync([FromBody] EditSongRequest editSongRequest, CancellationToken cancellationToken)
     {
         var command = new PatchEditSongCommand(editSongRequest);
-        await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
+
+        return result;
     }
 
     /// <summary>

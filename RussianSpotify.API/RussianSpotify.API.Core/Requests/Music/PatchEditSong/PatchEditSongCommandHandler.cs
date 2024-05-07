@@ -2,13 +2,14 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Exceptions.SongExceptions;
+using RussianSpotify.Contracts.Requests.Music.EditSong;
 
 namespace RussianSpotify.API.Core.Requests.Music.PatchEditSong;
 
 /// <summary>
 /// Обработчик команды на обновление данных о песне
 /// </summary>
-public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand>
+public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand, EditSongResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
@@ -28,7 +29,7 @@ public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand>
     }
 
     /// <inheritdoc/> 
-    public async Task Handle(PatchEditSongCommand request, CancellationToken cancellationToken)
+    public async Task<EditSongResponse> Handle(PatchEditSongCommand request, CancellationToken cancellationToken)
     {
         // Достаем песню из бд
         var songFromDb = await _dbContext.Songs
@@ -39,6 +40,8 @@ public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand>
         if (songFromDb is null)
             throw new SongBadRequestException("Song not found");
 
+        var songOldName = songFromDb.SongName;
+        
         // Проверка, является ли текущий пользователь автором данной песни
         var currentUserId = _userContext.CurrentUserId;
         if (currentUserId is null)
@@ -113,5 +116,11 @@ public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand>
 
         // Вносим изменения в бд
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return new EditSongResponse
+        {
+            SongId = songFromDb.Id,
+            SongName = songOldName
+        };
     }
 }
