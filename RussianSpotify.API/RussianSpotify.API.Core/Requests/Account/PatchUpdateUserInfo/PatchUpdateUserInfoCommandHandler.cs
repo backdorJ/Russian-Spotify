@@ -36,9 +36,14 @@ public class PatchUpdateUserInfoCommandHandler
     /// <param name="emailSender">Email sender <see cref="IEmailSender"/></param>
     /// <param name="fileHelper"></param>
     /// <param name="dbContext"></param>
-    public PatchUpdateUserInfoCommandHandler(UserManager<User> userManager, IUserContext userContext,
-        IUserClaimsManager claimsManager, IJwtGenerator jwtGenerator, IEmailSender emailSender,
-        IFileHelper fileHelper, IDbContext dbContext)
+    public PatchUpdateUserInfoCommandHandler(
+        UserManager<User> userManager,
+        IUserContext userContext,
+        IUserClaimsManager claimsManager,
+        IJwtGenerator jwtGenerator,
+        IEmailSender emailSender,
+        IFileHelper fileHelper,
+        IDbContext dbContext)
     {
         _userManager = userManager;
         _userContext = userContext;
