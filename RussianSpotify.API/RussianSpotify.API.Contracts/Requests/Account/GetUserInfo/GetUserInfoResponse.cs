@@ -6,6 +6,11 @@ namespace RussianSpotify.Contracts.Requests.Account.GetUserInfo;
 public class GetUserInfoResponse
 {
     /// <summary>
+    /// Id пользователя
+    /// </summary>
+    public Guid UserId { get; set; }
+
+    /// <summary>
     /// Имя пользователя
     /// </summary>
     public string UserName { get; set; } = default!;

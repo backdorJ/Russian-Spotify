@@ -2,20 +2,22 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
+using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
-using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.API.Core.Exceptions.SongExceptions;
+using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
 
-namespace RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
+namespace RussianSpotify.API.Core.Requests.Music.PostAddSongAuthor;
 
 /// <summary>
 /// Обработчик запроса на добавление автора песни
 /// </summary>
-public class PatchAddSongAuthorCommandHandler : IRequestHandler<PatchAddSongAuthorCommand>
+public class PostAddSongAuthorCommandHandler : IRequestHandler<PostAddSongAuthorCommand, AddSongAuthorResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
     private readonly UserManager<User> _userManager;
+    private readonly IRoleManager _roleManager;
 
     /// <summary>
     /// Конструктор
@@ -23,16 +25,18 @@ public class PatchAddSongAuthorCommandHandler : IRequestHandler<PatchAddSongAuth
     /// <param name="dbContext">Контекст базы данных</param>
     /// <param name="userManager">Сервис для работы с пользователями</param>
     /// <param name="userContext">Контекст текущего пользователя</param>
-    public PatchAddSongAuthorCommandHandler(IDbContext dbContext, UserManager<User> userManager,
-        IUserContext userContext)
+    public PostAddSongAuthorCommandHandler(IDbContext dbContext, UserManager<User> userManager,
+        IUserContext userContext, IRoleManager roleManager)
     {
         _dbContext = dbContext;
         _userManager = userManager;
         _userContext = userContext;
+        _roleManager = roleManager;
     }
 
     /// <inheritdoc/>
-    public async Task Handle(PatchAddSongAuthorCommand request, CancellationToken cancellationToken)
+    public async Task<AddSongAuthorResponse> Handle(PostAddSongAuthorCommand request,
+        CancellationToken cancellationToken)
     {
         // Достаем песню из бд
         var songFromDb = await _dbContext.Songs
@@ -52,15 +56,13 @@ public class PatchAddSongAuthorCommandHandler : IRequestHandler<PatchAddSongAuth
 
         // Достаем нового автора из бд
         var userFromDb = await _dbContext.Users
-            .FirstOrDefaultAsync(i => i.Id == request.AuthorId, cancellationToken);
+            .FirstOrDefaultAsync(i => i.Email!.Equals(request.AuthorEmail), cancellationToken);
 
         if (userFromDb is null)
             throw new BadSongAuthorException("User not found");
 
         // Проверка, является ли добавляемый пользовател автором
-        const string roleToSearch = "автор";
-        var userRoles = await _userManager.GetRolesAsync(userFromDb);
-        var ifContainsAuthorRole = userRoles.Select(i => i.ToLower()).Contains(roleToSearch.ToLower());
+        var ifContainsAuthorRole = _roleManager.IsInRole(userFromDb, BaseRoles.AuthorRoleName);
 
         if (!ifContainsAuthorRole)
             throw new SongBadRequestException("User is not Author");
@@ -68,5 +70,12 @@ public class PatchAddSongAuthorCommandHandler : IRequestHandler<PatchAddSongAuth
         // Вносим изменения в бд
         songFromDb.AddAuthor(userFromDb);
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return new AddSongAuthorResponse
+        {
+            SongId = songFromDb.Id,
+            AuthorId = userFromDb.Id,
+            AuthorName = userFromDb.UserName!
+        };
     }
 }

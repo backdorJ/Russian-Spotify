@@ -51,6 +51,7 @@ public class GetPlaylistByIdQueryHandler
             PlaylistName = playlist.PlaylistName,
             ImageId = playlist.ImageId,
             IsAlbum = playlist.IsAlbum,
+            AuthorId = playlist.AuthorId,
             AuthorName = playlist.Author?.UserName,
             ReleaseDate = playlist.ReleaseDate,
             IsInFavorite = playlist.Users!.Any(user => user.Id.Equals(userId.Value))

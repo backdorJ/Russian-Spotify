@@ -9,9 +9,9 @@ namespace RussianSpotify.API.Core.Requests.Music.PatchEditSong;
 public class PatchEditSongCommand : EditSongRequest, IRequest<EditSongResponse>
 {
     /// <summary>
-    /// Constructor
+    /// Конструктор
     /// </summary>
-    /// <param name="request">Request with info</param>
+    /// <param name="request">Запрос</param>
     public PatchEditSongCommand(EditSongRequest request) : base(request)
     {
     }

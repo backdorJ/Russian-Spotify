@@ -7,9 +7,9 @@ using RussianSpotify.API.Core.Requests.Music.DeleteSongFromBucket;
 using RussianSpotify.API.Core.Requests.Music.GetCategories;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
-using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PatchEditSong;
 using RussianSpotify.API.Core.Requests.Music.PostAddSong;
+using RussianSpotify.API.Core.Requests.Music.PostAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PostAddSongToFavourite;
 using RussianSpotify.Contracts.Requests.Music.AddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
@@ -112,17 +112,17 @@ public class SongController : FileBaseController
     /// <response code="400">Ошибка в запросе</response>
     /// <response code="403">Не автор или не является автором данной песни</response>
     /// <response code="500">Внутрення ошибка сервера</response>
-    [HttpPatch]
+    [HttpPost]
     [Route("AddSongAuthor")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task AddSongAuthorAsync([FromBody] AddSongAuthorRequest addSongAuthorRequest,
+    public async Task<AddSongAuthorResponse> AddSongAuthorAsync([FromBody] AddSongAuthorRequest addSongAuthorRequest,
         CancellationToken cancellationToken)
     {
-        var command = new PatchAddSongAuthorCommand(addSongAuthorRequest);
-        await _mediator.Send(command, cancellationToken);
+        var command = new PostAddSongAuthorCommand(addSongAuthorRequest);
+        return await _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -164,11 +164,12 @@ public class SongController : FileBaseController
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task RemoveAuthor([FromBody] DeleteSongAuthorRequest deleteSongAuthorRequest,
+    public async Task<DeleteSongAuthorResponse> RemoveAuthor(
+        [FromQuery] DeleteSongAuthorRequest deleteSongAuthorRequest,
         CancellationToken cancellationToken)
     {
         var command = new DeleteSongAuthorCommand(deleteSongAuthorRequest);
-        await _mediator.Send(command, cancellationToken);
+        return await _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>

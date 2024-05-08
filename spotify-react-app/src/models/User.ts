@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 
 export default class User {
-    _id: number;
+    _id: string;
     _email: string;
     _roles: string[]
     _username: string;
@@ -10,7 +10,7 @@ export default class User {
     photoUrl: string;
 
     constructor() {
-        this._id = 0
+        this._id = ''
         this._email = ""
         this._roles = new Array<string>()
         this._username = ""
@@ -20,10 +20,7 @@ export default class User {
         makeAutoObservable(this)
     }
 
-    static init(id: number, email: string, username: string, photoUrl: string, roles: string[]) {
-        if (parseInt(String(id)) !== id)
-            throw new Error("Wrong id")
-
+    static init(id: string, email: string, username: string, photoUrl: string, roles: string[]) {
         let newUser = new User()
 
         newUser._id = id;

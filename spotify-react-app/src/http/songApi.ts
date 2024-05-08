@@ -146,3 +146,27 @@ export const editSong = async (songId: string, songName: string | undefined, cat
         ? new ResponseWithMessage(200, '', response.data)
         : new ResponseWithMessage(response.status, response.data.message)
 }
+
+export const addSongAuthor = async (songId: string, authorEmail: string) => {
+    let body = {
+        songId,
+        authorEmail
+    }
+
+    let response = await $authHost.post('api/Song/AddSongAuthor', body)
+
+    return response.status === 200
+        ? new ResponseWithMessage(200, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message)
+}
+
+export const removeSongAuthor = async (songId: string, authorId: string) => {
+    let response = await $authHost.delete('api/Song/RemoveAuthor?' + new URLSearchParams({
+        songId,
+        authorId
+    }))
+
+    return response.status === 200
+        ? new ResponseWithMessage(200, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message)
+}

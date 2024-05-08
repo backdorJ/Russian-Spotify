@@ -58,7 +58,11 @@ public class GetSongsByFilterQueryHandler
                 Duration = song.Duration,
                 Category = song.Category.CategoryName.GetDescription(),
                 Authors = song.Authors
-                    .Select(y => y.UserName)
+                    .Select(y => new GetSongByFilterResponseItemAuthor
+                    {
+                        AuthorId = y.Id,
+                        AuthorName = y.UserName!
+                    })
                     .ToList(),
                 IsInFavorite = song.Buckets.Any(bucket => bucket.UserId.Equals(userId.Value))
             })

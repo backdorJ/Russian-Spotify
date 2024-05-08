@@ -26,6 +26,11 @@ public class GetPlaylistsByFilterResponseItem
     public bool IsAlbum { get; set; }
 
     /// <summary>
+    /// Id автора
+    /// </summary>
+    public Guid AuthorId { get; set; }
+
+    /// <summary>
     /// Автор
     /// </summary>
     public string? AuthorName { get; set; }

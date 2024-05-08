@@ -1,21 +1,21 @@
 namespace RussianSpotify.Contracts.Requests.Music.GetCategories;
 
 /// <summary>
-/// Response for getting all Song Categories
+/// Ответ на получение всех Категорий Песен (Жанров)
 /// </summary>
 public class GetCategoriesResponse
 {
     /// <summary>
-    /// Constructor
+    /// Конструктор
     /// </summary>
-    /// <param name="categories">List of <see cref="GetCategoriesResponseItem"/></param>
+    /// <param name="categories">Список из <see cref="GetCategoriesResponseItem"/></param>
     public GetCategoriesResponse(List<GetCategoriesResponseItem> categories)
     {
         Entities = categories;
     }
 
     /// <summary>
-    /// Categories
+    /// Категории
     /// </summary>
     public List<GetCategoriesResponseItem> Entities { get; set; } = new();
 }

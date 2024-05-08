@@ -33,7 +33,7 @@ public class GetSongsByFilterResponseItem
     /// <summary>
     /// Авторы
     /// </summary>
-    public List<string?> Authors { get; set; }
+    public List<GetSongByFilterResponseItemAuthor> Authors { get; set; } = new();
 
     /// <summary>
     /// Добавлена ли песня в избранное

@@ -1,3 +1,5 @@
+import AuthorLittle from "./AuthorLittle";
+
 /** DTO для песни, которая приходит с API(когда запрашивается много песен)*/
 export default class Song {
     /** Id песни в бд */
@@ -19,7 +21,7 @@ export default class Song {
     isInFavorite: boolean;
 
     /** Список имён авторов песни */
-    authors: string[];
+    authors: AuthorLittle[];
 
     /** Предыдущая песня */
     prevSong: Song | null;
@@ -44,7 +46,7 @@ export default class Song {
                 imageId: string,
                 duration: number,
                 category: string,
-                authors: string[],
+                authors: AuthorLittle[],
                 nextSong: Song | null,
                 prevSong: Song | null,
                 isInFavorite: boolean) {

@@ -49,6 +49,7 @@ public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, GetUser
 
         return new GetUserInfoResponse
         {
+            UserId = user.Id,
             Email = user.Email!,
             UserName = user.UserName!,
             Roles = roles,

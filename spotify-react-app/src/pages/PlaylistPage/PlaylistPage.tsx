@@ -64,6 +64,7 @@ const PlaylistPage = () => {
                 "Favorite Songs",
                 "",
                 "",
+                "",
                 new Date(),
                 false,
                 true));
@@ -76,6 +77,7 @@ const PlaylistPage = () => {
                     setPlaylistInfo(Playlist.init("",
                         `Songs by ${x.data.name}`,
                         x.data.authorPhotoId,
+                        x.data.authorId,
                         x.data.name,
                         new Date(),
                         false,
@@ -161,13 +163,13 @@ const PlaylistPage = () => {
     const allAuthorsTogetherUnique = new Array<string>()
     songs.forEach(i => {
         i.authors.forEach(e => {
-            if (allAuthorsTogetherUnique.includes(e))
+            if (allAuthorsTogetherUnique.includes(e.authorName))
                 return
-            allAuthorsTogetherUnique.push(e)
+            allAuthorsTogetherUnique.push(e.authorName)
         })
     })
 
-    const authorsMapped = allAuthorsTogetherUnique.map((author, index) => {
+    const authorsMapped = allAuthorsTogetherUnique.slice(0, 3).map((author, index) => {
         if (index < allAuthorsTogetherUnique.length - 1)
             return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span>, </Fragment>)
         return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span></Fragment>)
@@ -216,7 +218,13 @@ const PlaylistPage = () => {
                             {playlistInfo.playlistName}
                         </h1>
                         <p className="playlist-page__main__info__singers">
-                            <span>{authorsMapped}</span>
+                            <span>
+                                {authorsMapped}
+                                {
+                                    allAuthorsTogetherUnique.length > authorsMapped.length
+                                    && ` and ${allAuthorsTogetherUnique.length - authorsMapped.length} more`
+                                }
+                            </span>
                         </p>
                         <p className="playlist-page__main__info__additional">
                             Made by <span
@@ -247,11 +255,14 @@ const PlaylistPage = () => {
                                         alt="Like"/>
                                 </div>
                             }
-                            <img
-                                onClick={() => setShowEditModal(true)}
-                                className="playlist-page__songs__header__buttons__options"
-                                src={options_icon}
-                                alt="Options"/>
+                            {
+                                playlistInfo.authorId === userStore.user.id &&
+                                <img
+                                    onClick={() => setShowEditModal(true)}
+                                    className="playlist-page__songs__header__buttons__options"
+                                    src={options_icon}
+                                    alt="Options"/>
+                            }
                         </div>
                     </div>
                     <div className="playlist-page__songs__list">

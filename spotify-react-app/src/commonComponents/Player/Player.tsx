@@ -167,7 +167,7 @@ const Player = (props: any) => {
                              className={`song-name${showExpanded ? " expanded" : ""}`}>{currentPlayingSong.songName}
                             <span> - {currentPlayingSong.authors.map((author, index) => <span
                                 onClick={() => navigate(`/author/${author}`)}
-                                className={`player-artist-link${showExpanded ? " expanded" : ""}`}>{author}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
+                                className={`player-artist-link${showExpanded ? " expanded" : ""}`}>{author.authorName}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
                         </div>
                         <div className={`progress__container${showExpanded ? " expanded" : ""}`}>
                             <div style={{width: currentProgressBarPercent + "%"}}

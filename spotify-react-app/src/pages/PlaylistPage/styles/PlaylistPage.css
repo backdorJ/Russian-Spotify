@@ -247,6 +247,7 @@
 }
 
 .playlist-page__songs__list__main__song-card__title__info__song-name {
+    display: flex;
     margin-bottom: 2px;
 }
 
@@ -262,8 +263,10 @@
     transition: .1s;
 }
 
-.playlist-page__songs__list__main__song-card__title__info__artist-names p {
-
+.playlist-page__songs__list__main__song-card__title__info__song-name img {
+    width: 20px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .playlist-page__songs__list__main__song-card__title__info__artist-names span {

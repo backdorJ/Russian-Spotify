@@ -2,6 +2,8 @@
 import not_liked_icon from "../../../assets/mock/playlistpage/like.png"
 // @ts-ignore
 import liked_icon from "../../../assets/mock/playlistpage/songs/liked.png"
+// @ts-ignore
+import author_icon from "../../../assets/song/author_icon.png"
 import {FC, Fragment, useContext, useEffect, useState} from "react";
 import {getImage} from "../../../http/fileApi";
 import {useNavigate} from "react-router-dom";
@@ -12,7 +14,7 @@ import handleImageNotLoaded from "../../../functions/handleImageNotLoaded";
 import PlayIcon from "../../../assets/mock/common/PlayIcon";
 import CreateOrEditSongModal
     from "../../../commonComponents/SideBar/components/CreateOrEditSongModal/CreateOrEditSongModal";
-import roles from "../../../utils/roles";
+import EditSongAuthorModal from "./modals/EditSongAuthorModal/EditSongAuthorModal";
 
 const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
     const userStore = useContext(UserContext)
@@ -21,23 +23,33 @@ const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
     const [isLikedSong, setIsLikedSong] = useState(song.isInFavorite)
     const [isMouseOverPlay, setIsMouseOverPlay] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
+    const [showEditAuthorModal, setShowEditAuthorModal] = useState(false)
     let isInLikeProcess = false;
     let artistCount = song.authors.length
     let artistsMapped = song.authors.map((artist, index) => {
         if (index < artistCount - 1)
-            return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span>, </Fragment>)
-        return (<Fragment><span onClick={() => navigate(`/author/${artist}`)}>{artist}</span></Fragment>)
+            return (
+                <Fragment>
+                    <span
+                        onClick={() => navigate(`/author/${artist.authorName}`)}>{artist.authorName}</span>,<span> </span>
+                </Fragment>
+            )
+        return (
+            <Fragment>
+                <span onClick={() => navigate(`/author/${artist.authorName}`)}>{artist.authorName}</span>
+            </Fragment>
+        )
     })
 
     useEffect(() => {
-        if (showEditModal)
+        if (showEditModal || showEditAuthorModal)
             document.getElementById("body")!.style.overflowY = 'hidden';
         else
             document.getElementById("body")!.style.overflowY = 'visible';
 
         if (onModalOpen !== undefined)
             onModalOpen()
-    }, [showEditModal]);
+    }, [showEditModal, showEditAuthorModal]);
 
     const handleLikeClick = () => {
         if (!isInLikeProcess) {
@@ -90,15 +102,22 @@ const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
                     onError={handleImageNotLoaded}
                     className="playlist-page__songs__list__main__song-card__title__img"/>
                 <div className="playlist-page__songs__list__main__song-card__title__info">
-                    <div
-                        onClick={() => {
-                            if (userStore.user.roles.includes(roles.Author))
-                                setShowEditModal(true)
-                            else
-                                handlePlay()
-                        }}
-                        className="playlist-page__songs__list__main__song-card__title__info__song-name">
-                        <p>{song.songName}</p>
+                    <div className="playlist-page__songs__list__main__song-card__title__info__song-name">
+                        <p
+                            onClick={() => {
+                                if (song.authors.map(author => author.authorId).includes(userStore.user.id))
+                                    setShowEditModal(true)
+                                else
+                                    handlePlay()
+                            }}>
+                            {song.songName}
+                        </p>
+                        {
+                            song.authors.map(author => author.authorId).includes(userStore.user.id) &&
+                            <img
+                                onClick={() => setShowEditAuthorModal(true)}
+                                src={author_icon} alt="Edit authors"/>
+                        }
                     </div>
                     <div
                         className="playlist-page__songs__list__main__song-card__title__info__artist-names">
@@ -126,7 +145,12 @@ const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
                 show={showEditModal}
                 onHide={() => setShowEditModal(false)}
                 song={song}
-                reloadTrigger={() => {}}/>
+                reloadTrigger={() => {
+                }}/>
+            <EditSongAuthorModal
+                song={song}
+                show={showEditAuthorModal}
+                onHide={() => setShowEditAuthorModal(false)}/>
         </div>
     )
 }
