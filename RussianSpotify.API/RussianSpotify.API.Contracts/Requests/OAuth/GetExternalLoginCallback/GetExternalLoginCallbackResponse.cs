@@ -1,4 +1,4 @@
-namespace RussianSpotify.Contracts.Requests.OAuthAccount.GetExternalLoginCallback;
+namespace RussianSpotify.Contracts.Requests.OAuth.GetExternalLoginCallback;
 
 public class GetExternalLoginCallbackResponse
 {

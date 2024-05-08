@@ -12,55 +12,49 @@ import {
     GetSubscriptionsByFilterResponseItemDto
 } from "../../modules/databaseInteraction/DTOs/subscriptionInteraction/GetSubscriptionsByFilter/GetSubscriptionsByFilterResponseItemDto";
 import {
-    DeleteSubscriptionRequestDto
-} from "../../modules/databaseInteraction/DTOs/subscriptionInteraction/DeleteSubscription/DeleteSubscriptionRequestDto";
-import {
-    DeleteSubscriptionResponseDto
-} from "../../modules/databaseInteraction/DTOs/subscriptionInteraction/DeleteSubscription/DeleteSubscriptionResponseDto";
-import {
-    DeleteUserResponseDto
-} from "../../modules/databaseInteraction/DTOs/userInteractionDTOs/DeleteUser/DeleteUserResponseDto";
-import {
     PatchUpdateSubscriptionRequestDto
 } from "../../modules/databaseInteraction/DTOs/subscriptionInteraction/PatchUpdateSubscription/PatchUpdateSubscriptionRequestDto";
+import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
+import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
 
 @Injectable()
 export class SubscriptionService {
-    constructor(@InjectRepository(Subscribe) private readonly subscriptionRepository: Repository<Subscribe>,) {}
+    constructor(@InjectRepository(Subscribe) private readonly subscriptionRepository: Repository<Subscribe>,) {
+    }
 
     async getSubscriptionsByFilter(request: GetSubscriptionsByFilterRequestDto): Promise<GetSubscriptionsByFilterResponseDto> {
         let query = this.subscriptionRepository.createQueryBuilder('s')
             .where("1 = 1");
 
-        if(request.id)
+        if (request.id)
             query = query.andWhere('"s"."Id" = :id', {id: request.id});
 
-        if(request.userId)
+        if (request.userId)
             query = query.andWhere('"s"."UserId" = :userId', {userId: request.userId})
 
         // @ts-ignore
-        if(request.alreadyFinished && request.alreadyFinished == "true")
+        if (request.alreadyFinished && request.alreadyFinished == "true")
             query = query.andWhere('"s"."DateEnd" AT TIME ZONE \'UTC\' < CURRENT_DATE AT TIME ZONE \'UTC\'')
-        else if(request.alreadyFinished)
+        else if (request.alreadyFinished)
             query = query.andWhere('"s"."DateEnd" AT TIME ZONE \'UTC\' > CURRENT_DATE AT TIME ZONE \'UTC\'')
 
-        if(request.finishedAfter)
+        if (request.finishedAfter)
             query = query.andWhere('"s"."DateEnd" AT TIME ZONE \'UTC\' > :date AT TIME ZONE \'UTC\'',
                 {date: request.finishedAfter});
 
-        if(request.finishedBefore)
+        if (request.finishedBefore)
             query = query.andWhere('"s"."DateEnd" AT TIME ZONE \'UTC\' < :date AT TIME ZONE \'UTC\'',
                 {date: request.finishedBefore});
 
-        if(request.startedAfter)
+        if (request.startedAfter)
             query = query.andWhere('"s"."DateStart" AT TIME ZONE \'UTC\' > :date AT TIME ZONE \'UTC\'',
                 {date: request.startedAfter});
 
-        if(request.startedBefore)
+        if (request.startedBefore)
             query = query.andWhere('"s"."DateStart" AT TIME ZONE \'UTC\' < :date AT TIME ZONE \'UTC\'',
                 {date: request.startedBefore});
 
-        if(request.userRole)
+        if (request.userRole)
             query = query
                 .innerJoin('AspNetUserRoles', 'ur', '"ur"."UserId" = "s"."UserId"')
                 .innerJoin('AspNetRoles', 'r', '"r"."Id" = "ur"."RoleId"')
@@ -95,41 +89,41 @@ export class SubscriptionService {
         return result;
     }
 
-    async deleteSubscription(request: DeleteSubscriptionRequestDto)
-        : Promise<DeleteSubscriptionResponseDto> {
+    async deleteSubscription(request: DeleteRequesDtotBase)
+        : Promise<DeleteResponseDtoBase> {
         let subscription = await this.subscriptionRepository.findOneByOrFail({"Id": request.id});
 
-        if(!subscription)
+        if (!subscription)
             throw new NotFoundException("Subscription not found");
 
         await this.subscriptionRepository
             .createQueryBuilder()
             .delete()
             .from(Subscribe)
-            .where("Id = :id", { id: request.id })
+            .where("Id = :id", {id: request.id})
             .execute()
 
-        return new DeleteUserResponseDto(request.id);
+        return new DeleteResponseDtoBase(request.id);
     }
 
     async updateSubscription(request: PatchUpdateSubscriptionRequestDto)
-        : Promise<void>{
+        : Promise<void> {
         let subscription = await this.subscriptionRepository.findOneByOrFail({"Id": request.id});
 
-        if(!subscription)
+        if (!subscription)
             throw new NotFoundException("Subscription not found");
 
-        if(request.dateEnd) {
+        if (request.dateEnd) {
             request.dateEnd = new Date(request.dateEnd);
             subscription.DateEnd = request.dateEnd.toISOString();
         }
 
-        if(request.dateStart) {
+        if (request.dateStart) {
             request.dateStart = new Date(request.dateStart);
             subscription.DateStart = request.dateStart.toISOString();
         }
 
-        if(request.userId)
+        if (request.userId)
             subscription.UserId = request.userId;
 
         await this.subscriptionRepository.save(subscription);

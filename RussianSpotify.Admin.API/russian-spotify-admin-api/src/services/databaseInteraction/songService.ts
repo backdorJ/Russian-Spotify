@@ -9,26 +9,22 @@ import {
     GetSongsByFilterResponseDto
 } from "../../modules/databaseInteraction/DTOs/songInteraction/GetSongsByFilter/GetSongsByFilterResponseDto";
 import {
-    DeleteSongRequestDto
-} from "../../modules/databaseInteraction/DTOs/songInteraction/DeleteSong/DeleteSongRequestDto";
-import {
-    DeleteSongResponseDto
-} from "../../modules/databaseInteraction/DTOs/songInteraction/DeleteSong/DeleteSongResponseDto";
-import {
     PatchUpdateSongRequestDto
 } from "../../modules/databaseInteraction/DTOs/songInteraction/PatchUpdateSong/PatchUpdateSongRequestDto";
 import {SongDto} from "../../modules/databaseInteraction/DTOs/common/SongDto";
 import {SongUser} from "../../DAL/entities/SongUser.entity";
 import {File} from "../../DAL/entities/File.entity";
+import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
+import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
 
 @Injectable()
-export class SongService{
+export class SongService {
     constructor(@InjectRepository(Song) private readonly songRepository: Repository<Song>,
                 @InjectRepository(SongUser) private readonly songUserRepository: Repository<SongUser>,
                 @InjectRepository(File) private readonly fileRepository: Repository<File>) {
     }
 
-    async getSongsByFilter(request: GetSongsByFilterRequestDto) : Promise<GetSongsByFilterResponseDto> {
+    async getSongsByFilter(request: GetSongsByFilterRequestDto): Promise<GetSongsByFilterResponseDto> {
         let query = this.songRepository.createQueryBuilder("s")
             .where("1 = 1");
 
@@ -38,50 +34,54 @@ export class SongService{
 
         if (request.songName)
             query = query
-                .andWhere('LOWER("s"."SongName") LIKE :songName',
+                .andWhere('LOWER("s"."SongName") LIKE \':songName%\'',
                     {songName: request.songName.toLowerCase()});
 
-        if(request.lessThenPlaysNumber)
+        if (request.lessThenPlaysNumber)
             query = query
                 .andWhere('"s"."PlaysNumber" < :playsNumber',
                     {playsNumber: request.lessThenPlaysNumber});
 
-        if(request.moreThenPlaysNumber)
+        if (request.moreThenPlaysNumber)
             query = query
                 .andWhere('"s"."PlaysNumber" > :playsNumber',
                     {playsNumber: request.moreThenPlaysNumber});
 
-        if(request.moreThenDuration)
+        if (request.moreThenDuration)
             query = query
                 .andWhere('"s"."Duration" > :duration',
                     {duration: request.moreThenDuration});
 
-        if(request.lessThenDuration)
+        if (request.lessThenDuration)
             query = query
                 .andWhere('"s"."Duration" < :duration',
                     {duration: request.lessThenDuration});
 
-        if(request.categoryId)
+        if (request.categoryId)
             query = query
                 .andWhere('"s"."CategoryId" = :categoryId', {categoryId: request.categoryId});
 
         // @ts-ignore
-        if(request.authorsIds && (!Array.isArray(request.authorsIds) || request.authorsIds.length > 0)) {
-            if(!Array.isArray(request.authorsIds))
+        if (request.authorsIds && (!Array.isArray(request.authorsIds) || request.authorsIds.length > 0)) {
+            if (!Array.isArray(request.authorsIds))
                 request.authorsIds = [request.authorsIds];
             query = query
                 .innerJoin('SongUser', "su", '"s"."Id" = "su"."SongsId"')
                 .andWhere('"su"."AuthorsId" IN (:...authorsIds)', {authorsIds: request.authorsIds});
         }
         // @ts-ignore
-        if(request.orderByPlaysNumber && request.orderByPlaysNumber == 'true')
+        if (request.orderByPlaysNumber && request.orderByPlaysNumber == 'true')
             query = query
                 .addOrderBy('"s"."PlaysNumber"', "ASC")
         // @ts-ignore
-        else if(request.orderByPlaysNumber && request.orderByPlaysNumber == 'false')
+        else if (request.orderByPlaysNumber && request.orderByPlaysNumber == 'false')
             query = query
                 .addOrderBy('"s"."PlaysNumber"', "DESC");
 
+        if (request.albumId)
+            query = query
+                .innerJoin('PlaylistSong', 'ps', '"s"."Id" = "ps"."SongsId"')
+                .andWhere('"ps"."PlaylistId" = :albumId', {albumId: request.albumId});
 
         let totalCount = await query.getCount();
 
@@ -89,7 +89,7 @@ export class SongService{
             .skip(request.pageSize * (request.pageNumber - 1))
             .take(request.pageSize);
 
-        if(!request.authorsIds || request.authorsIds.length == 0)
+        if (!request.authorsIds || request.authorsIds.length == 0)
             query = query.innerJoin('SongUser', 'su', '"s"."Id" = "su"."SongsId"')
                 .innerJoin('AspNetUsers', 'u', '"u"."Id" = "su"."AuthorsId"');
         else
@@ -112,9 +112,9 @@ export class SongService{
         let result = new GetSongsByFilterResponseDto();
         result.totalCount = totalCount;
 
-        for(let i = 0; i < resultFromDb.length; i++){
+        for (let i = 0; i < resultFromDb.length; i++) {
             let song = result.songs.find(x => x.id === resultFromDb[i].Id);
-            if(!song) {
+            if (!song) {
                 song = new SongDto();
                 result.songs.push(song);
             }
@@ -131,39 +131,39 @@ export class SongService{
         return result;
     }
 
-    async deleteSong(request: DeleteSongRequestDto) : Promise<DeleteSongResponseDto> {
+    async deleteSong(request: DeleteRequesDtotBase): Promise<DeleteResponseDtoBase> {
         let song = await this.songRepository.findOneByOrFail({"Id": request.id});
 
-        if(!song)
+        if (!song)
             throw new NotFoundException("Song not found");
 
         await this.songRepository.createQueryBuilder()
             .delete()
             .from(Song)
-            .where("Id = :id", { id: request.id })
+            .where("Id = :id", {id: request.id})
             .execute()
 
-        return new DeleteSongResponseDto(request.id);
+        return new DeleteResponseDtoBase(request.id);
     }
 
-    async updateSong(request: PatchUpdateSongRequestDto) : Promise<void> {
+    async updateSong(request: PatchUpdateSongRequestDto): Promise<void> {
         let song = await this.songRepository.findOneByOrFail({"Id": request.id});
 
-        if(!song)
+        if (!song)
             throw new NotFoundException("Song not found");
 
-        if(request.imageId)
+        if (request.imageId)
             song.ImageId = request.imageId;
 
-        if(request.duration)
+        if (request.duration)
             song.Duration = request.duration;
 
-        if(request.name)
+        if (request.name)
             song.SongName = request.name;
 
         // @ts-ignore
-        if(request.addAuthorsIds && (!Array.isArray(request.addAuthorsIds) || request.addAuthorsIds.length > 0)) {
-            if(!Array.isArray(request.addAuthorsIds))
+        if (request.addAuthorsIds && (!Array.isArray(request.addAuthorsIds) || request.addAuthorsIds.length > 0)) {
+            if (!Array.isArray(request.addAuthorsIds))
                 request.addAuthorsIds = [request.addAuthorsIds];
 
             let insertValues = request.addAuthorsIds.map(x => {
@@ -180,21 +180,21 @@ export class SongService{
         }
 
         // @ts-ignore
-        if(request.removeAuthorsIds && (!Array.isArray(request.removeAuthorsIds) || request.removeAuthorsIds.length > 0)) {
-            if(!Array.isArray(request.removeAuthorsIds))
+        if (request.removeAuthorsIds && (!Array.isArray(request.removeAuthorsIds) || request.removeAuthorsIds.length > 0)) {
+            if (!Array.isArray(request.removeAuthorsIds))
                 request.removeAuthorsIds = [request.removeAuthorsIds];
 
             await this.songUserRepository.createQueryBuilder()
                 .delete()
                 .from(SongUser)
-                .where("AuthorsId IN (:...ids)", { ids: request.removeAuthorsIds })
+                .where("AuthorsId IN (:...ids)", {ids: request.removeAuthorsIds})
                 .execute()
         }
 
-        if(request.playsNumber)
+        if (request.playsNumber)
             song.PlaysNumber = request.playsNumber;
 
-        if(request.fileId) {
+        if (request.fileId) {
             let file = await this.fileRepository.findOneByOrFail({"Id": request.fileId});
             file.SongId = request.id;
             await this.songRepository.save(file);

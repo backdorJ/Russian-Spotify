@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
+namespace RussianSpotify.API.Core.Exceptions.AuthExceptions;
 
 /// <summary>
 /// Исключение выбрасывается, если пользователь пытается зарегистрироваться с почтой, которая уже есть в бд

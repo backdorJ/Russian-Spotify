@@ -1,4 +1,4 @@
-namespace RussianSpotify.Contracts.Requests.Account.PostRevokeToken;
+namespace RussianSpotify.Contracts.Requests.Auth.PostRevokeToken;
 
 public class PostRevokeTokenRequest
 {

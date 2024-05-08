@@ -1,7 +1,7 @@
 using FluentValidation;
 using RussianSpotify.API.Core.Enums;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostRevokeToken;
+namespace RussianSpotify.API.Core.Requests.Auth.PostRevokeToken;
 
 /// <summary>
 /// Валидатор для <see cref="PostRevokeTokenCommand"/>

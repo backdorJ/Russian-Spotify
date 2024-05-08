@@ -1,4 +1,4 @@
-export class DeleteSubscriptionResponseDto {
+export class PostCreateResponseDtoBase {
     constructor(id: string) {
         this.id = id;
     }

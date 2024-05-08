@@ -7,10 +7,10 @@ using RussianSpotify.API.Core.DefaultSettings;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Enums;
 using RussianSpotify.API.Core.Exceptions.AccountExceptions;
-using RussianSpotify.API.Core.Exceptions.OAuthAccountExceptions;
+using RussianSpotify.API.Core.Exceptions.AuthExceptions;
+using RussianSpotify.API.Core.Exceptions.OAuthExceptions;
 using RussianSpotify.API.Core.Extensions;
-using RussianSpotify.API.Core.Requests.OAuthAccount.GetExternalLoginCallback;
-using RussianSpotify.Contracts.Requests.OAuthAccount.GetExternalLoginCallback;
+using RussianSpotify.Contracts.Requests.OAuth.GetExternalLoginCallback;
 
 namespace RussianSpotify.API.Core.Requests.OAuth.GetExternalLoginCallback;
 

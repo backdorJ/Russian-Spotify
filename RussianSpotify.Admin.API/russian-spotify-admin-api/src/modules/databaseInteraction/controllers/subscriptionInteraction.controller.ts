@@ -8,14 +8,10 @@ import {
 import {SubscriptionService} from "../../../services/databaseInteraction/subscriptionService";
 import {ApiTags} from "@nestjs/swagger";
 import {
-    DeleteSubscriptionRequestDto
-} from "../DTOs/subscriptionInteraction/DeleteSubscription/DeleteSubscriptionRequestDto";
-import {
-    DeleteSubscriptionResponseDto
-} from "../DTOs/subscriptionInteraction/DeleteSubscription/DeleteSubscriptionResponseDto";
-import {
     PatchUpdateSubscriptionRequestDto
 } from "../DTOs/subscriptionInteraction/PatchUpdateSubscription/PatchUpdateSubscriptionRequestDto";
+import {DeleteRequesDtotBase} from "../DTOs/common/DeleteRequesDtotBase";
+import {DeleteResponseDtoBase} from "../DTOs/common/DeleteResponseDtoBase";
 
 @ApiTags("SubscriptionInteraction")
 @Controller('api/SubscriptionInteraction')
@@ -29,8 +25,8 @@ export class SubscriptionInteractionController {
     }
 
     @Delete("DeleteSubscription")
-    async deleteSubscription(@Body() deleteSubscriptionRequestDto: DeleteSubscriptionRequestDto)
-        : Promise<DeleteSubscriptionResponseDto> {
+    async deleteSubscription(@Body() deleteSubscriptionRequestDto: DeleteRequesDtotBase)
+        : Promise<DeleteResponseDtoBase> {
         return await this.subscriptionService.deleteSubscription(deleteSubscriptionRequestDto);
     }
 

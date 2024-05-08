@@ -1,10 +1,10 @@
-import {Column, Entity, PrimaryColumn} from "typeorm";
+import {Column, Entity, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./User.entity";
 import {Song} from "./Song.entity";
 
 @Entity("Buckets")
 export class Bucket {
-    @PrimaryColumn()
+    @PrimaryColumn({type: "uuid"})
     Id: string;
 
     User: User;

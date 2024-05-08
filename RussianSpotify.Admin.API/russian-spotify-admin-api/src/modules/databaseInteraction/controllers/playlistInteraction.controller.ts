@@ -7,9 +7,9 @@ import {
 import {
     GetPlaylistsByFilterResponseDto
 } from "../DTOs/playlistInteraction/GetPlaylistsByFilter/GetPlaylistsByFilterResponseDto";
-import {DeletePlaylistResponseDto} from "../DTOs/playlistInteraction/DeletePlaylist/DeletePlaylistResponseDto";
-import {DeletePlaylistRequestDto} from "../DTOs/playlistInteraction/DeletePlaylist/DeletePlaylistRequestDto";
 import {PatchUpdatePlaylistRequestDto} from "../DTOs/playlistInteraction/UpdatePlaylist/PatchUpdatePlaylistRequestDto";
+import {DeleteRequesDtotBase} from "../DTOs/common/DeleteRequesDtotBase";
+import {DeleteResponseDtoBase} from "../DTOs/common/DeleteResponseDtoBase";
 
 @ApiTags("PlaylistInteraction")
 @Controller("api/PlaylistInteraction")
@@ -23,7 +23,7 @@ export class PlaylistInteractionController {
     }
 
     @Delete("DeletePlaylist")
-    async deletePlaylist(@Body() deletePlaylistRequestDto: DeletePlaylistRequestDto): Promise<DeletePlaylistResponseDto> {
+    async deletePlaylist(@Body() deletePlaylistRequestDto: DeleteRequesDtotBase): Promise<DeleteResponseDtoBase> {
         return await this.playlistService.deletePlaylist(deletePlaylistRequestDto);
     }
 

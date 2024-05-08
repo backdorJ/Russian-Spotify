@@ -1,8 +1,7 @@
 using FluentValidation;
 using RussianSpotify.API.Core.Enums;
-using RussianSpotify.API.Core.Requests.Auth.PostRegister;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostRegister;
+namespace RussianSpotify.API.Core.Requests.Auth.PostRegister;
 
 /// <summary>
 /// Валидатор для <see cref="PostRegisterCommand"/>

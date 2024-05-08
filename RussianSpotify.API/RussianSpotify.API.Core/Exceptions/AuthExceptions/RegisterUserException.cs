@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
+namespace RussianSpotify.API.Core.Exceptions.AuthExceptions;
 
 /// <summary>
 /// Ошибка выбрасывается, если UserManager не смог по каким-то причинам зарегистрировать пользователя

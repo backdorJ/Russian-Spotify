@@ -3,9 +3,9 @@ import {GetUsersByFilterResponseDto} from "../DTOs/userInteractionDTOs/GetUsersB
 import {GetUsersByFilterRequestDto} from "../DTOs/userInteractionDTOs/GetUsersByFilter/GetUsersByFilterRequestDto";
 import {UsersService} from "../../../services/databaseInteraction/usersService";
 import {ApiTags} from "@nestjs/swagger";
-import {DeleteUserRequestDto} from "../DTOs/userInteractionDTOs/DeleteUser/DeleteUserRequestDto";
 import {PatchUpdateUserRequestDto} from "../DTOs/userInteractionDTOs/PatchUpdateUser/PatchUpdateUserRequestDto";
-import {DeleteUserResponseDto} from "../DTOs/userInteractionDTOs/DeleteUser/DeleteUserResponseDto";
+import {DeleteRequesDtotBase} from "../DTOs/common/DeleteRequesDtotBase";
+import {DeleteResponseDtoBase} from "../DTOs/common/DeleteResponseDtoBase";
 
 @ApiTags("UserInteraction")
 @Controller("api/UserInteraction")
@@ -18,7 +18,7 @@ export class UserInteractionController {
     }
 
     @Delete("DeleteUser")
-    async deleteUser(@Body() deleteUserRequestDto: DeleteUserRequestDto) : Promise<DeleteUserResponseDto> {
+    async deleteUser(@Body() deleteUserRequestDto: DeleteRequesDtotBase) : Promise<DeleteResponseDtoBase> {
         return await this.usersService.deleteUser(deleteUserRequestDto);
     }
 

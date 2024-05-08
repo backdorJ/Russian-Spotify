@@ -31,6 +31,11 @@ import {
 } from "./modules/databaseInteraction/controllers/subscriptionInteraction.controller";
 import {PlaylistInteractionController} from "./modules/databaseInteraction/controllers/playlistInteraction.controller";
 import {PlaylistService} from "./services/databaseInteraction/playlistService";
+import {FileService} from "./services/databaseInteraction/fileService";
+import {FileInteractionController} from "./modules/databaseInteraction/controllers/fileInteraction.controller";
+import {PlaylistSong} from "./DAL/entities/PlaylistSong.entity";
+import {FileInterceptor} from "@nestjs/platform-express";
+import {FileExtender} from "./interceptors/FileInterceptor";
 
 const httpsAgent = new Agent({ rejectUnauthorized: false });
 
@@ -65,7 +70,9 @@ const httpsAgent = new Agent({ rejectUnauthorized: false });
           Bucket,
           BucketSong,
           SongUser,
-          Subscribe]),
+          Subscribe,
+          PlaylistSong
+      ]),
       AuthModule,
       HttpModule.register({
           httpsAgent,
@@ -77,7 +84,9 @@ const httpsAgent = new Agent({ rejectUnauthorized: false });
       BucketInteractionController,
       SongInteractionController,
       SubscriptionInteractionController,
-      PlaylistInteractionController],
+      PlaylistInteractionController,
+      FileInteractionController,
+  ],
   providers: [
       {
         provide: APP_GUARD,
@@ -87,7 +96,9 @@ const httpsAgent = new Agent({ rejectUnauthorized: false });
       BucketService,
       SongService,
       SubscriptionService,
-      PlaylistService
+      PlaylistService,
+      FileService,
+      FileExtender
   ],
 })
 export class AppModule {}

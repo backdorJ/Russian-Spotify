@@ -1,5 +1,4 @@
 using MediatR;
-using RussianSpotify.Contracts.Requests.Account.PostRegister;
 using RussianSpotify.Contracts.Requests.Auth.PostRegister;
 
 namespace RussianSpotify.API.Core.Requests.Auth.PostRegister;

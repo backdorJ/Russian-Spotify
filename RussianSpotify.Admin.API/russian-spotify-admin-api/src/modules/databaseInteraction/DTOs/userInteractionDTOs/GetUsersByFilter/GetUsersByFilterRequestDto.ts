@@ -1,12 +1,7 @@
 import {ApiProperty} from "@nestjs/swagger";
+import {PaginationRequestDtoBase} from "../../common/PaginationRequestDtoBase";
 
-export class GetUsersByFilterRequestDto {
-    @ApiProperty({name: "pageNumber", type: Number, default: 1})
-    pageNumber: number = 1;
-
-    @ApiProperty({name: "pageSize", type: Number, default: 20})
-    pageSize: number = 20;
-
+export class GetUsersByFilterRequestDto extends PaginationRequestDtoBase{
     @ApiProperty({name: "id", type: String, nullable: true, required: false})
     id : string | null = null;
 

@@ -3,9 +3,9 @@ import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
 import {SongService} from "../../../services/databaseInteraction/songService";
 import {GetSongsByFilterRequestDto} from "../DTOs/songInteraction/GetSongsByFilter/GetSongsByFilterRequestDto";
 import {GetSongsByFilterResponseDto} from "../DTOs/songInteraction/GetSongsByFilter/GetSongsByFilterResponseDto";
-import {DeleteSongRequestDto} from "../DTOs/songInteraction/DeleteSong/DeleteSongRequestDto";
-import {DeleteSongResponseDto} from "../DTOs/songInteraction/DeleteSong/DeleteSongResponseDto";
 import {PatchUpdateSongRequestDto} from "../DTOs/songInteraction/PatchUpdateSong/PatchUpdateSongRequestDto";
+import {DeleteRequesDtotBase} from "../DTOs/common/DeleteRequesDtotBase";
+import {DeleteResponseDtoBase} from "../DTOs/common/DeleteResponseDtoBase";
 
 @ApiBearerAuth()
 @ApiTags("SongInteraction")
@@ -20,7 +20,7 @@ export class SongInteractionController {
     }
 
     @Delete("DeleteSong")
-    async deleteSong(@Body() deleteSongRequestDto: DeleteSongRequestDto) : Promise<DeleteSongResponseDto> {
+    async deleteSong(@Body() deleteSongRequestDto: DeleteRequesDtotBase) : Promise<DeleteResponseDtoBase> {
         return await this.songService.deleteSong(deleteSongRequestDto);
     }
 

@@ -1,4 +1,4 @@
-export class DeletePlaylistRequestDto {
+export class DeleteResponseDtoBase {
     constructor(id: string) {
         this.id = id;
     }

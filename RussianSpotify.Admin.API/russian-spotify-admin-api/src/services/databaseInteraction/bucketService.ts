@@ -12,34 +12,43 @@ import {SongDto} from "../../modules/databaseInteraction/DTOs/common/SongDto";
 import {Song} from "../../DAL/entities/Song.entity";
 import {BucketSong} from "../../DAL/entities/BucketSong.entity";
 import {
-    DeleteBucketRequestDto
-} from "../../modules/databaseInteraction/DTOs/bucketInteraction/DeleteBucket/DeleteBucketRequestDto";
-import {
-    DeleteBucketResponseDto
-} from "../../modules/databaseInteraction/DTOs/bucketInteraction/DeleteBucket/DeleteBucketResponseDto";
-import {
     PatchUpdateBucketRequestDto
 } from "../../modules/databaseInteraction/DTOs/bucketInteraction/PatchUpdateBucket/PatchUpdateBucketRequestDto";
+import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
+import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
+import {
+    PostCreateBucketRequestDto
+} from "../../modules/databaseInteraction/DTOs/bucketInteraction/PostCreateBucket/PostCreateBucketRequestDto";
+import {PostCreateResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/PostCreateResponseDtoBase";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class BucketService {
-    constructor(@InjectRepository(Bucket) private readonly bucketRepository : Repository<Bucket>,
-                @InjectRepository(Song) private readonly songsRepository : Repository<Song>,
+    constructor(@InjectRepository(Bucket) private readonly bucketRepository: Repository<Bucket>,
+                @InjectRepository(Song) private readonly songsRepository: Repository<Song>,
                 @InjectRepository(BucketSong) private readonly bucketSongRepository: Repository<BucketSong>,) {
     }
 
-    async getBucketsByFilter(request: GetBucketsByFilterRequestDto) : Promise<GetBucketsByFilterResponseDto> {
+    async createBucket(request: PostCreateBucketRequestDto): Promise<PostCreateResponseDtoBase> {
+        let createdItem = this.bucketRepository.create();
+        createdItem.Id = uuidv4();
+        createdItem.UserId = request.userId;
+        createdItem = await this.bucketRepository.save(createdItem);
+        return new PostCreateResponseDtoBase(createdItem.Id);
+    }
+
+    async getBucketsByFilter(request: GetBucketsByFilterRequestDto): Promise<GetBucketsByFilterResponseDto> {
         let query = this.bucketRepository.createQueryBuilder('b').where("1 = 1");
 
-        if(request.id)
+        if (request.id)
             query = query
                 .andWhere('"b"."Id" = :id', {id: request.id})
-        else if(request.userId)
+        else if (request.userId)
             query = query
                 .andWhere('"b"."UserId" = :userId', {userId: request.userId})
 
         query = query
-            .innerJoin(BucketSong, 'bs', '"b"."Id" = "bs"."BucketsId"', { quotedTableName: true })
+            .innerJoin(BucketSong, 'bs', '"b"."Id" = "bs"."BucketsId"', {quotedTableName: true})
             .addSelect([
                 '"b"."Id"',
                 '"b"."UserId"',
@@ -52,7 +61,7 @@ export class BucketService {
         result.userId = resultDbItems[0].UserId;
         result.bucketId = resultDbItems[0].Id;
         result.songs = resultDbItems.map(x => {
-            if(!result.songs.find(s => x.id == s.id)) {
+            if (!result.songs.find(s => x.id == s.id)) {
                 let songItem = new SongDto();
                 songItem.id = x.SongsId;
                 return songItem;
@@ -79,7 +88,7 @@ export class BucketService {
 
         console.log(songs);
 
-        for(let i = 0; i < songs.length; i++) {
+        for (let i = 0; i < songs.length; i++) {
             let song = result.songs.find(x => x.id === songs[i].Id);
             song.authorNames.push(songs[i].UserName);
             song.authorIds.push(songs[i].AuthorsId);
@@ -93,31 +102,31 @@ export class BucketService {
         return result;
     }
 
-    async deleteBucket(request: DeleteBucketRequestDto) : Promise<DeleteBucketResponseDto> {
+    async deleteBucket(request: DeleteRequesDtotBase): Promise<DeleteResponseDtoBase> {
         let bucket = await this.bucketRepository.findOneByOrFail({"Id": request.id});
 
-        if(!bucket)
+        if (!bucket)
             throw new NotFoundException("Bucket not found");
 
         await this.bucketRepository
             .createQueryBuilder()
             .delete()
             .from(Bucket)
-            .where("Id = :id", { id: request.id })
+            .where("Id = :id", {id: request.id})
             .execute()
 
-        return new DeleteBucketResponseDto(request.id);
+        return new DeleteResponseDtoBase(request.id);
     }
 
-    async updateBucket(request: PatchUpdateBucketRequestDto) : Promise<void> {
+    async updateBucket(request: PatchUpdateBucketRequestDto): Promise<void> {
         let bucket = await this.bucketRepository.findOneByOrFail({"Id": request.id});
 
-        if(!bucket)
+        if (!bucket)
             throw new NotFoundException("Bucket not found");
 
         // @ts-ignore
-        if(request.removeSongIds && (!Array.isArray(request.removeSongIds) || request.removeSongIds.length > 0)) {
-            if(!Array.isArray(request.removeSongIds))
+        if (request.removeSongIds && (!Array.isArray(request.removeSongIds) || request.removeSongIds.length > 0)) {
+            if (!Array.isArray(request.removeSongIds))
                 request.removeSongIds = [request.removeSongIds];
 
             await this.bucketSongRepository.createQueryBuilder()
@@ -128,8 +137,8 @@ export class BucketService {
         }
 
         // @ts-ignore
-        if(request.addSongsIds && (!Array.isArray(request.addSongsIds) || request.addSongsIds.length > 0)) {
-            if(!Array.isArray(request.addSongsIds))
+        if (request.addSongsIds && (!Array.isArray(request.addSongsIds) || request.addSongsIds.length > 0)) {
+            if (!Array.isArray(request.addSongsIds))
                 request.addSongsIds = [request.addSongsIds];
 
             const insertValues = request.addSongsIds.map(x => {

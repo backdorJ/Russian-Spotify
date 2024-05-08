@@ -13,4 +13,5 @@ import {UserInteractionController} from "./controllers/userInteraction.controlle
     providers: []
 })
 
-export class DatabaseInteractionModule {}
+export class DatabaseInteractionModule {
+}

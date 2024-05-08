@@ -1,7 +1,7 @@
 using MediatR;
-using RussianSpotify.Contracts.Requests.OAuthAccount.GetExternalLoginCallback;
+using RussianSpotify.Contracts.Requests.OAuth.GetExternalLoginCallback;
 
-namespace RussianSpotify.API.Core.Requests.OAuthAccount.GetExternalLoginCallback;
+namespace RussianSpotify.API.Core.Requests.OAuth.GetExternalLoginCallback;
 
 /// <summary>
 /// Команда для авторизации через сторонние сервисы

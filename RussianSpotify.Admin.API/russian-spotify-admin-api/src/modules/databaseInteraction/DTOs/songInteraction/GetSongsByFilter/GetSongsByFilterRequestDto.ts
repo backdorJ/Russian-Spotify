@@ -1,10 +1,7 @@
 import {ApiProperty} from "@nestjs/swagger";
+import {PaginationRequestDtoBase} from "../../common/PaginationRequestDtoBase";
 
-export class GetSongsByFilterRequestDto{
-    @ApiProperty({name: 'pageNumber', required: false, default: 1})
-    pageNumber:number;
-    @ApiProperty({name: 'pageSize', required: false, default: 20})
-    pageSize:number;
+export class GetSongsByFilterRequestDto extends PaginationRequestDtoBase{
     @ApiProperty({name: 'authorsIds', required: false})
     authorsIds:string[] = [];
     @ApiProperty({name: 'songId', required: false})
@@ -23,4 +20,6 @@ export class GetSongsByFilterRequestDto{
     moreThenDuration:number;
     @ApiProperty({name: 'lessThenDuration', required: false})
     lessThenDuration:number;
+    @ApiProperty({name: 'albumId', required: false})
+    albumId: string;
 }
