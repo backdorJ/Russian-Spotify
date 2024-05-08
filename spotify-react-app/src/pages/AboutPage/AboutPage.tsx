@@ -62,7 +62,7 @@ const AboutPage = () => {
                         enterprise
                         query={
                             {
-                                apikey: '745d6725-4849-4d98-a32b-942c84d144d0',
+                                apikey: process.env.API_KEY_YANDEX,
                                 mode: "release",
                             }
                         }>
