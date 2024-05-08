@@ -78,7 +78,7 @@ public class PatchUpdateUserInfoCommandHandler
 
             if (imageFromDb is null)
                 throw new UserBadImageException("File not found");
-            
+
             // Проверка, является ли файл картинкой и присвоение
             if (!_fileHelper.IsImage(imageFromDb))
                 throw new UserBadImageException("File's content type is not Image");
@@ -101,16 +101,16 @@ public class PatchUpdateUserInfoCommandHandler
                 cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-        
+
         var changePasswordResult = IdentityResult.Success;
-        
+
         if (!string.IsNullOrWhiteSpace(request.NewPassword)
             && !string.IsNullOrWhiteSpace(request.NewPasswordConfirm)
             && request.NewPasswordConfirm!.Equals(request.NewPassword, StringComparison.Ordinal))
         {
             var identityUser = await _userManager.Users
                 .FirstOrDefaultAsync(i => i.Id == userId, cancellationToken);
-            
+
             if (string.IsNullOrWhiteSpace(identityUser!.PasswordHash))
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(identityUser);
@@ -121,11 +121,11 @@ public class PatchUpdateUserInfoCommandHandler
                     await _userManager.ChangePasswordAsync(identityUser,
                         request.CurrentPassword!, request.NewPassword);
         }
-        
+
         if (!changePasswordResult.Succeeded)
             throw new InvalidChangePasswordException(string.Join("\n",
                 changePasswordResult.Errors.Select(x => x.Description)));
-        
+
         await _emailSender.SendEmailAsync(user.Email!, message, cancellationToken);
 
         return new PatchUpdateUserInfoResponse { AccessToken = user.AccessToken, RefreshToken = user.RefreshToken };

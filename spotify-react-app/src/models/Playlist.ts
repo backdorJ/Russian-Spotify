@@ -39,8 +39,7 @@ export default class Playlist {
         authorName: string,
         releaseDate: Date,
         isAlbum: boolean,
-        isInFavorite: boolean)
-    {
+        isInFavorite: boolean) {
         let playlist = new Playlist()
 
         playlist.playlistId = playlistId;

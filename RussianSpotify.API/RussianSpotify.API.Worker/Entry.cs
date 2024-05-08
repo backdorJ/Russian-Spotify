@@ -26,7 +26,7 @@ public static class Entry
     {
         if (options is null)
             throw new ArgumentNullException(nameof(options));
-        
+
         if (options.DisplayDashBoard)
             app.UseHangfireDashboard("/worker", new DashboardOptions
             {
@@ -34,10 +34,10 @@ public static class Entry
             });
 
         app.UseHangfireServer();
-        
+
         AddJob<SendEndSubscribeNotification>(options.CronForSendNotificationSubscribe);
         AddJob<EmailNotificator>(options.CronForSendEmailNotificator);
-        
+
         return app;
     }
 

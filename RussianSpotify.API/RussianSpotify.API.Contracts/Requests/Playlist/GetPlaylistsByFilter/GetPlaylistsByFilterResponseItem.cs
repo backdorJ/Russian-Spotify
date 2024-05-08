@@ -9,7 +9,7 @@ public class GetPlaylistsByFilterResponseItem
     /// ИД плейлиста/альбома
     /// </summary>
     public Guid Id { get; set; }
-    
+
     /// <summary>
     /// Название плейлиста/альбома
     /// </summary>
@@ -34,7 +34,7 @@ public class GetPlaylistsByFilterResponseItem
     /// Дата релиза
     /// </summary>
     public DateTime ReleaseDate { get; set; }
-    
+
     /// <summary>
     /// Добавлен ли альбом в понравившееся
     /// </summary>

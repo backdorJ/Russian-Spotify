@@ -25,7 +25,7 @@ export default class Song {
     prevSong: Song | null;
 
     /** Следущая песня */
-    nextSong: Song| null;
+    nextSong: Song | null;
 
     constructor() {
         this.songId = "";

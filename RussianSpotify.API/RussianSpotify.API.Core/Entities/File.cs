@@ -17,7 +17,7 @@ public class File
         Size = size;
         User = user;
     }
-    
+
     public File()
     {
     }
@@ -26,7 +26,7 @@ public class File
     {
         Song = song;
     }
-    
+
     /// <summary>
     /// Ид файла
     /// </summary>

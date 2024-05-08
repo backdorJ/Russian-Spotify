@@ -16,14 +16,14 @@ public class GetAuthorRequest
 
         Name = request.Name;
     }
-    
+
     /// <summary>
     /// Пустой конструктор
     /// </summary>
     public GetAuthorRequest()
     {
     }
-    
+
     /// <summary>
     /// Имя автора
     /// </summary>

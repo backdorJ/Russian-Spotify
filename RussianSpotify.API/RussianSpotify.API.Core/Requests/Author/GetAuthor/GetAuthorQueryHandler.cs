@@ -27,7 +27,7 @@ public class GetAuthorQueryHandler
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
+
         var usersWithSameNames = await _dbContext.Users
             .AsNoTracking()
             .Where(x => x.UserName!.ToLower() == request.Name.ToLower())
@@ -35,7 +35,7 @@ public class GetAuthorQueryHandler
 
         var author = usersWithSameNames
             .FirstOrDefault(x => _roleManager.IsInRole(x, BaseRoles.AuthorRoleName));
-        
+
         if (author is null)
             throw new NotFoundException($"Автор с именем: {request.Name} не найден");
 

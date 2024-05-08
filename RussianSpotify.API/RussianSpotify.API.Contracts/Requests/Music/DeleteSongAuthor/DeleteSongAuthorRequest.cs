@@ -10,7 +10,6 @@ public class DeleteSongAuthorRequest
     /// </summary>
     public DeleteSongAuthorRequest()
     {
-        
     }
 
     /// <summary>
@@ -22,12 +21,12 @@ public class DeleteSongAuthorRequest
         SongId = request.SongId;
         AuthorId = request.AuthorId;
     }
-    
+
     /// <summary>
     /// Id песни
     /// </summary>
     public Guid SongId { get; set; }
-    
+
     /// <summary>
     /// Id автора
     /// </summary>

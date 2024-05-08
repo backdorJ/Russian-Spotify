@@ -1,4 +1,3 @@
-import Playlist from "../../../models/Playlist";
 import Song from "../../../models/Song";
 
 export interface ICreateOrEditSongModal {

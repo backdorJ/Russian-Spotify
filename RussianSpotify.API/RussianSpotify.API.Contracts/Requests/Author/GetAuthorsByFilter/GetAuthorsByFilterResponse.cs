@@ -22,7 +22,7 @@ public class GetAuthorsByFilterResponse
     /// Сущности
     /// </summary>
     public List<GetAuthorsByFilterResponseItem> Entities { get; set; }
-    
+
     /// <summary>
     /// Общее количество
     /// </summary>

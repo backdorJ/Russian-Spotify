@@ -10,9 +10,8 @@ public class AddSongAuthorRequest
     /// </summary>
     public AddSongAuthorRequest()
     {
-        
     }
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>
@@ -27,7 +26,7 @@ public class AddSongAuthorRequest
     /// Id автора
     /// </summary>
     public Guid AuthorId { get; set; }
-    
+
     /// <summary>
     /// Id песни
     /// </summary>

@@ -1,5 +1,4 @@
 
-
 .create-song-form {
     display: flex;
     flex-direction: column;
@@ -34,6 +33,10 @@
 
 .create-song-form__additional__duration {
 
+}
+
+.create-song-form__additional__duration span {
+    font-size: 16px;
 }
 
 .create-song-form__additional input, select {

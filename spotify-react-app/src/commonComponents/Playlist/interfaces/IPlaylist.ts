@@ -1,5 +1,5 @@
 import Playlist from "../../../models/Playlist";
 
-export interface IPlaylist{
+export interface IPlaylist {
     playlist: Playlist
 }

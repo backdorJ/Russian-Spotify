@@ -13,27 +13,27 @@ export default class PlayerStore {
         makeAutoObservable(this)
     }
 
-    get Player(){
+    get Player() {
         return this._player;
     }
 
-    set Player(player: Player){
+    set Player(player: Player) {
         this._player = player;
     }
 
-    get IsPlaying(){
+    get IsPlaying() {
         return this._isPlaying;
     }
 
-    set IsPlaying(isPlaying: boolean){
+    set IsPlaying(isPlaying: boolean) {
         this._isPlaying = isPlaying;
     }
 
-    get Volume(){
+    get Volume() {
         return this._volume;
     }
 
-    set Volume(volume: number){
+    set Volume(volume: number) {
         this._volume = volume;
     }
 }

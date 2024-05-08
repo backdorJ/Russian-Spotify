@@ -9,7 +9,7 @@ public class Bucket
     /// Ид пользователя
     /// </summary>
     public Guid Id { get; set; }
-    
+
     /// <summary>
     /// Пользователь
     /// </summary>

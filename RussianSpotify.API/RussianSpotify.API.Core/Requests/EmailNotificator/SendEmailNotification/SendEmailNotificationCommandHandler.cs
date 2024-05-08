@@ -10,7 +10,7 @@ namespace RussianSpotify.API.Core.Requests.EmailNotificator.SendEmailNotificatio
 public class SendEmailNotificationCommandHandler : IRequestHandler<SendEmailNotificationCommand>
 {
     private const int TakeCount = 50;
-    
+
     private readonly IDbContext _dbContext;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IEmailSender _emailSender;

@@ -16,7 +16,7 @@ public class PostConfirmPasswordResetCommandHandler : IRequestHandler<PostConfir
 
     public PostConfirmPasswordResetCommandHandler(UserManager<User> userManager)
         => _userManager = userManager;
-    
+
     /// <inheritdoc cref="IRequestHandler{TRequest, TResponse}"/>
     public async Task Handle(PostConfirmPasswordResetCommand request, CancellationToken cancellationToken)
     {
@@ -28,15 +28,15 @@ public class PostConfirmPasswordResetCommandHandler : IRequestHandler<PostConfir
         if (user is null)
             throw new NotFoundUserException(AuthErrorMessages.UserNotFound);
 
-        var passwordResetResult = await _userManager.ResetPasswordAsync(user, 
+        var passwordResetResult = await _userManager.ResetPasswordAsync(user,
             request.VerificationCodeFromUser, request.NewPassword);
-        
+
         if (!passwordResetResult.Succeeded)
             throw new BadRequestException(string.Join("\n", passwordResetResult.Errors));
-        
+
         user.SecurityStamp = _userManager.GenerateNewAuthenticatorKey();
         user.RefreshToken = null;
-        
+
         await _userManager.UpdateAsync(user);
     }
 }

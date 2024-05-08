@@ -55,7 +55,7 @@ public class SongController : FileBaseController
         var query = new GetSongsByFilterQuery(request);
         return await _mediator.Send(query, cancellationToken);
     }
-    
+
     /// <summary>
     /// Отправить песню в виде стрима
     /// </summary>
@@ -75,7 +75,7 @@ public class SongController : FileBaseController
         var result = await _mediator.Send(
             new GetSongContentByIdQuery(songId),
             cancellationToken);
-        
+
         return GetFileStreamResult(
             result,
             Response.Headers,
@@ -96,10 +96,11 @@ public class SongController : FileBaseController
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public async Task AddSongAsync([FromBody] AddSongRequest addSongRequest, CancellationToken cancellationToken)
+    public async Task<AddSongResponse> AddSongAsync([FromBody] AddSongRequest addSongRequest,
+        CancellationToken cancellationToken)
     {
         var command = new PostAddSongCommand(addSongRequest);
-        await _mediator.Send(command, cancellationToken);
+        return await _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -139,7 +140,8 @@ public class SongController : FileBaseController
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task<EditSongResponse> UpdateSongAsync([FromBody] EditSongRequest editSongRequest, CancellationToken cancellationToken)
+    public async Task<EditSongResponse> UpdateSongAsync([FromBody] EditSongRequest editSongRequest,
+        CancellationToken cancellationToken)
     {
         var command = new PatchEditSongCommand(editSongRequest);
         var result = await _mediator.Send(command, cancellationToken);
@@ -210,7 +212,7 @@ public class SongController : FileBaseController
     /// </summary>
     /// <param name="songId">ИД песни</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    [HttpDelete("RemoveSongFromBucket/{songId}")] 
+    [HttpDelete("RemoveSongFromBucket/{songId}")]
     public async Task DeleteSongFromBucketAsync([FromRoute] Guid songId, CancellationToken cancellationToken)
         => await _mediator.Send(new DeleteSongFromBucketCommand(songId), cancellationToken);
 

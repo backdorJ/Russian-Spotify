@@ -29,7 +29,7 @@ namespace RussianSpotify.API.WEB.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>

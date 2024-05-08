@@ -20,7 +20,7 @@ public class BaseFileStreamResponse
         FileName = fileName;
         ContentType = contentType;
     }
-    
+
     /// <summary>
     /// Контент
     /// </summary>

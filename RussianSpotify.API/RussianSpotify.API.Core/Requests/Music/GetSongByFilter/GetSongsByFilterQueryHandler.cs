@@ -45,7 +45,7 @@ public class GetSongsByFilterQueryHandler
 
         var filteredSongs =
             await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
-        
+
         var totalCount = await filteredSongs.CountAsync(cancellationToken);
 
         var resultSongs = await filteredSongs
@@ -64,7 +64,7 @@ public class GetSongsByFilterQueryHandler
             })
             .SkipTake(request: request)
             .ToListAsync(cancellationToken);
-        
+
         return new GetSongsByFilterResponse(resultSongs, totalCount);
     }
 }

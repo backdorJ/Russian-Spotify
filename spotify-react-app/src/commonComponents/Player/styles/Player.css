@@ -46,16 +46,16 @@
     transition: margin-bottom 0.3s ease-in-out;
 }
 
-.player-music-image-container:hover{
+.player-music-image-container:hover {
     cursor: pointer;
 }
 
-.player-music-image-container:hover img{
+.player-music-image-container:hover img {
     box-shadow: 0 0 10px rgb(168, 2, 255);
     transition: 0.5s;
 }
 
-.close-expanded:hover{
+.close-expanded:hover {
     cursor: pointer;
     box-shadow: 0 0 10px rgb(168, 2, 255);
     transition: 0.4s;
@@ -134,7 +134,7 @@
     transition: margin-bottom 0.3s ease-in-out;
 }
 
-.volume-slider{
+.volume-slider {
     transform: rotate(-360deg);
     -webkit-appearance: slider-vertical;
     position: absolute;
@@ -144,7 +144,7 @@
     right: 23.39%;
 }
 
-input[type=range]  {
+input[type=range] {
     width: 200px;
     height: 30px;
     -webkit-appearance: none;
@@ -153,6 +153,7 @@ input[type=range]  {
     transform: rotate(-90deg);
 
 }
+
 input[type=range]::-webkit-slider-runnable-track {
     border-radius: 10px/100%;
     height: 7px;
@@ -166,7 +167,7 @@ input[type=range]::-webkit-slider-thumb {
     box-shadow: 0 0 10px mediumpurple;
     border-radius: 10px/100%;
     cursor: pointer;
-    width:15px;
+    width: 15px;
     height: 15px;
     -webkit-appearance: none;
     margin-top: -4px;
@@ -192,11 +193,15 @@ input[type=range] {
 }
 
 @keyframes ani {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-.player-music-image{
+.player-music-image {
     animation: 12s linear 0s normal none infinite running rot;
     -webkit-animation: 12s linear 0s normal none infinite running rot;
     transition: all 0.3s ease-in-out;
@@ -210,6 +215,7 @@ input[type=range] {
         transform: rotate(360deg);
     }
 }
+
 @-webkit-keyframes rot {
     0% {
         transform: rotate(0deg);
@@ -220,7 +226,7 @@ input[type=range] {
 }
 
 .player-wrapper.expanded {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     bottom: 0;
     transition: margin-left 0.3s ease-in-out;
 }

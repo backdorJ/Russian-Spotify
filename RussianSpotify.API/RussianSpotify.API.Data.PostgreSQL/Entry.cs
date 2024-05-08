@@ -23,5 +23,5 @@ public static class Entry
         serviceCollection.AddScoped<IDbContext, EfContext>();
         serviceCollection.AddTransient<Migrator>();
         serviceCollection.AddLogging();
-    } 
+    }
 }

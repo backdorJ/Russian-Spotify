@@ -21,7 +21,6 @@ const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
     const [isLikedSong, setIsLikedSong] = useState(song.isInFavorite)
     const [isMouseOverPlay, setIsMouseOverPlay] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
-    const [reloadTrigger, setReloadTrigger] = useState(false)
     let isInLikeProcess = false;
     let artistCount = song.authors.length
     let artistsMapped = song.authors.map((artist, index) => {
@@ -69,6 +68,7 @@ const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
 
     return (
         <div
+            onMouseEnter={() => setIsMouseOverPlay(false)}
             className="playlist-page__songs__list__main__song-card">
             <div
                 onClick={handlePlay}
@@ -126,7 +126,7 @@ const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
                 show={showEditModal}
                 onHide={() => setShowEditModal(false)}
                 song={song}
-                reloadTrigger={() => setReloadTrigger(prev => !prev)}/>
+                reloadTrigger={() => {}}/>
         </div>
     )
 }

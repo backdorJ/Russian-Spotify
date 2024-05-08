@@ -3,7 +3,7 @@ import {base64UrlDecode} from "./isJwtDied";
 export const getUserId = () => {
     const jwt: string | null = localStorage.getItem("token");
 
-    if(jwt == null) return null;
+    if (jwt == null) return null;
 
     const [_, encodedPayload, __] = jwt.split('.');
 

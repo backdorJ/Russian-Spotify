@@ -26,6 +26,9 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
 
         const reset = () => {
             setName('')
+            setDuration(0)
+            setCategory(1)
+            setImageFiles([])
             setAudioFiles([])
         }
 
@@ -37,7 +40,7 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                 setName(value)
         }
 
-        const handleCreatePlaylist = () => {
+        const handleCreateSong = () => {
             if (isCreating) {
                 if (name === '') {
                     alert("Name required!")
@@ -62,8 +65,8 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                 .then(response => {
                     if (response.status === 200) {
                         alert(`Song '${response.value.songName}' was successfully uploaded!`)
-                        onHide()
                         reset()
+                        onHide()
                     } else {
                         if (response.status >= 500)
                             alert('Internal error happened. Please try later!')
@@ -73,7 +76,7 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                 })
         }
 
-        const handleEditPlaylist = () => {
+        const handleEditSong = () => {
             if ((name === '' || name === song?.songName)
                 && (duration === song?.duration)
                 && (song.category === categories.filter(i => i.categoryNumber == category)[0].categoryName)
@@ -86,7 +89,7 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
             editSongWithFile(editSongDto)
                 .then(response => {
                     if (response.status === 200) {
-                        alert(`Song ${response.value.songName} was successfully updated!`)
+                        alert(`Song '${response.value.songName}' was successfully updated!`)
                         onHide()
                         reset()
                         reloadTrigger()
@@ -143,7 +146,7 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                             required/>
                         <div className="create-song-form__additional">
                             <div className="create-song-form__additional__duration">
-                                <h3>Song duration:</h3>
+                                <h3>Song duration: <span>(in seconds)</span></h3>
                                 <input
                                     value={duration}
                                     onChange={e => setDuration(parseInt(e.target.value))}
@@ -197,15 +200,18 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                     <div className="modal-buttons">
                         <button
                             className="close-modal"
-                            onClick={() => onHide()}>
+                            onClick={() => {
+                                reset()
+                                onHide()
+                            }}>
                             Close
                         </button>
                         <button className="submit-modal"
                                 onClick={() => {
                                     if (isCreating)
-                                        handleCreatePlaylist()
+                                        handleCreateSong()
                                     else
-                                        handleEditPlaylist()
+                                        handleEditSong()
                                 }}>
                             {isCreating ? 'Create' : 'Update'}
                         </button>

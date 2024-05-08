@@ -123,7 +123,7 @@ export const getCategories = async () => {
 }
 
 export const editSong = async (songId: string, songName: string | undefined, category: number | undefined,
-                                 duration: number | undefined, imageId: string | undefined) => {
+                               duration: number | undefined, imageId: string | undefined) => {
     let body: any = {
         songId
     }

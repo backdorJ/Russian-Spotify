@@ -9,7 +9,7 @@ public class GetSongsByFilterResponseItem
     /// ИД песни
     /// </summary>
     public Guid SongId { get; set; }
-    
+
     /// <summary>
     /// Название музыки
     /// </summary>
@@ -34,7 +34,7 @@ public class GetSongsByFilterResponseItem
     /// Авторы
     /// </summary>
     public List<string?> Authors { get; set; }
-    
+
     /// <summary>
     /// Добавлена ли песня в избранное
     /// </summary>

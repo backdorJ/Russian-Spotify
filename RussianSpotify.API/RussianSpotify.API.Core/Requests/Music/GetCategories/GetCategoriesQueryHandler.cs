@@ -6,12 +6,19 @@ using RussianSpotify.Contracts.Requests.Music.GetCategories;
 
 namespace RussianSpotify.API.Core.Requests.Music.GetCategories;
 
+/// <summary>
+/// Handler for <see cref="GetCategoriesQuery"/>
+/// </summary>
 public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, GetCategoriesResponse>
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
     public GetCategoriesQueryHandler()
     {
     }
 
+    /// <inheritdoc/>
     public Task<GetCategoriesResponse> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
     {
         var resultList = new List<GetCategoriesResponseItem>();

@@ -32,7 +32,7 @@ public class PostRegisterCommandHandler
         _emailSender = emailSender;
         _roleManager = roleManager;
     }
-    
+
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
     public async Task<PostRegisterResponse> Handle(PostRegisterCommand request, CancellationToken cancellationToken)
     {
@@ -60,20 +60,20 @@ public class PostRegisterCommandHandler
 
         if (request.Role.Equals(BaseRoles.AdminRoleName, StringComparison.OrdinalIgnoreCase))
             throw new UserCannotBeAdminException("User can not be register as Admin");
-        
+
         var result = await _userManager.CreateAsync(user, request.Password);
-        
+
         if (!result.Succeeded)
             throw new RegisterUserException(
                 string.Join("\n", result.Errors.Select(error => error.Description)));
-        
+
         var addToRoleResult = await _userManager.AddToRoleAsync(user, request.Role.ToUpper());
 
         if (!addToRoleResult.Succeeded)
             await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName.ToUpper());
-        
+
         var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        
+
         var messageTemplate =
             await EmailTemplateHelper.GetEmailTemplateAsync(Templates.SendEmailConfirmationMessage,
                 cancellationToken);
@@ -81,10 +81,10 @@ public class PostRegisterCommandHandler
         var placeholders = new Dictionary<string, string> { ["{confirmationToken}"] = confirmationToken };
 
         var message = messageTemplate.ReplacePlaceholders(placeholders);
-            
+
         await _emailSender.SendEmailAsync(user.Email,
             message, cancellationToken);
-        
+
         return new PostRegisterResponse { Email = request.Email };
     }
 }

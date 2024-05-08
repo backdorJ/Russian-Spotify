@@ -32,7 +32,7 @@ public class PlaylistController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     /// <summary>
     /// Получить альбомы по фильтру(Доступные фильтры: AuthorPlaylists, PlaylistName, FavoritePlaylist)
     /// </summary>
@@ -81,7 +81,7 @@ public class PlaylistController : ControllerBase
         [FromRoute] Guid id,
         CancellationToken cancellationToken)
         => await _mediator.Send(new PostAddPlaylistToFavouriteCommand(id), cancellationToken);
-    
+
     /// <summary>
     /// Изменить плейлист/альбом
     /// </summary>

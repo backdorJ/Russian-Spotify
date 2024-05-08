@@ -37,28 +37,28 @@ public class GetSongContentByIdQueryHandler : IRequestHandler<GetSongContentById
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
+
         var songFromDb = await _dbContext.Songs
-            .Include(x => x.Files)
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
-            ?? throw new EntityNotFoundException<Song>(request.Id);
+                             .Include(x => x.Files)
+                             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
+                         ?? throw new EntityNotFoundException<Song>(request.Id);
 
         songFromDb.Files = songFromDb.Files
             .Where(x => x.Id != songFromDb.ImageId)
             .ToList();
-        
+
         if (songFromDb.Files.Count > 1)
             throw new ApplicationBaseException("У песни не может быть две ссылки на трек");
-        
+
         var songFromS3 = await _s3Service.DownloadFileAsync(
-            songFromDb.Files.First().Address,
-            cancellationToken: cancellationToken)
-            ?? throw new EntityNotFoundException<Entities.File>(songFromDb.Files.First().Address);
+                             songFromDb.Files.First().Address,
+                             cancellationToken: cancellationToken)
+                         ?? throw new EntityNotFoundException<Entities.File>(songFromDb.Files.First().Address);
 
         songFromDb.PlaysNumber++;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return new GetSongContentByIdResponse(
             songFromS3.Content,
             songFromS3.FileName,

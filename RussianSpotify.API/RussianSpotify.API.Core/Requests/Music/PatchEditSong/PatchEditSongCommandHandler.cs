@@ -41,7 +41,7 @@ public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand,
             throw new SongBadRequestException("Song not found");
 
         var songOldName = songFromDb.SongName;
-        
+
         // Проверка, является ли текущий пользователь автором данной песни
         var currentUserId = _userContext.CurrentUserId;
         if (currentUserId is null)
@@ -94,7 +94,7 @@ public class PatchEditSongCommandHandler : IRequestHandler<PatchEditSongCommand,
             // Удаляем текущую картинку
             if (songFromDb.Image is not null)
                 await _fileHelper.DeleteFileAsync(songFromDb.Image, cancellationToken);
-            
+
             songFromDb.Image = imageFromDb;
         }
 

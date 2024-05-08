@@ -36,7 +36,8 @@ const SideBar = (props: any) => {
                     </div>
                     <div className="sidebar__nav__songs">
                         {
-                             userStore.user.roles.includes(roles.Author) && <PlaylistElement image={create_playlist} title={'upload song'}
+                            userStore.user.roles.includes(roles.Author) &&
+                            <PlaylistElement image={create_playlist} title={'upload song'}
                                              onClick={() => setShowCreateSongModal(true)}/>
                         }
                     </div>

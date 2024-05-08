@@ -41,14 +41,14 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand, Put
             throw new ArgumentNullException(nameof(request));
 
         var playlist = await _dbContext.Playlists
-           .Include(x => x.Songs)
-           .Include(i => i.Image)
-           .Where(x => x.AuthorId == _userContext.CurrentUserId)
-           .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
-            ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
+                           .Include(x => x.Songs)
+                           .Include(i => i.Image)
+                           .Where(x => x.AuthorId == _userContext.CurrentUserId)
+                           .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
+                       ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
 
         playlist.PlaylistName = request.PlaylistName ?? playlist.PlaylistName;
-        
+
         var songsToDelete = playlist.Songs?
             .Select(x => x.Id)
             .ToList()
@@ -56,13 +56,13 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand, Put
                 .Select(x => x.Id)
                 .ToList())
             .ToList();
-    
+
         playlist.Songs?.ForEach(x =>
         {
             if (songsToDelete?.Contains(x.Id) == true)
                 playlist.Songs.Remove(x);
         });
-        
+
         if (request.SongsIds is not null)
             foreach (var songId in request.SongsIds)
             {
@@ -70,8 +70,8 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand, Put
                     continue;
 
                 var newSong = await _dbContext.Songs
-                    .FirstOrDefaultAsync(x => x.Id == songId, cancellationToken)
-                    ?? throw new EntityNotFoundException<Song>(songId);
+                                  .FirstOrDefaultAsync(x => x.Id == songId, cancellationToken)
+                              ?? throw new EntityNotFoundException<Song>(songId);
 
                 playlist.Songs?.Add(newSong);
             }
@@ -86,7 +86,7 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand, Put
 
             if (imageFromDb is null)
                 throw new PlaylistFileException("File not found");
-            
+
             // Проверка, является ли файл картинкой и присвоение
             if (!_fileHelper.IsImage(imageFromDb))
                 throw new PlaylistBadImageException("File's content type is not Image");

@@ -30,7 +30,7 @@ public static class EmailTemplateHelper
         var content = await GetEmailTemplateAsync(template, cancellationToken);
 
         content = content.ReplacePlaceholders(placeholders);
-        
+
         return EmailNotification.CreateNotification(
             body: content,
             head: head,
@@ -46,7 +46,8 @@ public static class EmailTemplateHelper
     public static async Task<string> GetEmailTemplateAsync(string template, CancellationToken cancellationToken)
     {
         await using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{TemplatePath}.{template}")
-                                 ?? throw new FileNotFoundException($"Шаблон Email сообщения с названием {template} не найден");
+                                 ?? throw new FileNotFoundException(
+                                     $"Шаблон Email сообщения с названием {template} не найден");
         using var reader = new StreamReader(stream);
 
         return await reader.ReadToEndAsync(cancellationToken);

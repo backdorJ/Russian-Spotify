@@ -13,7 +13,7 @@ public class RemovePlaylistFromFavoriteCommand : IRequest
     /// <param name="playlistId">ИД плейлиста</param>
     public RemovePlaylistFromFavoriteCommand(Guid playlistId)
         => PlaylistId = playlistId;
-    
+
     /// <summary>
     /// ИД плейлиста
     /// </summary>

@@ -45,10 +45,10 @@ public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, GetUser
             throw new NotFoundUserException($"User with id: {userId}");
 
         var roles = (await _userManager.GetRolesAsync(user)).ToList();
-        
-        
-        return new GetUserInfoResponse 
-        { 
+
+
+        return new GetUserInfoResponse
+        {
             Email = user.Email!,
             UserName = user.UserName!,
             Roles = roles,
