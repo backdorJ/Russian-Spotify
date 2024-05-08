@@ -39,11 +39,6 @@
     margin-left: 30px;
 }
 
-.playlist-page__main__info span:hover {
-    color: #cbc237;
-    transition: .1s;
-}
-
 .playlist-page__main__info__name {
     font-size: 122px;
     margin-bottom: 30px;
@@ -57,6 +52,11 @@
 
 .playlist-page__main__info__singers > span {
     color: #FFFFFF;
+}
+
+.playlist-page__main__info__singers > span > span:hover {
+    color: orangered;
+    transition: .1s;
 }
 
 .playlist-page__main__info__additional {
