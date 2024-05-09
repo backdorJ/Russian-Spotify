@@ -1,7 +1,7 @@
 // @ts-ignore
 import damirImage from '../../assets/damir_team.jpg'
 // @ts-ignore
-import vanyaImage from '../../assets/vanya_team.jpg'
+import vanyaImage from '../../assets/team_vanya.jpg'
 // @ts-ignore
 import irekImage from '../../assets/irek_team.jpg'
 // @ts-ignore
@@ -11,25 +11,25 @@ export default [
     {
         title: 'Damir',
         img: damirImage,
-        width: "640px",
-        height: "640px"
+        width: "520px",
+        height: "320px"
     },
     {
         title: 'Vanya',
         img: vanyaImage,
-        width: "640px",
-        height: "640px"
+        width: "520px",
+        height: "320px"
     },
     {
         title: 'Irek',
         img: irekImage,
-        width: "640px",
-        height: "640px"
+        width: "520px",
+        height: "320px"
     },
     {
         title: "Marat",
-        img:maratImage,
-        width: "640px",
-        height: "640px"
+        img: maratImage,
+        width: "520px",
+        height: "320px"
     }
 ]

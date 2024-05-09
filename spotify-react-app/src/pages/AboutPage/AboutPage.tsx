@@ -26,7 +26,7 @@ const AboutPage = () => {
                                 title={team.title}
                                 key={index}
                                 width={team.width}
-                                height={undefined}
+                                height={team.height}
                             />))
                     }
                 </div>
