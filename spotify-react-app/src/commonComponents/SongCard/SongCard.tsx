@@ -1,7 +1,7 @@
 import React, {FC, Fragment, useContext, useState} from "react";
 import {getImage} from "../../http/fileApi";
 import {useNavigate} from "react-router-dom";
-import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
+import {getSong, getSongsByFilter, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
 import {ISongCard} from "./interfaces/ISongCard";
 import {PlayerContext, UserContext} from "../../index";
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
@@ -11,9 +11,7 @@ import routeNames from "../../utils/routeNames";
 import {editPlaylist, getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 import Playlist from "../../models/Playlist";
-import {getUserId} from "../../functions/getUserId";
-import {getAuthor} from "../../http/authorApi";
-import {getUser} from "../../http/authApi";
+import {songFilters} from "../../http/filters/songFilters";
 
 const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
     const userStore = useContext(UserContext)
@@ -92,14 +90,14 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
         choosenPlaylist?.songs.push(song)
         editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, choosenPlaylist.imageId, choosenPlaylist.songs.map(x => x.songId)).then(response => {
             if (response.status === 200)
-                console.log("Песня добавлена успешно")
+                alert("Песня добавлена успешно")
 
         }).catch(err => console.log(err));
     }
     const DeleteFromPlaylist = (choosenPlaylist: Playlist) => {
         editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, choosenPlaylist.imageId, choosenPlaylist.songs.map(x => x.songId).filter(x => x !== song.songId)).then(response => {
             if (response.status === 200)
-                console.log("Песня удалена успешно")
+                alert("Песня удалена успешно")
 
         }).catch(err => console.log(err));
     };
@@ -108,23 +106,52 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
         playerStore.Player = getSong(song, userStore.user, playlist);
     }
 
-    const handleOpenPlaylistsMouseEnter = (option: string) => {
+    const getPlaylistsWithSong = async (songId: string) => {
+        const playlists = await getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 10);
+        const playlistsWithSong = [];
+
+        for (const playlist of playlists) {
+            const songs = await getSongsByFilter(songFilters.songsInPlaylistFilter, playlist.playlistId, 1, 100);
+            if (songs.some(song => song.songId === songId)) {
+                playlistsWithSong.push(playlist);
+            }
+        }
+
+        return playlistsWithSong
+    }
+
+    const getPlaylistsWithoutSong = async (songId: string) => {
+        const playlists = await getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 10);
+        const playlistsWithoutSong = [];
+
+        for (const playlist of playlists) {
+            const songs = await getSongsByFilter(songFilters.songsInPlaylistFilter, playlist.playlistId, 1, 100);
+            if (!songs.some(song => song.songId === songId)) {
+                playlistsWithoutSong.push(playlist);
+            }
+        }
+
+        return playlistsWithoutSong
+    }
+
+    const handleOpenPlaylistsMouseEnter = async (option: string) => {
         clearTimeout(timeoutId);
         if (option === "add") {
             setAddingSong(true)
-            getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 3).then(p => setUserPlaylists(p.filter(x => !x.songs.map(s => s.songId).includes(song.songId))))
+            setUserPlaylists(await getPlaylistsWithoutSong(song.songId))
         } else {
             setAddingSong(false)
-            getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 3).then(p => setUserPlaylists(p.filter(x => x.songs.map(s => s.songId).includes(song.songId))))
+            setUserPlaylists(await getPlaylistsWithSong(song.songId))
         }
 
+        console.log(userPlaylists)
         setIsPlaylistsListOpened(true);
     };
 
     const handleClosePlaylistsMouseEnter = () => {
         timeoutId = setTimeout(() => {
             setIsPlaylistsListOpened(false);
-        }, 1000);
+        }, 100);
     };
 
     return (
@@ -182,7 +209,8 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
                                 <div className="playlist-container"
                                      onClick={() => handleActionWithSong(userPlaylist)}
                                      onMouseEnter={handleMouseEnter}
-                                     onMouseLeave={handleMouseLeave}>
+                                     onMouseLeave={handleMouseLeave}
+                                     key={userPlaylist.playlistId}>
                                     <div className="playlist-wrapper">
                                         <div className="playlist-image-container">
                                             <img src={getImage(userPlaylist.imageId)}

@@ -1,8 +1,5 @@
 import Song from "./Song";
 import {PlaylistType} from "../pages/PlaylistPage/enums/playlistTypes";
-import {getSongsByFilter} from "../http/songApi";
-import {songFilters} from "../http/filters/songFilters";
-import {getUserId} from "../functions/getUserId";
 
 /** DTO для плейлиста/альбома */
 export default class Playlist {
@@ -30,9 +27,6 @@ export default class Playlist {
 
     /** Песни плейлиста */
     songs: Song[];
-    
-    /** Тип плейлиста */
-    playlistType: PlaylistType
 
     constructor() {
         this.playlistId = "";
@@ -43,7 +37,6 @@ export default class Playlist {
         this.isAlbum = false;
         this.isInFavorite = false;
         this.songs = []
-        this.playlistType = PlaylistType.Playlist
     }
 
     static init(
@@ -65,27 +58,5 @@ export default class Playlist {
         playlist.isInFavorite = isInFavorite;
 
         return playlist;
-    }
-
-    setPlaylistType(playlistType: PlaylistType) {
-        this.playlistType = playlistType;
-    }
-    
-    async getSongs(page: number) {
-        let result: Song[] = []
-        if (this.playlistType === PlaylistType.Playlist)
-            result = await getSongsByFilter(songFilters.songsInPlaylistFilter, this.playlistId, page, 5);
-        else if (this.playlistType === PlaylistType.FavoriteSongs)
-            result = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 5);
-        else if (this.playlistType === PlaylistType.ArtistSongs)
-            result = await getSongsByFilter(songFilters.authorSongsFilter, this.authorName, page, 5);
-        console.log(result);
-        this.songs.push(...result);
-        return this.songs
-    }
-
-    async getMoreSongs(page: number) {
-        await this.getSongs(page); 
-        return this.songs;
     }
 }

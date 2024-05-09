@@ -10,7 +10,7 @@ import {PlayerContext, UserContext} from "../../index";
 import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
-import {getSong} from "../../http/songApi";
+import {getSong, getSongsByFilter} from "../../http/songApi";
 import Song from "../../models/Song";
 import {formatDuration} from "../../functions/formatDuration";
 import {PlaylistType} from "./enums/playlistTypes";
@@ -21,6 +21,8 @@ import CreateOrEditPlaylistModal
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 import SongCard from "../../commonComponents/SongCard/SongCard";
 import LikeIcon from "../../commonComponents/Player/components/LikeIcon";
+import {songFilters} from "../../http/filters/songFilters";
+import {getUserId} from "../../functions/getUserId";
 
 const PlaylistPage = () => {
     const {id} = useParams();
@@ -37,11 +39,12 @@ const PlaylistPage = () => {
     const [getting, setGetting] = useState(false);
     const [page, setPage] = useState(1)
     const [isLikedPlaylist, setIsLikedPlaylist] = useState(currentPlaylist.isInFavorite);
+    const [playlistType, setPlaylistType] = useState(PlaylistType.Playlist)
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
     const [showEditModal, setShowEditModal] = useState(false)
 
-    useEffect(() => {
+    useEffect( () => {
         if (id === 'favorite-songs') {
             setCurrentPlaylist(Playlist.init("",
                 "Favorite Songs",
@@ -50,8 +53,9 @@ const PlaylistPage = () => {
                 new Date(),
                 false,
                 true));
-            currentPlaylist.setPlaylistType(PlaylistType.FavoriteSongs);
+            setPlaylistType(PlaylistType.FavoriteSongs);
             setIsLikedPlaylist(true);
+
         } else if (id?.includes('author-')) {
             let authorName = id.split("author-")[1];
             $authHost.get(`api/Author/Author?Name=${authorName}`)
@@ -63,36 +67,40 @@ const PlaylistPage = () => {
                         new Date(),
                         false,
                         false));
-                })
-            currentPlaylist.setPlaylistType(PlaylistType.ArtistSongs);
+                }).then()
+            setPlaylistType(PlaylistType.ArtistSongs);
         } else {
-            currentPlaylist.setPlaylistType(PlaylistType.Playlist);
             getPlaylistInfo(id).then(r => {
                 setCurrentPlaylist(r);
                 setIsLikedPlaylist(r.isInFavorite);
             });
+            setPlaylistType(PlaylistType.Playlist);
         }
 
-        currentPlaylist.getSongs(page).then(x => setSongs(x));
+        
     }, [reloadTrigger])
 
     useEffect(() => {
         const fetchData = async () => {
-            await currentPlaylist.getMoreSongs(page + 1).then(x => setSongs(x))
-
-            setPage(page + 1)
-
+            let result: Song[] = [];
+            if (playlistType === PlaylistType.Playlist)
+                result = await getSongsByFilter(songFilters.songsInPlaylistFilter, id!, page, 50);
+            else if (playlistType === PlaylistType.FavoriteSongs)
+                result = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 50);
+            else if (playlistType === PlaylistType.ArtistSongs)
+                result = await getSongsByFilter(songFilters.authorSongsFilter, currentPlaylist.authorName, page, 50);
+            
+            setSongs(result)
             if (currentPlaylist.songs.length === 0)
                 stop = true;
 
             if (songs.length > 0)
                 songs[songs.length - 1].nextSong = currentPlaylist.songs[0];
 
-            setSongs([...songs, ...currentPlaylist.songs]);
             setGetting(false);
         };
 
-        if (!getting && currentPlaylist.playlistType != null) {
+        if (!getting && playlistType != null) {
             fetchData().then(_ => console.log("fetched"));
         }
     }, [getting]);
@@ -118,7 +126,8 @@ const PlaylistPage = () => {
 
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {
-        playerStore.Player = getSong(song, userStore.user, currentPlaylist);
+        if(songs.length > 0)
+            playerStore.Player = getSong(song, userStore.user, currentPlaylist);
     }
 
     useEffect(() => {
@@ -133,6 +142,7 @@ const PlaylistPage = () => {
         if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 100)
             && !stop && !getting) {
             setGetting(true);
+            setPage(page + 1)
         }
     }
 
@@ -176,10 +186,10 @@ const PlaylistPage = () => {
             <div className="playlist-page">
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
-                        {PlaylistType.FavoriteSongs !== currentPlaylist.playlistType &&
+                        {PlaylistType.FavoriteSongs !== playlistType &&
                             <img src={getImage(currentPlaylist.imageId)} alt="" className="playlist-page__main__img"
                                  onError={handleImageNotLoaded}/>}
-                        {PlaylistType.FavoriteSongs === currentPlaylist.playlistType &&
+                        {PlaylistType.FavoriteSongs === playlistType &&
                             <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"
                                  onError={handleImageNotLoaded}/>}
                     </div>
@@ -200,7 +210,7 @@ const PlaylistPage = () => {
                                  onClick={() => handlePlay(songs[0])}>
                                 <img src={play_icon} alt="Play"/>
                             </div>
-                            {currentPlaylist.playlistType === PlaylistType.Playlist &&
+                            {playlistType === PlaylistType.Playlist &&
                                 <div className="playlist-page__songs__header__buttons__like-wrapper">
                                     <LikeIcon onClick={handleLikeClick} isLiked={isLikedPlaylist}
                                               classname="like-icon"/>
