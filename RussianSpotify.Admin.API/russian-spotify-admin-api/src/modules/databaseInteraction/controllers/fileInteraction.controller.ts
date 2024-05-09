@@ -32,7 +32,7 @@ export class FileInteractionController {
         schema: {
             type: 'object',
             properties: {
-                file: {
+                files: {
                     type: 'string',
                     format: 'binary',
                 },
@@ -40,10 +40,10 @@ export class FileInteractionController {
         },
     })
     @UseInterceptors(FileExtender)
-    @UseInterceptors(FileInterceptor('file'))
+    @UseInterceptors(FileInterceptor('files'))
     @ApiConsumes('multipart/form-data')
     @Post("CreateFile")
-    async createFile(@UploadedFile('file') file: File, @Req() req):
+    async createFile(@UploadedFile('file') file: File, @Req() req: Request):
         Promise<PostCreateResponseDtoBase> {
         let jwt = req.headers["authorization"];
         return await this.fileService.createFile(file, jwt);
@@ -56,7 +56,7 @@ export class FileInteractionController {
     }
 
     @Delete("DeleteFile")
-    async deleteFile(@Body() deleteFileRequestDto: DeleteRequesDtotBase, @Req() req) : Promise<DeleteResponseDtoBase> {
+    async deleteFile(@Body() deleteFileRequestDto: DeleteRequesDtotBase, @Req() req): Promise<DeleteResponseDtoBase> {
         let jwt = req.headers.authorization;
         return await this.fileService.deleteFile(deleteFileRequestDto, jwt);
     }

@@ -13,10 +13,10 @@ import {
 } from "../../modules/databaseInteraction/DTOs/fileInteraction/GetFilesByFilter/GetFilesByFilterResponseItemDto";
 import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
 import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
-import {HttpModule, HttpService} from "@nestjs/axios";
+import {HttpService} from "@nestjs/axios";
 import * as process from "node:process";
 import {PostCreateResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/PostCreateResponseDtoBase";
-import * as http from "node:http";
+import axios from "axios";
 
 @Injectable()
 export class FileService {
@@ -25,18 +25,19 @@ export class FileService {
     }
 
     async createFile(file: File, jwt: string): Promise<PostCreateResponseDtoBase> {
-        const formData = new FormData();
-        formData.append('files', file); // file - это объект файла, который вы хотите отправить
+        let formData = new FormData();
+        let blob = new Blob([file], {type: file.type});
+        formData.append("files", blob, file.name);
 
-        const response = await this.httpService.post(
-            `${process.env.RUSSIAN_SPOTIFY_API_BASE_URL}File/`,
+        process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = '0';
+        let response = await axios.post(`${process.env.RUSSIAN_SPOTIFY_API_BASE_URL}File/`,
             formData,
             {
-                headers: { "Authorization": jwt, 'Content-Type': 'multipart/form-data' },
-            }
-        ).toPromise();
+                headers: {"Authorization": jwt, 'Content-Type': 'multipart/form-data', "Content-Length": file.size},
+            },
+        );
 
-        if(response.status != 200)
+        if (response.status != 200)
             throw new HttpException("Cannot upload file", response.status);
 
         return new PostCreateResponseDtoBase(response.data.fileNameToIds[0].fileId);
@@ -109,7 +110,7 @@ export class FileService {
                     headers: {"Authorization": jwt}
                 }).toPromise();
 
-        if(response.status != 200)
+        if (response.status != 200)
             throw new HttpException("Cannot delete file with id", response.status);
 
         return new DeleteResponseDtoBase(request.id);

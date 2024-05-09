@@ -8,5 +8,4 @@ export class Role {
     Name: string;
     @Column()
     NormalizedName: string;
-
 }

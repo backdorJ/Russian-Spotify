@@ -1,5 +1,5 @@
 import {Body, Controller, Delete, Get, Inject, Patch, Post, Query} from "@nestjs/common";
-import {ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
 import { BucketService } from "src/services/databaseInteraction/bucketService";
 import {GetBucketsByFilterResponseDto} from "../DTOs/bucketInteraction/GetBucketsByFilter/GetBucketsByFilterResponseDto";
 import {GetBucketsByFilterRequestDto} from "../DTOs/bucketInteraction/GetBucketsByFilter/GetBucketsByFilterRequestDto";
@@ -9,6 +9,7 @@ import {DeleteResponseDtoBase} from "../DTOs/common/DeleteResponseDtoBase";
 import {PostCreateBucketRequestDto} from "../DTOs/bucketInteraction/PostCreateBucket/PostCreateBucketRequestDto";
 import {PostCreateResponseDtoBase} from "../DTOs/common/PostCreateResponseDtoBase";
 
+@ApiBearerAuth()
 @ApiTags("BucketInteraction")
 @Controller("api/BucketInteraction")
 export class BucketInteractionController {

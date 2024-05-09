@@ -16,12 +16,31 @@ import {SongUser} from "../../DAL/entities/SongUser.entity";
 import {File} from "../../DAL/entities/File.entity";
 import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
 import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
+import {
+    PostCreateSongRequestDto
+} from "../../modules/databaseInteraction/DTOs/songInteraction/PostCreateSong/PostCreateSongRequestDto";
+import {PostCreateResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/PostCreateResponseDtoBase";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class SongService {
     constructor(@InjectRepository(Song) private readonly songRepository: Repository<Song>,
                 @InjectRepository(SongUser) private readonly songUserRepository: Repository<SongUser>,
                 @InjectRepository(File) private readonly fileRepository: Repository<File>) {
+    }
+
+    async createSong(request: PostCreateSongRequestDto): Promise<PostCreateResponseDtoBase> {
+        let song = this.songRepository.create();
+
+        song.Id = uuidv4();
+        song.SongName = request.name;
+        song.ImageId = request.imageId;
+        song.Duration = request.duration;
+        song.CategoryId = request.categoryId;
+
+        await this.songRepository.save(song);
+
+        return new PostCreateResponseDtoBase(song.Id);
     }
 
     async getSongsByFilter(request: GetSongsByFilterRequestDto): Promise<GetSongsByFilterResponseDto> {

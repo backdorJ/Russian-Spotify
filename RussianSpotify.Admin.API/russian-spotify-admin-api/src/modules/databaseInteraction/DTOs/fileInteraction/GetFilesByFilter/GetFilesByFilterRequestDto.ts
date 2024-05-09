@@ -1,28 +1,28 @@
 import {PaginationRequestDtoBase} from "../../common/PaginationRequestDtoBase";
 import {ApiProperty} from "@nestjs/swagger";
 
-export class GetFilesByFilterRequestDto extends PaginationRequestDtoBase{
-    @ApiProperty({name: 'id'})
+export class GetFilesByFilterRequestDto extends PaginationRequestDtoBase {
+    @ApiProperty({name: 'id', required: false})
     id: string;
 
-    @ApiProperty({name: 'name'})
+    @ApiProperty({name: 'name', required: false})
     name: string;
 
-    @ApiProperty({name: 'isSongFile'})
+    @ApiProperty({name: 'isSongFile', required: false})
     isSongFile: boolean | null;
 
-    @ApiProperty({name: 'isImageFile'})
+    @ApiProperty({name: 'isImageFile', required: false})
     isImageFile: boolean | null;
 
-    @ApiProperty({name: 'address'})
+    @ApiProperty({name: 'address', required: false})
     address: string;
 
-    @ApiProperty({name: 'sizeMoreThen'})
+    @ApiProperty({name: 'sizeMoreThen', required: false})
     sizeMoreThen: number;
 
-    @ApiProperty({name: 'sizeLessThen'})
+    @ApiProperty({name: 'sizeLessThen', required: false})
     sizeLessThen: number;
 
-    @ApiProperty({name: 'orderBySize'})
+    @ApiProperty({name: 'orderBySize', required: false})
     orderBySize: boolean | null;
 }

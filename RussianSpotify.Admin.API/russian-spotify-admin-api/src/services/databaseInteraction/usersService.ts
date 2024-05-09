@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from "@nestjs/common";
+import {HttpException, Injectable, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "../../DAL/entities/User.entity";
 import {Repository} from "typeorm";
@@ -19,6 +19,11 @@ import {UserRole} from "../../DAL/entities/UserRole.entity";
 import {Role} from "../../DAL/entities/Role.entity";
 import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
 import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
+import {
+    PostCreateUserRequestDto
+} from "../../modules/databaseInteraction/DTOs/userInteractionDTOs/PostCreateUser/PostCreateUserRequestDto";
+import {PostCreateResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/PostCreateResponseDtoBase";
+import axios from "axios";
 
 @Injectable()
 export class UsersService {
@@ -26,6 +31,38 @@ export class UsersService {
                 @InjectRepository(File) private readonly fileRepository: Repository<File>,
                 @InjectRepository(UserRole) private readonly userRolesRepository: Repository<UserRole>,
                 @InjectRepository(Role) private readonly roleRepository: Repository<Role>) {
+    }
+
+    async createUser(request: PostCreateUserRequestDto): Promise<PostCreateResponseDtoBase> {
+        process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = '0';
+        let response = await axios.post(`${process.env.RUSSIAN_SPOTIFY_API_BASE_URL}Auth/Register`, {
+            userName: request.name,
+            password: request.password,
+            passwordConfirm: request.password,
+            email: request.email,
+            role: "Пользователь"
+        });
+
+        if(response.status != 200)
+            throw new HttpException(response.data.message, response.status);
+
+        let user = await this.userRepository.findOneByOrFail({Email: request.email});
+        user.EmailConfirmed = true;
+        await this.userRepository.save(user);
+
+        let requestRole = await this.roleRepository
+            .findOneByOrFail({NormalizedName: request.role.toUpperCase()});
+
+        console.log(user.Id);
+        console.log(requestRole);
+
+        await this.userRolesRepository.createQueryBuilder()
+            .update()
+            .set({RoleId: requestRole.Id})
+            .where("UserId = :userId", {userId: user.Id})
+            .execute();
+
+        return new PostCreateResponseDtoBase(user.Id);
     }
 
     async getUsersByFilter(request: GetUsersByFilterRequestDto): Promise<GetUsersByFilterResponseDto> {

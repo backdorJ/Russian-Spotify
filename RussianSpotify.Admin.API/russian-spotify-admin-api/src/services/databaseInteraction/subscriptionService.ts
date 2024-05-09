@@ -16,10 +16,33 @@ import {
 } from "../../modules/databaseInteraction/DTOs/subscriptionInteraction/PatchUpdateSubscription/PatchUpdateSubscriptionRequestDto";
 import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
 import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
+import {
+    PostCreateSubscriptionRequestDto
+} from "../../modules/databaseInteraction/DTOs/subscriptionInteraction/PostCreateSubscription/PostCreateSubscriptionRequestDto";
+import {PostCreateResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/PostCreateResponseDtoBase";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class SubscriptionService {
     constructor(@InjectRepository(Subscribe) private readonly subscriptionRepository: Repository<Subscribe>,) {
+    }
+
+    async createSubscription(request: PostCreateSubscriptionRequestDto) : Promise<PostCreateResponseDtoBase> {
+        let subscription =  this.subscriptionRepository.create();
+
+        request.dateStart = new Date(request.dateStart);
+        subscription.DateStart = request.dateStart.toISOString();
+
+        request.dateEnd = new Date(request.dateEnd);
+        subscription.DateEnd = request.dateEnd.toISOString();
+
+        subscription.UserId = request.userId;
+
+        subscription.Id = uuidv4();
+
+        await this.subscriptionRepository.save(subscription);
+
+        return new PostCreateResponseDtoBase(subscription.Id);
     }
 
     async getSubscriptionsByFilter(request: GetSubscriptionsByFilterRequestDto): Promise<GetSubscriptionsByFilterResponseDto> {

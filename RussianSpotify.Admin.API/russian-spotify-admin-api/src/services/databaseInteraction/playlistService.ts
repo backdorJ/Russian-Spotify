@@ -17,11 +17,32 @@ import {
     GetPlaylistsByFilterResponseItemDto
 } from "../../modules/databaseInteraction/DTOs/playlistInteraction/GetPlaylistsByFilter/GetPlaylistsByFilterResponseItemDto";
 import {PlaylistSong} from "../../DAL/entities/PlaylistSong.entity";
+import {
+    PostCreatePlaylistRequestDto
+} from "../../modules/databaseInteraction/DTOs/playlistInteraction/PostCreatePlaylist/PostCreatePlaylistRequestDto";
+import {PostCreateResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/PostCreateResponseDtoBase";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class PlaylistService {
     constructor(@InjectRepository(Playlist) private readonly playlistRepository: Repository<Playlist>,
                 @InjectRepository(PlaylistSong) private readonly playlistSongRepository: Repository<PlaylistSong>) {
+    }
+
+    async createPlaylist(request: PostCreatePlaylistRequestDto): Promise<PostCreateResponseDtoBase> {
+        let playlist = this.playlistRepository.create();
+
+        playlist.Id = uuidv4();
+        playlist.PlaylistName = request.name;
+        playlist.AuthorId = request.authorId;
+        // @ts-ignore
+        playlist.IsAlbum = request.isAlbum == "true";
+        playlist.ImageId = request.imageId;
+        playlist.ReleaseDate = new Date(Date.now()).toISOString();
+
+        await this.playlistRepository.save(playlist);
+
+        return new PostCreateResponseDtoBase(playlist.Id);
     }
 
     async getPlaylistsByFilter(request: GetPlaylistsByFilterRequestDto)
