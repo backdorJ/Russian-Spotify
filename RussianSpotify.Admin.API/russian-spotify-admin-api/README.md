@@ -12,7 +12,7 @@
         DB_PASSWORD=postgres
         DB_NAME=***
         RUSSIAN_SPOTIFY_API_BASE_URL="https://localhost:44361/api/"
-        JWT_SECRET="***"
+        JWT_SECRET="***"(такой же, как на бэке)
         JWT_ISSUER="https://localhost:44361/"
         JWT_AUDIENCE="https://localhost:44361/" 
     
