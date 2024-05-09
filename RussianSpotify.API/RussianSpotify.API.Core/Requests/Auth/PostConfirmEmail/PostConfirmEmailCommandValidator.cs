@@ -1,7 +1,7 @@
 using FluentValidation;
 using RussianSpotify.API.Core.Enums;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostConfirmEmail;
+namespace RussianSpotify.API.Core.Requests.Auth.PostConfirmEmail;
 
 /// <summary>
 /// Валидатор для <see cref="PostConfirmEmailCommand"/>

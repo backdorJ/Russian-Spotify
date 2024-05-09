@@ -20,6 +20,9 @@ public class GetUserInfoResponse
     /// </summary>
     public string Email { get; set; } = default!;
 
+    /// <summary>
+    /// Роли пользователя
+    /// </summary>
     public List<string> Roles { get; set; } = new();
 
     /// <summary>

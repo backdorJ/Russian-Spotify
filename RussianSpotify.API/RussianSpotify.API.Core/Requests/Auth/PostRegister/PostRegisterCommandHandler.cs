@@ -47,7 +47,8 @@ public class PostRegisterCommandHandler
         if (request.Role == BaseRoles.AuthorRoleName)
         {
             var authorWithSameName = await _userManager.FindByNameAsync(request.UserName);
-            if (authorWithSameName is not null && await _roleManager.IsInRoleAsync(authorWithSameName, BaseRoles.AuthorRoleName))
+            if (authorWithSameName is not null &&
+                await _roleManager.IsInRoleAsync(authorWithSameName, BaseRoles.AuthorRoleName, cancellationToken))
                 throw new BadRequestException($"Автор с именем: {request.UserName} уже существует");
         }
 

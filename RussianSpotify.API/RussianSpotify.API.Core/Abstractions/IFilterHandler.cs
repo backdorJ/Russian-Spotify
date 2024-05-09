@@ -14,7 +14,9 @@ public interface IFilterHandler
     /// <param name="cancellationToken">Токен отмены</param>
     /// <typeparam name="T">Тип коллекции</typeparam>
     /// <returns>Отфильтрованная коллекция</returns>
-    public Task<IOrderedQueryable<T>> GetByFilterAsync<T>(IQueryable<T> queryable, string filterName,
+    public Task<IOrderedQueryable<T>> GetByFilterAsync<T>(
+        IQueryable<T> queryable,
+        string filterName,
         string filterValue,
         CancellationToken cancellationToken);
 }

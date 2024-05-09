@@ -17,11 +17,8 @@ namespace RussianSpotify.API.Core.Requests.Auth.PostLogin;
 public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLoginResponse>
 {
     private readonly UserManager<User> _userManager;
-
     private readonly IJwtGenerator _jwtGenerator;
-
     private readonly IUserClaimsManager _claimsManager;
-
     private readonly IEmailSender _emailSender;
 
     /// <summary>
