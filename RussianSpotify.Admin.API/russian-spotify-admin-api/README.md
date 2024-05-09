@@ -15,4 +15,5 @@
         JWT_SECRET="***"(такой же, как на бэке)
         JWT_ISSUER="https://localhost:44361/"
         JWT_AUDIENCE="https://localhost:44361/" 
-    
+
+    3. В файле src/config/allowedOrigin.ts поменять порты на свои(первый для фронта админки, второй для бэка на asp.net core)
