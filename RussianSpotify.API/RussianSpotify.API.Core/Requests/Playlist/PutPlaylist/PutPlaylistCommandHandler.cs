@@ -48,7 +48,6 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand, Put
             ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
 
         playlist.PlaylistName = request.PlaylistName ?? playlist.PlaylistName;
-        playlist.ImageId = request.ImageId ?? playlist.ImageId;
         
         var songsToDelete = playlist.Songs?
             .Select(x => x.Id)
