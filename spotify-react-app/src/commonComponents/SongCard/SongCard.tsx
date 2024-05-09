@@ -89,15 +89,19 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
     const AddToPlaylist = (choosenPlaylist: Playlist) => {
         choosenPlaylist?.songs.push(song)
         editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, choosenPlaylist.imageId, choosenPlaylist.songs.map(x => x.songId)).then(response => {
-            if (response.status === 200)
+            if (response.status === 200) {
+                setUserPlaylists([])
                 alert("Песня добавлена успешно")
+            }
 
         }).catch(err => console.log(err));
     }
     const DeleteFromPlaylist = (choosenPlaylist: Playlist) => {
         editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, choosenPlaylist.imageId, choosenPlaylist.songs.map(x => x.songId).filter(x => x !== song.songId)).then(response => {
-            if (response.status === 200)
+            if (response.status === 200) {
+                setUserPlaylists([])
                 alert("Песня удалена успешно")
+            }
 
         }).catch(err => console.log(err));
     };

@@ -57,11 +57,16 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand, Put
                 .Select(x => x.Id)
                 .ToList())
             .ToList();
-    
-        playlist.Songs?.ForEach(x =>
+        
+        songsToDelete?.ForEach(x =>
         {
-            if (songsToDelete?.Contains(x.Id) == true)
-                playlist.Songs.Remove(x);
+            if (playlist.Songs?.Any(y => y.Id == x) == true)
+            {
+                var song = playlist.Songs.FirstOrDefault(z => z.Id == x)
+                           ?? throw new EntityNotFoundException<Song>(x);
+                
+                playlist.Songs.Remove(song);
+            }
         });
         
         if (request.SongsIds is not null)
