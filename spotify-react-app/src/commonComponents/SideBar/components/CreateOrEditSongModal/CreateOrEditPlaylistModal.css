@@ -29,10 +29,10 @@
 .create-song-form__additional {
     display: flex;
     justify-content: space-between;
+    align-items: end;
 }
 
 .create-song-form__additional__duration {
-
 }
 
 .create-song-form__additional__duration span {

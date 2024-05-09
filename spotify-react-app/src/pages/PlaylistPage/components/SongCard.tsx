@@ -16,7 +16,7 @@ import CreateOrEditSongModal
     from "../../../commonComponents/SideBar/components/CreateOrEditSongModal/CreateOrEditSongModal";
 import EditSongAuthorModal from "./modals/EditSongAuthorModal/EditSongAuthorModal";
 
-const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
+const SongCard: FC<ISong> = ({song, order_number, onModalOpen, playlistReloadTrigger}) => {
     const userStore = useContext(UserContext)
     const playerStore = useContext(PlayerContext)
     const navigate = useNavigate();
@@ -90,7 +90,11 @@ const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
                 className="playlist-page__songs__list__main__song-card__id">
                 {
                     isMouseOverPlay
-                        ? <PlayIcon song={song} order_number={order_number} onModalOpen={undefined}/>
+                        ? <PlayIcon
+                            song={song}
+                            order_number={order_number}
+                            onModalOpen={undefined}
+                            playlistReloadTrigger={undefined}/>
                         : <p>{order_number}</p>
                 }
             </div>
@@ -146,11 +150,17 @@ const SongCard: FC<ISong> = ({song, order_number, onModalOpen}) => {
                 onHide={() => setShowEditModal(false)}
                 song={song}
                 reloadTrigger={() => {
+                    if (playlistReloadTrigger)
+                        playlistReloadTrigger()
                 }}/>
             <EditSongAuthorModal
                 song={song}
                 show={showEditAuthorModal}
-                onHide={() => setShowEditAuthorModal(false)}/>
+                onHide={() => setShowEditAuthorModal(false)}
+                reloadTrigger={() => {
+                    if (playlistReloadTrigger)
+                        playlistReloadTrigger()
+                }}/>
         </div>
     )
 }

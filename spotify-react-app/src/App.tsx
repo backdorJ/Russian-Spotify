@@ -11,7 +11,7 @@ import loadUser from "./functions/loadUser";
 import Player from "./commonComponents/Player/Player";
 import SideBar from "./commonComponents/SideBar/SideBar";
 import CreateOrEditPlaylistModal
-    from "./commonComponents/SideBar/components/CreatePlaylistModal/CreateOrEditPlaylistModal";
+    from "./commonComponents/SideBar/components/CreateOrEditPlaylistModal/CreateOrEditPlaylistModal";
 import CreateOrEditSongModal from "./commonComponents/SideBar/components/CreateOrEditSongModal/CreateOrEditSongModal";
 
 const App = observer(() => {

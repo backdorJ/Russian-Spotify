@@ -4,4 +4,5 @@ export interface IEditSongAuthors {
     song: Song
     show: boolean
     onHide: () => void
+    reloadTrigger : (() => void) | undefined
 }

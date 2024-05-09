@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.DefaultSettings;
+using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Exceptions;
 using RussianSpotify.Contracts.Requests.Author.GetAuthor;
 
@@ -30,11 +31,16 @@ public class GetAuthorQueryHandler
 
         var usersWithSameNames = await _dbContext.Users
             .AsNoTracking()
-            .Where(x => x.UserName!.ToLower() == request.Name.ToLower())
+            .Where(x => x.UserName!.ToLower().Equals(request.Name.ToLower()))
             .ToListAsync(cancellationToken);
 
-        var author = usersWithSameNames
-            .FirstOrDefault(x => _roleManager.IsInRole(x, BaseRoles.AuthorRoleName));
+        User? author = null;
+        
+        foreach (var userWithSameName in usersWithSameNames)
+        {
+            if (await _roleManager.IsInRoleAsync(userWithSameName, BaseRoles.AuthorRoleName, cancellationToken))
+                author = userWithSameName;
+        }
 
         if (author is null)
             throw new NotFoundException($"Автор с именем: {request.Name} не найден");

@@ -54,6 +54,9 @@ public class PostAddSongAuthorCommandHandler : IRequestHandler<PostAddSongAuthor
         if (songFromDb.Authors.All(i => i.Id != currentUserId))
             throw new SongForbiddenException("User is not Author of this Song");
 
+        if (songFromDb.Authors.Select(i => i.Email).Contains(request.AuthorEmail))
+            throw new SongBadRequestException("User is already author of this Song");
+        
         // Достаем нового автора из бд
         var userFromDb = await _dbContext.Users
             .FirstOrDefaultAsync(i => i.Email!.Equals(request.AuthorEmail), cancellationToken);
@@ -62,11 +65,11 @@ public class PostAddSongAuthorCommandHandler : IRequestHandler<PostAddSongAuthor
             throw new BadSongAuthorException("User not found");
 
         // Проверка, является ли добавляемый пользовател автором
-        var ifContainsAuthorRole = _roleManager.IsInRole(userFromDb, BaseRoles.AuthorRoleName);
-
+        var ifContainsAuthorRole = await _roleManager.IsInRoleAsync(userFromDb, BaseRoles.AuthorRoleName);
+        
         if (!ifContainsAuthorRole)
             throw new SongBadRequestException("User is not Author");
-
+        
         // Вносим изменения в бд
         songFromDb.AddAuthor(userFromDb);
         await _dbContext.SaveChangesAsync(cancellationToken);

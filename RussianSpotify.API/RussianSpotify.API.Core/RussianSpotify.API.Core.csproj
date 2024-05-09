@@ -53,8 +53,5 @@
 
 
 
-    <ItemGroup>
-      <Folder Include="Requests\Playlist\" />
-    </ItemGroup>
 
 </Project>

@@ -4,6 +4,8 @@ import navigationElementsProps from "../../utils/sidebar/navigationElementsProps
 import create_playlist from '../../assets/sidebar/create_playlist.png'
 // @ts-ignore
 import liked_songs from '../../assets/sidebar/liked_songs.png'
+// @ts-ignore
+import author_icon from '../../assets/sidebar/author_icon.png'
 import {useNavigate} from "react-router-dom";
 import routeNames from "../../utils/routeNames";
 import {useContext} from "react";
@@ -39,6 +41,12 @@ const SideBar = (props: any) => {
                             userStore.user.roles.includes(roles.Author) &&
                             <PlaylistElement image={create_playlist} title={'upload song'}
                                              onClick={() => setShowCreateSongModal(true)}/>
+                        }
+                        {
+                            userStore.user.roles.includes(roles.Author) &&
+                            <PlaylistElement
+                                image={author_icon} title={'author profile'}
+                                onClick={() => navigate(routeNames.AUTHOR_PAGE_NAV + userStore.user.username)}/>
                         }
                     </div>
                 </div>

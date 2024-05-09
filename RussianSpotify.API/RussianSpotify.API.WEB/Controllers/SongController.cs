@@ -175,22 +175,26 @@ public class SongController : FileBaseController
     /// <summary>
     /// Удалить песню
     /// </summary>
-    /// <param name="deleteSongRequest">Запрос с информацией</param>
+    /// <param name="songId">Id песни</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Все хорошо</response>
     /// <response code="400">Ошибка в запросе</response>
     /// <response code="403">Не автор или не является автором данной песни</response>
     /// <response code="500">Внутрення ошибка сервера</response>
     [HttpDelete]
-    [Route("DeleteSong")]
+    [Route("DeleteSong/{songId:guid}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task DeleteSong([FromBody] DeleteSongRequest deleteSongRequest, CancellationToken cancellationToken)
+    public async Task<DeleteSongResponse> DeleteSong(Guid songId, CancellationToken cancellationToken)
     {
-        var command = new DeleteSongCommand(deleteSongRequest);
-        await _mediator.Send(command, cancellationToken);
+        var command = new DeleteSongCommand(new DeleteSongRequest
+        {
+            SongId = songId
+        });
+        
+        return await _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -198,7 +202,7 @@ public class SongController : FileBaseController
     /// </summary>
     /// <param name="songId"></param>
     /// <param name="cancellationToken"></param>
-    [HttpPost("SongFavourite/{songId}")]
+    [HttpPost("SongFavourite/{songId:guid}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
@@ -213,7 +217,7 @@ public class SongController : FileBaseController
     /// </summary>
     /// <param name="songId">ИД песни</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    [HttpDelete("RemoveSongFromBucket/{songId}")]
+    [HttpDelete("RemoveSongFromBucket/{songId:guid}")]
     public async Task DeleteSongFromBucketAsync([FromRoute] Guid songId, CancellationToken cancellationToken)
         => await _mediator.Send(new DeleteSongFromBucketCommand(songId), cancellationToken);
 

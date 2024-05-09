@@ -6,7 +6,7 @@ import './CreateOrEditPlaylistModal.css'
 import createSongWithFiles from "../../../../functions/createSongWithFiles";
 import CreateSongDto from "../../../../utils/dto/song/createSongDto";
 import {Category} from "../../../../models/Category";
-import {getCategories} from "../../../../http/songApi";
+import {deleteSong, getCategories} from "../../../../http/songApi";
 import editSongWithFile from "../../../../functions/editSongWithFile";
 
 
@@ -25,6 +25,19 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
         const isCreating = song === undefined
 
         const reset = () => {
+            if (song) {
+                setName(song.songName)
+                setDuration(song.duration)
+                setCategory(categories.filter(i =>
+                    i.categoryName === song?.category)[0].categoryNumber)
+                setImageFiles([])
+                setAudioFiles([])
+            }
+            else
+                clear()
+        }
+
+        const clear = () => {
             setName('')
             setDuration(0)
             setCategory(1)
@@ -79,7 +92,7 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
         const handleEditSong = () => {
             if ((name === '' || name === song?.songName)
                 && (duration === song?.duration)
-                && (song.category === categories.filter(i => i.categoryNumber == category)[0].categoryName)
+                && (song.category === categories.filter(i => i.categoryNumber === category)[0].categoryName)
                 && (imageFiles.length === 0)) {
                 alert("You didn't change anything!")
                 return
@@ -90,6 +103,26 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                 .then(response => {
                     if (response.status === 200) {
                         alert(`Song '${response.value.songName}' was successfully updated!`)
+                        onHide()
+                        reset()
+                        reloadTrigger()
+                    } else {
+                        if (response.status >= 500)
+                            alert('Internal error happened. Please try later!')
+                        else
+                            alert(response.message)
+                    }
+                })
+        }
+
+        const handleDeleteSong = () => {
+            if (!confirm("Are you sure to delete this song?"))
+                return
+
+            deleteSong(song?.songId!)
+                .then(response => {
+                    if (response.status === 200) {
+                        alert(`Song '${response.value.songName}' was successfully deleted!`)
                         onHide()
                         reset()
                         reloadTrigger()
@@ -113,8 +146,11 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                             categoriesMapped.push(new Category(entity.categoryNumber, entity.categoryName))
                         ))
                         setCategories(categoriesMapped)
-                        setCategory(categoriesMapped.filter(i =>
-                            i.categoryName === song?.category)[0].categoryNumber)
+                        if (song)
+                            setCategory(categoriesMapped.filter(i =>
+                                i.categoryName === song.category)[0].categoryNumber)
+                        else
+                            setCategory(categories[0].categoryNumber)
                     } else if (response.status >= 500)
                         alert('Internal error happened. Please try later!')
                     else
@@ -198,6 +234,16 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                             className="create-playlist-form__image"/>
                     </div>
                     <div className="modal-buttons">
+                        <button
+                            className="close-modal"
+                            onClick={reset}>
+                            Reset
+                        </button>
+                        <button
+                            className="close-modal"
+                            onClick={handleDeleteSong}>
+                            Delete
+                        </button>
                         <button
                             className="close-modal"
                             onClick={() => {

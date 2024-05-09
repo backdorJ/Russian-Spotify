@@ -81,6 +81,14 @@ export const editPlaylist = async (playlistId: string, playlistName: string, fil
     return new ResponseWithMessage(response.status, response.data.message)
 }
 
+export const deletePlaylist = async (playlistId: string) => {
+    let response = await $authHost.delete(`api/Playlist/DeletePlaylist/${playlistId}`)
+
+    return response.status === 200
+        ? new ResponseWithMessage(200, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message)
+}
+
 export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playlist> =
     async (playlistId): Promise<Playlist> => {
         if (playlistId === undefined)

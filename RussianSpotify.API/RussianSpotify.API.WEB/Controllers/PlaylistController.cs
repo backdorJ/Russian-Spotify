@@ -1,12 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RussianSpotify.API.Core.Requests.Playlist.DeletePlaylist;
 using RussianSpotify.API.Core.Requests.Playlist.GetPlaylistById;
 using RussianSpotify.API.Core.Requests.Playlist.GetPlaylistsByFilter;
 using RussianSpotify.API.Core.Requests.Playlist.PostAddPlaylistToFavourite;
 using RussianSpotify.API.Core.Requests.Playlist.PostCreatePlaylist;
 using RussianSpotify.API.Core.Requests.Playlist.PutPlaylist;
 using RussianSpotify.API.Core.Requests.Playlist.RemovePlaylistFromFavorite;
+using RussianSpotify.Contracts.Requests.Playlist.DeletePlaylist;
 using RussianSpotify.Contracts.Requests.Playlist.GetFavouritePlaylistById;
 using RussianSpotify.Contracts.Requests.Playlist.GetPlaylistsByFilter;
 using RussianSpotify.Contracts.Requests.Playlist.PostCreatePlaylist;
@@ -113,6 +115,21 @@ public class PlaylistController : ControllerBase
         CancellationToken cancellationToken)
         => await _mediator.Send(new GetPlaylistByIdQuery(playlistId: playlistId), cancellationToken);
 
+    /// <summary>
+    /// Удалить плейлист
+    /// </summary>
+    /// <param name="playlistId">Id плейлиста</param>
+    [HttpDelete("DeletePlaylist/{playlistId}")]
+    public async Task<DeletePlaylistResponse> DeletePlaylistAsync(Guid playlistId)
+    {
+        var command = new DeletePlaylistCommand(new DeletePlaylistRequest
+        {
+            PlaylistId = playlistId
+        });
+
+        return await _mediator.Send(command);
+    }
+    
     /// <summary>
     /// Удалить плейлист из любимых
     /// </summary>

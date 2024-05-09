@@ -5,4 +5,5 @@ export interface ISong {
     song: Song;
     order_number: number | undefined
     onModalOpen: (() => void) | undefined
+    playlistReloadTrigger: (() => void) | undefined
 }

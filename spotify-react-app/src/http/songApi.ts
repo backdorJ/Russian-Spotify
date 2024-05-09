@@ -170,3 +170,11 @@ export const removeSongAuthor = async (songId: string, authorId: string) => {
         ? new ResponseWithMessage(200, '', response.data)
         : new ResponseWithMessage(response.status, response.data.message)
 }
+
+export const deleteSong = async (songId: string) => {
+    let response = await $authHost.delete(`api/Song/DeleteSong/${songId}`)
+
+    return response.status === 200
+        ? new ResponseWithMessage(200, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message)
+}

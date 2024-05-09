@@ -6,7 +6,7 @@ import AuthorLittle from "../../../../../models/AuthorLittle";
 import {UserContext} from "../../../../../index";
 
 
-const EditSongAuthorModal: FC<IEditSongAuthors> = ({song, show, onHide}) => {
+const EditSongAuthorModal: FC<IEditSongAuthors> = ({song, show, onHide, reloadTrigger}) => {
     const userStore = useContext(UserContext)
     const [authors, setAuthors] = useState(song.authors)
     const [selectedAuthor, setSelectedAuthor] = useState('')
@@ -67,7 +67,11 @@ const EditSongAuthorModal: FC<IEditSongAuthors> = ({song, show, onHide}) => {
     return (
         show &&
         <>
-            <div className="overlay" onClick={() => onHide()}>
+            <div className="overlay" onClick={() => {
+                onHide()
+                if (reloadTrigger)
+                    reloadTrigger()
+            }}>
             </div>
             <div className="modal-content">
                 <div className="modal-content__header">
@@ -91,7 +95,7 @@ const EditSongAuthorModal: FC<IEditSongAuthors> = ({song, show, onHide}) => {
                                         value={author.authorId}>
                                         {
                                             author.authorId === userStore.user.id
-                                                ? `${author.authorName}${<span className='required-red'>*</span>}`
+                                                ? `${author.authorName}*`
                                                 : author.authorName
                                         }
                                     </option>
@@ -112,7 +116,8 @@ const EditSongAuthorModal: FC<IEditSongAuthors> = ({song, show, onHide}) => {
                             required/>
                         <button
                             onClick={handleAddAuthor}
-                            className="submit-modal">Add
+                            className="submit-modal">
+                            Add
                         </button>
                     </div>
                 </div>
@@ -122,6 +127,8 @@ const EditSongAuthorModal: FC<IEditSongAuthors> = ({song, show, onHide}) => {
                         onClick={() => {
                             reset()
                             onHide()
+                            if (reloadTrigger)
+                                reloadTrigger()
                         }}>
                         Close
                     </button>

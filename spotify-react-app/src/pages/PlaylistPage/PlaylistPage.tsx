@@ -24,12 +24,13 @@ import {$authHost} from "../../http";
 import {getUserId} from "../../functions/getUserId";
 import {getImage} from "../../http/fileApi";
 import CreateOrEditPlaylistModal
-    from "../../commonComponents/SideBar/components/CreatePlaylistModal/CreateOrEditPlaylistModal";
+    from "../../commonComponents/SideBar/components/CreateOrEditPlaylistModal/CreateOrEditPlaylistModal";
 
 
 const PlaylistPage = () => {
     const {id} = useParams();
     const navigate = useNavigate();
+    const [isFirstLoad, setIsFirstLoad] = useState(true)
     const sidebarWidth = 280
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
@@ -40,7 +41,7 @@ const PlaylistPage = () => {
     const [playlistInfo, setPlaylistInfo] = useState(new Playlist())
     const [songs, setSongs] = useState<Song[]>([]);
     let stop = false;
-    const [getting, setGetting] = useState(false);
+    const [getting, setGetting] = useState(true);
     const [page, setPage] = useState(1)
     const [isLikedPlaylist, setIsLikedPlaylist] = useState(playlistInfo.isInFavorite);
     const [showEditModal, setShowEditModal] = useState(false)
@@ -56,6 +57,13 @@ const PlaylistPage = () => {
 
         updateWindowWidth()
     }, [showEditModal]);
+
+    useEffect(() => {
+        if (!isFirstLoad) {
+            setPage(1)
+            setGetting(true)
+        }
+    }, [reloadTrigger, id]);
 
     useEffect(() => {
         if (id === 'favorite-songs') {
@@ -91,7 +99,7 @@ const PlaylistPage = () => {
                 setIsLikedPlaylist(r.isInFavorite);
             });
         }
-    }, [reloadTrigger])
+    }, [reloadTrigger, id])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -103,6 +111,7 @@ const PlaylistPage = () => {
             else if (playlistType === PlaylistType.ArtistSongs)
                 result = await getSongsByFilter(songFilters.authorSongsFilter, playlistInfo.authorName, page, 50);
 
+            let loadedPage = page
             setPage(page + 1);
 
             if (result.length === 0)
@@ -111,12 +120,18 @@ const PlaylistPage = () => {
             if (songs.length > 0)
                 songs[songs.length - 1].nextSong = result[0];
 
-            setSongs([...songs, ...result]);
+            if (loadedPage === 1)
+                setSongs([...result]);
+            else
+                setSongs([...songs, ...result]);
+
             setGetting(false);
             console.log(page);
         };
 
-        if (!getting && playlistType != null) {
+        setIsFirstLoad(false)
+
+        if (getting && playlistType != null) {
             fetchData().then(_ => console.log("fetched"));
         }
     }, [getting, playlistType]);
@@ -208,10 +223,14 @@ const PlaylistPage = () => {
             <div className="playlist-page">
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
-                        {PlaylistType.FavoriteSongs !== playlistType &&
-                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>}
-                        {PlaylistType.FavoriteSongs === playlistType &&
-                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>}
+                        {
+                            PlaylistType.FavoriteSongs !== playlistType &&
+                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>
+                        }
+                        {
+                            PlaylistType.FavoriteSongs === playlistType &&
+                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>
+                        }
                     </div>
                     <div className="playlist-page__main__info">
                         <h1 className="playlist-page__main__info__name">
@@ -291,6 +310,7 @@ const PlaylistPage = () => {
                                         song={song}
                                         order_number={index + 1}
                                         onModalOpen={() => updateWindowWidth()}
+                                        playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}
                                     />
                                 })
                             }
