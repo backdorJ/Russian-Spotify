@@ -14,7 +14,7 @@ export class GetUsersByFilterRequestDto extends PaginationRequestDtoBase{
     @ApiProperty({name: "isNullRefresh", type: Boolean, nullable: true, required: false})
     isNullRefresh: boolean | null = null;
 
-    @ApiProperty({name: "isNullRefresh", type: Boolean, nullable: true, required: false})
+    @ApiProperty({name: "isNullAccess", type: Boolean, nullable: true, required: false})
     isNullAccess: boolean | null = null;
 
     @ApiProperty({name: "isExpiredRefresh", type: Boolean, nullable: false, required: false})
