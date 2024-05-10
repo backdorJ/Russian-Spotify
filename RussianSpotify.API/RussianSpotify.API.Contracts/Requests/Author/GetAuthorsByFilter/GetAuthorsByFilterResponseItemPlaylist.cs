@@ -9,7 +9,7 @@ public class GetAuthorsByFilterResponseItemPlaylist
     /// Id альбома
     /// </summary>
     public Guid PlaylistId { get; set; }
-    
+
     /// <summary>
     /// Название альбома
     /// </summary>

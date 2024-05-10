@@ -21,7 +21,7 @@ const RegisterPage = () => {
                 </div>
             </div>
         </div>
-        
+
     );
 }
 

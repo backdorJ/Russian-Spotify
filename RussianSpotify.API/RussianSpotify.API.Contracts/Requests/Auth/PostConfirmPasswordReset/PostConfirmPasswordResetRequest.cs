@@ -26,7 +26,7 @@ public class PostConfirmPasswordResetRequest
     public PostConfirmPasswordResetRequest()
     {
     }
-    
+
     /// <summary>
     /// Email пользователя
     /// </summary>

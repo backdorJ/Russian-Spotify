@@ -14,7 +14,7 @@ public class GetSongContentByIdQuery : IRequest<GetSongContentByIdResponse>
     /// <param name="id">ИД музыки</param>
     public GetSongContentByIdQuery(Guid id)
         => Id = id;
-    
+
     /// <summary>
     /// ИД музыки
     /// </summary>

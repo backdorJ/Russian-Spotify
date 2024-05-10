@@ -13,7 +13,7 @@ public static class ConfigureSwaggerExtension
     /// </summary>
     /// <param name="services">Сервисы билдера</param>
     /// <returns>IServiceCollection</returns>
-    public static IServiceCollection AddSwaggerGenWithAuth(this IServiceCollection services) => 
+    public static IServiceCollection AddSwaggerGenWithAuth(this IServiceCollection services) =>
         services.AddSwaggerGen(opt =>
         {
             var xmlFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

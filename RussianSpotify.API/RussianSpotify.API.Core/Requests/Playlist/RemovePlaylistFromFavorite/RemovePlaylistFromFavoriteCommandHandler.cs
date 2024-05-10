@@ -32,19 +32,19 @@ public class RemovePlaylistFromFavoriteCommandHandler : IRequestHandler<RemovePl
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
+
         var currentUser = await _dbContext.Users
-            .Include(x => x.Playlists)
-            .FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
-            ?? throw new EntityNotFoundException<User>(_userContext.CurrentUserId!.Value);
+                              .Include(x => x.Playlists)
+                              .FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
+                          ?? throw new EntityNotFoundException<User>(_userContext.CurrentUserId!.Value);
 
         var playlistFromDb = await _dbContext.Playlists
-            .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
-            ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
+                                 .FirstOrDefaultAsync(x => x.Id == request.PlaylistId, cancellationToken)
+                             ?? throw new EntityNotFoundException<Entities.Playlist>(request.PlaylistId);
 
         if (currentUser.Playlists is null)
             throw new ApplicationBaseException("У пользователя нет плейлистов");
-        
+
         currentUser.Playlists.Remove(playlistFromDb);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }

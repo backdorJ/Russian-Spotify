@@ -1,4 +1,4 @@
-import React, {FC, Fragment, useContext, useState} from "react";
+import React, {FC, Fragment, useContext, useEffect, useState} from "react";
 import {getImage} from "../../http/fileApi";
 import {useNavigate} from "react-router-dom";
 import {getSong, getSongsByFilter, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
@@ -7,30 +7,52 @@ import {PlayerContext, UserContext} from "../../index";
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 import "./styles/SongCard.css"
 import LikeIcon from "../Player/components/LikeIcon";
-import routeNames from "../../utils/routeNames";
 import {editPlaylist, getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 import Playlist from "../../models/Playlist";
 import {songFilters} from "../../http/filters/songFilters";
+import CreateOrEditSongModal from "../SideBar/components/CreateOrEditSongModal/CreateOrEditSongModal";
+import EditSongAuthorModal from "../../pages/PlaylistPage/components/modals/EditSongAuthorModal/EditSongAuthorModal";
+import StartIcon from "../Player/components/StartIcon";
+import StopIcon from "../Player/components/StopIcon";
+import player from "../Player/Player";
+import routeNames from "../../utils/routeNames";
 
-const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
+const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloadTrigger, playlist}) => {
     const userStore = useContext(UserContext)
     const playerStore = useContext(PlayerContext)
     const navigate = useNavigate();
     const [isLikedSong, setIsLikedSong] = useState(song.isInFavorite)
+    const [isMouseOverPlay, setIsMouseOverPlay] = useState(false)
+    const [showEditModal, setShowEditModal] = useState(false)
+    const [showEditAuthorModal, setShowEditAuthorModal] = useState(false)
     let isInLikeProcess = false;
     let artistCount = song.authors.length
     let artistsMapped = song.authors.map((artist, index) => {
         if (index < artistCount - 1)
-            return (<Fragment><span onClick={(e) => handleNavigateToAuthor(e, artist)}>{artist}</span>, </Fragment>)
-        return (<Fragment><span onClick={(e) => handleNavigateToAuthor(e, artist)}>{artist}</span></Fragment>)
+            return (
+                <Fragment>
+                    <span
+                        onClick={() => navigate(routeNames.AUTHOR_PAGE_NAV + artist.authorName)}>{artist.authorName}</span>,<span> </span>
+                </Fragment>
+            )
+        return (
+            <Fragment>
+                <span
+                    onClick={() => navigate(routeNames.AUTHOR_PAGE_NAV + artist.authorName)}>{artist.authorName}</span>
+            </Fragment>
+        )
     })
 
-    const handleNavigateToAuthor = (e: React.MouseEvent<HTMLElement>, artist: string) => {
-        e.stopPropagation()
-        navigate(routeNames.AUTHOR_PAGE_NAV + artist)
-    }
+    useEffect(() => {
+        if (showEditModal || showEditAuthorModal)
+            document.getElementById("body")!.style.overflowY = 'hidden';
+        else
+            document.getElementById("body")!.style.overflowY = 'visible';
 
+        if (onModalOpen !== undefined)
+            onModalOpen()
+    }, [showEditModal, showEditAuthorModal]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     let timeoutId: NodeJS.Timeout;
 
@@ -106,10 +128,6 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
         }).catch(err => console.log(err));
     };
 
-    const handlePlay = () => {
-        playerStore.Player = getSong(song, userStore.user, playlist);
-    }
-
     const getPlaylistsWithSong = async (songId: string) => {
         const playlists = await getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 10);
         const playlistsWithSong = [];
@@ -158,12 +176,51 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
         }, 100);
     };
 
+    const playerContext = useContext(PlayerContext);
+    const [isPlaying, setAsPlaying] = useState(false);
+
+    const handleStartStopClick = () => {
+        if (!playerStore.Player.currentSong) {
+            playerStore.Player = getSong(song, userStore.user, playlist);
+            setAsPlaying(true);
+        }
+
+        const audio: any = document.getElementById("audio-player");
+        const image: any = document.querySelector(".player-music-image");
+
+        if (audio !== null) {
+            if (audio?.paused) {
+                playerContext.IsPlaying = true;
+                setAsPlaying(true);
+                audio.play();
+                image.style.animation = "3s linear 0s normal none infinite running rot";
+            } else {
+                playerContext.IsPlaying = false;
+                setAsPlaying(false);
+                audio.pause();
+                image.style.animation = "none";
+            }
+        }
+        console.log(isPlaying)
+    }
+
     return (
         <div
-            className="playlist-page__songs__list__main__song-card" onClick={handlePlay}>
+            onMouseEnter={() => setIsMouseOverPlay(true)}
+            onMouseLeave={() => setIsMouseOverPlay(false)}
+            className="playlist-page__songs__list__main__song-card">
             <div
-                className="playlist-page__songs__list__main__song-card__id">
-                <p>{order_number}</p>
+                className="playlist-page__songs__list__main__song-card__id"
+                style={{marginRight: isMouseOverPlay ? '25px' : '20px', marginLeft: isMouseOverPlay ? '-5px' : '0'}}
+                onClick={handleStartStopClick}>
+                {
+                    isMouseOverPlay
+                        ?
+                        isPlaying ?
+                            <StartIcon/>
+                            : <StopIcon/>
+                        : <p>{order_number}</p>
+                }
             </div>
             <div
                 className="playlist-page__songs__list__main__song-card__title">
@@ -232,6 +289,22 @@ const SongCard: FC<ISongCard> = ({song, order_number, playlist}) => {
                     </div>
                 )}
             </div>
+            <CreateOrEditSongModal
+                show={showEditModal}
+                onHide={() => setShowEditModal(false)}
+                song={song}
+                reloadTrigger={() => {
+                    if (playlistReloadTrigger)
+                        playlistReloadTrigger()
+                }}/>
+            <EditSongAuthorModal
+                song={song}
+                show={showEditAuthorModal}
+                onHide={() => setShowEditAuthorModal(false)}
+                reloadTrigger={() => {
+                    if (playlistReloadTrigger)
+                        playlistReloadTrigger()
+                }}/>
         </div>
     )
 }

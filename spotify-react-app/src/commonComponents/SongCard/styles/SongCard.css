@@ -117,6 +117,7 @@
 }
 
 .music-more-button {
+    position: relative;
     margin: 1% 5% 1% 90px;
     align-self: center;
     background: none;
@@ -143,18 +144,19 @@
 }
 
 .music-menu button:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     background-color: mediumpurple;
     transition: all 0.1s ease;
 }
 
 .music-menu {
+    width: 300px;
     position: absolute;
     z-index: 2;
-    background: #120F0F;
+    background: #111111;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 2px 8px;
-    border-radius: 5%;
+    padding: 2px 2px;
+    border-radius: 5px;
     animation: fadeIn 0.2s ease;
 }
 
@@ -162,6 +164,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.music-more-icon {
+    width: 20px;
 }
 
 .playlist-page__songs__list__song-card__playlists {
@@ -207,6 +213,11 @@
 
 .playlist-name-container p {
     color: white;
+}
+
+.music-more-icon {
+    display: flex;
+    justify-content: center;
 }
 
 @keyframes fadeIn {

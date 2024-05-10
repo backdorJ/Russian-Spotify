@@ -6,7 +6,7 @@ namespace RussianSpotify.API.Core.Requests.Music.DeleteSong;
 /// <summary>
 /// Команда на удаление песни
 /// </summary>
-public class DeleteSongCommand : DeleteSongRequest, IRequest
+public class DeleteSongCommand : DeleteSongRequest, IRequest<DeleteSongResponse>
 {
     public DeleteSongCommand(DeleteSongRequest request) : base(request)
     {

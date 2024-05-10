@@ -12,9 +12,8 @@ public class Song
     /// </summary>
     public Song()
     {
-        
     }
-    
+
     public Song(string songName, double duration, Category category)
     {
         SongName = songName;
@@ -46,7 +45,7 @@ public class Song
     /// Длительность
     /// </summary>
     public double Duration { get; set; }
-    
+
     /// <summary>
     /// Количество прослушиваний
     /// </summary>

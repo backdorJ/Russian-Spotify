@@ -9,7 +9,7 @@ import Playlist from "../../models/Playlist";
 
 /** Компонент для превью треков
  * @param favoriteSongs - SongCard[] треки*/
-const FavouriteMusic: FC<IFavouriteMusic> = ({favouriteSongs}) => {
+const FavouriteMusic: FC<IFavouriteMusic> = ({favouriteSongs, playlistReloadTrigger}) => {
     const params = useParams();
     const navigate = useNavigate();
 
@@ -24,7 +24,9 @@ const FavouriteMusic: FC<IFavouriteMusic> = ({favouriteSongs}) => {
             <div className="music-container">
                 <div className="music-container-wrapper">
                     {songs.map((song: Song, index: number) => <SongCard song={song} order_number={index + 1}
-                                                          playlist={playlist}/>)}
+                                                                        onModalOpen={undefined}
+                                                                        playlistReloadTrigger={playlistReloadTrigger}
+                                                                        playlist={playlist}/>)}
                 </div>
                 <button onClick={() => navigate(link)} className="show-all-music-button">Показать все</button>
             </div>

@@ -16,8 +16,8 @@ public class UserContext : IUserContext
     /// </summary>
     /// <param name="httpContextAccessor">Аксессор http</param>
     public UserContext(IHttpContextAccessor httpContextAccessor)
-         => _httpContextAccessor = httpContextAccessor;
-    
+        => _httpContextAccessor = httpContextAccessor;
+
     /// <inheritdoc />
     public Guid? CurrentUserId => Guid.TryParse(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId)
         ? userId

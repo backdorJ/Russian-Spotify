@@ -60,9 +60,9 @@ body {
     background-color: #120F0F;
 }
 
-/*body > iframe {*/
-/*    display: none;*/
-/*}*/
+body > iframe {
+    display: none;
+}
 
 h1, h2, h3, h4, h5, h6, p, a, span {
     font-family: proxima_nova_rgregular, sans-serif;

@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import './CreatePlaylistModal.css'
 import CreatePlaylistDto from "../../../../utils/dto/playlist/createPlaylistDto";
 import createPlaylistWithFile from "../../../../functions/createPlaylistWithFile";
@@ -7,19 +7,38 @@ import routeNames from "../../../../utils/routeNames";
 import {ICreateOrEditPlaylistModal} from "../../interfaces/ICreateOrEditPlaylistModal";
 import EditPlaylistDto from "../../../../utils/dto/playlist/editPlaylistDto";
 import editPlaylistWithFile from "../../../../functions/editPlaylistWithFile";
+import {UserContext} from "../../../../index";
+import roles from "../../../../utils/roles";
+import {deletePlaylist} from "../../../../http/playlistApi";
 
 
 const CreateOrEditPlaylistModal: FC<ICreateOrEditPlaylistModal> =
     ({show, onHide, playlist, songsIds, reloadTrigger}) => {
+        const userStore = useContext(UserContext)
         const [name, setName] =
-            useState(playlist === undefined ? '' : playlist.playlistName)
+            useState(playlist ? playlist.playlistName : '')
         const [files, setFiles] = useState(new Array<File>())
+        const [isAlbum, setIsAlbum] = useState(false)
         const navigate = useNavigate()
         const isCreating = playlist === undefined
 
+        useEffect(() => {
+            reset()
+        }, [playlist]);
+
         const reset = () => {
+            if (playlist) {
+                setName(playlist.playlistName)
+                setFiles([])
+                setIsAlbum(playlist.isAlbum)
+            } else
+                clear()
+        }
+
+        const clear = () => {
             setName('')
             setFiles([])
+            setIsAlbum(false)
         }
 
         const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,13 +56,14 @@ const CreateOrEditPlaylistModal: FC<ICreateOrEditPlaylistModal> =
                     return
                 }
 
-            let createPlaylistDto = new CreatePlaylistDto(name, files[0])
+            let createPlaylistDto = new CreatePlaylistDto(name, files[0], isAlbum)
             createPlaylistWithFile(createPlaylistDto)
                 .then(response => {
                     if (response.status === 200) {
                         alert(`Playlist '${response.value.playlistName}' was successfully created!`)
                         onHide()
                         reset()
+                        navigate(routeNames.HOME_PAGE)
                         navigate(routeNames.PLAYLIST_PAGE_NAV + response.value.playlistId)
                     } else {
                         if (response.status >= 500)
@@ -78,10 +98,33 @@ const CreateOrEditPlaylistModal: FC<ICreateOrEditPlaylistModal> =
                 })
         }
 
+        const handleDeletePlaylist = () => {
+            if (!window.confirm("Are you sure to delete this playlist?"))
+                return
+
+            deletePlaylist(playlist?.playlistId!)
+                .then(response => {
+                    if (response.status === 200) {
+                        alert(`Playlist ${response.value.playlistName} was successfully deleted!`)
+                        onHide()
+                        reset()
+                        navigate(routeNames.ACCOUNT_PAGE)
+                    } else {
+                        if (response.status >= 500)
+                            alert('Internal error happened. Please try later!')
+                        else
+                            alert(response.message)
+                    }
+                })
+        }
+
         return (
             show &&
             <>
-                <div className="overlay" onClick={() => onHide()}>
+                <div className="overlay" onClick={() => {
+                    reset()
+                    onHide()
+                }}>
                 </div>
                 <div className="modal-content">
                     <div className="modal-content__header">
@@ -110,11 +153,38 @@ const CreateOrEditPlaylistModal: FC<ICreateOrEditPlaylistModal> =
                             }}
                             type="file"
                             className="create-playlist-form__image"/>
+                        {
+                            userStore.user.roles.includes(roles.Author) &&
+                            playlist === undefined &&
+                            <div className="create-playlist-form__is-album">
+                                <h3>Is album?</h3>
+                                <input
+                                    onChange={() => setIsAlbum(prev => !prev)}
+                                    checked={isAlbum}
+                                    type="checkbox"/>
+                            </div>
+                        }
                     </div>
                     <div className="modal-buttons">
                         <button
                             className="close-modal"
-                            onClick={() => onHide()}>
+                            onClick={reset}>
+                            Reset
+                        </button>
+                        {
+                            !isCreating &&
+                            <button
+                                className="close-modal"
+                                onClick={handleDeletePlaylist}>
+                                Delete
+                            </button>
+                        }
+                        <button
+                            className="close-modal"
+                            onClick={() => {
+                                reset()
+                                onHide()
+                            }}>
                             Close
                         </button>
                         <button className="submit-modal"

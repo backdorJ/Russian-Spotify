@@ -10,12 +10,12 @@ public class GetSongsByFilterResponse
         Entities = entities;
         TotalCount = totalCount;
     }
-    
+
     /// <summary>
     /// Отфильтрованные песни
     /// </summary>
     public List<GetSongsByFilterResponseItem> Entities { get; set; }
-    
+
     /// <summary>
     /// Общее кол-во подобных треков
     /// </summary>

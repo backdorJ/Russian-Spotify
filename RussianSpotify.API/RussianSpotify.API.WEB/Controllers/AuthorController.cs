@@ -21,7 +21,7 @@ public class AuthorController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     /// <summary>
     /// Возвращает информацию об авторе
     /// </summary>
@@ -33,7 +33,8 @@ public class AuthorController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<GetAuthorResponse> Author([FromQuery] GetAuthorRequest request, CancellationToken cancellationToken)
+    public async Task<GetAuthorResponse> Author([FromQuery] GetAuthorRequest request,
+        CancellationToken cancellationToken)
     {
         var query = new GetAuthorQuery(request);
         return await _mediator.Send(query, cancellationToken);

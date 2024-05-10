@@ -7,7 +7,7 @@ namespace RussianSpotify.API.Core.Exceptions.AuthExceptions;
 /// </summary>
 public class InvalidTokenException : ApplicationBaseException
 {
-    public InvalidTokenException(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest) 
+    public InvalidTokenException(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         : base(message, statusCode)
     {
     }

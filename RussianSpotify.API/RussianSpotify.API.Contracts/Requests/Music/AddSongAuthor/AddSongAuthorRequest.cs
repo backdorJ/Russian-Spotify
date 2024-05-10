@@ -10,24 +10,23 @@ public class AddSongAuthorRequest
     /// </summary>
     public AddSongAuthorRequest()
     {
-        
     }
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>
     /// <param name="request">Запрос</param>
     protected AddSongAuthorRequest(AddSongAuthorRequest request)
     {
-        AuthorId = request.AuthorId;
+        AuthorEmail = request.AuthorEmail;
         SongId = request.SongId;
     }
 
     /// <summary>
     /// Id автора
     /// </summary>
-    public Guid AuthorId { get; set; }
-    
+    public string AuthorEmail { get; set; }
+
     /// <summary>
     /// Id песни
     /// </summary>

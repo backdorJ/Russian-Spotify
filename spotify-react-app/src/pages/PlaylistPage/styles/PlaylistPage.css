@@ -12,7 +12,7 @@
     position: absolute;
     width: inherit;
     height: 650px;
-    background: linear-gradient(mediumpurple, #121212)
+    background: linear-gradient(#DEF628, #121212)
 }
 
 .playlist-page__main {
@@ -40,7 +40,7 @@
 }
 
 .playlist-page__main__info span:hover {
-    color: #7f37cb;
+    color: #cbc237;
     transition: .1s;
 }
 
@@ -59,6 +59,11 @@
     color: #FFFFFF;
 }
 
+.playlist-page__main__info__singers > span > span:hover {
+    color: orangered;
+    transition: .1s;
+}
+
 .playlist-page__main__info__additional {
     font-size: 18px;
     color: #FFFFFF70;
@@ -66,14 +71,6 @@
 
 .playlist-page__main__info__additional > span {
     color: #FFFFFF;
-}
-
-.img-hidden {
-    opacity: 0;
-}
-
-.img-not-hidden {
-    opacity: 1;
 }
 
 .playlist-page__songs {
@@ -106,30 +103,29 @@
 
 .playlist-page__songs__header__buttons__play:hover {
     transform: scale(1.03);
-    background-color: mediumpurple;
+    background-color: #65D36E;
     transition: 0.1s;
 }
 
 .playlist-page__songs__header__buttons__like-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 40px;
     height: 38px;
     margin-right: 30px;
 }
 
-.like-icon {
-    transition: 0.1s;
+.img-hidden {
+    opacity: 0;
 }
 
-.playlist-page__songs__header__buttons__like-wrapper .like-icon{
-    width: 35px;
+.img-not-hidden {
+    opacity: 1;
 }
 
-.like-icon:hover{
-    transform: scale(1.05);
-    transition: 0.1s;
+.playlist-page__songs__header__buttons__like {
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    transition: .2s;
 }
 
 .playlist-page__songs__header__buttons__options {

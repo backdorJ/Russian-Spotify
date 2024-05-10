@@ -11,7 +11,7 @@ public class UserNotFoundException : ApplicationBaseException
         : base(message, statusCode)
     {
     }
-    
+
     public UserNotFoundException()
     {
     }

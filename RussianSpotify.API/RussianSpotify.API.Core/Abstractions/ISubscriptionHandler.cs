@@ -14,14 +14,14 @@ public interface ISubscriptionHandler
     /// <param name="length">Количество месяцев, в течение которые будет действовать подписка</param>
     /// <returns>Успешность операции</returns>
     Task<bool> Subscribe(Guid userId, int length);
-    
+
     /// <summary>
     /// Отменить подписку
     /// </summary>
     /// <param name="userId">Айди пользователя, которому отменяются подписку</param>
     /// <returns>Успешность операции</returns>
     Task<bool> Unsubscribe(Guid userId);
-    
+
     /// <summary>
     /// Получить информацию по подписке пользователя
     /// </summary>

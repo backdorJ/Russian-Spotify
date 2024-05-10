@@ -1,5 +1,5 @@
 import Playlist from "../../../models/Playlist";
 
-export interface IFavouritePlaylist{
+export interface IFavouritePlaylist {
     favouritePlaylists: Playlist[];
 }

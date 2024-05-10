@@ -6,7 +6,7 @@ namespace RussianSpotify.API.Core.Requests.Music.PostAddSong;
 /// <summary>
 /// Запрос на добавление песни
 /// </summary>
-public class PostAddSongCommand : AddSongRequest, IRequest
+public class PostAddSongCommand : AddSongRequest, IRequest<AddSongResponse>
 {
     /// <summary>
     /// Конструктор

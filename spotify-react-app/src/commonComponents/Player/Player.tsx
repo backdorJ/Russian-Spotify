@@ -25,6 +25,7 @@ const Player = (props: any) => {
     const [volume, setVolume] = useState(playerStore.Volume);
     const [volumeVisibility, setVolumeVisibility] = useState("none");
     const navigate = useNavigate();
+    const [reloadTrigger, setReloadTrigger] = useState(false)
     const [isLiked, setIsLiked] = useState(playerStore.Player.currentSong!.isInFavorite);
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
@@ -194,7 +195,7 @@ const Player = (props: any) => {
                             <span>
                                  {currentPlayingSong.authors.map((author, index) => <span
                                      onClick={() => navigate(`/author/${author}`)}
-                                     className={`player-artist-link${showExpanded ? " expanded" : ""}`}>{author}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
+                                     className={`player-artist-link${showExpanded ? " expanded" : ""}`}>{author.authorName}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
                         </div>
                         <div className={`progress__container${showExpanded ? " expanded" : ""}`}>
                             <div style={{width: currentProgressBarPercent + "%"}}
@@ -236,7 +237,9 @@ const Player = (props: any) => {
                                     <div className="music-container">
                                         <div className="music-container-wrapper">
                                             {currentPlaylist && currentPlaylist.songs.map((song, index) => <SongCard song={song}
-                                                                                                  order_number={index + 1} playlist={currentPlaylist}/>)}
+                                                                                                  order_number={index + 1} playlist={currentPlaylist}
+                                                                                                                     onModalOpen={undefined}
+                                                                                                                     playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/>)}
                                         </div>
                                     </div>
                                 </div>}

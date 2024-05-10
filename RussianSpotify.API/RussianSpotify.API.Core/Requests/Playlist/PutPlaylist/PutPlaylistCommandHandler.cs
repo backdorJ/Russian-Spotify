@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
@@ -56,7 +55,7 @@ public class PutPlaylistCommandHandler : IRequestHandler<PutPlaylistCommand, Put
                 .Select(x => x.Id)
                 .ToList())
             .ToList();
-        
+    
         songsToDelete?.ForEach(x =>
         {
             if (playlist.Songs?.Any(y => y.Id == x) == true)

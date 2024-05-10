@@ -16,7 +16,7 @@ function authInterceptor(config: any) {
     let token = localStorage.getItem('token')
     config.headers.Authorization = `Bearer ${token}`
 
-    if(isJwtDied(token)) {
+    if (isJwtDied(token)) {
         let refreshToken = localStorage.getItem('refresh');
         $host.post("api/Auth/RefreshToken", {
             accessToken: token,
@@ -25,7 +25,9 @@ function authInterceptor(config: any) {
             config.headers.Authorization = `Bearer ${x.data.accessToken}`;
             localStorage.setItem('token', token!);
             localStorage.setItem('refresh', x.data.refreshToken);
-        }).catch(error => {console.log(error)});
+        }).catch(error => {
+            console.log(error)
+        });
     }
 
     return config

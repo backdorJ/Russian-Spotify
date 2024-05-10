@@ -11,7 +11,7 @@ public class GetPlaylistByIdQuery : IRequest<GetFavouritePlaylistByIdResponse>
     /// <param name="playlistId">ИД плейлиста</param>
     public GetPlaylistByIdQuery(Guid playlistId)
         => PlaylistId = playlistId;
-    
+
     /// <summary>
     /// ИД альбома/плейлиста
     /// </summary>

@@ -14,10 +14,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     // <React.StrictMode>
-        <UserContext.Provider value={new UserStore()}>
-            <PlayerContext.Provider value={new PlayerStore()}>
-                <App/>
-            </PlayerContext.Provider>
-        </UserContext.Provider>
+    <UserContext.Provider value={new UserStore()}>
+        <PlayerContext.Provider value={new PlayerStore()}>
+            <App/>
+        </PlayerContext.Provider>
+    </UserContext.Provider>
     // </React.StrictMode>
 );

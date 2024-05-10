@@ -12,7 +12,7 @@ public class AuthorSongsFilter : IFilter<Song>
     public Task<IOrderedQueryable<Song>> FilterAsync(IQueryable<Song> queryable, string filterValue,
         CancellationToken cancellationToken)
         => Task.FromResult(queryable
-                .Where(song => song.Authors
-                    .Select(author => author.UserName).Contains(filterValue))
-                .OrderByDescending(x => x.PlaysNumber));
+            .Where(song => song.Authors
+                .Select(author => author.UserName).Contains(filterValue))
+            .OrderByDescending(x => x.PlaysNumber));
 }
