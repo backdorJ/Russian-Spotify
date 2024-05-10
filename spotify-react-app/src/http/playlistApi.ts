@@ -107,7 +107,7 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
             response.data.authorName,
             response.data.releaseDate,
             response.data.isAlbum,
-            response.data.isInFavorite
+            response.data.isInFavorite,
         );
     }
 

@@ -1,12 +1,11 @@
 import {IFavouritePlaylist} from "./interfaces/IFavouritePlaylist";
 import {FC, useState} from "react";
-import playlistsNormal from "../../../utils/mocks/homepage/playlistsNormal";
-import '../styles/AccountPage.css'
-import Playlist from "../../../commonComponents/Playlist/Playlist";
+import '../../pages/AccountPage/styles/AccountPage.css'
+import Playlist from "../Playlist/Playlist";
 
 const FavouritePlaylist: FC<IFavouritePlaylist> = ({favouritePlaylists}) => {
     const [currentStartPlaylistIndex, setCurrentStartPlaylistIndex] = useState(0);
-    const [playlistsNormalLoaded, setPlaylistsNormalLoaded] = useState(playlistsNormal)
+    const visibleFavouritePlaylists = favouritePlaylists.slice(currentStartPlaylistIndex, currentStartPlaylistIndex + 3);
 
     const canScroll = (index: number, step: number, loadedList: any[]) => {
         const newIndex = index + step;
@@ -22,11 +21,11 @@ const FavouritePlaylist: FC<IFavouritePlaylist> = ({favouritePlaylists}) => {
         <>
             <div className="cards-container">
                 <button className="arrow-button arrow-button-left"
-                        onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, -3, playlistsNormalLoaded)}
-                        disabled={!canScroll(currentStartPlaylistIndex, -3, playlistsNormalLoaded)}>&lt;</button>
+                        onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, -3, favouritePlaylists)}
+                        disabled={!canScroll(currentStartPlaylistIndex, -3, favouritePlaylists)}>&lt;</button>
                 <div className="home-page__latest-albums__cards ">
                     {
-                        favouritePlaylists.map(playlist => (
+                        visibleFavouritePlaylists.map(playlist => (
                             <div className="card">
                                 <Playlist playlist={playlist}/>
                             </div>
@@ -34,8 +33,8 @@ const FavouritePlaylist: FC<IFavouritePlaylist> = ({favouritePlaylists}) => {
                     }
                 </div>
                 <button className="arrow-button arrow-button-right"
-                        onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, 3, playlistsNormalLoaded)}
-                        disabled={!canScroll(currentStartPlaylistIndex, 3, playlistsNormalLoaded)}>&gt;</button>
+                        onClick={() => scroll(setCurrentStartPlaylistIndex, currentStartPlaylistIndex, 3, favouritePlaylists)}
+                        disabled={!canScroll(currentStartPlaylistIndex, 3, favouritePlaylists)}>&gt;</button>
             </div>
         </>
     )

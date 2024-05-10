@@ -13,11 +13,11 @@ const SearchAuthorCard = (props: any) => {
 
     let playlistsMapped = playlists.map((playlist, index) => {
         if (index < playlists.length - 1)
-            return (<Fragment><span
-                onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span>,
+            return (<Fragment><span className="search-author__right__author-playlist"
+                                    onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span>,
             </Fragment>)
-        return (<Fragment><span
-            onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span></Fragment>)
+        return (<Fragment><span className="search-author__right__author-playlist"
+                                onClick={() => navigate(routeNames.PLAYLIST_PAGE_NAV + playlist.albumId)}>{playlist.albumName}</span></Fragment>)
     })
 
     let additionalPlaylistCountDisplay = author.totalCount > playlists.length
@@ -36,8 +36,9 @@ const SearchAuthorCard = (props: any) => {
                     onError={handleImageNotLoaded}/>
             </div>
             <div className="search-author__right">
-                <h2>{author.authorName}</h2>
-                <p>{playlistsMapped} {additionalPlaylistCountDisplay}{additionalsEnding}</p>
+                    <h2 className="search-author__right__author-name"
+                        onClick={() => navigate(`/author/${author.authorName}`)}>{author.authorName}</h2>
+                <p className="search-author__right__author-playlists">{playlistsMapped} {additionalPlaylistCountDisplay} {additionalsEnding}</p>
             </div>
         </div>
     )

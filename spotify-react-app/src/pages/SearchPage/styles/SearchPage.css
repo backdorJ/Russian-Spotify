@@ -216,3 +216,22 @@
     color: #eaeaea;
 }
 
+.search-author__right__author-name {
+    cursor: pointer;
+    width: 20%;
+}
+
+.search-author__right__author-name:hover {
+    cursor: pointer;
+    color: mediumpurple;
+}
+
+.search-author__right__author-playlist {
+    cursor: pointer;
+}
+
+.search-author__right__author-playlist:hover {
+    cursor: pointer;
+    color: mediumpurple;
+}
+

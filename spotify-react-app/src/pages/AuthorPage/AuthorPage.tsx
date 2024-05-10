@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import Author from "../../models/AuthorPage";
 import {getAuthor} from "../../http/authorApi";
-import FavouritePlaylist from "../AccountPage/components/FavouritePlaylist";
-import FavoriteMusic from "../AccountPage/components/FavoriteMusic";
 import '../AuthorPage/styles/AuthorPage.css'
+import FavouriteMusic from "../../commonComponents/FavouriteMusic/FavouriteMusic";
+import FavouritePlaylist from "../../commonComponents/FavouritePlaylist/FavouritePlaylist";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
 const AuthorPage = () => {
     const params = useParams();
@@ -32,23 +33,27 @@ const AuthorPage = () => {
                         <div className="user-image-container">
                             <img className="user-image"
                                  src={authorData.imageLink}
-                                 alt="Фото артиста"/>
+                                 alt="Фото артиста"
+                                 onError={handleImageNotLoaded}/>
                         </div>
                     </div>
                     <div className="favorite-container">
+                        {authorData.authorMusic.length > 0 &&
+                            <>
+                                <h3>Треки автора</h3>
+                                <FavouriteMusic
+                                    favouriteSongs={authorData.authorMusic}
+                                    playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/>
+                            </>}
+
+                        {authorData.authorPlaylists.length > 0 &&
+                            <>
+                                <h3>Альбомы автора</h3>
+                                <FavouritePlaylist favouritePlaylists={authorData.authorPlaylists}/>
+                            </>
+                        }
                     </div>
-                    {authorData.authorMusic.length > 0 &&
-                        <>
-                            <h3>Треки автора</h3>
-                            <FavoriteMusic
-                                favoriteSongs={authorData.authorMusic}
-                                playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/>
-                        </>
-                    }
                 </div>
-                {authorData.authorPlaylists.length > 0 &&
-                    <><h3>Альбомы автора</h3><FavouritePlaylist favouritePlaylists={authorData.authorPlaylists}/></>
-                }
             </div>
         </div>
     );

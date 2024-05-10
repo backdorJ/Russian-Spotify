@@ -1,9 +1,9 @@
 import React, {FC, useContext, useState} from "react";
 import {addSongAuthor, removeSongAuthor} from "../../../../../http/songApi";
-import {IEditSongAuthors} from "../../../../../commonComponents/Song/interfaces/IEditSongAuthors";
 import './EditSongAuthorModal.css'
 import AuthorLittle from "../../../../../models/AuthorLittle";
 import {UserContext} from "../../../../../index";
+import {IEditSongAuthors} from "../../../../../commonComponents/SongCard/interfaces/IEditSongAuthors";
 
 
 const EditSongAuthorModal: FC<IEditSongAuthors> = ({song, show, onHide, reloadTrigger}) => {

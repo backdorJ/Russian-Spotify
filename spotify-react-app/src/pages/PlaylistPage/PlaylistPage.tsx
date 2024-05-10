@@ -11,7 +11,6 @@ import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
 import {Fragment, useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
-import SongCard from "./components/SongCard";
 import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
 import Playlist from "../../models/Playlist";
@@ -23,6 +22,7 @@ import {PlaylistType} from "./enums/playlistTypes";
 import {$authHost} from "../../http";
 import {getUserId} from "../../functions/getUserId";
 import {getImage} from "../../http/fileApi";
+import SongCard from "../../commonComponents/SongCard/SongCard";
 import CreateOrEditPlaylistModal
     from "../../commonComponents/SideBar/components/CreateOrEditPlaylistModal/CreateOrEditPlaylistModal";
 
@@ -38,16 +38,16 @@ const PlaylistPage = () => {
     const [backgroundWidth, setBackgroundWidth] = useState(0)
     const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
     const [isHover, setIsHover] = useState(false)
-    const [playlistInfo, setPlaylistInfo] = useState(new Playlist())
+    const [currentPlaylist, setCurrentPlaylist] = useState(new Playlist())
     const [songs, setSongs] = useState<Song[]>([]);
     let stop = false;
-    const [getting, setGetting] = useState(true);
+    const [getting, setGetting] = useState(false);
     const [page, setPage] = useState(1)
-    const [isLikedPlaylist, setIsLikedPlaylist] = useState(playlistInfo.isInFavorite);
-    const [showEditModal, setShowEditModal] = useState(false)
+    const [isLikedPlaylist, setIsLikedPlaylist] = useState(currentPlaylist.isInFavorite);
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
     const [playlistType, setPlaylistType] = useState<PlaylistType | null>(null);
+    const [showEditModal, setShowEditModal] = useState(false)
 
     useEffect(() => {
         if (showEditModal)
@@ -64,11 +64,10 @@ const PlaylistPage = () => {
             setGetting(true)
         }
     }, [reloadTrigger, id]);
-
+    
     useEffect(() => {
         if (id === 'favorite-songs') {
-            setPlaylistType(PlaylistType.FavoriteSongs);
-            setPlaylistInfo(Playlist.init("",
+            setCurrentPlaylist(Playlist.init("",
                 "Favorite Songs",
                 "",
                 "",
@@ -76,13 +75,14 @@ const PlaylistPage = () => {
                 new Date(),
                 false,
                 true));
+            setPlaylistType(PlaylistType.FavoriteSongs);
             setIsLikedPlaylist(true);
         } else if (id?.includes('author-')) {
             let authorName = id.split("author-")[1];
             console.log(authorName);
             $authHost.get(`api/Author/Author?Name=${authorName}`)
                 .then(x => {
-                    setPlaylistInfo(Playlist.init("",
+                    setCurrentPlaylist(Playlist.init("",
                         `Songs by ${x.data.name}`,
                         x.data.authorPhotoId,
                         x.data.authorId,
@@ -95,7 +95,7 @@ const PlaylistPage = () => {
         } else {
             setPlaylistType(PlaylistType.Playlist);
             getPlaylistInfo(id).then(r => {
-                setPlaylistInfo(r);
+                setCurrentPlaylist(r);
                 setIsLikedPlaylist(r.isInFavorite);
             });
         }
@@ -109,8 +109,10 @@ const PlaylistPage = () => {
             else if (playlistType === PlaylistType.FavoriteSongs)
                 result = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 50);
             else if (playlistType === PlaylistType.ArtistSongs)
-                result = await getSongsByFilter(songFilters.authorSongsFilter, playlistInfo.authorName, page, 50);
+                result = await getSongsByFilter(songFilters.authorSongsFilter, currentPlaylist.authorName, page, 50);
 
+            setSongs(result)
+            
             let loadedPage = page
             setPage(page + 1);
 
@@ -118,7 +120,7 @@ const PlaylistPage = () => {
                 stop = true;
 
             if (songs.length > 0)
-                songs[songs.length - 1].nextSong = result[0];
+                songs[songs.length - 1].nextSong = currentPlaylist.songs[0];
 
             if (loadedPage === 1)
                 setSongs([...result]);
@@ -131,7 +133,7 @@ const PlaylistPage = () => {
 
         setIsFirstLoad(false)
 
-        if (getting && playlistType != null) {
+        if (!getting && playlistType != null) {
             fetchData().then(_ => console.log("fetched"));
         }
     }, [getting, playlistType]);
@@ -157,7 +159,7 @@ const PlaylistPage = () => {
 
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {
-        playerStore.Player = getSong(song, userStore.user);
+        playerStore.Player = getSong(song, userStore.user, currentPlaylist);
     }
 
     useEffect(() => {
@@ -184,7 +186,7 @@ const PlaylistPage = () => {
         })
     })
 
-    const authorsMapped = allAuthorsTogetherUnique.slice(0, 3).map((author, index) => {
+    const authorsMapped = allAuthorsTogetherUnique.map((author, index) => {
         if (index < allAuthorsTogetherUnique.length - 1)
             return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span>, </Fragment>)
         return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span></Fragment>)
@@ -193,24 +195,24 @@ const PlaylistPage = () => {
     const handleLikeClick = () => {
         if (!isInLikeProcess) {
             isInLikeProcess = true;
-            if (!playlistInfo.isInFavorite) {
-                tryAddPlaylistToFavorites(playlistInfo.playlistId)
+            if (!currentPlaylist.isInFavorite) {
+                tryAddPlaylistToFavorites(currentPlaylist.playlistId)
                     .then(isSuccessful => {
                         if (isSuccessful) {
                             setIsLikedPlaylist(true);
                             isInLikeProcess = false;
-                            playlistInfo.isInFavorite = true;
-                            setPlaylistInfo(playlistInfo);
+                            currentPlaylist.isInFavorite = true;
+                            setCurrentPlaylist(currentPlaylist);
                         }
                     });
             } else {
-                tryRemovePlaylistFromFavorites(playlistInfo.playlistId)
+                tryRemovePlaylistFromFavorites(currentPlaylist.playlistId)
                     .then(isSuccessful => {
                         if (isSuccessful) {
                             setIsLikedPlaylist(false);
                             isInLikeProcess = false;
-                            playlistInfo.isInFavorite = false;
-                            setPlaylistInfo(playlistInfo);
+                            currentPlaylist.isInFavorite = false;
+                            setCurrentPlaylist(currentPlaylist);
                         }
                     });
             }
@@ -223,31 +225,21 @@ const PlaylistPage = () => {
             <div className="playlist-page">
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
-                        {
-                            PlaylistType.FavoriteSongs !== playlistType &&
-                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>
-                        }
-                        {
-                            PlaylistType.FavoriteSongs === playlistType &&
-                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>
-                        }
+                        {PlaylistType.FavoriteSongs !== playlistType &&
+                            <img src={getImage(currentPlaylist.imageId)} alt="" className="playlist-page__main__img"/>}
+                        {PlaylistType.FavoriteSongs === playlistType &&
+                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>}
                     </div>
                     <div className="playlist-page__main__info">
                         <h1 className="playlist-page__main__info__name">
-                            {playlistInfo.playlistName}
+                            {currentPlaylist.playlistName}
                         </h1>
                         <p className="playlist-page__main__info__singers">
-                            <span>
-                                {authorsMapped}
-                                {
-                                    allAuthorsTogetherUnique.length > authorsMapped.length
-                                    && ` and ${allAuthorsTogetherUnique.length - authorsMapped.length} more`
-                                }
-                            </span>
+                            <span>{authorsMapped}</span>
                         </p>
                         <p className="playlist-page__main__info__additional">
                             Made by <span
-                            onClick={() => navigate(`/author/${playlistInfo.authorName}`)}>{playlistInfo.authorName}</span> ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
+                            onClick={() => navigate(`/author/${currentPlaylist.authorName}`)}>{currentPlaylist.authorName}</span> ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
                         </p>
                     </div>
                 </div>
@@ -274,14 +266,11 @@ const PlaylistPage = () => {
                                         alt="Like"/>
                                 </div>
                             }
-                            {
-                                playlistInfo.authorId === userStore.user.id &&
-                                <img
-                                    onClick={() => setShowEditModal(true)}
-                                    className="playlist-page__songs__header__buttons__options"
-                                    src={options_icon}
-                                    alt="Options"/>
-                            }
+                            <img
+                                onClick={() => setShowEditModal(true)}
+                                className="playlist-page__songs__header__buttons__options"
+                                src={options_icon}
+                                alt="Options"/>
                         </div>
                     </div>
                     <div className="playlist-page__songs__list">
@@ -311,6 +300,7 @@ const PlaylistPage = () => {
                                         order_number={index + 1}
                                         onModalOpen={() => updateWindowWidth()}
                                         playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}
+                                        playlist={currentPlaylist}
                                     />
                                 })
                             }
@@ -321,7 +311,7 @@ const PlaylistPage = () => {
             <CreateOrEditPlaylistModal
                 show={showEditModal}
                 onHide={() => setShowEditModal(false)}
-                playlist={playlistInfo}
+                playlist={currentPlaylist}
                 songsIds={songs.map(i => i.songId)}
                 reloadTrigger={() => setReloadTrigger(prev => !prev)}/>
         </div>

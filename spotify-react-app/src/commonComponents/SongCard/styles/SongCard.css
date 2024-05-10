@@ -1,0 +1,233 @@
+.playlist-page__songs__list__main__song-card__id {
+    display: flex;
+}
+
+.playlist-page__songs__list__main__song-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #B3B3B3;
+    padding: 5px 20px;
+    transition: .05s;
+}
+
+.playlist-page__songs__list__main__song-card:hover {
+    background-color: rgba(147, 112, 219, 0.1);
+    transition: .05s;
+}
+
+.playlist-page__songs__list__main__song-card p {
+    color: #B3B3B3;
+}
+
+.playlist-page__songs__list__main__song-card__id {
+    width: 36px;
+}
+
+.playlist-page__songs__list__main__song-card__id p {
+    font-size: 22px;
+}
+
+.playlist-page__songs__list__main__song-card__title {
+    width: 40%;
+    display: flex;
+    align-items: end;
+    padding-left: 2px;
+}
+
+.playlist-page__songs__list__main__song-card__title__img {
+    width: 52px;
+    height: 52px;
+    margin-right: 15px;
+}
+
+.playlist-page__songs__list__main__song-card__title__info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 1px;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__song-name {
+    margin-bottom: 2px;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__song-name p {
+    font-size: 20px;
+    color: mediumpurple;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__song-name p:hover {
+    /*color: #b0f1b5;*/
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__artist-names p {
+
+}
+
+.playlist-page__songs__list__main__song-card__title__info__artist-names span {
+    font-size: 18px;
+    transition: .1s;
+    cursor: pointer;
+}
+
+.playlist-page__songs__list__main__song-card__title__info__artist-names span:hover {
+    color: white;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__album {
+    width: 20%;
+}
+
+.playlist-page__songs__list__main__song-card__album > p {
+    font-size: 18px;
+    width: fit-content;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__album > p:hover {
+    color: white;
+    transition: .1s;
+}
+
+.playlist-page__songs__list__main__song-card__added {
+    width: 8%;
+}
+
+.playlist-page__songs__list__main__song-card__liked {
+    width: 4%;
+    display: flex;
+    margin-right: 10px;
+}
+
+.playlist-page__songs__list__main__song-card__liked img {
+    width: 22px;
+}
+
+.playlist-page__songs__list__main__song-card__length {
+    width: 7%;
+}
+
+.playlist-page__songs__list__main__song-card__length p {
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+.music-more-button {
+    position: relative;
+    margin: 1% 5% 1% 90px;
+    align-self: center;
+    background: none;
+    color: white;
+    border: none;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.music-more-button span {
+    cursor: pointer;
+}
+
+.music-menu button {
+    position: relative;
+    display: block;
+    padding: 3% 1%;
+    background: none;
+    text-align: center;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 2%;
+}
+
+.music-menu button:hover {
+    transform: scale(1.05);
+    background-color: mediumpurple;
+    transition: all 0.1s ease;
+}
+
+.music-menu {
+    width: 300px;
+    position: absolute;
+    z-index: 2;
+    background: #111111;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2px 2px;
+    border-radius: 5px;
+    animation: fadeIn 0.2s ease;
+}
+
+.music-menu-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.music-more-icon {
+    width: 20px;
+}
+
+.playlist-page__songs__list__song-card__playlists {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 3;
+    background: #120F0F;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    animation: fadeIn 0.2s ease;
+    width: 300px;
+}
+
+.playlist-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+}
+
+.playlist-container {
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.playlist-container:hover {
+    transition: all 0.1s ease;
+    background-color: mediumpurple;
+    transform: scale(1.1);
+}
+
+.playlist-image-container {
+    display: flex;
+}
+
+.playlist-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+}
+
+.playlist-name-container p {
+    color: white;
+}
+
+.music-more-icon {
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

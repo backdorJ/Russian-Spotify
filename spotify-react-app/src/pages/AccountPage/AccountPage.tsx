@@ -2,15 +2,15 @@ import "../AccountPage/styles/AccountPage.css"
 import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../index";
 import Song from "../../models/Song";
-import FavoriteMusic from "./components/FavoriteMusic";
 import Playlist from "../../models/Playlist";
-import FavouritePlaylist from "./components/FavouritePlaylist";
 import {getSongsByFilter} from "../../http/songApi";
 import {songFilters} from "../../http/filters/songFilters";
 import {getPlaylistsByFilter} from "../../http/playlistApi";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 import {getUserId} from "../../functions/getUserId";
 import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
+import FavouriteMusic from "../../commonComponents/FavouriteMusic/FavouriteMusic";
+import FavouritePlaylist from "../../commonComponents/FavouritePlaylist/FavouritePlaylist";
 
 const AccountPage = () => {
     const userStore = useContext(UserContext)
@@ -23,8 +23,7 @@ const AccountPage = () => {
     const [favoriteSongs, setFavoriteSongs] = useState<Song[]>([]);
     const [favouritePlaylists, setFavouritePlaylists] = useState<Playlist[]>([]);
     const [reloadTrigger, setReloadTrigger] = useState(false)
-
-    // Получение списка любимых песен
+// Получение списка любимых песен
     useEffect(() => {
         getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), 1, 5)
             .then(s => setFavoriteSongs(s))
@@ -62,16 +61,17 @@ const AccountPage = () => {
                         </div>
                     </div>
                     <div className="favorite-container" id="favourites">
-                        {
-                            favoriteSongs.length > 0 && <><h3>Любимые треки</h3>
-                                <FavoriteMusic
-                                    favoriteSongs={favoriteSongs}
-                                    playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/></>
-                        }
-                        {
-                            favouritePlaylists.length > 0 && <><h3>Любимые альбомы & плейлисты</h3>
-                                <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>
-                        }
+                        {favoriteSongs.length > 0 &&
+                            <>
+                                <h3>Любимые треки</h3>
+                                <FavouriteMusic favouriteSongs={favoriteSongs}
+                                                playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/>
+                            </>}
+                        {favouritePlaylists.length > 0 &&
+                            <>
+                                <h3>Любимые альбомы & плейлисты</h3>
+                                <FavouritePlaylist favouritePlaylists={favouritePlaylists}/>
+                            </>}
                     </div>
                 </div>
             </div>

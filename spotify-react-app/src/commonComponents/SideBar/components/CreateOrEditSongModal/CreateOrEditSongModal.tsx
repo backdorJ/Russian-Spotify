@@ -106,17 +106,14 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                         onHide()
                         reset()
                         reloadTrigger()
-                    } else {
+                    } else
                         if (response.status >= 500)
                             alert('Internal error happened. Please try later!')
-                        else
-                            alert(response.message)
-                    }
                 })
         }
 
         const handleDeleteSong = () => {
-            if (!confirm("Are you sure to delete this song?"))
+            if (!window.confirm("Are you sure to delete this song?"))
                 return
 
             deleteSong(song?.songId!)
@@ -153,8 +150,6 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                             setCategory(categories[0].categoryNumber)
                     } else if (response.status >= 500)
                         alert('Internal error happened. Please try later!')
-                    else
-                        alert(response.message)
                 })
         }, []);
 

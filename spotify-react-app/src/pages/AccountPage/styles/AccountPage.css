@@ -94,7 +94,6 @@ p, a {
 
 .user-image-container {
     display: flex;
-
 }
 
 .user-image {
@@ -270,8 +269,6 @@ p, a {
 .music-menu {
     position: absolute;
     z-index: 999;
-    top: 100%;
-    right: 0;
     background: #120F0F;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding: 1%;
@@ -379,7 +376,6 @@ p, a {
         height: 30px;
         font-size: 18px;
     }
-
 
     .music-container-wrapper {
         display: flex;

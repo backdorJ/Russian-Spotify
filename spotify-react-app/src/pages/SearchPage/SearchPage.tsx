@@ -14,7 +14,7 @@ import {songFilters} from "../../http/filters/songFilters";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 // @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
-import SongCard from "../PlaylistPage/components/SongCard";
+import SongCard from "../../commonComponents/SongCard/SongCard";
 
 
 const SearchPage = () => {
@@ -104,7 +104,7 @@ const SearchPage = () => {
                             song={song}
                             order_number={index + 1}
                             onModalOpen={undefined}
-                            playlistReloadTrigger={undefined}/>
+                            playlistReloadTrigger={undefined} playlist={null}/>
                     ))
                 }
                 {

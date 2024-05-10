@@ -2,6 +2,7 @@ import Song from "../models/Song";
 import {$authHost} from "./index";
 import Player from "../models/Player";
 import User from "../models/User";
+import Playlist from "../models/Playlist";
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
 
 /** Возвращает список песен по фильтру
@@ -61,15 +62,16 @@ export const getSongsByFilter: (filterName: string, filterValue: string, pageNum
 /** Возвращает Player(SongContent) с api для прослушивания песни
  * @param song - песня, которая будет сейчас играть
  * @param user - для проверки наличия актуальной подписки
+ * @param currentPlaylist - плейлист, в котором эта песня была запущена
  * */
-export const getSong: (song: Song, user: User) => Player
-    = (song, user) => {
+export const getSong: (song: Song, user: User, currentPlaylist: Playlist | null) => Player
+    = (song, user, currentPlaylist) => {
     if (!user.isSubscribed) {
         alert("Необходимо оформить подписку")
         return new Player();
     }
 
-    return Player.init(song, `${process.env.REACT_APP_SPOTIFY_API}api/Song/${song.songId}`);
+    return Player.init(song, `${process.env.REACT_APP_SPOTIFY_API}api/Song/${song.songId}`, currentPlaylist);
 }
 
 export const tryAddSongToFavorites: (songId: string) => Promise<boolean> =

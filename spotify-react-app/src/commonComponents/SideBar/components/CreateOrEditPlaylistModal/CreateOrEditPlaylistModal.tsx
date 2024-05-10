@@ -99,7 +99,7 @@ const CreateOrEditPlaylistModal: FC<ICreateOrEditPlaylistModal> =
         }
 
         const handleDeletePlaylist = () => {
-            if (!confirm("Are you sure to delete this playlist?"))
+            if (!window.confirm("Are you sure to delete this playlist?"))
                 return
 
             deletePlaylist(playlist?.playlistId!)
