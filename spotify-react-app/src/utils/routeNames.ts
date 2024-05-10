@@ -13,5 +13,6 @@ export default {
     AUTHOR_SONGS_ROUTE: '/songs/:authorName',
     AUTHOR_SONGS_NAV: '/songs/',
     PLAYLIST_PAGE_ROUTE: '/playlist/:id',
-    PLAYLIST_PAGE_NAV: '/playlist/'
+    PLAYLIST_PAGE_NAV: '/playlist/',
+    ABOUT_PAGE: '/about-us'
 }
