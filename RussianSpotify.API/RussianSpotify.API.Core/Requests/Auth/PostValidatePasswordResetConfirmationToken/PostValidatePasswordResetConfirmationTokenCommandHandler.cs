@@ -10,7 +10,7 @@ namespace RussianSpotify.API.Core.Requests.Auth.PostValidatePasswordResetConfirm
 /// <summary>
 /// Обработчик для <see cref="PostValidatePasswordResetConfirmationTokenCommand"/>
 /// </summary>
-public class PostValidatePasswordResetConfirmationTokenCommandHandler 
+public class PostValidatePasswordResetConfirmationTokenCommandHandler
     : IRequestHandler<PostValidatePasswordResetConfirmationTokenCommand>
 {
     private readonly IDistributedCache _cache;
@@ -24,16 +24,17 @@ public class PostValidatePasswordResetConfirmationTokenCommandHandler
         _cache = cache;
     }
 
-    public async Task Handle(PostValidatePasswordResetConfirmationTokenCommand request, CancellationToken cancellationToken)
+    public async Task Handle(PostValidatePasswordResetConfirmationTokenCommand request,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
+
         var expiryTimeString = await _cache.GetStringAsync(request.VerificationCodeFromUser, cancellationToken);
-        
-        if(expiryTimeString is null)
+
+        if (expiryTimeString is null)
             throw new WrongConfirmationTokenException(AuthErrorMessages.WrongConfirmationToken);
-        
+
         DateTime.TryParseExact(expiryTimeString, "G",
             CultureInfo.InvariantCulture, DateTimeStyles.None, out var expiryTime);
 

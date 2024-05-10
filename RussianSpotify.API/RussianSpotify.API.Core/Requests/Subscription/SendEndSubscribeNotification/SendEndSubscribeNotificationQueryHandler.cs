@@ -13,7 +13,7 @@ namespace RussianSpotify.API.Core.Requests.Subscription.SendEndSubscribeNotifica
 public class SendEndSubscribeNotificationQueryHandler : IRequestHandler<SendEndSubscribeNotificationQuery>
 {
     private const int NoticeInterval = -7;
-    
+
     private readonly IDbContext _dbContext;
     private readonly IDateTimeProvider _dateTimeProvider;
 
@@ -56,7 +56,7 @@ public class SendEndSubscribeNotificationQueryHandler : IRequestHandler<SendEndS
     {
         if (subscribe.User is null)
             throw new NotIncludedException(nameof(User));
-        
+
         var placeholders = new Dictionary<string, string>
         {
             ["{username}"] = subscribe.User.UserName ?? subscribe.User.Email!,

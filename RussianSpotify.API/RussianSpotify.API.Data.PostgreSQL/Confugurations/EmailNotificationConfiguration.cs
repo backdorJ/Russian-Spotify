@@ -13,7 +13,7 @@ public class EmailNotificationConfiguration : IEntityTypeConfiguration<EmailNoti
 
         builder.Property(p => p.EmailTo)
             .IsRequired();
-        
+
         builder.Property(p => p.Body)
             .IsRequired();
 

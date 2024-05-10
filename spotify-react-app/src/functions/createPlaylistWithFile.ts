@@ -8,7 +8,7 @@ const createPlaylistWithFile = async (createPlaylistDto: CreatePlaylistDto) => {
         if (fileUploadResponse.status !== 200)
             return fileUploadResponse
 
-        let addPlaylistResponse = await addPlaylist(createPlaylistDto.name, fileUploadResponse.value)
+        let addPlaylistResponse = await addPlaylist(createPlaylistDto.name, fileUploadResponse.value, createPlaylistDto.isAlbum)
         if (addPlaylistResponse.status !== 200) {
             await deleteFile(fileUploadResponse.value)
             return addPlaylistResponse
@@ -17,7 +17,7 @@ const createPlaylistWithFile = async (createPlaylistDto: CreatePlaylistDto) => {
         return addPlaylistResponse
     }
 
-    return await addPlaylist(createPlaylistDto.name, '')
+    return await addPlaylist(createPlaylistDto.name, '', createPlaylistDto.isAlbum)
 }
 
 export default createPlaylistWithFile

@@ -17,7 +17,7 @@ public class PostValidatePasswordResetConfirmationTokenCommand :
         : base(request)
     {
     }
-    
+
     /// <summary>
     /// Пустой конструктор
     /// </summary>

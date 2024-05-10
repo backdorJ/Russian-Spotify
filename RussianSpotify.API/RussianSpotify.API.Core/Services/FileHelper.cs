@@ -44,7 +44,7 @@ public class FileHelper : IFileHelper
 
         if (file.Address is null)
             throw new FileInternalException("File Address not set");
-        
+
         await _s3Service.DeleteAsync(file.Address, cancellationToken: cancellationToken);
         _dbContext.Files.Remove(file);
         await _dbContext.SaveChangesAsync(cancellationToken);

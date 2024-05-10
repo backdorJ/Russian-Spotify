@@ -28,14 +28,15 @@ public class FileBaseController : ControllerBase
     {
         if (file is null)
             throw new ArgumentNullException(nameof(file));
-        
+
         var cd = new ContentDispositionHeaderValue(inline ? "inline" : DefaultContentDisposition);
         cd.SetHttpFileName(file.FileName);
         headers[HeaderNames.ContentDisposition] = cd.ToString();
 
         if (customHeaders)
         {
-            Response.Headers.ContentDisposition = new ContentDispositionHeaderValue(DefaultContentDisposition).ToString();
+            Response.Headers.ContentDisposition =
+                new ContentDispositionHeaderValue(DefaultContentDisposition).ToString();
             Response.ContentLength = file.Content.Length;
             Response.Headers.AcceptRanges = "bytes";
             Response.Headers.CacheControl = "max-age=14400";
@@ -62,7 +63,7 @@ public class FileBaseController : ControllerBase
             FileDownloadName = file.FileName,
         };
     }
-    
+
     /// <summary>
     /// Загрузить все файлы
     /// </summary>

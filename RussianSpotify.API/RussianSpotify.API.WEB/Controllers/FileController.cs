@@ -35,7 +35,7 @@ public class FileController : FileBaseController
         [FromServices] IMediator mediator,
         CancellationToken cancellationToken)
         => await mediator.Send(new UploadFileCommand(GetEnumerableFiles(files)), cancellationToken);
-    
+
     /// <summary>
     /// Скачать файл
     /// </summary>

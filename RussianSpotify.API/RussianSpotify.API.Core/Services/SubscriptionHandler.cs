@@ -53,7 +53,7 @@ public class SubscriptionHandler : ISubscriptionHandler
         {
             if (subscription.DateEnd > currentDateTime)
                 throw new SubscriptionConflictException("This user is currently subscribed");
-            
+
             subscription.DateStart = currentDateTime;
             subscription.DateEnd = currentDateTime + dateSpan;
             await _context.SaveChangesAsync();
@@ -73,7 +73,7 @@ public class SubscriptionHandler : ISubscriptionHandler
 
         if (!subscription.DateEnd.HasValue)
             throw new SubscriptionBadRequestException("DateEnd is null");
-        
+
         if (subscription.DateEnd.Value.Date < _dateTimeProvider.CurrentDate.Date)
             throw new SubscriptionConflictException("This user does not have active subscription");
 

@@ -16,11 +16,11 @@ public class PostRegisterRequest
         Email = request.Email;
         Role = request.Role;
     }
-    
+
     public PostRegisterRequest()
     {
     }
-    
+
     /// <summary>
     /// Никнейм юзера
     /// </summary>

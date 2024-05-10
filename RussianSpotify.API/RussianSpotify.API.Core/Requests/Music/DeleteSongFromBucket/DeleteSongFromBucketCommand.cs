@@ -13,7 +13,7 @@ public class DeleteSongFromBucketCommand : IRequest
     /// <param name="songId">ИД песни</param>
     public DeleteSongFromBucketCommand(Guid songId)
         => SongId = songId;
-    
+
     /// <summary>
     /// ИД песни
     /// </summary>

@@ -9,7 +9,7 @@ public static class TokenConfiguration
     /// Время жизни Refresh Token в днях
     /// </summary>
     public const int RefreshTokenExpiryDays = 10;
-    
+
     /// <summary>
     /// Время жизни JWT в минутах
     /// </summary>

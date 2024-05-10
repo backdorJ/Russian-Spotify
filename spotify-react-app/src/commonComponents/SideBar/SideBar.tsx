@@ -4,11 +4,18 @@ import navigationElementsProps from "../../utils/sidebar/navigationElementsProps
 import create_playlist from '../../assets/sidebar/create_playlist.png'
 // @ts-ignore
 import liked_songs from '../../assets/sidebar/liked_songs.png'
+// @ts-ignore
+import author_icon from '../../assets/sidebar/author_icon.png'
 import {useNavigate} from "react-router-dom";
 import routeNames from "../../utils/routeNames";
+import {useContext} from "react";
+import {UserContext} from "../../index";
+import roles from "../../utils/roles";
 
 const SideBar = (props: any) => {
-    const {setCreatePlaylistModal} = props
+    const {setShowCreatePlaylistModal} = props
+    const {setShowCreateSongModal} = props
+    const userStore = useContext(UserContext)
     const navigate = useNavigate();
 
     return (
@@ -25,12 +32,23 @@ const SideBar = (props: any) => {
                     </div>
                     <div className="sidebar__nav__playlists">
                         <PlaylistElement image={create_playlist} title={'create playlist'}
-                                         onClick={() => setCreatePlaylistModal(true)}/>
+                                         onClick={() => setShowCreatePlaylistModal(true)}/>
                         <PlaylistElement image={liked_songs} title={'liked songs'}
                                          onClick={() => navigate(routeNames.FAVORITE_SONGS)}/>
                     </div>
-                </div>
-                <div className="sidebar__playlists">
+                    <div className="sidebar__nav__songs">
+                        {
+                            userStore.user.roles.includes(roles.Author) &&
+                            <PlaylistElement image={create_playlist} title={'upload song'}
+                                             onClick={() => setShowCreateSongModal(true)}/>
+                        }
+                        {
+                            userStore.user.roles.includes(roles.Author) &&
+                            <PlaylistElement
+                                image={author_icon} title={'author profile'}
+                                onClick={() => navigate(routeNames.AUTHOR_PAGE_NAV + userStore.user.username)}/>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

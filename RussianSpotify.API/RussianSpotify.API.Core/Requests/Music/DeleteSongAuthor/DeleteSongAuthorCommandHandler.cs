@@ -2,13 +2,14 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Exceptions.SongExceptions;
+using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 
 namespace RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
 
 /// <summary>
 /// Обработчик запроса на удаление автора песни
 /// </summary>
-public class DeleteSongAuthorCommandHandler : IRequestHandler<DeleteSongAuthorCommand>
+public class DeleteSongAuthorCommandHandler : IRequestHandler<DeleteSongAuthorCommand, DeleteSongAuthorResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
@@ -25,7 +26,8 @@ public class DeleteSongAuthorCommandHandler : IRequestHandler<DeleteSongAuthorCo
     }
 
     /// <inheritdoc/> 
-    public async Task Handle(DeleteSongAuthorCommand request, CancellationToken cancellationToken)
+    public async Task<DeleteSongAuthorResponse> Handle(DeleteSongAuthorCommand request,
+        CancellationToken cancellationToken)
     {
         // Достаем песню из бд
         var song = await _dbContext.Songs
@@ -58,5 +60,11 @@ public class DeleteSongAuthorCommandHandler : IRequestHandler<DeleteSongAuthorCo
         // Вносим изменения в бд
         song.RemoveAuthor(songAuthorToDelete);
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return new DeleteSongAuthorResponse
+        {
+            SongId = song.Id,
+            AuthorId = songAuthorToDelete.Id
+        };
     }
 }

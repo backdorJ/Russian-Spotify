@@ -11,7 +11,7 @@ public class DownloadFileRequest
     /// <param name="id">ИД файла</param>
     protected DownloadFileRequest(Guid id)
         => Id = id;
-    
+
     /// <summary>
     /// ИД файла
     /// </summary>

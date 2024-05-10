@@ -45,7 +45,7 @@ public class GetSongsByFilterQueryHandler
 
         var filteredSongs =
             await _filterHandler.GetByFilterAsync(query, request.FilterName, request.FilterValue, cancellationToken);
-        
+
         var totalCount = await filteredSongs.CountAsync(cancellationToken);
 
         var resultSongs = await filteredSongs
@@ -58,13 +58,17 @@ public class GetSongsByFilterQueryHandler
                 Duration = song.Duration,
                 Category = song.Category.CategoryName.GetDescription(),
                 Authors = song.Authors
-                    .Select(y => y.UserName)
+                    .Select(y => new GetSongByFilterResponseItemAuthor
+                    {
+                        AuthorId = y.Id,
+                        AuthorName = y.UserName!
+                    })
                     .ToList(),
                 IsInFavorite = song.Buckets.Any(bucket => bucket.UserId.Equals(userId.Value))
             })
             .SkipTake(request: request)
             .ToListAsync(cancellationToken);
-        
+
         return new GetSongsByFilterResponse(resultSongs, totalCount);
     }
 }

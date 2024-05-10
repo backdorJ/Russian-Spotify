@@ -10,6 +10,6 @@ public class UploadFileResponse
 
     public UploadFileResponse(IEnumerable<UploadFileResponseItem> files)
         => FileNameToIds = files.ToList() ?? new List<UploadFileResponseItem>();
-    
+
     public List<UploadFileResponseItem> FileNameToIds { get; set; }
 }

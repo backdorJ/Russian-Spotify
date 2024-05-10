@@ -21,9 +21,10 @@ public class PostRefreshTokenCommandHandler : IRequestHandler<PostRefreshTokenCo
 
     public PostRefreshTokenCommandHandler(UserManager<User> userManager, IJwtGenerator jwtGenerator)
         => (_userManager, _jwtGenerator) = (userManager, jwtGenerator);
-    
+
     /// <inheritdoc cref="IRequestHandler{TRequest, TResponse}"/>
-    public async Task<PostRefreshTokenResponse> Handle(PostRefreshTokenCommand request, CancellationToken cancellationToken)
+    public async Task<PostRefreshTokenResponse> Handle(PostRefreshTokenCommand request,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -39,7 +40,7 @@ public class PostRefreshTokenCommandHandler : IRequestHandler<PostRefreshTokenCo
 
         if (user is null)
             throw new InvalidTokenException(AuthErrorMessages.InvalidAccessToken);
-        
+
         if (user.RefreshToken != request.RefreshToken
             || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new InvalidTokenException(AuthErrorMessages.InvalidRefreshToken);
@@ -50,7 +51,7 @@ public class PostRefreshTokenCommandHandler : IRequestHandler<PostRefreshTokenCo
         user.AccessToken = newAccessToken;
         user.RefreshToken = newRefreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
-        
+
         await _userManager.UpdateAsync(user);
 
         return new PostRefreshTokenResponse { AccessToken = newAccessToken, RefreshToken = newRefreshToken };

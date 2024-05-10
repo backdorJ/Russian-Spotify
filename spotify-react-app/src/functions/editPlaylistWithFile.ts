@@ -7,7 +7,6 @@ const editPlaylistWithFile = async (editPlaylistDto: EditPlaylistDto) => {
         let fileUploadResponse = await uploadFile(editPlaylistDto.file)
         if (fileUploadResponse.status !== 200)
             return fileUploadResponse
-
         let addPlaylistResponse = await editPlaylist(editPlaylistDto.playlist.playlistId,
             editPlaylistDto.name,
             fileUploadResponse.value,

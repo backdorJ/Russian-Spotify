@@ -100,7 +100,11 @@ const SearchPage = () => {
             <div className="search__main">
                 {
                     songs.map((song, index) => (
-                        <SongCard song={song} order_number={index + 1}/>
+                        <SongCard
+                            song={song}
+                            order_number={index + 1}
+                            onModalOpen={undefined}
+                            playlistReloadTrigger={undefined}/>
                     ))
                 }
                 {

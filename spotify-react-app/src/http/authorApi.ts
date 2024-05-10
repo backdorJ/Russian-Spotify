@@ -10,12 +10,12 @@ import {getSongsByFilter} from "./songApi";
 import {getPlaylistsByFilter} from "./playlistApi";
 
 
-export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSizeForSongs: number, pageNumberForPlaylists: number, pageSizeForPlaylists: number ) => Promise<AuthorPage> =
-    async (authorName, pageNumberForSongs = 1, pageSizeForSongs = 5, pageNumberForPlaylists = 1,  pageSizeForPlaylists = 3): Promise<AuthorPage> => {
+export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSizeForSongs: number, pageNumberForPlaylists: number, pageSizeForPlaylists: number) => Promise<AuthorPage> =
+    async (authorName, pageNumberForSongs = 1, pageSizeForSongs = 5, pageNumberForPlaylists = 1, pageSizeForPlaylists = 3): Promise<AuthorPage> => {
         const authorInfoResponse =
             await $authHost.get(`api/Author/Author?Name=${authorName}`);
 
-        if(authorInfoResponse.status !== 200 || authorInfoResponse.data === undefined)
+        if (authorInfoResponse.status !== 200 || authorInfoResponse.data === undefined)
             return new AuthorPage();
 
         const songs = await getSongsByFilter(songFilters.authorSongsFilter, authorName, pageNumberForSongs, pageSizeForSongs);
@@ -27,7 +27,7 @@ export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSiz
             getImage(authorInfoResponse.data.authorPhotoId),
             songs,
             playlists
-            );
+        );
     }
 
 export const getAuthorsByFilter = async (filterName: string, filter: string, playlistCount: number, pageNumber: number, pageSize: number) => {

@@ -15,9 +15,9 @@ public class CustomTokenProvider<TUser> : DataProtectorTokenProvider<TUser> wher
     private readonly IDistributedCache _cache;
 
     /// <inheritdoc />
-    public CustomTokenProvider(IDataProtectionProvider dataProtectionProvider, 
-        IOptions<CustomTokenProviderOptions> options, 
-        ILogger<DataProtectorTokenProvider<TUser>> logger, IDistributedCache cache) 
+    public CustomTokenProvider(IDataProtectionProvider dataProtectionProvider,
+        IOptions<CustomTokenProviderOptions> options,
+        ILogger<DataProtectorTokenProvider<TUser>> logger, IDistributedCache cache)
         : base(dataProtectionProvider, options, logger)
     {
         _cache = cache;
@@ -43,12 +43,12 @@ public class CustomTokenProvider<TUser> : DataProtectorTokenProvider<TUser> wher
 
         if (expiryTimeString is null)
             return false;
-        
+
         DateTime.TryParseExact(expiryTimeString, "G",
             CultureInfo.InvariantCulture, DateTimeStyles.None, out var expiryTime);
 
         await _cache.RefreshAsync(token);
-        
+
         return DateTime.UtcNow <= expiryTime;
     }
 }

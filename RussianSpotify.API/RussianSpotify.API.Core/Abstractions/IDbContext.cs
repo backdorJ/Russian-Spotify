@@ -18,7 +18,7 @@ public interface IDbContext
     /// Роли
     /// </summary>
     public DbSet<Role> Roles { get; set; }
-    
+
     /// <summary>
     /// Привилегии
     /// </summary>

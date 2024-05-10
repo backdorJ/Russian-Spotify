@@ -17,7 +17,9 @@ public class PostSubscribeRequest
     /// <summary>
     /// Конструктор
     /// </summary>
-    public PostSubscribeRequest() { }
-    
+    public PostSubscribeRequest()
+    {
+    }
+
     public int SubscriptionLength { get; set; }
 }

@@ -10,16 +10,16 @@ public class PostConfirmEmailRequest
         Email = request.Email;
         EmailVerificationCodeFromUser = request.EmailVerificationCodeFromUser;
     }
-    
+
     public PostConfirmEmailRequest()
     {
     }
-    
+
     /// <summary>
     /// Почта пользователя
     /// </summary>
     public string Email { get; set; } = default!;
-    
+
     /// <summary>
     /// Код для подтверждения почты
     /// </summary>

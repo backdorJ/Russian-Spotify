@@ -44,27 +44,28 @@ public class PostCreatePlaylistCommandHandler : IRequestHandler<PostCreatePlayli
     }
 
     /// <inheritdoc />
-    public async Task<PostCreatePlaylistResponse> Handle(PostCreatePlaylistCommand request, CancellationToken cancellationToken)
+    public async Task<PostCreatePlaylistResponse> Handle(PostCreatePlaylistCommand request,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
         var currentUser = await _dbContext.Users
-            .Include(x => x.AuthorPlaylists)
-            .FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
-            ?? throw new EntityNotFoundException<User>(_userContext.CurrentUserId!.Value);
+                              .Include(x => x.AuthorPlaylists)
+                              .FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
+                          ?? throw new EntityNotFoundException<User>(_userContext.CurrentUserId!.Value);
 
         var userRoles = await _userManager.GetRolesAsync(currentUser);
 
         var isArtist = userRoles.Contains(BaseRoles.AdminRoleName) || userRoles.Contains(BaseRoles.AuthorRoleName);
-        
+
         if (!isArtist && request.IsAlbum)
             throw new ApplicationBaseException("Пользователь не может создать альбом, только плейлист");
 
         var songs = await _dbContext.Songs
             .Where(x => request.SongIds.Contains(x.Id))
             .ToListAsync(cancellationToken);
-        
+
         var playlist = new Entities.Playlist
         {
             PlaylistName = request.PlaylistName,
@@ -82,15 +83,15 @@ public class PostCreatePlaylistCommandHandler : IRequestHandler<PostCreatePlayli
         if (request.ImageId.HasValue)
         {
             var imageFromDb = await _dbContext.Files
-                .FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken)
-                ?? throw new EntityNotFoundException<Entities.File>(request.ImageId.Value);
+                                  .FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken)
+                              ?? throw new EntityNotFoundException<Entities.File>(request.ImageId.Value);
 
             if (!_fileHelper.IsImage(imageFromDb))
                 throw new PlaylistFileException("File is not Image");
-                
+
             playlist.Image = imageFromDb;
         }
-        
+
         currentUser.AuthorPlaylists.Add(playlist);
 
         await _dbContext.Playlists.AddAsync(playlist, cancellationToken);

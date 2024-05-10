@@ -10,7 +10,6 @@ public class DeleteSongRequest
     /// </summary>
     public DeleteSongRequest()
     {
-        
     }
 
     /// <summary>
@@ -21,7 +20,7 @@ public class DeleteSongRequest
     {
         SongId = request.SongId;
     }
-    
+
     /// <summary>
     /// Id песни
     /// </summary>

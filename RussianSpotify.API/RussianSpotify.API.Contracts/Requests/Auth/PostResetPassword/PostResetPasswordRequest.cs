@@ -16,14 +16,14 @@ public class PostResetPasswordRequest
 
         Email = request.Email;
     }
-    
+
     /// <summary>
     /// Пустой конструктор
     /// </summary>
     public PostResetPasswordRequest()
     {
     }
-    
+
     /// <summary>
     /// Email пользователя
     /// </summary>

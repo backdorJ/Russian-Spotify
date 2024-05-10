@@ -7,9 +7,9 @@ namespace RussianSpotify.Contracts.Enums;
 /// </summary>
 public enum CategoryTypes
 {
-    [Description("Реп")]
+    [Description("Реп")] 
     Rap = 1,
-    
+
     [Description("Хип-хоп")]
     HipHop = 2,
 }

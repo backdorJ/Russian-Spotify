@@ -22,7 +22,9 @@ const AccountPage = () => {
     // Список любимых песен
     const [favoriteSongs, setFavoriteSongs] = useState<Song[]>([]);
     const [favouritePlaylists, setFavouritePlaylists] = useState<Playlist[]>([]);
-// Получение списка любимых песен
+    const [reloadTrigger, setReloadTrigger] = useState(false)
+
+    // Получение списка любимых песен
     useEffect(() => {
         getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), 1, 5)
             .then(s => setFavoriteSongs(s))
@@ -60,10 +62,16 @@ const AccountPage = () => {
                         </div>
                     </div>
                     <div className="favorite-container" id="favourites">
-                        {favoriteSongs.length > 0 && <><h3>Любимые треки</h3>
-                            <FavoriteMusic favoriteSongs={favoriteSongs}/></>}
-                        {favouritePlaylists.length > 0 && <><h3>Любимые альбомы & плейлисты</h3>
-                            <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>}
+                        {
+                            favoriteSongs.length > 0 && <><h3>Любимые треки</h3>
+                                <FavoriteMusic
+                                    favoriteSongs={favoriteSongs}
+                                    playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/></>
+                        }
+                        {
+                            favouritePlaylists.length > 0 && <><h3>Любимые альбомы & плейлисты</h3>
+                                <FavouritePlaylist favouritePlaylists={favouritePlaylists}/></>
+                        }
                     </div>
                 </div>
             </div>

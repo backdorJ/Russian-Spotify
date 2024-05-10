@@ -13,7 +13,7 @@ public class PostAddPlaylistToFavouriteCommand : IRequest
     /// <param name="playlistId">Ид плейлиста/альбома</param>
     public PostAddPlaylistToFavouriteCommand(Guid playlistId)
         => PlaylistId = playlistId;
-    
+
     /// <summary>
     /// ИД плейлиста/альбома
     /// </summary>

@@ -58,7 +58,11 @@ const Song: FC<ISong> = ({song}) => {
     return (
         <div key={song.songId} className="music-card-button">
             <div className="play-icon-container">
-                <PlayIcon song={song} order_number={undefined}/>
+                <PlayIcon
+                    song={song}
+                    order_number={undefined}
+                    onModalOpen={undefined}
+                    playlistReloadTrigger={undefined}/>
             </div>
             <div className="music-image-container">
                 <img className="music-image" alt="music-image"
@@ -68,7 +72,7 @@ const Song: FC<ISong> = ({song}) => {
                 <span>{song.songName}</span>
                 <span>{song.authors.map((author, index) => <span
                     onClick={() => navigate(`/author/${author}`)}
-                    className="artist-link">{author}{index < song.authors.length - 1 ? ', ' : ''}</span>)}</span>
+                    className="artist-link">{author.authorName}{index < song.authors.length - 1 ? ', ' : ''}</span>)}</span>
             </div>
             <div className="music-duration">
                 <span>{Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}</span>

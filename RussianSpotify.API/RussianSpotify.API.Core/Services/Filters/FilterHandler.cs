@@ -9,13 +9,14 @@ namespace RussianSpotify.API.Core.Services.Filters;
 public class FilterHandler : IFilterHandler
 {
     /// <inheritdoc cref="IFilterHandler"/>
-    public async Task<IOrderedQueryable<T>> GetByFilterAsync<T>(IQueryable<T> queryable, string filterName, string filterValue,
+    public async Task<IOrderedQueryable<T>> GetByFilterAsync<T>(IQueryable<T> queryable, string filterName,
+        string filterValue,
         CancellationToken cancellationToken)
     {
         var filter = typeof(FilterHandler).Assembly.GetTypes()
             .Where(x => x.GetInterfaces().Any(i => i.Name.Equals(typeof(IFilter<T>).Name)))
-            .FirstOrDefault(x => x.Name.Equals(filterName+"Filter", StringComparison.OrdinalIgnoreCase));
-        
+            .FirstOrDefault(x => x.Name.Equals(filterName + "Filter", StringComparison.OrdinalIgnoreCase));
+
         if (filter is null)
             throw new BadRequestException("Такого фильтра не существует");
 
