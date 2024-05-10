@@ -51,9 +51,9 @@ public class JwtGenerator : IJwtGenerator
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!)),
             ValidateLifetime = false
         };
-        
+
         var tokenHandler = new JwtSecurityTokenHandler();
-        
+
         var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out var securityToken);
         if (securityToken is not JwtSecurityToken jwtSecurityToken ||
             !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,

@@ -24,12 +24,13 @@ import {$authHost} from "../../http";
 import {getUserId} from "../../functions/getUserId";
 import {getImage} from "../../http/fileApi";
 import CreateOrEditPlaylistModal
-    from "../../commonComponents/SideBar/components/CreatePlaylistModal/CreateOrEditPlaylistModal";
+    from "../../commonComponents/SideBar/components/CreateOrEditPlaylistModal/CreateOrEditPlaylistModal";
 
 
 const PlaylistPage = () => {
     const {id} = useParams();
     const navigate = useNavigate();
+    const [isFirstLoad, setIsFirstLoad] = useState(true)
     const sidebarWidth = 280
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
@@ -40,19 +41,36 @@ const PlaylistPage = () => {
     const [playlistInfo, setPlaylistInfo] = useState(new Playlist())
     const [songs, setSongs] = useState<Song[]>([]);
     let stop = false;
-    const [getting, setGetting] = useState(false);
+    const [getting, setGetting] = useState(true);
     const [page, setPage] = useState(1)
     const [isLikedPlaylist, setIsLikedPlaylist] = useState(playlistInfo.isInFavorite);
+    const [showEditModal, setShowEditModal] = useState(false)
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
     const [playlistType, setPlaylistType] = useState<PlaylistType | null>(null);
-    const [showEditModal, setShowEditModal] = useState(false)
+
+    useEffect(() => {
+        if (showEditModal)
+            document.getElementById("body")!.style.overflowY = 'hidden';
+        else
+            document.getElementById("body")!.style.overflowY = 'visible';
+
+        updateWindowWidth()
+    }, [showEditModal]);
+
+    useEffect(() => {
+        if (!isFirstLoad) {
+            setPage(1)
+            setGetting(true)
+        }
+    }, [reloadTrigger, id]);
 
     useEffect(() => {
         if (id === 'favorite-songs') {
             setPlaylistType(PlaylistType.FavoriteSongs);
             setPlaylistInfo(Playlist.init("",
                 "Favorite Songs",
+                "",
                 "",
                 "",
                 new Date(),
@@ -67,6 +85,7 @@ const PlaylistPage = () => {
                     setPlaylistInfo(Playlist.init("",
                         `Songs by ${x.data.name}`,
                         x.data.authorPhotoId,
+                        x.data.authorId,
                         x.data.name,
                         new Date(),
                         false,
@@ -80,7 +99,7 @@ const PlaylistPage = () => {
                 setIsLikedPlaylist(r.isInFavorite);
             });
         }
-    }, [reloadTrigger])
+    }, [reloadTrigger, id])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -92,6 +111,7 @@ const PlaylistPage = () => {
             else if (playlistType === PlaylistType.ArtistSongs)
                 result = await getSongsByFilter(songFilters.authorSongsFilter, playlistInfo.authorName, page, 50);
 
+            let loadedPage = page
             setPage(page + 1);
 
             if (result.length === 0)
@@ -100,12 +120,18 @@ const PlaylistPage = () => {
             if (songs.length > 0)
                 songs[songs.length - 1].nextSong = result[0];
 
-            setSongs([...songs, ...result]);
+            if (loadedPage === 1)
+                setSongs([...result]);
+            else
+                setSongs([...songs, ...result]);
+
             setGetting(false);
             console.log(page);
         };
 
-        if (!getting && playlistType != null) {
+        setIsFirstLoad(false)
+
+        if (getting && playlistType != null) {
             fetchData().then(_ => console.log("fetched"));
         }
     }, [getting, playlistType]);
@@ -152,13 +178,13 @@ const PlaylistPage = () => {
     const allAuthorsTogetherUnique = new Array<string>()
     songs.forEach(i => {
         i.authors.forEach(e => {
-            if (allAuthorsTogetherUnique.includes(e))
+            if (allAuthorsTogetherUnique.includes(e.authorName))
                 return
-            allAuthorsTogetherUnique.push(e)
+            allAuthorsTogetherUnique.push(e.authorName)
         })
     })
 
-    const authorsMapped = allAuthorsTogetherUnique.map((author, index) => {
+    const authorsMapped = allAuthorsTogetherUnique.slice(0, 3).map((author, index) => {
         if (index < allAuthorsTogetherUnique.length - 1)
             return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span>, </Fragment>)
         return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span></Fragment>)
@@ -197,17 +223,27 @@ const PlaylistPage = () => {
             <div className="playlist-page">
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
-                        {PlaylistType.FavoriteSongs !== playlistType &&
-                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>}
-                        {PlaylistType.FavoriteSongs === playlistType &&
-                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>}
+                        {
+                            PlaylistType.FavoriteSongs !== playlistType &&
+                            <img src={getImage(playlistInfo.imageId)} alt="" className="playlist-page__main__img"/>
+                        }
+                        {
+                            PlaylistType.FavoriteSongs === playlistType &&
+                            <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>
+                        }
                     </div>
                     <div className="playlist-page__main__info">
                         <h1 className="playlist-page__main__info__name">
                             {playlistInfo.playlistName}
                         </h1>
                         <p className="playlist-page__main__info__singers">
-                            <span>{authorsMapped}</span>
+                            <span>
+                                {authorsMapped}
+                                {
+                                    allAuthorsTogetherUnique.length > authorsMapped.length
+                                    && ` and ${allAuthorsTogetherUnique.length - authorsMapped.length} more`
+                                }
+                            </span>
                         </p>
                         <p className="playlist-page__main__info__additional">
                             Made by <span
@@ -238,11 +274,14 @@ const PlaylistPage = () => {
                                         alt="Like"/>
                                 </div>
                             }
-                            <img
-                                onClick={() => setShowEditModal(true)}
-                                className="playlist-page__songs__header__buttons__options"
-                                src={options_icon}
-                                alt="Options"/>
+                            {
+                                playlistInfo.authorId === userStore.user.id &&
+                                <img
+                                    onClick={() => setShowEditModal(true)}
+                                    className="playlist-page__songs__header__buttons__options"
+                                    src={options_icon}
+                                    alt="Options"/>
+                            }
                         </div>
                     </div>
                     <div className="playlist-page__songs__list">
@@ -270,6 +309,8 @@ const PlaylistPage = () => {
                                     return <SongCard
                                         song={song}
                                         order_number={index + 1}
+                                        onModalOpen={() => updateWindowWidth()}
+                                        playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}
                                     />
                                 })
                             }

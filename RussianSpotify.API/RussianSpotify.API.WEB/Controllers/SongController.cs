@@ -4,17 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Requests.Music.DeleteSong;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.DeleteSongFromBucket;
+using RussianSpotify.API.Core.Requests.Music.GetCategories;
 using RussianSpotify.API.Core.Requests.Music.GetSongByFilter;
 using RussianSpotify.API.Core.Requests.Music.GetSongContentById;
-using RussianSpotify.API.Core.Requests.Music.PatchAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PatchEditSong;
 using RussianSpotify.API.Core.Requests.Music.PostAddSong;
+using RussianSpotify.API.Core.Requests.Music.PostAddSongAuthor;
 using RussianSpotify.API.Core.Requests.Music.PostAddSongToFavourite;
 using RussianSpotify.Contracts.Requests.Music.AddSong;
 using RussianSpotify.Contracts.Requests.Music.AddSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.DeleteSong;
 using RussianSpotify.Contracts.Requests.Music.DeleteSongAuthor;
 using RussianSpotify.Contracts.Requests.Music.EditSong;
+using RussianSpotify.Contracts.Requests.Music.GetCategories;
 using RussianSpotify.Contracts.Requests.Music.GetSongsByFilter;
 
 namespace RussianSpotify.API.WEB.Controllers;
@@ -53,7 +55,7 @@ public class SongController : FileBaseController
         var query = new GetSongsByFilterQuery(request);
         return await _mediator.Send(query, cancellationToken);
     }
-    
+
     /// <summary>
     /// Отправить песню в виде стрима
     /// </summary>
@@ -73,7 +75,7 @@ public class SongController : FileBaseController
         var result = await _mediator.Send(
             new GetSongContentByIdQuery(songId),
             cancellationToken);
-        
+
         return GetFileStreamResult(
             result,
             Response.Headers,
@@ -94,10 +96,11 @@ public class SongController : FileBaseController
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public async Task AddSongAsync([FromBody] AddSongRequest addSongRequest, CancellationToken cancellationToken)
+    public async Task<AddSongResponse> AddSongAsync([FromBody] AddSongRequest addSongRequest,
+        CancellationToken cancellationToken)
     {
         var command = new PostAddSongCommand(addSongRequest);
-        await _mediator.Send(command, cancellationToken);
+        return await _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -109,17 +112,17 @@ public class SongController : FileBaseController
     /// <response code="400">Ошибка в запросе</response>
     /// <response code="403">Не автор или не является автором данной песни</response>
     /// <response code="500">Внутрення ошибка сервера</response>
-    [HttpPatch]
+    [HttpPost]
     [Route("AddSongAuthor")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task AddSongAuthorAsync([FromBody] AddSongAuthorRequest addSongAuthorRequest,
+    public async Task<AddSongAuthorResponse> AddSongAuthorAsync([FromBody] AddSongAuthorRequest addSongAuthorRequest,
         CancellationToken cancellationToken)
     {
-        var command = new PatchAddSongAuthorCommand(addSongAuthorRequest);
-        await _mediator.Send(command, cancellationToken);
+        var command = new PostAddSongAuthorCommand(addSongAuthorRequest);
+        return await _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -137,10 +140,13 @@ public class SongController : FileBaseController
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task UpdateSongAsync([FromBody] EditSongRequest editSongRequest, CancellationToken cancellationToken)
+    public async Task<EditSongResponse> UpdateSongAsync([FromBody] EditSongRequest editSongRequest,
+        CancellationToken cancellationToken)
     {
         var command = new PatchEditSongCommand(editSongRequest);
-        await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
+
+        return result;
     }
 
     /// <summary>
@@ -158,32 +164,37 @@ public class SongController : FileBaseController
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task RemoveAuthor([FromBody] DeleteSongAuthorRequest deleteSongAuthorRequest,
+    public async Task<DeleteSongAuthorResponse> RemoveAuthor(
+        [FromQuery] DeleteSongAuthorRequest deleteSongAuthorRequest,
         CancellationToken cancellationToken)
     {
         var command = new DeleteSongAuthorCommand(deleteSongAuthorRequest);
-        await _mediator.Send(command, cancellationToken);
+        return await _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
     /// Удалить песню
     /// </summary>
-    /// <param name="deleteSongRequest">Запрос с информацией</param>
+    /// <param name="songId">Id песни</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Все хорошо</response>
     /// <response code="400">Ошибка в запросе</response>
     /// <response code="403">Не автор или не является автором данной песни</response>
     /// <response code="500">Внутрення ошибка сервера</response>
     [HttpDelete]
-    [Route("DeleteSong")]
+    [Route("DeleteSong/{songId:guid}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
     [ProducesResponseType(500)]
-    public async Task DeleteSong([FromBody] DeleteSongRequest deleteSongRequest, CancellationToken cancellationToken)
+    public async Task<DeleteSongResponse> DeleteSong(Guid songId, CancellationToken cancellationToken)
     {
-        var command = new DeleteSongCommand(deleteSongRequest);
-        await _mediator.Send(command, cancellationToken);
+        var command = new DeleteSongCommand(new DeleteSongRequest
+        {
+            SongId = songId
+        });
+        
+        return await _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -191,7 +202,7 @@ public class SongController : FileBaseController
     /// </summary>
     /// <param name="songId"></param>
     /// <param name="cancellationToken"></param>
-    [HttpPost("SongFavourite/{songId}")]
+    [HttpPost("SongFavourite/{songId:guid}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(403)]
@@ -206,7 +217,19 @@ public class SongController : FileBaseController
     /// </summary>
     /// <param name="songId">ИД песни</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    [HttpDelete("RemoveSongFromBucket/{songId}")] 
+    [HttpDelete("RemoveSongFromBucket/{songId:guid}")]
     public async Task DeleteSongFromBucketAsync([FromRoute] Guid songId, CancellationToken cancellationToken)
         => await _mediator.Send(new DeleteSongFromBucketCommand(songId), cancellationToken);
+
+    /// <summary>
+    /// Возвращает все категории(жанры) песен
+    /// </summary>
+    [HttpGet("GetCategories")]
+    public async Task<GetCategoriesResponse> GetCategoriesAsync()
+    {
+        var query = new GetCategoriesQuery();
+        var response = await _mediator.Send(query);
+
+        return response;
+    }
 }

@@ -9,7 +9,7 @@ public class GetSubscriptionResponse
     /// Дата начала подписки
     /// </summary>
     public DateTime? StartDate { get; set; }
-    
+
     /// <summary>
     /// Дата окончания подписки
     /// </summary>

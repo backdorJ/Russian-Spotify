@@ -22,7 +22,10 @@ const SearchPlaylistCard = (props: any) => {
                 <h2>{playlist.playlistName}</h2>
                 <div className="search-playlist__right__bottom">
                     <p className="search-playlist__right__bottom__description">
-                        Здесь могла бы быть ваша реклама :D
+                        {
+                            playlist.isAlbum
+                            ? 'Album' : 'Playlist'
+                        }
                     </p>
                     <p className="search-playlist__right__bottom__author">
                         By <span>{playlist.authorName}</span>

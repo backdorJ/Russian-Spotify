@@ -9,7 +9,8 @@ namespace RussianSpotify.API.Core.Services.Filters.SongFilters;
 public class SongsInPlaylistFilter : IFilter<Song>
 {
     /// <inheritdoc cref="IFilter{T}"/>
-    public Task<IOrderedQueryable<Song>> FilterAsync(IQueryable<Song> queryable, string filterValue, CancellationToken cancellationToken)
+    public Task<IOrderedQueryable<Song>> FilterAsync(IQueryable<Song> queryable, string filterValue,
+        CancellationToken cancellationToken)
     {
         var playlistId = Guid.Parse(filterValue);
 

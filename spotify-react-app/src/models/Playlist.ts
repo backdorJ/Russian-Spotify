@@ -7,10 +7,13 @@ export default class Playlist {
     /** Название плейлиста/альбома */
     playlistName: string;
 
-    /** ИД картинки */
+    /** Id картинки */
     imageId: string;
 
-    /** ИД автора */
+    /** Id автора */
+    authorId: string;
+
+    /** Имя автора */
     authorName: string;
 
     /** Дата релиза */
@@ -26,6 +29,7 @@ export default class Playlist {
         this.playlistId = "";
         this.playlistName = "";
         this.imageId = "";
+        this.authorId = "";
         this.authorName = "";
         this.releaseDate = new Date();
         this.isAlbum = false;
@@ -36,16 +40,17 @@ export default class Playlist {
         playlistId: string,
         playlistName: string,
         imageId: string,
+        authorId: string,
         authorName: string,
         releaseDate: Date,
         isAlbum: boolean,
-        isInFavorite: boolean)
-    {
+        isInFavorite: boolean) {
         let playlist = new Playlist()
 
         playlist.playlistId = playlistId;
         playlist.playlistName = playlistName;
         playlist.imageId = imageId;
+        playlist.authorId = authorId;
         playlist.authorName = authorName;
         playlist.releaseDate = releaseDate;
         playlist.isAlbum = isAlbum;

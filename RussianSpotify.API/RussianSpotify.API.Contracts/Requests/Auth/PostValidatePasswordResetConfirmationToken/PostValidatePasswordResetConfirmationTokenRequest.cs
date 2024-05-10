@@ -13,7 +13,7 @@ public class PostValidatePasswordResetConfirmationTokenRequest
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
+
         VerificationCodeFromUser = request.VerificationCodeFromUser;
     }
 

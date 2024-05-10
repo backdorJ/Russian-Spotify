@@ -63,6 +63,7 @@ public class GetPlaylistsByFilterQueryHandler
                 Id = playlist.Id,
                 PlaylistName = playlist.PlaylistName,
                 ImageId = playlist.ImageId,
+                AuthorId = playlist.AuthorId,
                 AuthorName = playlist.Author!.UserName,
                 ReleaseDate = playlist.ReleaseDate,
                 IsAlbum = playlist.IsAlbum,

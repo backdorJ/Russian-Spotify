@@ -29,7 +29,7 @@ body.active-modal {
 }
 
 .modal-content {
-    position: absolute;
+    position: fixed;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -141,6 +141,7 @@ body.active-modal {
     right: 20px;
     padding: 3px 7px;
     font-size: 25px;
+    margin-left: 15px;
 }
 
 .close-modal:hover {

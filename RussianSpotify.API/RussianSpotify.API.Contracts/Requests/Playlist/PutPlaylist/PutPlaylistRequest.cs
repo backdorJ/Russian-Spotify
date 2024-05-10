@@ -18,7 +18,7 @@ public class PutPlaylistRequest
         ImageId = request.ImageId;
         SongsIds = request.SongsIds;
     }
-    
+
     /// <summary>
     /// Название
     /// </summary>
@@ -27,7 +27,7 @@ public class PutPlaylistRequest
     /// <summary>
     /// ИД фото
     /// </summary>
-    public Guid? ImageId { get; set; }  
+    public Guid? ImageId { get; set; }
 
     /// <summary>
     /// ИД песней

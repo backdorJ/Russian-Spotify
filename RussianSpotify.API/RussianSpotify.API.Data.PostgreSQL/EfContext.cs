@@ -13,15 +13,13 @@ namespace RussianSpotift.API.Data.PostgreSQL;
 public class EfContext
     : IdentityDbContext<User, Role, Guid>, IDbContext
 {
-
     /// <summary>
     /// Пустой конструктор
     /// </summary>
     public EfContext()
     {
-        
     }
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>
@@ -69,7 +67,7 @@ public class EfContext
         builder.ApplyConfiguration(new FileConfiguration());
         builder.ApplyConfiguration(new BucketConfiguration());
         builder.ApplyConfiguration(new EmailNotificationConfiguration());
-        
+
         base.OnModelCreating(builder);
     }
 

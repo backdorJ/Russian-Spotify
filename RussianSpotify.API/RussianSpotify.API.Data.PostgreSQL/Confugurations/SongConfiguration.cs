@@ -32,7 +32,7 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
             .WithMany()
             .HasForeignKey(i => i.ImageId)
             .OnDelete(DeleteBehavior.SetNull);
-        
+
         builder.Property(x => x.PlaysNumber).HasDefaultValue(0);
     }
 }

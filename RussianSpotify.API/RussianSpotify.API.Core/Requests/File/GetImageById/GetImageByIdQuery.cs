@@ -14,7 +14,7 @@ public class GetImageByIdQuery : IRequest<GetImageByIdResponse>
     /// <param name="id">ИД фотки</param>
     public GetImageByIdQuery(Guid id)
         => Id = id;
-    
+
     /// <summary>
     /// ИД фотки
     /// </summary>

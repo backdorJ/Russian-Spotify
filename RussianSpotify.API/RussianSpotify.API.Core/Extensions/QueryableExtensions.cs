@@ -18,10 +18,10 @@ public static class QueryableExtensions
     {
         if (query is null)
             return query;
-        
+
         if (request.PageNumber < 0 || request.PageSize < 0)
             return query;
-        
+
         return query
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize);

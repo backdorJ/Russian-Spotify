@@ -1,5 +1,5 @@
 import User from "../models/User";
-import {makeAutoObservable, makeObservable} from "mobx";
+import {makeAutoObservable} from "mobx";
 
 export default class UserStore {
     _user: User = new User()

@@ -11,7 +11,7 @@ public class CurrentUserIdNotFound : ApplicationBaseException
         : base(message, statusCode)
     {
     }
-    
+
     public CurrentUserIdNotFound()
     {
     }

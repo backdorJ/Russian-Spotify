@@ -14,7 +14,7 @@ public class Category
     {
         Songs = new List<Song>();
     }
-    
+
     /// <summary>
     /// Ид категории
     /// </summary>

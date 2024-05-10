@@ -32,16 +32,16 @@ public class PostAddSongToFavouriteCommandHandler : IRequestHandler<PostAddSongT
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
+
         var currentUser = await _dbContext.Users
-            .Include(x => x.Bucket)
-                .ThenInclude(y => y!.Songs)
-            .FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
-            ?? throw new EntityNotFoundException<User>(_userContext.CurrentUserId!.Value);
-        
+                              .Include(x => x.Bucket)
+                              .ThenInclude(y => y!.Songs)
+                              .FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
+                          ?? throw new EntityNotFoundException<User>(_userContext.CurrentUserId!.Value);
+
         var songToAdd = await _dbContext.Songs
-            .FirstOrDefaultAsync(x => x.Id == request.SongId, cancellationToken)
-            ?? throw new EntityNotFoundException<Song>(request.SongId);
+                            .FirstOrDefaultAsync(x => x.Id == request.SongId, cancellationToken)
+                        ?? throw new EntityNotFoundException<Song>(request.SongId);
 
         (currentUser.Bucket ??= new Bucket()).Songs.Add(songToAdd);
 

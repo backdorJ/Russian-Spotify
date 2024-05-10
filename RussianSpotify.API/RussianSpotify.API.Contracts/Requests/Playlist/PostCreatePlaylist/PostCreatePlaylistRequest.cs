@@ -23,7 +23,7 @@ public class PostCreatePlaylistRequest
         SongIds = request.SongIds;
         IsAlbum = request.IsAlbum;
     }
-    
+
     /// <summary>
     /// Название плейлиста
     /// </summary>

@@ -37,7 +37,7 @@ public class GetImageByIdQueryHandler : IRequestHandler<GetImageByIdQuery, GetIm
 
         if (image?.Address is null)
             throw new ArgumentNullException(nameof(image));
-        
+
         var imageFromS3 = await _s3Service.DownloadFileAsync(image.Address, cancellationToken: cancellationToken);
 
         if (imageFromS3?.Content is null)

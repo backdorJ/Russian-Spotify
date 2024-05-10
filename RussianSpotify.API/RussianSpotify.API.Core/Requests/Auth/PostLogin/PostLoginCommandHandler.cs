@@ -17,13 +17,10 @@ namespace RussianSpotify.API.Core.Requests.Auth.PostLogin;
 public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLoginResponse>
 {
     private readonly UserManager<User> _userManager;
-    
     private readonly IJwtGenerator _jwtGenerator;
-
     private readonly IUserClaimsManager _claimsManager;
-
     private readonly IEmailSender _emailSender;
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>
@@ -45,7 +42,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
+
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user is null)
@@ -62,10 +59,10 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
             var placeholders = new Dictionary<string, string> { ["{confirmationToken}"] = confirmationToken };
 
             var message = messageTemplate.ReplacePlaceholders(placeholders);
-            
+
             await _emailSender.SendEmailAsync(user.Email!,
                 message, cancellationToken);
-            
+
             throw new NotConfirmedEmailException(AuthErrorMessages.NotConfirmedEmail);
         }
 
@@ -73,7 +70,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
 
         if (!isCorrectPassword)
             throw new WrongPasswordException(AuthErrorMessages.WrongPassword);
-        
+
         var userClaims = await _claimsManager.GetUserClaimsAsync(user, cancellationToken);
 
         user.AccessToken = _jwtGenerator.GenerateToken(userClaims);
@@ -81,7 +78,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, PostLog
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
 
         await _userManager.UpdateAsync(user);
-        
-        return new PostLoginResponse { AccessToken = user.AccessToken, RefreshToken = user.RefreshToken};
+
+        return new PostLoginResponse { AccessToken = user.AccessToken, RefreshToken = user.RefreshToken };
     }
 }

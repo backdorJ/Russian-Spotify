@@ -23,7 +23,7 @@ public class FileContent
         ContentType = contentType;
         Bucket = bucket;
     }
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>

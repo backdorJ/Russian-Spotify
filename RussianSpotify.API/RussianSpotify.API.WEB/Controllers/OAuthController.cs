@@ -16,7 +16,7 @@ namespace RussianSpotify.API.WEB.Controllers;
 public class OAuthController : ControllerBase
 {
     private readonly IMediator _mediator;
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>
@@ -41,7 +41,7 @@ public class OAuthController : ControllerBase
         var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return Challenge(properties, provider);
     }
-    
+
     /// <summary>
     /// Логин через сторонний сервис
     /// </summary>

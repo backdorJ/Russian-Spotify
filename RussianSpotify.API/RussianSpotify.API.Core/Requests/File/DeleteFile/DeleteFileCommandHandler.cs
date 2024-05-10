@@ -22,7 +22,8 @@ public class DeleteFileCommandHandler : IRequestHandler<DeleteFileCommand>
     /// <param name="dbContext">Контекст базы данных</param>
     /// <param name="s3Service">Сервис S3 храниоища</param>
     /// <param name="userContext">Контекст текущего пользователя</param>
-    public DeleteFileCommandHandler(IDbContext dbContext, IS3Service s3Service, IUserContext userContext, IFileHelper fileHelper)
+    public DeleteFileCommandHandler(IDbContext dbContext, IS3Service s3Service, IUserContext userContext,
+        IFileHelper fileHelper)
     {
         _dbContext = dbContext;
         _s3Service = s3Service;

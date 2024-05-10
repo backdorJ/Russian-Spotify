@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 using RussianSpotify.API.Core.Exceptions.SongExceptions;
+using RussianSpotify.Contracts.Requests.Music.AddSong;
 
 namespace RussianSpotify.API.Core.Requests.Music.PostAddSong;
 
 /// <summary>
 /// Обработчик команды на добавление новой песни
 /// </summary>
-public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
+public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand, AddSongResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IUserContext _userContext;
@@ -29,7 +30,7 @@ public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
     }
 
     /// <inheritdoc/>
-    public async Task Handle(PostAddSongCommand request, CancellationToken cancellationToken)
+    public async Task<AddSongResponse> Handle(PostAddSongCommand request, CancellationToken cancellationToken)
     {
         // Достаем категорию из бд
         var category = await _dbContext.Categories
@@ -98,5 +99,11 @@ public class PostAddSongCommandHandler : IRequestHandler<PostAddSongCommand>
         newSong.AddAuthor(userFromDb);
         await _dbContext.Songs.AddAsync(newSong, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return new AddSongResponse
+        {
+            SongId = newSong.Id,
+            SongName = newSong.SongName
+        };
     }
 }

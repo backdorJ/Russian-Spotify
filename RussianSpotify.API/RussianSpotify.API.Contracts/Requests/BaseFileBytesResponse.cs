@@ -20,7 +20,7 @@ public class BaseFileBytesResponse
         ContentType = contentType;
         FileName = fileName;
     }
-    
+
     /// <summary>
     /// Содержимое
     /// </summary>

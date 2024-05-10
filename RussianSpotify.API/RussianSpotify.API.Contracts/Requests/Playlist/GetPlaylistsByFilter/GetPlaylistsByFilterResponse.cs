@@ -15,12 +15,12 @@ public class GetPlaylistsByFilterResponse
         Entities = entities;
         TotalCount = totalCount;
     }
-    
+
     /// <summary>
     /// Отфильтрованные плейлисты
     /// </summary>
     public List<GetPlaylistsByFilterResponseItem> Entities { get; set; }
-    
+
     /// <summary>
     /// Общее кол-во таких плейлистов
     /// </summary>

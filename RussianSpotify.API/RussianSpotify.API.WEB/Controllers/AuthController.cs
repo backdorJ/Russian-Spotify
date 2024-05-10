@@ -1,10 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RussianSpotify.API.Core.Requests.Account.PostConfirmEmail;
 using RussianSpotify.API.Core.Requests.Account.PostLogin;
 using RussianSpotify.API.Core.Requests.Account.PostRefreshToken;
 using RussianSpotify.API.Core.Requests.Account.PostRevokeToken;
+using RussianSpotify.API.Core.Requests.Auth.PostConfirmEmail;
 using RussianSpotify.API.Core.Requests.Auth.PostConfirmPasswordReset;
 using RussianSpotify.API.Core.Requests.Auth.PostRegister;
 using RussianSpotify.API.Core.Requests.Auth.PostResetPassword;
@@ -29,7 +29,7 @@ namespace RussianSpotify.API.WEB.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>

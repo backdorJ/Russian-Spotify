@@ -46,8 +46,13 @@ public class GetAuthorsByFilterQueryHandler : IRequestHandler<GetAuthorsByFilter
             .Include(i => i.AuthorPlaylists)
             .ToListAsync(cancellationToken);
 
-        var authors = filteredUsersToList
-            .Where(i => _roleManager.IsInRole(i, BaseRoles.AuthorRoleName))
+        var authors = new List<User>();
+        
+        foreach (var user in filteredUsersToList)
+            if (await _roleManager.IsInRoleAsync(user, BaseRoles.AuthorRoleName, cancellationToken))
+                authors.Add(user);
+        
+        authors = authors
             .Distinct()
             .ToList();
 
