@@ -4,20 +4,18 @@ import Player from "../models/Player";
 import User from "../models/User";
 import Playlist from "../models/Playlist";
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
+import {GetSongs} from "../utils/dto/song/getSongs";
 
 /** Возвращает список песен по фильтру
  * @param filterName - название фильтра
  * @param filterValue - значение фильтра
  * @param pageNumber - номер страницы(начинается с 1)
  * @param pageSize - количество пессен, которые должны вернуться с api
+ * @param toCycle - циклировать воспроизведение песен
  * */
-export const getSongsByFilter: (filterName: string, filterValue: string, pageNumber: number, pageSize: number) => Promise<Song[]> =
-    async (filterName,
-           filterValue,
-           pageNumber,
-           pageSize): Promise<Song[]> => {
+export const getSongsByFilter = async (filterName: string, filterValue: string, pageNumber: number, pageSize: number, toCycle: boolean = false): Promise<GetSongs> => {
         if (!filterValue || !filterName)
-            return [];
+            return new GetSongs([], 0);
 
         const response =
             await $authHost.get(`api/Song/GetSongsByFilter?` +
@@ -29,7 +27,7 @@ export const getSongsByFilter: (filterName: string, filterValue: string, pageNum
                 }));
 
         if (response.status !== 200 || response.data === undefined)
-            return [];
+            return new GetSongs([], 0);
 
         let result: Song[] = [];
         for (let i: number = 0; i < response.data.entities.length; ++i) {
@@ -53,10 +51,10 @@ export const getSongsByFilter: (filterName: string, filterValue: string, pageNum
         for (let i = 0; i < response.data.entities.length - 1; ++i)
             result[i].nextSong = result[i + 1];
 
-        if (result.length > 1)
+        if (toCycle && result.length > 1)
             result[result.length - 1].nextSong = result[0]
 
-        return result;
+        return new GetSongs(result, response.data.totalCount);
     }
 
 /** Возвращает Player(SongContent) с api для прослушивания песни

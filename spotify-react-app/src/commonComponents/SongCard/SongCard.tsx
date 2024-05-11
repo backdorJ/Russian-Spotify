@@ -15,12 +15,15 @@ import CreateOrEditSongModal from "../SideBar/components/CreateOrEditSongModal/C
 import EditSongAuthorModal from "../../pages/PlaylistPage/components/modals/EditSongAuthorModal/EditSongAuthorModal";
 import StartIcon from "../Player/components/StartIcon";
 import StopIcon from "../Player/components/StopIcon";
+// @ts-ignore
+import author_icon from '../../assets/song/author_icon.png'
 import player from "../Player/Player";
 import routeNames from "../../utils/routeNames";
 
 const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloadTrigger, playlist}) => {
     const userStore = useContext(UserContext)
     const playerStore = useContext(PlayerContext)
+    const [isPlaying, setAsPlaying] = useState(false);
     const navigate = useNavigate();
     const [isLikedSong, setIsLikedSong] = useState(song.isInFavorite)
     const [isMouseOverPlay, setIsMouseOverPlay] = useState(false)
@@ -43,6 +46,13 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
             </Fragment>
         )
     })
+
+    useEffect(() => {
+        if (playerStore.Player.currentSong?.songId === song.songId)
+            setAsPlaying(true);
+        else
+            setAsPlaying(false)
+    }, [playerStore.Player.currentSong]);
 
     useEffect(() => {
         if (showEditModal || showEditAuthorModal)
@@ -134,7 +144,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
 
         for (const playlist of playlists) {
             const songs = await getSongsByFilter(songFilters.songsInPlaylistFilter, playlist.playlistId, 1, 100);
-            if (songs.some(song => song.songId === songId)) {
+            if (songs.songs.some(song => song.songId === songId)) {
                 playlistsWithSong.push(playlist);
             }
         }
@@ -148,7 +158,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
 
         for (const playlist of playlists) {
             const songs = await getSongsByFilter(songFilters.songsInPlaylistFilter, playlist.playlistId, 1, 100);
-            if (!songs.some(song => song.songId === songId)) {
+            if (!songs.songs.some(song => song.songId === songId)) {
                 playlistsWithoutSong.push(playlist);
             }
         }
@@ -176,43 +186,48 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
         }, 100);
     };
 
-    const playerContext = useContext(PlayerContext);
-    const [isPlaying, setAsPlaying] = useState(false);
-
     const handleStartStopClick = () => {
-        if (!playerStore.Player.currentSong) {
-            playerStore.Player = getSong(song, userStore.user, playlist);
-            setAsPlaying(true);
-        }
-
         const audio: any = document.getElementById("audio-player");
         const image: any = document.querySelector(".player-music-image");
-
-        if (audio !== null) {
-            if (audio?.paused) {
-                playerContext.IsPlaying = true;
-                setAsPlaying(true);
-                audio.play();
-                image.style.animation = "3s linear 0s normal none infinite running rot";
-            } else {
-                playerContext.IsPlaying = false;
-                setAsPlaying(false);
-                audio.pause();
-                image.style.animation = "none";
+        console.log(audio)
+        if (playerStore.Player.currentSong?.songId === song.songId) {
+            setAsPlaying(prev => !prev);
+            if (audio !== null) {
+                if (audio?.paused) {
+                    playerStore.IsPlaying = true;
+                    audio.play();
+                    image.style.animation = "3s linear 0s normal none infinite running rot";
+                } else {
+                    playerStore.IsPlaying = false;
+                    audio.pause();
+                    image.style.animation = "none";
+                }
             }
         }
+        else {
+            console.log(song)
+            playerStore.Player = getSong(song, userStore.user, playlist);
+            setAsPlaying(true);
+            playerStore.IsPlaying = true;
+            audio.play();
+            image.style.animation = "3s linear 0s normal none infinite running rot";
+        }
         console.log(isPlaying)
+
+        if (playlistReloadTrigger)
+            playlistReloadTrigger()
     }
 
     return (
         <div
-            onMouseEnter={() => setIsMouseOverPlay(true)}
-            onMouseLeave={() => setIsMouseOverPlay(false)}
+            onMouseEnter={() => setIsMouseOverPlay(false)}
             className="playlist-page__songs__list__main__song-card">
             <div
+                onClick={handleStartStopClick}
+                onMouseEnter={() => setIsMouseOverPlay(true)}
+                onMouseLeave={() => setIsMouseOverPlay(false)}
                 className="playlist-page__songs__list__main__song-card__id"
-                style={{marginRight: isMouseOverPlay ? '25px' : '20px', marginLeft: isMouseOverPlay ? '-5px' : '0'}}
-                onClick={handleStartStopClick}>
+                style={{marginRight: isMouseOverPlay ? '17px' : '12px', marginLeft: isMouseOverPlay ? '-5px' : '0'}}>
                 {
                     isMouseOverPlay
                         ?
@@ -231,7 +246,21 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
                     className="playlist-page__songs__list__main__song-card__title__img"/>
                 <div className="playlist-page__songs__list__main__song-card__title__info">
                     <div className="playlist-page__songs__list__main__song-card__title__info__song-name">
-                        <p>{song.songName}</p>
+                        <p
+                            onClick={() => {
+                                if (song.authors.map(author => author.authorId).includes(userStore.user.id))
+                                    setShowEditModal(true)
+                                else
+                                    handleStartStopClick()
+                            }}>
+                            {song.songName}
+                        </p>
+                        {
+                            song.authors.map(author => author.authorId).includes(userStore.user.id) &&
+                            <img
+                                onClick={() => setShowEditAuthorModal(true)}
+                                src={author_icon} alt="Edit authors"/>
+                        }
                     </div>
                     <div className="playlist-page__songs__list__main__song-card__title__info__artist-names">
                         <p>{artistsMapped}</p>

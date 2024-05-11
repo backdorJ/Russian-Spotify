@@ -26,7 +26,7 @@ const AccountPage = () => {
 // Получение списка любимых песен
     useEffect(() => {
         getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), 1, 5)
-            .then(s => setFavoriteSongs(s))
+            .then(s => setFavoriteSongs(s.songs))
 
         getPlaylistsByFilter(playlistFilters.favoritePlaylistsFilter, getUserId(), 1, 5)
             .then(p => setFavouritePlaylists(p))

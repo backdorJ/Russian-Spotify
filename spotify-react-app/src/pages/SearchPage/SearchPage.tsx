@@ -15,15 +15,18 @@ import {playlistFilters} from "../../http/filters/playlistFilters";
 // @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
 import SongCard from "../../commonComponents/SongCard/SongCard";
+import songSources from "../../utils/song/songSources";
 
 
 const SearchPage = () => {
+    const defaultSongLoadPageSize = 3
     const [search, setSearch] = useState('')
     const [isSearched, setIsSearched] = useState(false)
     const [searchType, setSearchType] = useState(1)
     const [songs, setSongs] = useState(new Array<SongModel>())
     const [playlists, setPlaylists] = useState(new Array<any>())
     const [authors, setAuthors] = useState(new Array<any>())
+    const [reloadTrigger, setReloadTrigger] = useState(false)
 
     const handleSearch = () => {
         if (search === '') {
@@ -33,8 +36,17 @@ const SearchPage = () => {
         if (searchType === 1) {
             setAuthors([])
             setPlaylists([])
-            getSongsByFilter(songFilters.songNameFilter, search, 1, 10)
-                .then(response => setSongs(prev => [...response]))
+            getSongsByFilter(songFilters.songNameFilter, search, 1, defaultSongLoadPageSize)
+                .then(response => {
+                    if (response.count > response.songs.length) {
+                        console.log('hui')
+                        let lastSong = response.songs[response.songs.length - 1]
+                        lastSong.source = songSources.Search
+                        lastSong.nextLoad = (() => getSongsByFilter(songFilters.songNameFilter, search, 2, defaultSongLoadPageSize))
+                        response.songs[response.songs.length - 1] = lastSong
+                    }
+                    setSongs(prev => [...response.songs])
+                })
                 .then(() => setIsSearched(true))
         }
         if (searchType === 2) {
@@ -104,7 +116,7 @@ const SearchPage = () => {
                             song={song}
                             order_number={index + 1}
                             onModalOpen={undefined}
-                            playlistReloadTrigger={undefined} playlist={null}/>
+                            playlistReloadTrigger={() => setReloadTrigger(prev => !prev)} playlist={null}/>
                     ))
                 }
                 {

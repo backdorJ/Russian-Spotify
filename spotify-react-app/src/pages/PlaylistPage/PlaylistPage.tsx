@@ -41,7 +41,7 @@ const PlaylistPage = () => {
     const [currentPlaylist, setCurrentPlaylist] = useState(new Playlist())
     const [songs, setSongs] = useState<Song[]>([]);
     let stop = false;
-    const [getting, setGetting] = useState(false);
+    const [getting, setGetting] = useState(true);
     const [page, setPage] = useState(1)
     const [isLikedPlaylist, setIsLikedPlaylist] = useState(currentPlaylist.isInFavorite);
     /** Находится ли песня в процессе добавления в понравившееся */
@@ -105,11 +105,11 @@ const PlaylistPage = () => {
         const fetchData = async () => {
             let result: Song[] = [];
             if (playlistType === PlaylistType.Playlist)
-                result = await getSongsByFilter(songFilters.songsInPlaylistFilter, id!, page, 50);
+                result = (await getSongsByFilter(songFilters.songsInPlaylistFilter, id!, page, 50, true)).songs;
             else if (playlistType === PlaylistType.FavoriteSongs)
-                result = await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 50);
+                result = (await getSongsByFilter(songFilters.favoriteSongsFilter, getUserId(), page, 50, true)).songs;
             else if (playlistType === PlaylistType.ArtistSongs)
-                result = await getSongsByFilter(songFilters.authorSongsFilter, currentPlaylist.authorName, page, 50);
+                result = (await getSongsByFilter(songFilters.authorSongsFilter, currentPlaylist.authorName, page, 50, true)).songs;
 
             setSongs(result)
             
@@ -133,7 +133,7 @@ const PlaylistPage = () => {
 
         setIsFirstLoad(false)
 
-        if (!getting && playlistType != null) {
+        if (getting && playlistType != null) {
             fetchData().then(_ => console.log("fetched"));
         }
     }, [getting, playlistType]);
@@ -160,6 +160,7 @@ const PlaylistPage = () => {
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {
         playerStore.Player = getSong(song, userStore.user, currentPlaylist);
+        playerStore.IsPlaying = true;
     }
 
     useEffect(() => {

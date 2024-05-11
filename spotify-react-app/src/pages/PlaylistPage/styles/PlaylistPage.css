@@ -39,8 +39,8 @@
     margin-left: 30px;
 }
 
-.playlist-page__main__info span:hover {
-    color: #cbc237;
+.playlist-page__main__info__singers > span > span:hover {
+    color: orangered;
     transition: .1s;
 }
 

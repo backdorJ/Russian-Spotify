@@ -13,10 +13,12 @@ import CloseExpandedPlayer from "./components/CloseExpandedPlayer";
 import StopIcon from "./components/StopIcon";
 import {CurrentPlaylistIcon} from "./components/CurrentPlaylistIcon";
 import SongCard from "../SongCard/SongCard";
+import songSources from "../../utils/song/songSources";
 
 /** Музыкальный плеер снизу экрана */
 const Player = (props: any) => {
     const {showExpanded, setShowExpanded} = props
+    const [isLoadingNext, setIsLoadingNext] = useState(false)
     const playerStore = useContext(PlayerContext);
     const userStore = useContext(UserContext);
     const [currentPlayingSong, setCurrentPlayingSong] =
@@ -35,11 +37,47 @@ const Player = (props: any) => {
 
     /** Проиграть следующий трек */
     const handleNextClick = () => {
-        if (currentPlayingSong.nextSong !== null) {
+        console.log(1)
+        if (currentPlayingSong.nextSong === null && !isLoadingNext) {
+            console.log(2)
+            console.log(currentPlayingSong.source)
+            if (currentPlayingSong.source === songSources.Search) {
+                console.log(3)
+                if (currentPlayingSong.nextLoad) {
+                    console.log(4)
+                    currentPlayingSong.nextLoad()
+                        .then(getSongs => {
+                            getSongs.songs[0].prevSong = currentPlayingSong
+                            currentPlayingSong.nextSong = getSongs.songs[0]
+                            playerStore.Player = getSong(currentPlayingSong.nextSong, userStore.user, currentPlaylist);
+                            setCurrentPlayingSong(playerStore.Player.currentSong!);
+                        })
+                }
+            }
+        } else if (currentPlayingSong.nextSong !== null) {
             playerStore.Player = getSong(currentPlayingSong.nextSong, userStore.user, currentPlaylist);
             setCurrentPlayingSong(playerStore.Player.currentSong!);
         }
     }
+
+    useEffect(() => {
+        let audio: any = document.getElementById("audio-player");
+        let volumeFromLocalStorage = localStorage.getItem('player-volume')
+
+        if (volumeFromLocalStorage) {
+            setVolume(parseFloat(volumeFromLocalStorage))
+            audio.volume = volumeFromLocalStorage
+        } else {
+            setVolume(0.5)
+            audio.volume = 0.5
+        }
+
+
+    }, []);
+
+    useEffect(() => {
+        setIsPlaying(playerStore.IsPlaying);
+    }, [playerStore.IsPlaying]);
 
     /** Смена текущего играющего трека */
     useEffect(() => {
@@ -114,6 +152,7 @@ const Player = (props: any) => {
     const handleVolumeChange = (e: any) => {
         let audio: any = document.getElementById("audio-player");
         audio.volume = e.target.value;
+        localStorage.setItem('player-volume', e.target.value)
         playerStore.Volume = e.target.value;
         setVolume(playerStore.Volume);
     }
@@ -156,12 +195,10 @@ const Player = (props: any) => {
         if (audio !== null) {
             if (audio?.paused) {
                 playerContext.IsPlaying = true;
-                setIsPlaying(true);
                 audio.play();
                 image.style.animation = "3s linear 0s normal none infinite running rot";
             } else {
                 playerContext.IsPlaying = false;
-                setIsPlaying(false);
                 audio.pause();
                 image.style.animation = "none";
             }
@@ -236,10 +273,11 @@ const Player = (props: any) => {
                                 <div className="music-menu">
                                     <div className="music-container">
                                         <div className="music-container-wrapper">
-                                            {currentPlaylist && currentPlaylist.songs.map((song, index) => <SongCard song={song}
-                                                                                                  order_number={index + 1} playlist={currentPlaylist}
-                                                                                                                     onModalOpen={undefined}
-                                                                                                                     playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/>)}
+                                            {currentPlaylist && currentPlaylist.songs.map((song, index) => <SongCard
+                                                song={song}
+                                                order_number={index + 1} playlist={currentPlaylist}
+                                                onModalOpen={undefined}
+                                                playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/>)}
                                         </div>
                                     </div>
                                 </div>}
