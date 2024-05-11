@@ -61,7 +61,7 @@ export const addPlaylist = async (playlistName: string, fileId: string, isAlbum:
     return new ResponseWithMessage(response.status, response.data.message)
 }
 
-export const editPlaylist = async (playlistId: string, playlistName: string, fileId: string, songsIds: Array<string>) => {
+export const editPlaylist = async (playlistId: string, playlistName: string, fileId: string | undefined, songsIds: Array<string>) => {
     let body: any = {
         playlistName: playlistName,
         songsIds: songsIds
@@ -70,7 +70,7 @@ export const editPlaylist = async (playlistId: string, playlistName: string, fil
     if (playlistName === '')
         body.playlistName = null
 
-    if (fileId !== '')
+    if (fileId !== undefined)
         body.imageId = fileId
 
     const response = await $authHost.put(`api/Playlist/EditPlaylist/${playlistId}`, body)

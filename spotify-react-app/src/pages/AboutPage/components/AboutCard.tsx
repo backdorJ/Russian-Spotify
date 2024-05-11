@@ -14,13 +14,11 @@ const AboutCard = (props: IAboutCard) => {
                     src={props.image}
                     alt={props.title}
                     style={{
-                        width: props.width !== undefined ? props.width : '',
-                        height: props.height !== undefined ? props.height : 'auto'
                     }}
                 />
-            </div>
-            <div className="about-image-title">
-                <p>{props.title}</p>
+                <div className="about-image-title">
+                    {props.title}
+                </div>
             </div>
         </div>
     )

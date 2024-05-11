@@ -57,7 +57,6 @@ public class GetPlaylistsByFilterQueryHandler
 
         var totalCount = await filteredPlaylists.CountAsync(cancellationToken: cancellationToken);
         var resultPlaylists = await filteredPlaylists
-            .Include(playlist => playlist.Users)
             .Select(playlist => new GetPlaylistsByFilterResponseItem
             {
                 Id = playlist.Id,
