@@ -39,12 +39,8 @@ const Player = (props: any) => {
     const handleNextClick = () => {
         console.log(1)
         if (currentPlayingSong.nextSong === null && !isLoadingNext) {
-            console.log(2)
-            console.log(currentPlayingSong.source)
             if (currentPlayingSong.source === songSources.Search) {
-                console.log(3)
                 if (currentPlayingSong.nextLoad) {
-                    console.log(4)
                     currentPlayingSong.nextLoad()
                         .then(getSongs => {
                             getSongs.songs[0].prevSong = currentPlayingSong

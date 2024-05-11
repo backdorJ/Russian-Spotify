@@ -29,7 +29,7 @@ const AccountPage = () => {
             .then(s => setFavoriteSongs(s.songs))
 
         getPlaylistsByFilter(playlistFilters.favoritePlaylistsFilter, getUserId(), 1, 5)
-            .then(p => setFavouritePlaylists(p))
+            .then(p => setFavouritePlaylists(p.value.playlists))
     }, []);
 
     return (

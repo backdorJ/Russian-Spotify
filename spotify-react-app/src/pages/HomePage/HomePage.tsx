@@ -34,15 +34,15 @@ const HomePage = observer((props: any) => {
             .then(response => setDiscoveryCards(response))
             .then(() => {
                 getPlaylistsByFilter(playlistFilters.albumShuffledFilter, "smth", 1, 6)
-                    .then(response => setPlaylistsNormal([...response]))
+                    .then(response => setPlaylistsNormal([...response.value.playlists]))
                     .then(() => {
                         getPlaylistsByFilter(playlistFilters.favoritePlaylistsFilter, getUserId(), 1, 1000)
                             .then(response => {
-                                if (response.length > 3) {
-                                    let playlistsToShow = response.slice(response.length - 3, response.length)
+                                if (response.value.playlists.length > 3) {
+                                    let playlistsToShow = response.value.playlists.slice(response.value.playlists.length - 3, response.value.playlists.length)
                                     setPlaylistsLittle(playlistsToShow)
                                 } else {
-                                    setPlaylistsLittle(response)
+                                    setPlaylistsLittle(response.value.playlists)
                                 }
                             })
                             .then(() => setIsLoadedTrigger(true))

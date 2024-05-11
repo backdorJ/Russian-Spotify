@@ -142,7 +142,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
         const playlists = await getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 10);
         const playlistsWithSong = [];
 
-        for (const playlist of playlists) {
+        for (const playlist of playlists.value.playlists) {
             const songs = await getSongsByFilter(songFilters.songsInPlaylistFilter, playlist.playlistId, 1, 100);
             if (songs.songs.some(song => song.songId === songId)) {
                 playlistsWithSong.push(playlist);
@@ -156,7 +156,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
         const playlists = await getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 10);
         const playlistsWithoutSong = [];
 
-        for (const playlist of playlists) {
+        for (const playlist of playlists.value.playlists) {
             const songs = await getSongsByFilter(songFilters.songsInPlaylistFilter, playlist.playlistId, 1, 100);
             if (!songs.songs.some(song => song.songId === songId)) {
                 playlistsWithoutSong.push(playlist);

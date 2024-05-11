@@ -2,6 +2,7 @@ import Playlist from "../models/Playlist";
 import {$authHost} from "./index";
 // @ts-ignore
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
+import {GetPlaylists} from "../utils/dto/playlist/getPlaylists";
 
 /** Возвращает список альбомов по фильтру
  @param filterName - название фильтра
@@ -11,7 +12,7 @@ import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
  * */
 export const getPlaylistsByFilter = async (filterName: string, filterValue: string, pageNumber: number, pageSize: number) => {
     if (!filterValue || !filterName)
-        return [];
+        return new ResponseWithMessage(400, 'Wrong filter')
 
     const response = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
         new URLSearchParams({
@@ -22,7 +23,7 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
         }));
 
     if (response.status !== 200 || response.data === undefined)
-        return new Array<Playlist>();
+        return new ResponseWithMessage(response.status, '')
 
     let result: Array<Playlist> = [];
 
@@ -40,7 +41,9 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
             playlist.isInFavorite);
     }
 
-    return result;
+    return response.status === 200
+        ? new ResponseWithMessage(200, '', new GetPlaylists(result, response.data.totalCount))
+        : new ResponseWithMessage(response.status, response.data.message)
 }
 
 export const addPlaylist = async (playlistName: string, fileId: string, isAlbum: boolean) => {
