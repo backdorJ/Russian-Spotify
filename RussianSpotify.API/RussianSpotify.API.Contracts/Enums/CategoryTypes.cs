@@ -12,4 +12,10 @@ public enum CategoryTypes
 
     [Description("Хип-хоп")]
     HipHop = 2,
+    
+    [Description("Металл")]
+    Metall = 3,
+    
+    [Description("Рок")]
+    Rock = 4,
 }

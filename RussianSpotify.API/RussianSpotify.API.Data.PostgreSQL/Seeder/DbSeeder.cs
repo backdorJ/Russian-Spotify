@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
+using RussianSpotify.Contracts.Enums;
 
 namespace RussianSpotift.API.Data.PostgreSQL.Seeder;
 
@@ -21,11 +22,20 @@ public class DbSeeder : IDbSeeder
             RussianSpotify.API.Core.DefaultSettings.BaseRoles.UserRoleName
     };
 
+    private static List<CategoryTypes> _baseCategories = new()
+    {
+        CategoryTypes.HipHop,
+        CategoryTypes.Metall,
+        CategoryTypes.Rap,
+        CategoryTypes.Rock
+    };
+
     /// <inheritdoc />
     public async Task SeedAsync(IDbContext efContext, CancellationToken cancellationToken)
     {
         await SeedRoleAsync(efContext, cancellationToken);
         await SeedPrivilegesAsync(efContext, cancellationToken);
+        await SeedCategoriesAsync(efContext, cancellationToken);
         await efContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -69,6 +79,30 @@ public class DbSeeder : IDbSeeder
             currentPriviles = currentPriviles.Distinct().ToList();
 
             x.UpdatePrivileges(currentPriviles);
+        });
+    }
+
+    private static async Task SeedCategoriesAsync(IDbContext dbContext, CancellationToken cancellationToken)
+    {
+        var existsCategoriesInDb = await dbContext.Categories
+            .ToListAsync(cancellationToken);
+        
+        var categoriesToDelete = existsCategoriesInDb
+            .Where(categoryFromDb => _baseCategories.All(x => x != categoryFromDb.CategoryName))
+            .ToList();
+
+        foreach (var categoryToDelete in categoriesToDelete)
+            dbContext.Categories.Remove(categoryToDelete);
+        
+        _baseCategories.ForEach(x =>
+        {
+            if (existsCategoriesInDb.All(y => y.CategoryName != x))
+            {
+                dbContext.Categories.Add(new Category
+                {
+                    CategoryName = x
+                });
+            }
         });
     }
 }
