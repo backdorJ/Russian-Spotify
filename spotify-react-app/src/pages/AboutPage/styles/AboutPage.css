@@ -30,19 +30,44 @@ body {
     font-weight: 400;
 }
 
-.about-image-title p{
-    font-size: 50px;
+.about-image-card{
+    max-width: 400px;
+}
+
+.about-image-title {
+    position: absolute;
+    align-items: center;
+    bottom: 0; /* Black see-through */
+    color: orange;
+    width: 100%;
+    transition: .5s ease;
+    opacity: 0;
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.about-image:hover .about-image-title {
+    opacity: 1;
+}
+
+.about-image {
+    position: relative;
 }
 
 .about_us_photos{
     display: flex;
     flex-wrap: wrap;
+    max-height: 250px;
     justify-content: center;
     align-items: center;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .about-us-photo-image{
     margin-left: 10px;
+    width: 100%;
     border: 1px solid rgb(128, 128, 128);
 }
 
@@ -132,21 +157,8 @@ body {
         flex-wrap: nowrap;
     }
 
-    .about-image-title{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-    .about-image-title p {
-        font-size: 20px;
-    }
-
     .about-image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        max-width: 300px;
     }
 
     .map{

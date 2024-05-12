@@ -10,4 +10,7 @@ export const playlistFilters = {
 
     /** filterValue - AlbumShuffled */
     albumShuffledFilter: 'AlbumShuffled',
+
+    /** filterValue - UserPlaylists */
+    userPlaylistsFilter: 'UserPlaylists'
 }

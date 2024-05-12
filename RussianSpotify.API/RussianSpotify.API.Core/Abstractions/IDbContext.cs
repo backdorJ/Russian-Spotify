@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using RussianSpotify.API.Core.Entities;
 using File = RussianSpotify.API.Core.Entities.File;
 
@@ -60,4 +61,6 @@ public interface IDbContext
     public DbSet<EmailNotification> EmailNotifications { get; set; }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    
+    public DatabaseFacade Database { get; }
 }

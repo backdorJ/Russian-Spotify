@@ -1,7 +1,7 @@
 // @ts-ignore
 import damirImage from '../../assets/damir_team.jpg'
 // @ts-ignore
-import vanyaImage from '../../assets/team_vanya.jpg'
+import vanyaImage from '../../assets/vanya_photo.jpg'
 // @ts-ignore
 import irekImage from '../../assets/irek_team.jpg'
 // @ts-ignore

@@ -110,7 +110,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
 
     const AddToPlaylist = (choosenPlaylist: Playlist) => {
         choosenPlaylist?.songs.push(song)
-        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, choosenPlaylist.imageId, choosenPlaylist.songs.map(x => x.songId)).then(response => {
+        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, undefined, choosenPlaylist.songs.map(x => x.songId)).then(response => {
             if (response.status === 200) {
                 setUserPlaylists([])
                 alert("Песня добавлена успешно")
@@ -119,7 +119,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
         }).catch(err => console.log(err));
     }
     const DeleteFromPlaylist = (choosenPlaylist: Playlist) => {
-        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, choosenPlaylist.imageId, choosenPlaylist.songs.map(x => x.songId).filter(x => x !== song.songId)).then(response => {
+        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, undefined, choosenPlaylist.songs.map(x => x.songId).filter(x => x !== song.songId)).then(response => {
             if (response.status === 200) {
                 setUserPlaylists([])
                 alert("Песня удалена успешно")
@@ -129,7 +129,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
     };
 
     const getPlaylistsWithSong = async (songId: string) => {
-        const playlists = await getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 10);
+        const playlists = await getPlaylistsByFilter(playlistFilters.userPlaylistsFilter, userStore.user.username, 1, 10);
         const playlistsWithSong = [];
 
         for (const playlist of playlists) {
@@ -143,7 +143,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
     }
 
     const getPlaylistsWithoutSong = async (songId: string) => {
-        const playlists = await getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, userStore.user.username, 1, 10);
+        const playlists = await getPlaylistsByFilter(playlistFilters.userPlaylistsFilter, userStore.user.username, 1, 10);
         const playlistsWithoutSong = [];
 
         for (const playlist of playlists) {
