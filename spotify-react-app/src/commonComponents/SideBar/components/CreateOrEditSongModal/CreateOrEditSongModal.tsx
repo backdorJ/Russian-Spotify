@@ -104,7 +104,6 @@ const CreateOrEditSongModal: FC<ICreateOrEditSongModal> =
                     if (response.status === 200) {
                         alert(`Song '${response.value.songName}' was successfully updated!`)
                         onHide()
-                        reset()
                         reloadTrigger()
                     } else
                         if (response.status >= 500)

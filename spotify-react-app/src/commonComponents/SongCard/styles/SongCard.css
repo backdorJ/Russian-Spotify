@@ -21,11 +21,14 @@
 }
 
 .playlist-page__songs__list__main__song-card__id {
-    width: 36px;
+    width: 24px;
+    justify-content: center;
+    margin-right: 20px;
 }
 
 .playlist-page__songs__list__main__song-card__id p {
     font-size: 22px;
+    width: 16px;
 }
 
 .playlist-page__songs__list__main__song-card__title {
@@ -33,6 +36,7 @@
     display: flex;
     align-items: end;
     padding-left: 2px;
+    cursor: pointer;
 }
 
 .playlist-page__songs__list__main__song-card__title__img {
@@ -49,6 +53,7 @@
 }
 
 .playlist-page__songs__list__main__song-card__title__info__song-name {
+    display: flex;
     margin-bottom: 2px;
 }
 
@@ -56,6 +61,7 @@
     font-size: 20px;
     color: mediumpurple;
     transition: .1s;
+    cursor: pointer;
 }
 
 .playlist-page__songs__list__main__song-card__title__info__song-name p:hover {
@@ -63,8 +69,10 @@
     transition: .1s;
 }
 
-.playlist-page__songs__list__main__song-card__title__info__artist-names p {
-
+.playlist-page__songs__list__main__song-card__title__info__song-name img {
+    width: 20px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .playlist-page__songs__list__main__song-card__title__info__artist-names span {

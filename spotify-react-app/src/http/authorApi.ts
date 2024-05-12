@@ -25,8 +25,8 @@ export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSiz
         return AuthorPage.init(
             authorInfoResponse.data.name,
             getImage(authorInfoResponse.data.authorPhotoId),
-            songs,
-            playlists
+            songs.songs,
+            playlists.value.results
         );
     }
 
