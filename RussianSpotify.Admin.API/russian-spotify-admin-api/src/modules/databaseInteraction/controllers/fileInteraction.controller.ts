@@ -1,4 +1,4 @@
-import {ApiBearerAuth, ApiBody, ApiConsumes, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {
     Body,
     Controller,
@@ -28,6 +28,7 @@ export class FileInteractionController {
     constructor(@Inject(FileService) private readonly fileService: FileService) {
     }
 
+    @ApiOperation({description: "Создание файла через апи ASP.NET Core"})
     @ApiBody({
         schema: {
             type: 'object',
@@ -49,12 +50,14 @@ export class FileInteractionController {
         return await this.fileService.createFile(file, jwt);
     }
 
+    @ApiOperation({description: "Отдаёт файлы по фильтру"})
     @Get("GetFilesByFilter")
     async getFiles(@Query() getFilesByFilterRequestDto: GetFilesByFilterRequestDto)
         : Promise<GetFilesByFilterResponseDto> {
         return await this.fileService.getFilesByFilter(getFilesByFilterRequestDto);
     }
 
+    @ApiOperation({description: "Удаляет файл"})
     @Delete("DeleteFile")
     async deleteFile(@Body() deleteFileRequestDto: DeleteRequesDtotBase, @Req() req): Promise<DeleteResponseDtoBase> {
         let jwt = req.headers.authorization;

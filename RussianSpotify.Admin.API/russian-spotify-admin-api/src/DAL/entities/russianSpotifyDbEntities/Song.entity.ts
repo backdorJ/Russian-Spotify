@@ -4,7 +4,7 @@ import {User} from "./User.entity";
 import {Category} from "./Category.entity";
 import {Bucket} from "./Bucket.entity";
 
-@Entity("Songs")
+@Entity({name: "Songs", synchronize: false})
 export class Song {
     @PrimaryColumn()
     Id: string;

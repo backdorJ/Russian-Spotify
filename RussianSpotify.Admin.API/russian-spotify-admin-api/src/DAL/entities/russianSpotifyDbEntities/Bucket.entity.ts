@@ -2,7 +2,7 @@ import {Column, Entity, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./User.entity";
 import {Song} from "./Song.entity";
 
-@Entity("Buckets")
+@Entity({name: "Buckets", synchronize: false})
 export class Bucket {
     @PrimaryColumn({type: "uuid"})
     Id: string;

@@ -1,4 +1,4 @@
-import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {Body, Controller, Delete, Get, Inject, Patch, Post, Query} from "@nestjs/common";
 import {PlaylistService} from "../../../services/databaseInteraction/playlistService";
 import {
@@ -21,23 +21,27 @@ import {PostCreateResponseDtoBase} from "../DTOs/common/PostCreateResponseDtoBas
 export class PlaylistInteractionController {
     constructor(@Inject(PlaylistService) private readonly playlistService: PlaylistService) {}
 
+    @ApiOperation({description: "Создание плейлиста"})
     @Post("CreatePlaylist")
     async createPlaylist(@Body() postCreatePlaylistRequestDto: PostCreatePlaylistRequestDto)
         : Promise<PostCreateResponseDtoBase> {
         return await this.playlistService.createPlaylist(postCreatePlaylistRequestDto);
     }
 
+    @ApiOperation({description: "Отдача плейлистов по фильтру"})
     @Get("GetPlaylistsByFilter")
     async getPlaylistsByFilter(@Query() getPlaylistsByFilterRequestDto: GetPlaylistsByFilterRequestDto)
         : Promise<GetPlaylistsByFilterResponseDto> {
         return await this.playlistService.getPlaylistsByFilter(getPlaylistsByFilterRequestDto);
     }
 
+    @ApiOperation({description: "Удаление плейлиста"})
     @Delete("DeletePlaylist")
     async deletePlaylist(@Body() deletePlaylistRequestDto: DeleteRequesDtotBase): Promise<DeleteResponseDtoBase> {
         return await this.playlistService.deletePlaylist(deletePlaylistRequestDto);
     }
 
+    @ApiOperation({description: "Обновление плейлиста, в том числе добавление, удаление песен"})
     @Patch("UpdatePlaylist")
     async updatePlaylist(@Body() patchUpdatePlaylistRequestDto: PatchUpdatePlaylistRequestDto): Promise<void> {
         await this.playlistService.updatePlaylist(patchUpdatePlaylistRequestDto);

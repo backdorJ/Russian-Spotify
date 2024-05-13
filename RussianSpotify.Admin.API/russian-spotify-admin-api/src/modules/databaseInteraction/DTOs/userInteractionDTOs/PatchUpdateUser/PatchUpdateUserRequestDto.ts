@@ -3,7 +3,7 @@ import {ApiProperty} from "@nestjs/swagger";
 export class PatchUpdateUserRequestDto {
     @ApiProperty({name: 'id', required: true})
     id: string | null;
-    @ApiProperty({name: 'username', required: false})
+    @ApiProperty({name: 'userName', required: false})
     userName: string | null;
     @ApiProperty({name: 'emailConfirmed', required: false})
     emailConfirmed: boolean | null;

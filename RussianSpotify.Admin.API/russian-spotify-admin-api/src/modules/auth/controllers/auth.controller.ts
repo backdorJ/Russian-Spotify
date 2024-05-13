@@ -3,7 +3,6 @@ import {PostLoginRequestDto} from "../DTOs/PostLoginRequestDto";
 import * as process from "node:process";
 import {HttpService} from "@nestjs/axios";
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {PostLoginResponseDto} from "../DTOs/PostLoginResponseDto";
 import {JwtService} from "@nestjs/jwt";
 import {claimTypes} from "../../../constants/claimTypes";
 
@@ -14,10 +13,10 @@ export class AuthController {
                 private readonly jwtService: JwtService) {}
 
     @ApiResponse({status: 400, type: HttpException, description: "Wrong username or password"})
-    @ApiResponse({ status: HttpStatus.OK, description: "Success", type: PostLoginResponseDto })
-    @ApiOperation({description: "Login"})
+    @ApiResponse({ status: HttpStatus.OK, description: "Success", type: String })
+    @ApiOperation({description: "Login - делает логин через апишку на ASP.NET Core, принимает {email, password}"})
     @Post("Login")
-    async login(@Body() request: PostLoginRequestDto): Promise<any> {
+    async login(@Body() request: PostLoginRequestDto): Promise<string> {
         let observableResponse =
             this.httpService.post(`${process.env.RUSSIAN_SPOTIFY_API_BASE_URL}Auth/Login`, request);
 
@@ -32,6 +31,6 @@ export class AuthController {
                 return response.data.accessToken;
         }
 
-        throw new HttpException(response.data.message, response.status);
+        throw new HttpException(response.data.message ? response.data.message : "", response.status);
     }
 }

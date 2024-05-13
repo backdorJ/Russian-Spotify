@@ -2,11 +2,10 @@ import {Column, Entity, OneToMany, OneToOne, PrimaryColumn} from "typeorm";
 import {Bucket} from "./Bucket.entity";
 import {Subscribe} from "./Subscribe.entity";
 import {Playlist} from "./Playlist.entity";
-import {PlaylistUser} from "./PlaylistUser.entity";
 import {Song} from "./Song.entity";
 import {File} from "./File.entity";
 
-@Entity("AspNetUsers")
+@Entity({name: "AspNetUsers", synchronize: false})
 export class User {
     @PrimaryColumn()
     Id: string;
@@ -19,6 +18,9 @@ export class User {
 
     @Column()
     EmailConfirmed: boolean;
+
+    @Column()
+    NormalizedUserName: string;
 
     @Column()
     Email: string;

@@ -1,6 +1,7 @@
 import {HttpException, Injectable, NotFoundException} from "@nestjs/common";
+// @ts-ignore
 import {InjectRepository} from "@nestjs/typeorm";
-import {User} from "../../DAL/entities/User.entity";
+import {User} from "../../DAL/entities/russianSpotifyDbEntities/User.entity";
 import {Repository} from "typeorm";
 import {
     GetUsersByFilterRequestDto
@@ -14,9 +15,9 @@ import {
 import {
     PatchUpdateUserRequestDto
 } from "../../modules/databaseInteraction/DTOs/userInteractionDTOs/PatchUpdateUser/PatchUpdateUserRequestDto";
-import {File} from "../../DAL/entities/File.entity";
-import {UserRole} from "../../DAL/entities/UserRole.entity";
-import {Role} from "../../DAL/entities/Role.entity";
+import {File} from "../../DAL/entities/russianSpotifyDbEntities/File.entity";
+import {UserRole} from "../../DAL/entities/russianSpotifyDbEntities/UserRole.entity";
+import {Role} from "../../DAL/entities/russianSpotifyDbEntities/Role.entity";
 import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
 import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
 import {
@@ -85,35 +86,35 @@ export class UsersService {
                     {email: request.email.toLowerCase()});
 
         // @ts-ignore
-        if (request.isNullRefresh != undefined && request.isNullRefresh == "true")
+        if (request.isNullRefresh && request.isNullRefresh == "true")
             query = query
                 .andWhere('"u"."RefreshToken" IS null');
         // @ts-ignore
-        else if (request.isNullRefresh != undefined && request.isNullRefresh == "false")
+        else if (request.isNullRefresh && request.isNullRefresh == "false")
             query = query
                 .andWhere('"u"."RefreshToken" IS NOT null');
 
         // @ts-ignore
-        if (request.isNullAccess != undefined && request.isNullAccess == "true")
+        if (request.isNullAccess && request.isNullAccess == "true")
             query = query
                 .andWhere('"u"."AccessToken" IS null');
         // @ts-ignore
-        else if (request.isNullAccess != undefined && request.isNullAccess == "false")
+        else if (request.isNullAccess && request.isNullAccess == "false")
             query = query
                 .andWhere('"u"."AccessToken" IS NOT null');
 
         // @ts-ignore
-        if (request.isExpiredRefresh != undefined && request.isExpiredRefresh == "true")
+        if (request.isExpiredRefresh && request.isExpiredRefresh == "true")
             query = query
                 .andWhere('"u"."RefreshToken" IS NOT null')
                 .andWhere('"u"."RefreshTokenExpiryTime" AT TIME ZONE \'UTC\' < CURRENT_DATE AT TIME ZONE \'UTC\'');
         // @ts-ignore
-        else if (request.isExpiredRefresh != undefined && request.isExpiredRefresh == "false")
+        else if (request.isExpiredRefresh && request.isExpiredRefresh == "false")
             query = query
                 .andWhere('"u"."RefreshToken" IS NOT null')
                 .andWhere('"u"."RefreshTokenExpiryTime" AT TIME ZONE \'UTC\' > CURRENT_DATE AT TIME ZONE \'UTC\'');
 
-        if (request.isEmailConfirmed != undefined)
+        if (request.isEmailConfirmed)
             query = query
                 .andWhere('"u"."EmailConfirmed" = :isEmailConfirmed',
                     {isEmailConfirmed: request.isEmailConfirmed});
@@ -184,20 +185,24 @@ export class UsersService {
         if (!user)
             throw new NotFoundException("User not found");
 
-        if (request.emailConfirmed != undefined)
+        if (request.emailConfirmed)
             user.EmailConfirmed = request.emailConfirmed;
 
-        if (request.userName != undefined)
+        console.log(request)
+        if (request.userName) {
+            console.log("true, bro");
             user.UserName = request.userName;
+            user.NormalizedUserName = request.userName.toUpperCase();
+        }
 
         let imageFileId = await this.fileRepository.findOneByOrFail({"Id": request.userPhotoId})
-        if (request.userPhotoId != undefined && imageFileId)
+        if (request.userPhotoId && imageFileId)
             user.UserPhotoId = request.userPhotoId;
         else if (!imageFileId && request.userPhotoId != undefined)
             throw new NotFoundException("Image file not found");
 
-        let role = await this.roleRepository.findOneByOrFail({"Name": request.userName.toUpperCase()});
-        if (role && request.role != undefined) {
+        if (request.role) {
+            let role = await this.roleRepository.findOneByOrFail({"NormalizedName": request.userName.toUpperCase()});
             let currentRole = await this.userRolesRepository.findOneByOrFail({"UserId": request.id});
             currentRole.RoleId = role.Id;
             await this.userRolesRepository.save(currentRole);

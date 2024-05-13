@@ -1,4 +1,5 @@
 import {HttpException, Inject, Injectable, NotFoundException} from "@nestjs/common";
+// @ts-ignore
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {
@@ -7,7 +8,7 @@ import {
 import {
     GetFilesByFilterResponseDto
 } from "../../modules/databaseInteraction/DTOs/fileInteraction/GetFilesByFilter/GetFilesByFilterResponseDto";
-import {File as Files} from "../../DAL/entities/File.entity";
+import {File as Files} from "../../DAL/entities/russianSpotifyDbEntities/File.entity";
 import {
     GetFilesByFilterResponseItemDto
 } from "../../modules/databaseInteraction/DTOs/fileInteraction/GetFilesByFilter/GetFilesByFilterResponseItemDto";

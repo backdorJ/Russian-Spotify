@@ -1,12 +1,12 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
 
-@Entity()
-export class PlaylistSong {
+@Entity({name: "BucketSong", synchronize: false})
+export class BucketSong {
     @PrimaryColumn()
     private id: string;
 
     @Column()
-    PlaylistsId: string;
+    BucketsId: string;
     @Column()
-    SongsId: string;
+    SongIds: string;
 }
