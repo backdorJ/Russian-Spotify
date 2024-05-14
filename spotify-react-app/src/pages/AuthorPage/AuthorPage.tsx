@@ -20,6 +20,8 @@ const AuthorPage = () => {
                 .then(x => setAuthorData(x));
     }, []);
 
+    console.log(authorData.authorPlaylists)
+
     return (
         <div className="account-page">
             <div className="account-page-content">

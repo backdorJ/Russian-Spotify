@@ -1,0 +1,20 @@
+﻿services:
+  russianspotify.api.web:
+    build:
+      context: ./RussianSpotify.API
+      dockerfile: ./RussianSpotify.API.WEB/Dockerfile
+    env_file:
+      - ./RussianSpotify.API/RussianSpotify.API.WEB/.env
+    container_name: russianspotify_api
+    ports:
+      - '4000:80'
+      - '5000:443'
+  russianspotify.client:
+    build: ./spotify-react-app
+    env_file:
+      - ./spotify-react-app/.env.production
+    container_name: russianspotify_client
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true

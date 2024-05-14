@@ -19,8 +19,9 @@ import StopIcon from "../Player/components/StopIcon";
 import author_icon from '../../assets/song/author_icon.png'
 import player from "../Player/Player";
 import routeNames from "../../utils/routeNames";
+import {observer} from "mobx-react-lite";
 
-const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloadTrigger, playlist}) => {
+const SongCard: FC<ISongCard> = observer(({song, order_number, onModalOpen, playlistReloadTrigger, playlist}) => {
     const userStore = useContext(UserContext)
     const playerStore = useContext(PlayerContext)
     const [isPlaying, setAsPlaying] = useState(false);
@@ -48,11 +49,11 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
     })
 
     useEffect(() => {
-        if (playerStore.Player.currentSong?.songId === song.songId)
+        if (playerStore.Player.currentSong?.songId === song.songId && playerStore.IsPlaying)
             setAsPlaying(true);
         else
             setAsPlaying(false)
-    }, [playerStore.Player.currentSong]);
+    }, [playerStore.Player.currentSong, playerStore.IsPlaying]);
 
     useEffect(() => {
         if (showEditModal || showEditAuthorModal)
@@ -336,6 +337,6 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
                 }}/>
         </div>
     )
-}
+})
 
 export default SongCard

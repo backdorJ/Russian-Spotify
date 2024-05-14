@@ -15,6 +15,7 @@ import CreateOrEditPlaylistModal
 import CreateOrEditSongModal from "./commonComponents/SideBar/components/CreateOrEditSongModal/CreateOrEditSongModal";
 
 const App = observer(() => {
+    const [isLoading, setIsLoading] = useState(true)
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false)
@@ -28,18 +29,21 @@ const App = observer(() => {
     useEffect(() => {
         loadUser()
             .then(user => {
-                if (user !== undefined)
+                if (user !== undefined) {
                     userStore.login(user)
+                    setIsSubscribed(user.isSubscribed)
+                }
             })
+            .finally(() => setIsLoading(false))
     }, []);
 
-    // TODO: чек useEffect выше
-    useEffect(() => {
-        getSubscription()
-            .then(x => {
-                setIsSubscribed(new Date(x.endDate) > new Date())
-            });
-    }, []);
+    // // TODO: чек useEffect выше
+    // useEffect(() => {
+    //     getSubscription()
+    //         .then(x => {
+    //             setIsSubscribed(new Date(x.endDate) > new Date())
+    //         });
+    // }, []);
 
     if (showSubscriptionModal)
         document.getElementById("body")!.style.overflowY = 'hidden';
@@ -52,6 +56,9 @@ const App = observer(() => {
         else
             setCanShowPlayer(false);
     }, [userStore.user, userStore.isAuth, isSubscribed, playerStore.Player.currentSong]);
+
+    if (isLoading)
+        return <h1 style={{alignSelf: 'center'}}>Loading...</h1>
 
     return (
         <BrowserRouter>

@@ -44,6 +44,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasOne(i => i.UserPhoto)
             .WithOne()
-            .HasForeignKey<User>("UserPhotoId");
+            .HasForeignKey<User>("UserPhotoId")
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

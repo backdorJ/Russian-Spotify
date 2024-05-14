@@ -90,13 +90,18 @@ export const login = async (user: UserLoginDto) => {
 
 export const edit = async (user: UserEditDto) => {
     let userToSend: any = user
+
     if (user.userName === '')
         userToSend.userName = null
-    if (user.currentPassword === '') {
+
+    if (user.currentPassword === '')
         userToSend.currentPassword = null
+
+    if (user.newPassword === '' || user.newPasswordConfirm === '') {
         userToSend.newPassword = null
         userToSend.newPasswordConfirm = null
     }
+
     if (user.filePhotoId === '')
         userToSend.filePhotoId = null
 

@@ -108,6 +108,7 @@ const EditUserInfoModal = observer((props: any) => {
                             onChange={e => setOldPassword(e.target.value)}
                             className="edit-profile__field"
                             placeholder="Type new password"
+                            autoComplete="false"
                             required/>
                         <h3>
                             New password:
@@ -120,6 +121,7 @@ const EditUserInfoModal = observer((props: any) => {
                             onChange={e => setNewPassword(e.target.value)}
                             className="edit-profile__field"
                             placeholder="Repeat new password"
+                            autoComplete="false"
                             required/>
                     </div>
                 </form>

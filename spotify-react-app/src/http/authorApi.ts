@@ -26,7 +26,7 @@ export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSiz
             authorInfoResponse.data.name,
             getImage(authorInfoResponse.data.authorPhotoId),
             songs.songs,
-            playlists.value.results
+            playlists.value.playlists
         );
     }
 
