@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading.Channels;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -104,6 +105,7 @@ public class S3Service : IS3Service
         }
         catch (AmazonServiceException e)
         {
+            Console.WriteLine(e.Message);
             if (e.StatusCode == HttpStatusCode.NotFound)
             {
                 _logger.LogCritical($"Bucket not found...");

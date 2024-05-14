@@ -19,7 +19,7 @@ const AuthorPage = () => {
             getAuthor(authorName, 1, 5, 1, 3)
                 .then(x => setAuthorData(x));
     }, [reloadTrigger]);
-    
+
     return (
         <div className="account-page">
             <div className="account-page-content">

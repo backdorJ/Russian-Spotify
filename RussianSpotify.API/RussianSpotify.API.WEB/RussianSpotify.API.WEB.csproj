@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>11feebe1-c125-4f40-80c0-a8e58b95c81c</UserSecretsId>
         <LangVersion>latest</LangVersion>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -37,6 +38,12 @@
       <ProjectReference Include="..\RussianSpotify.API.Data.PostgreSQL\RussianSpotify.API.Data.PostgreSQL.csproj" />
       <ProjectReference Include="..\RussianSpotify.API.Worker\RussianSpotify.API.Worker.csproj" />
       <ProjectReference Include="..\RussianSpotify.Data.S3\RussianSpotify.Data.S3.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

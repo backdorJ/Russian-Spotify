@@ -10,6 +10,7 @@ using RussianSpotify.Data.S3;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -70,8 +71,6 @@ await migrator.MigrateAsync();
 
 app.UseResponseCompression();
 
-// // Specific
-// AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 if (app.Environment.IsDevelopment())
 {
