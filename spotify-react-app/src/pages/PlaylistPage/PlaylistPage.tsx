@@ -70,7 +70,8 @@ const PlaylistPage = () => {
                 "",
                 new Date(),
                 false,
-                true));
+                true,
+                []));
             setPlaylistType(PlaylistType.FavoriteSongs);
             setIsLikedPlaylist(true);
         } else if (id?.includes('author-')) {
@@ -84,7 +85,8 @@ const PlaylistPage = () => {
                         x.data.name,
                         new Date(),
                         false,
-                        false));
+                        false,
+                        []));
                     setPlaylistType(PlaylistType.ArtistSongs);
                 })
         } else {
