@@ -5,6 +5,19 @@
     margin-right: 20px;
 }
 
+.music-more-icon {
+    width: 20px;
+}
+
+.music-more-icon {
+    display: flex;
+    justify-content: center;
+}
+
+.music-container-wrapper .playlist-page__songs__list__main__song-card__title__info__song-name img {
+    display: none;
+}
+
 .playlist-page__songs__list__main__song-card {
     width: 100%;
     display: flex;

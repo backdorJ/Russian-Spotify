@@ -37,6 +37,24 @@
     background: dodgerblue;
 }
 
+.rounded-blue-button:hover .vk-button-svg {
+    transition: all 0.3s linear;
+    fill: #1976d2;
+}
+
+.rounded-red-button:hover .yandex-button-svg {
+    transition: all 0.3s linear;
+    fill: #FC3F1D;
+}
+
+.remember-me-label {
+    font-weight: 400;
+    font-size: 13px;
+    font-family: "Inter", sans-serif;
+    margin-left: 11px;
+    color: white;
+}
+
 .rounded-blue-button:hover {
     color: #1976d2;
 }
