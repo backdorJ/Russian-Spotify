@@ -1,6 +1,6 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
 
-@Entity()
+@Entity({name: 'PlaylistSong', synchronize: false})
 export class PlaylistSong {
     @PrimaryColumn({unique: false})
     PlaylistsId: string;

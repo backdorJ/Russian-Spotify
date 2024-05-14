@@ -1,8 +1,8 @@
 import {Entity, PrimaryColumn} from "typeorm";
 import {Song} from "./Song.entity";
-import {CategoryTypes} from "./enums/CategoryTypes";
+import {CategoryTypes} from "../enums/CategoryTypes";
 
-@Entity("Categories")
+@Entity({name: "Categories", synchronize: false})
 export class Category {
     @PrimaryColumn()
     Id: string;

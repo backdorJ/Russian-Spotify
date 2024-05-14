@@ -1,7 +1,7 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
 import {User} from "./User.entity";
 
-@Entity("Subscribes")
+@Entity({name: "Subscribes", synchronize: false})
 export class Subscribe {
     @PrimaryColumn()
     Id: string;

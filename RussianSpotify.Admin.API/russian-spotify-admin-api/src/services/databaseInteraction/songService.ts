@@ -1,6 +1,7 @@
 import {Injectable, NotFoundException} from "@nestjs/common";
+// @ts-ignore
 import {InjectRepository} from "@nestjs/typeorm";
-import {Song} from "../../DAL/entities/Song.entity";
+import {Song} from "../../DAL/entities/russianSpotifyDbEntities/Song.entity";
 import {Repository} from "typeorm";
 import {
     GetSongsByFilterRequestDto
@@ -12,8 +13,8 @@ import {
     PatchUpdateSongRequestDto
 } from "../../modules/databaseInteraction/DTOs/songInteraction/PatchUpdateSong/PatchUpdateSongRequestDto";
 import {SongDto} from "../../modules/databaseInteraction/DTOs/common/SongDto";
-import {SongUser} from "../../DAL/entities/SongUser.entity";
-import {File} from "../../DAL/entities/File.entity";
+import {SongUser} from "../../DAL/entities/russianSpotifyDbEntities/SongUser.entity";
+import {File} from "../../DAL/entities/russianSpotifyDbEntities/File.entity";
 import {DeleteRequesDtotBase} from "../../modules/databaseInteraction/DTOs/common/DeleteRequesDtotBase";
 import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/DeleteResponseDtoBase";
 import {

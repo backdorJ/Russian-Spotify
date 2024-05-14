@@ -2,15 +2,16 @@ import {Injectable, NotFoundException} from "@nestjs/common";
 import {
     GetBucketsByFilterRequestDto
 } from "../../modules/databaseInteraction/DTOs/bucketInteraction/GetBucketsByFilter/GetBucketsByFilterRequestDto";
-import {Bucket} from "../../DAL/entities/Bucket.entity";
+import {Bucket} from "../../DAL/entities/russianSpotifyDbEntities/Bucket.entity";
 import {
     GetBucketsByFilterResponseDto
 } from "../../modules/databaseInteraction/DTOs/bucketInteraction/GetBucketsByFilter/GetBucketsByFilterResponseDto";
+// @ts-ignore
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {SongDto} from "../../modules/databaseInteraction/DTOs/common/SongDto";
-import {Song} from "../../DAL/entities/Song.entity";
-import {BucketSong} from "../../DAL/entities/BucketSong.entity";
+import {Song} from "../../DAL/entities/russianSpotifyDbEntities/Song.entity";
+import {BucketSong} from "../../DAL/entities/russianSpotifyDbEntities/BucketSong.entity";
 import {
     PatchUpdateBucketRequestDto
 } from "../../modules/databaseInteraction/DTOs/bucketInteraction/PatchUpdateBucket/PatchUpdateBucketRequestDto";

@@ -5,9 +5,10 @@ import {
 import {
     GetSubscriptionsByFilterResponseDto
 } from "../../modules/databaseInteraction/DTOs/subscriptionInteraction/GetSubscriptionsByFilter/GetSubscriptionsByFilterResponseDto";
+// @ts-ignore
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {Subscribe} from "../../DAL/entities/Subscribe.entity";
+import {Subscribe} from "../../DAL/entities/russianSpotifyDbEntities/Subscribe.entity";
 import {
     GetSubscriptionsByFilterResponseItemDto
 } from "../../modules/databaseInteraction/DTOs/subscriptionInteraction/GetSubscriptionsByFilter/GetSubscriptionsByFilterResponseItemDto";

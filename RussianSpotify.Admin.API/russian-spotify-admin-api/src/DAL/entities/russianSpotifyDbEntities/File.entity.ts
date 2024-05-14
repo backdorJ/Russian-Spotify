@@ -3,7 +3,7 @@ import {Song} from "./Song.entity";
 import {Playlist} from "./Playlist.entity";
 import {User} from "./User.entity";
 
-@Entity("Files")
+@Entity({name: "Files", synchronize: false})
 export class File {
     @PrimaryColumn()
     Id: string;

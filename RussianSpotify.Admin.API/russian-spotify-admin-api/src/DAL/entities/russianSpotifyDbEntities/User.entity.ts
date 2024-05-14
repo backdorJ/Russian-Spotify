@@ -5,7 +5,7 @@ import {Playlist} from "./Playlist.entity";
 import {Song} from "./Song.entity";
 import {File} from "./File.entity";
 
-@Entity("AspNetUsers")
+@Entity({name: "AspNetUsers", synchronize: false})
 export class User {
     @PrimaryColumn()
     Id: string;
@@ -15,12 +15,12 @@ export class User {
 
     @Column()
     UserName: string;
-    
-    @Column()
-    NormalizedUserName: string;
 
     @Column()
     EmailConfirmed: boolean;
+
+    @Column()
+    NormalizedUserName: string;
 
     @Column()
     Email: string;

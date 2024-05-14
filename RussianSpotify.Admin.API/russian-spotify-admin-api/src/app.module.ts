@@ -5,27 +5,26 @@ import {ConfigModule} from "@nestjs/config";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import { AuthModule } from './modules/auth/auth.module';
 import * as process from "node:process";
-import {User} from "./DAL/entities/User.entity";
+import {User} from "./DAL/entities/russianSpotifyDbEntities/User.entity";
 import {AuthController} from "./modules/auth/controllers/auth.controller";
 import { Agent } from 'node:https';
 import {HttpModule} from "@nestjs/axios";
 import {UserInteractionController} from "./modules/databaseInteraction/controllers/userInteraction.controller";
 import {UsersService} from "./services/databaseInteraction/usersService";
-import {UserRole} from "./DAL/entities/UserRole.entity";
-import {Role} from "./DAL/entities/Role.entity";
-import {File} from "./DAL/entities/File.entity";
-import {Song} from "./DAL/entities/Song.entity";
-import {Playlist} from "./DAL/entities/Playlist.entity";
-import {Bucket} from "./DAL/entities/Bucket.entity";
-import {BucketSong} from "./DAL/entities/BucketSong.entity";
+import {UserRole} from "./DAL/entities/russianSpotifyDbEntities/UserRole.entity";
+import {Role} from "./DAL/entities/russianSpotifyDbEntities/Role.entity";
+import {File} from "./DAL/entities/russianSpotifyDbEntities/File.entity";
+import {Song} from "./DAL/entities/russianSpotifyDbEntities/Song.entity";
+import {Playlist} from "./DAL/entities/russianSpotifyDbEntities/Playlist.entity";
+import {Bucket} from "./DAL/entities/russianSpotifyDbEntities/Bucket.entity";
+import {BucketSong} from "./DAL/entities/russianSpotifyDbEntities/BucketSong.entity";
 import {BucketService} from "./services/databaseInteraction/bucketService";
 import {BucketInteractionController} from "./modules/databaseInteraction/controllers/bucketInteraction.controller";
 import {SongInteractionController} from "./modules/databaseInteraction/controllers/songInteraction.controller";
 import {SongService} from "./services/databaseInteraction/songService";
-import {SongUser} from "./DAL/entities/SongUser.entity";
-import {Subscription} from "rxjs";
+import {SongUser} from "./DAL/entities/russianSpotifyDbEntities/SongUser.entity";
 import {SubscriptionService} from "./services/databaseInteraction/subscriptionService";
-import {Subscribe} from "./DAL/entities/Subscribe.entity";
+import {Subscribe} from "./DAL/entities/russianSpotifyDbEntities/Subscribe.entity";
 import {
     SubscriptionInteractionController
 } from "./modules/databaseInteraction/controllers/subscriptionInteraction.controller";
@@ -33,11 +32,13 @@ import {PlaylistInteractionController} from "./modules/databaseInteraction/contr
 import {PlaylistService} from "./services/databaseInteraction/playlistService";
 import {FileService} from "./services/databaseInteraction/fileService";
 import {FileInteractionController} from "./modules/databaseInteraction/controllers/fileInteraction.controller";
-import {PlaylistSong} from "./DAL/entities/PlaylistSong.entity";
-import {FileInterceptor} from "@nestjs/platform-express";
+import {PlaylistSong} from "./DAL/entities/russianSpotifyDbEntities/PlaylistSong.entity";
 import {FileExtender} from "./interceptors/FileInterceptor";
-
+import {StatisticModule} from "./modules/statistic/statistic.module";
+import { config } from 'dotenv';
 const httpsAgent = new Agent({ rejectUnauthorized: false });
+
+config();
 
 @Module({
   imports: [
@@ -58,7 +59,7 @@ const httpsAgent = new Agent({ rejectUnauthorized: false });
           database: process.env.DB_NAME,
           autoLoadEntities: true,
           synchronize: false,
-          entities: ['dist/DAL/entities/**/*.entity.ts'],
+          entities: ['dist/DAL/entities/russianSpotifyDbEntities/**/*.entity.ts'],
       }),
       TypeOrmModule.forFeature([
           User,
@@ -73,6 +74,7 @@ const httpsAgent = new Agent({ rejectUnauthorized: false });
           Subscribe,
           PlaylistSong
       ]),
+      StatisticModule,
       AuthModule,
       HttpModule.register({
           httpsAgent,

@@ -1,6 +1,6 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
 
-@Entity("AspNetRoles")
+@Entity({name: "AspNetRoles", synchronize: false})
 export class Role {
     @PrimaryColumn()
     Id: string;

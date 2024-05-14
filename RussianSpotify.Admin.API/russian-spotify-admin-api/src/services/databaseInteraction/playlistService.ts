@@ -1,6 +1,7 @@
 import {Injectable, NotFoundException} from "@nestjs/common";
+// @ts-ignore
 import {InjectRepository} from "@nestjs/typeorm";
-import {Playlist} from "../../DAL/entities/Playlist.entity";
+import {Playlist} from "../../DAL/entities/russianSpotifyDbEntities/Playlist.entity";
 import {Repository} from "typeorm";
 import {
     GetPlaylistsByFilterRequestDto
@@ -16,7 +17,7 @@ import {DeleteResponseDtoBase} from "../../modules/databaseInteraction/DTOs/comm
 import {
     GetPlaylistsByFilterResponseItemDto
 } from "../../modules/databaseInteraction/DTOs/playlistInteraction/GetPlaylistsByFilter/GetPlaylistsByFilterResponseItemDto";
-import {PlaylistSong} from "../../DAL/entities/PlaylistSong.entity";
+import {PlaylistSong} from "../../DAL/entities/russianSpotifyDbEntities/PlaylistSong.entity";
 import {
     PostCreatePlaylistRequestDto
 } from "../../modules/databaseInteraction/DTOs/playlistInteraction/PostCreatePlaylist/PostCreatePlaylistRequestDto";
