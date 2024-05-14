@@ -44,4 +44,9 @@ public class GetPlaylistsByFilterResponseItem
     /// Добавлен ли альбом в понравившееся
     /// </summary>
     public bool? IsInFavorite { get; set; }
+
+    /// <summary>
+    /// ИД песен
+    /// </summary>
+    public List<Guid>? SongsIds { get; set; }
 }
