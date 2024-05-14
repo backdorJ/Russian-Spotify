@@ -27,6 +27,9 @@ export default class Playlist {
     /** Находится ли альбом в избранном */
     isInFavorite: boolean;
 
+    /** Песни */
+    songs: Song[]
+
     /** ИД песней */
     songsIds: string[] = [];
 
@@ -40,6 +43,7 @@ export default class Playlist {
         this.isAlbum = false;
         this.isInFavorite = false;
         this.songsIds = [];
+        this.songs = []
     }
 
     static init(
