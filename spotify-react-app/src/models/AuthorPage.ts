@@ -1,7 +1,7 @@
 import Song from "./Song";
 import Playlist from "./Playlist";
 
-export default class AuthorPage {
+export default class Author {
     /** Имя автора*/
     name: string;
 
@@ -26,7 +26,7 @@ export default class AuthorPage {
                 authorMusic: Song[],
                 authorPlaylists: Playlist[]) {
 
-        let newAuthor = new AuthorPage();
+        let newAuthor = new Author();
         newAuthor.name = name;
         newAuthor.imageLink = imageLink;
         newAuthor.authorMusic = authorMusic;

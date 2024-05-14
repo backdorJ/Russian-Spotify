@@ -9,7 +9,7 @@ import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 // @ts-ignore
 import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
-import {Fragment, useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
 import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
@@ -25,18 +25,16 @@ import {getImage} from "../../http/fileApi";
 import SongCard from "../../commonComponents/SongCard/SongCard";
 import CreateOrEditPlaylistModal
     from "../../commonComponents/SideBar/components/CreateOrEditPlaylistModal/CreateOrEditPlaylistModal";
+import handleImageNotLoaded from "../../functions/handleImageNotLoaded";
 
 
 const PlaylistPage = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [isFirstLoad, setIsFirstLoad] = useState(true)
-    const sidebarWidth = 280
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
     const [reloadTrigger, setReloadTrigger] = useState(false)
-    const [backgroundWidth, setBackgroundWidth] = useState(0)
-    const [windowWidth, setWindowWidth] = useState(document.body.clientWidth)
     const [isHover, setIsHover] = useState(false)
     const [currentPlaylist, setCurrentPlaylist] = useState(new Playlist())
     const [songs, setSongs] = useState<Song[]>([]);
@@ -54,8 +52,6 @@ const PlaylistPage = () => {
             document.getElementById("body")!.style.overflowY = 'hidden';
         else
             document.getElementById("body")!.style.overflowY = 'visible';
-
-        updateWindowWidth()
     }, [showEditModal]);
 
     useEffect(() => {
@@ -64,7 +60,7 @@ const PlaylistPage = () => {
             setGetting(true)
         }
     }, [reloadTrigger, id]);
-    
+
     useEffect(() => {
         if (id === 'favorite-songs') {
             setCurrentPlaylist(Playlist.init("",
@@ -79,7 +75,6 @@ const PlaylistPage = () => {
             setIsLikedPlaylist(true);
         } else if (id?.includes('author-')) {
             let authorName = id.split("author-")[1];
-            console.log(authorName);
             $authHost.get(`api/Author/Author?Name=${authorName}`)
                 .then(x => {
                     setCurrentPlaylist(Playlist.init("",
@@ -112,7 +107,7 @@ const PlaylistPage = () => {
                 result = (await getSongsByFilter(songFilters.authorSongsFilter, currentPlaylist.authorName, page, 50, true)).songs;
 
             setSongs(result)
-            
+
             let loadedPage = page
             setPage(page + 1);
 
@@ -128,7 +123,6 @@ const PlaylistPage = () => {
                 setSongs([...songs, ...result]);
 
             setGetting(false);
-            console.log(page);
         };
 
         setIsFirstLoad(false)
@@ -137,25 +131,6 @@ const PlaylistPage = () => {
             fetchData().then(_ => console.log("fetched"));
         }
     }, [getting, playlistType]);
-
-    const updateWindowWidth = () => {
-        setWindowWidth(document.body.clientWidth)
-    }
-
-    useEffect(() => {
-        updateWindowWidth()
-    }, []);
-
-    useEffect(() => {
-        window.onresize = updateWindowWidth
-        return function () {
-            window.onresize = null
-        }
-    }, []);
-
-    useEffect(() => {
-        setBackgroundWidth(windowWidth - sidebarWidth)
-    }, [windowWidth]);
 
     /** Обновление плеера(текущей песни) */
     const handlePlay = (song: Song) => {
@@ -177,22 +152,7 @@ const PlaylistPage = () => {
             setGetting(true);
         }
     }
-
-    const allAuthorsTogetherUnique = new Array<string>()
-    songs.forEach(i => {
-        i.authors.forEach(e => {
-            if (allAuthorsTogetherUnique.includes(e.authorName))
-                return
-            allAuthorsTogetherUnique.push(e.authorName)
-        })
-    })
-
-    const authorsMapped = allAuthorsTogetherUnique.map((author, index) => {
-        if (index < allAuthorsTogetherUnique.length - 1)
-            return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span>, </Fragment>)
-        return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span></Fragment>)
-    })
-
+    
     const handleLikeClick = () => {
         if (!isInLikeProcess) {
             isInLikeProcess = true;
@@ -220,14 +180,17 @@ const PlaylistPage = () => {
         }
     }
 
+    console.log(currentPlaylist)
+
     return (
         <div className="playlist-page-wrapper">
-            <div style={{width: backgroundWidth + 'px'}} className="playlist-page-background"></div>
+            <div className="playlist-page-background"></div>
             <div className="playlist-page">
                 <div className="playlist-page__main">
                     <div className="playlist-page__main__img-wrapper">
                         {PlaylistType.FavoriteSongs !== playlistType &&
-                            <img src={getImage(currentPlaylist.imageId)} alt="" className="playlist-page__main__img"/>}
+                            <img src={getImage(currentPlaylist.imageId)} alt="" className="playlist-page__main__img"
+                                 onError={handleImageNotLoaded}/>}
                         {PlaylistType.FavoriteSongs === playlistType &&
                             <img src={favoriteSongsPlaylistImage} alt="" className="playlist-page__main__img"/>}
                     </div>
@@ -236,11 +199,10 @@ const PlaylistPage = () => {
                             {currentPlaylist.playlistName}
                         </h1>
                         <p className="playlist-page__main__info__singers">
-                            <span>{authorsMapped}</span>
+                            Made by <span onClick={() => navigate(`/author/${currentPlaylist.authorName}`)}>{currentPlaylist.authorName}</span>
                         </p>
                         <p className="playlist-page__main__info__additional">
-                            Made by <span
-                            onClick={() => navigate(`/author/${currentPlaylist.authorName}`)}>{currentPlaylist.authorName}</span> ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
+                            ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
                         </p>
                     </div>
                 </div>
@@ -285,9 +247,6 @@ const PlaylistPage = () => {
                             <div className="playlist-page__songs__list__header__album">
                                 <p>ALBUM</p>
                             </div>
-                            <div className="playlist-page__songs__list__header__added">
-                                <p>DATE ADDED</p>
-                            </div>
                             <div className="">
                                 <p>LENGTH</p>
                             </div>
@@ -299,7 +258,7 @@ const PlaylistPage = () => {
                                     return <SongCard
                                         song={song}
                                         order_number={index + 1}
-                                        onModalOpen={() => updateWindowWidth()}
+                                        onModalOpen={undefined}
                                         playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}
                                         playlist={currentPlaylist}
                                     />

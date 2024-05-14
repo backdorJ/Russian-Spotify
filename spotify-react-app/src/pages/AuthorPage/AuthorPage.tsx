@@ -18,8 +18,8 @@ const AuthorPage = () => {
         if (authorName)
             getAuthor(authorName, 1, 5, 1, 3)
                 .then(x => setAuthorData(x));
-    }, []);
-
+    }, [reloadTrigger]);
+    
     return (
         <div className="account-page">
             <div className="account-page-content">
@@ -38,15 +38,14 @@ const AuthorPage = () => {
                         </div>
                     </div>
                     <div className="favorite-container">
-                        {authorData.authorMusic.length > 0 &&
+                        {authorData.authorMusic && authorData.authorMusic.length > 0 &&
                             <>
                                 <h3>Треки автора</h3>
                                 <FavouriteMusic
                                     favouriteSongs={authorData.authorMusic}
                                     playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/>
                             </>}
-
-                        {authorData.authorPlaylists.length > 0 &&
+                        {authorData.authorPlaylists && authorData.authorPlaylists.length > 0 &&
                             <>
                                 <h3>Альбомы автора</h3>
                                 <FavouritePlaylist favouritePlaylists={authorData.authorPlaylists}/>

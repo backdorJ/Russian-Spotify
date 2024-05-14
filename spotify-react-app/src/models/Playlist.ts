@@ -1,5 +1,4 @@
 import Song from "./Song";
-import {PlaylistType} from "../pages/PlaylistPage/enums/playlistTypes";
 
 /** DTO для плейлиста/альбома */
 export default class Playlist {

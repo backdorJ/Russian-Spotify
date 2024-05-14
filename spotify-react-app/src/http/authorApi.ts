@@ -1,5 +1,3 @@
-import AuthorPage from "../models/AuthorPage";
-import Author from "../models/Author";
 import {$authHost} from "./index";
 import {songFilters} from "./filters/songFilters";
 // @ts-ignore
@@ -8,25 +6,27 @@ import {getImage} from "./fileApi";
 import AlbumLittle from "../models/AlbumLittle";
 import {getSongsByFilter} from "./songApi";
 import {getPlaylistsByFilter} from "./playlistApi";
+import Author from "../models/Author";
+import AuthorModel from "../models/AuthorPage";
 
 
-export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSizeForSongs: number, pageNumberForPlaylists: number, pageSizeForPlaylists: number) => Promise<AuthorPage> =
-    async (authorName, pageNumberForSongs = 1, pageSizeForSongs = 5, pageNumberForPlaylists = 1, pageSizeForPlaylists = 3): Promise<AuthorPage> => {
+export const getAuthor: (authorName: string, pageNumberForSongs: number, pageSizeForSongs: number, pageNumberForPlaylists: number, pageSizeForPlaylists: number) => Promise<AuthorModel> =
+    async (authorName, pageNumberForSongs = 1, pageSizeForSongs = 5, pageNumberForPlaylists = 1, pageSizeForPlaylists = 3): Promise<AuthorModel> => {
         const authorInfoResponse =
             await $authHost.get(`api/Author/Author?Name=${authorName}`);
 
         if (authorInfoResponse.status !== 200 || authorInfoResponse.data === undefined)
-            return new AuthorPage();
+            return new AuthorModel();
 
         const songs = await getSongsByFilter(songFilters.authorSongsFilter, authorName, pageNumberForSongs, pageSizeForSongs);
 
         const playlists = await getPlaylistsByFilter(playlistFilters.authorPlaylistsFilter, authorName, pageNumberForPlaylists, pageSizeForPlaylists);
-
-        return AuthorPage.init(
+        
+        return AuthorModel.init(
             authorInfoResponse.data.name,
             getImage(authorInfoResponse.data.authorPhotoId),
             songs.songs,
-            playlists.value.results
+            playlists.value.playlists
         );
     }
 
