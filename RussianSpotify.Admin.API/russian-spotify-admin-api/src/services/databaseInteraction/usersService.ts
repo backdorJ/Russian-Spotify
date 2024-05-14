@@ -113,12 +113,16 @@ export class UsersService {
             query = query
                 .andWhere('"u"."EmailConfirmed" = :isEmailConfirmed',
                     {isEmailConfirmed: request.isEmailConfirmed});
-        
+
         if (request.role)
             query = query
                 .innerJoin('AspNetUserRoles', 'ur', '"u"."Id" = "ur"."UserId"')
                 .innerJoin('AspNetRoles', 'r', '"ur"."RoleId" = "r"."Id"')
-                .andWhere('LOWER("r"."Name") LIKE :name', { name: `%${request.role.toLowerCase()}%` });
+                .andWhere('LOWER("r"."Name") LIKE :name', {name: `%${request.role.toLowerCase()}%`});
+
+        query = query
+            .innerJoin('AspNetUserRoles', 'ur', '"u"."Id" = "ur"."UserId"')
+            .innerJoin('AspNetRoles', 'r', '"ur"."RoleId" = "r"."Id"')
 
         const totalCount = await query.getCount();
 
