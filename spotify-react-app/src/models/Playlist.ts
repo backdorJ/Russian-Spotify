@@ -27,8 +27,8 @@ export default class Playlist {
     /** Находится ли альбом в избранном */
     isInFavorite: boolean;
 
-    /** Песни плейлиста */
-    songs: Song[];
+    /** ИД песней */
+    songsIds: string[] = [];
 
     constructor() {
         this.playlistId = "";
@@ -39,7 +39,7 @@ export default class Playlist {
         this.releaseDate = new Date();
         this.isAlbum = false;
         this.isInFavorite = false;
-        this.songs = []
+        this.songsIds = [];
     }
 
     static init(
@@ -50,7 +50,8 @@ export default class Playlist {
         authorName: string,
         releaseDate: Date,
         isAlbum: boolean,
-        isInFavorite: boolean) {
+        isInFavorite: boolean,
+        songsIds: []) {
         let playlist = new Playlist()
 
         playlist.playlistId = playlistId;
@@ -61,6 +62,7 @@ export default class Playlist {
         playlist.releaseDate = releaseDate;
         playlist.isAlbum = isAlbum;
         playlist.isInFavorite = isInFavorite;
+        playlist.songsIds = songsIds;
 
         return playlist;
     }

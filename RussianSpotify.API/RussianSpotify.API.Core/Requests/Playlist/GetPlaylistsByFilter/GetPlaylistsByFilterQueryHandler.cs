@@ -66,6 +66,9 @@ public class GetPlaylistsByFilterQueryHandler
                 AuthorName = playlist.Author!.UserName,
                 ReleaseDate = playlist.ReleaseDate,
                 IsAlbum = playlist.IsAlbum,
+                SongsIds = playlist.Songs!
+                    .Select(x => x.Id)
+                    .ToList(),
                 IsInFavorite = playlist.Users!.Any(user => user.Id.Equals(userId.Value))
             })
             .SkipTake(request)
