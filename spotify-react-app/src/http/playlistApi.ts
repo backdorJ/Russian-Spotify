@@ -38,7 +38,8 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
             playlist.authorName,
             playlist.releaseDate,
             playlist.isAlbum,
-            playlist.isInFavorite);
+            playlist.isInFavorite,
+            playlist.songsIds === undefined ? [] : playlist.songsIds);
     }
 
     return response.status === 200
@@ -111,6 +112,7 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
             response.data.releaseDate,
             response.data.isAlbum,
             response.data.isInFavorite,
+            []
         );
     }
 

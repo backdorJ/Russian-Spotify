@@ -118,8 +118,8 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
     }
 
     const AddToPlaylist = (choosenPlaylist: Playlist) => {
-        choosenPlaylist?.songs.push(song)
-        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, undefined, choosenPlaylist.songs.map(x => x.songId)).then(response => {
+        choosenPlaylist?.songsIds.push(song.songId)
+        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, undefined, choosenPlaylist.songsIds).then(response => {
             if (response.status === 200) {
                 setUserPlaylists([])
                 alert("Песня добавлена успешно")
@@ -128,7 +128,7 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
         }).catch(err => console.log(err));
     }
     const DeleteFromPlaylist = (choosenPlaylist: Playlist) => {
-        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, undefined, choosenPlaylist.songs.map(x => x.songId).filter(x => x !== song.songId)).then(response => {
+        editPlaylist(choosenPlaylist.playlistId, choosenPlaylist.playlistName, undefined, choosenPlaylist.songsIds.filter(x => x !== song.songId)).then(response => {
             if (response.status === 200) {
                 setUserPlaylists([])
                 alert("Песня удалена успешно")
@@ -204,7 +204,6 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
             }
         }
         else {
-            console.log(song)
             playerStore.Player = getSong(song, userStore.user, playlist);
             setAsPlaying(true);
             playerStore.IsPlaying = true;
