@@ -52,3 +52,22 @@
     display: flex;
     align-items: center;
 }
+
+.register-page .separator-line {
+    flex: 0 0 auto;
+    border: 1px solid gainsboro;
+    box-sizing: border-box;
+    align-self: center;
+    width: 75%;
+    height: 2px;
+    margin-top: 22px;
+}
+
+.register-page .signup-section {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: center;
+}

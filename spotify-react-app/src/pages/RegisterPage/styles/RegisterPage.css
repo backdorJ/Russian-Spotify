@@ -7,3 +7,42 @@ a {
     padding-top: 3%;
 }
 
+.reg-form-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.register-page .separator-line {
+    flex: 0 0 auto;
+    border: 1px solid gainsboro;
+    box-sizing: border-box;
+    align-self: center;
+    width: 75%;
+    height: 2px;
+    margin-top: 22px;
+}
+
+.register-page .signup-section {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.fade-in {
+    align-self: flex-start;
+    opacity: 1;
+    transition: opacity 0.1s ease;
+}
+
+.fade-out {
+    align-self: flex-start;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+

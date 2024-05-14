@@ -69,6 +69,76 @@ p, a {
     max-width: 110px;
 }
 
+.account-page-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.music-card-button:hover {
+    border: 2px dimgray;
+    transition: all 0.3s ease;
+    background: mediumpurple;
+    transform: scale(1.005);
+}
+
+.music-image-container {
+    display: flex;
+    width: 6%;
+}
+
+.music-image {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.music-name-authors {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    flex: 0.9;
+}
+
+.music-duration {
+    align-self: center;
+    margin: 0 4px;
+}
+
+.play-icon-container {
+    display: flex;
+    margin-right: 1%;
+}
+
+
+.music-image-container {
+    display: flex;
+    width: 15%;
+    margin: 4px;
+}
+
+.music-image {
+    width: 30px;
+    height: 30px;
+}
+
+.artist-link:hover {
+    cursor: pointer;
+    color: #222222;
+}
+
+
+.music-card-button {
+    background: none;
+    border: none;
+    border-radius: 7px;
+    width: 80%;
+    display: flex;
+    margin: 0.5%;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .subscription-info p {
     margin: 5px;
 }
