@@ -11,7 +11,7 @@ public class UploadRequest
     /// <param name="files">Файлы</param>
     public UploadRequest(IEnumerable<UploadRequestItem> files)
         => Files = files;
-    
+
     /// <summary>
     /// Файлы
     /// </summary>

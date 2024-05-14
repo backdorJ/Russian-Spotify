@@ -32,17 +32,17 @@ public class DeleteSongFromBucketCommandHandler : IRequestHandler<DeleteSongFrom
             throw new ArgumentNullException(nameof(request));
 
         var userFromDb = await _dbContext.Users
-            .Include(x => x.Bucket)
-                .ThenInclude(y => y!.Songs)
-            .FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
-            ?? throw new EntityNotFoundException<User>(_userContext.CurrentUserId!.Value);
+                             .Include(x => x.Bucket)
+                             .ThenInclude(y => y!.Songs)
+                             .FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
+                         ?? throw new EntityNotFoundException<User>(_userContext.CurrentUserId!.Value);
 
         if (userFromDb.Bucket is null)
             throw new NotIncludedException(nameof(userFromDb.Bucket));
 
         var songCurrentUser = userFromDb.Bucket.Songs
-            .FirstOrDefault(x => x.Id == request.SongId)
-            ?? throw new EntityNotFoundException<Song>(request.SongId);
+                                  .FirstOrDefault(x => x.Id == request.SongId)
+                              ?? throw new EntityNotFoundException<Song>(request.SongId);
 
         userFromDb.Bucket.Songs.Remove(songCurrentUser);
         await _dbContext.SaveChangesAsync(cancellationToken);

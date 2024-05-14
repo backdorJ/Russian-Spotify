@@ -1,27 +1,6 @@
-body.active-modal {
-    overflow-y: hidden;
-}
-
 .error {
     border: 2px solid #dc3545;
     width: 100px;
-}
-
-.btn-modal {
-    padding: 10px 20px;
-    display: block;
-    margin: 100px auto 0;
-    font-size: 18px;
-}
-
-.modal, .overlay {
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: fixed;
 }
 
 .overlay {
@@ -29,7 +8,7 @@ body.active-modal {
 }
 
 .modal-content {
-    position: absolute;
+    position: fixed;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -128,7 +107,7 @@ body.active-modal {
     font-weight: 300;
     background-color: #464646;
     transition: 0.15s;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .modal-buttons > button:hover {
@@ -141,6 +120,7 @@ body.active-modal {
     right: 20px;
     padding: 3px 7px;
     font-size: 25px;
+    margin-left: 15px;
 }
 
 .close-modal:hover {

@@ -8,25 +8,6 @@
     margin-bottom: 0;
 }
 
-.register-page .separator-line {
-    flex: 0 0 auto;
-    border: 1px solid gainsboro;
-    box-sizing: border-box;
-    align-self: center;
-    width: 75%;
-    height: 2px;
-    margin-top: 22px;
-}
-
-.register-page .signup-section {
-    position: relative;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    justify-content: center;
-}
-
 .purple-button-style {
     transition: all 0.3s ease;
     -webkit-tap-highlight-color: transparent;
@@ -41,7 +22,7 @@
     width: 100%;
     height: 48px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     cursor: pointer;
 }
 

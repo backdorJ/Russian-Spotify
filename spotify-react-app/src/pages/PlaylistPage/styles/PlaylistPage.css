@@ -1,6 +1,5 @@
 .playlist-page-wrapper {
-    width: inherit;
-    height: 100%
+    display: flex;
 }
 
 .playlist-page {
@@ -9,10 +8,10 @@
 }
 
 .playlist-page-background {
+    width: 100%;
     position: absolute;
-    width: inherit;
     height: 650px;
-    background: linear-gradient(#DEF628, #121212)
+    background: linear-gradient(#DEF628, #121212);
 }
 
 .playlist-page__main {
@@ -39,8 +38,8 @@
     margin-left: 30px;
 }
 
-.playlist-page__main__info span:hover {
-    color: #cbc237;
+.playlist-page__main__info__singers > span > span:hover {
+    color: orangered;
     transition: .1s;
 }
 
@@ -59,6 +58,11 @@
     color: #FFFFFF;
 }
 
+.playlist-page__main__info__singers > span > span:hover {
+    color: orangered;
+    transition: .1s;
+}
+
 .playlist-page__main__info__additional {
     font-size: 18px;
     color: #FFFFFF70;
@@ -69,7 +73,7 @@
 }
 
 .playlist-page__songs {
-    height: 1000px;
+    height: 700px;
     padding: 30px 40px 80px 40px;
     background: linear-gradient(rgba(18, 18, 18, 0.19), #121212);
 }
@@ -133,9 +137,6 @@
 }
 
 /* Playlist Page Songs List Table */
-.playlist-page__songs__list__table {
-    width: 100%;
-}
 
 .playlist-page__songs__list__divider {
     width: 100%;
@@ -158,7 +159,7 @@
 .playlist-page__songs__list__header p {
     color: #B3B3B3;
     font-size: 16px;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     font-family: proxima_nova_rgregular, sans-serif;
     margin-bottom: 20px;
 }
@@ -177,15 +178,11 @@
 }
 
 .playlist-page__songs__list__header__album {
-    width: 30%;
+    width: 33%;
 }
 
 .playlist-page__songs__list__header__added {
     width: 20%;
-}
-
-.playlist-page__songs__list__header__length {
-    width: 7%;
 }
 
 .playlist-page__songs__list__main {
@@ -194,115 +191,4 @@
 
 .playlist-page__songs__list__main > div:not(:last-child) {
     margin-bottom: 5px;
-}
-
-.playlist-page__songs__list__main__song-card {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    color: #B3B3B3;
-    padding: 5px 20px;
-    transition: .05s;
-}
-
-.playlist-page__songs__list__main__song-card:hover {
-    background-color: rgba(0, 0, 0, 0.11);
-    transition: .05s;
-}
-
-.playlist-page__songs__list__main__song-card p {
-    color: #B3B3B3;
-}
-
-.playlist-page__songs__list__main__song-card__id {
-    width: 36px;
-}
-
-.playlist-page__songs__list__main__song-card__id p {
-    font-size: 22px;
-}
-
-.playlist-page__songs__list__main__song-card__title {
-    width: 40%;
-    display: flex;
-    align-items: end;
-    padding-left: 2px;
-}
-
-.playlist-page__songs__list__main__song-card__title__img {
-    width: 52px;
-    height: 52px;
-    margin-right: 15px;
-}
-
-.playlist-page__songs__list__main__song-card__title__info {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    margin-bottom: 1px;
-}
-
-.playlist-page__songs__list__main__song-card__title__info__song-name {
-    margin-bottom: 2px;
-}
-
-.playlist-page__songs__list__main__song-card__title__info__song-name p {
-    font-size: 20px;
-    color: #65D36E;
-    transition: .1s;
-}
-
-.playlist-page__songs__list__main__song-card__title__info__song-name p:hover {
-    /*color: #b0f1b5;*/
-    transition: .1s;
-}
-
-.playlist-page__songs__list__main__song-card__title__info__artist-names p {
-
-}
-
-.playlist-page__songs__list__main__song-card__title__info__artist-names span {
-    font-size: 18px;
-    transition: .1s;
-}
-
-.playlist-page__songs__list__main__song-card__title__info__artist-names span:hover {
-    color: orangered;
-    transition: .1s;
-}
-
-.playlist-page__songs__list__main__song-card__album {
-    width: 30%;
-}
-
-.playlist-page__songs__list__main__song-card__album > p {
-    font-size: 18px;
-    width: fit-content;
-    transition: .1s;
-}
-
-.playlist-page__songs__list__main__song-card__album > p:hover {
-    color: orangered;
-    transition: .1s;
-}
-
-.playlist-page__songs__list__main__song-card__added {
-    width: 16%;
-}
-
-.playlist-page__songs__list__main__song-card__liked {
-    width: 4%;
-}
-
-.playlist-page__songs__list__main__song-card__liked img {
-    width: 22px;
-}
-
-.playlist-page__songs__list__main__song-card__length {
-    width: 7%;
-}
-
-.playlist-page__songs__list__main__song-card__length p {
-    font-size: 20px;
-    margin-left: 20px;
 }

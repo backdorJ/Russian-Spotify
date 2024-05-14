@@ -85,7 +85,8 @@ export default function InputRegisterWidget(props: any) {
                                onChange={(e) => setPasswordConfirm(e.target.value)}
                                className="input-container input-style-f62::placeholder" required/>
                         <div className="svg-container1">
-                            <button onClick={togglePasswordConfirmVisibility} className="button-switch-type" type="button">
+                            <button onClick={togglePasswordConfirmVisibility} className="button-switch-type"
+                                    type="button">
                                 <ShowHideSvg/>
                             </button>
                         </div>

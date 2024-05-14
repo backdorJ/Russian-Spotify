@@ -1,9 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 // @ts-ignore
 import search_icon from '../../assets/searchPage/search_icon_121212.png'
 import searchTypesProps from "../../utils/search/searchTypesProps";
 import './styles/SearchPage.css'
-import {getSongsByFilter} from "../../http/songApi";
 import SongModel from "../../models/Song";
 import SearchPlaylistCard from "./components/SearchPlaylistCard";
 import SearchAuthorCard from "./components/SearchAuthorCard";
@@ -14,44 +13,115 @@ import {songFilters} from "../../http/filters/songFilters";
 import {playlistFilters} from "../../http/filters/playlistFilters";
 // @ts-ignore
 import {authorFilters} from "../../http/filters/authorFilters";
-import SongCard from "../PlaylistPage/components/SongCard";
+import SongCard from "../../commonComponents/SongCard/SongCard";
+import loadDynamicSongs from "../../functions/loadDynamicSongs";
 
 
 const SearchPage = () => {
+    const defaultSongLoadPageSize = 2
+    const defaultPlaylistLoadPageSize = 5
+    const [songCount, setSongCount] = useState(0)
+    const [playlistCount, setPlaylistCount] = useState(0)
+    const [pageLoading, setPageLoading] = useState(1)
+    const [isFetching, setIsFetching] = useState(false)
     const [search, setSearch] = useState('')
     const [isSearched, setIsSearched] = useState(false)
     const [searchType, setSearchType] = useState(1)
+    const [searchTypeDynamic, setSearchTypeDynamic] = useState(1)
     const [songs, setSongs] = useState(new Array<SongModel>())
     const [playlists, setPlaylists] = useState(new Array<any>())
     const [authors, setAuthors] = useState(new Array<any>())
+    const [reloadTrigger, setReloadTrigger] = useState(false)
 
     const handleSearch = () => {
         if (search === '') {
             alert("Search is empty")
             return
         }
-        if (searchType === 1) {
-            setAuthors([])
-            setPlaylists([])
-            getSongsByFilter(songFilters.songNameFilter, search, 1, 10)
-                .then(response => setSongs(prev => [...response]))
-                .then(() => setIsSearched(true))
-        }
-        if (searchType === 2) {
+
+        setSearchTypeDynamic(searchType)
+        setPageLoading(1)
+        setIsFetching(true)
+    }
+
+    useEffect(() => {
+        if (pageLoading === 1) {
             setSongs([])
             setAuthors([])
-            getPlaylistsByFilter(playlistFilters.playlistNameFilter, search, 1, 10)
-                .then(response => setPlaylists(prev => [...response]))
-            setIsSearched(true)
-        }
-        if (searchType === 3) {
-            setSongs([])
             setPlaylists([])
-            getAuthorsByFilter(authorFilters.authorNameFilter, search, 2, 1, 10)
-                .then(response => setAuthors(prev => [...response]))
-            setIsSearched(true)
+            setSongCount(0)
+            setPlaylistCount(0)
+        }
+
+        if (isFetching) {
+            if (searchTypeDynamic === 1) {
+                setAuthors([])
+                setPlaylists([])
+                loadDynamicSongs(songFilters.songNameFilter, search, pageLoading, defaultSongLoadPageSize)
+                    .then(response => {
+                        setSongCount(response.count)
+                        setSongs(prev => [...prev, ...response.songs])
+                    })
+                    .finally(() => {
+                        setIsSearched(true)
+                        setIsFetching(false)
+                        setPageLoading(prev => prev + 1)
+                    })
+            }
+            if (searchTypeDynamic === 2) {
+                setSongs([])
+                setAuthors([])
+                getPlaylistsByFilter(playlistFilters.playlistNameFilter, search, pageLoading, defaultPlaylistLoadPageSize)
+                    .then(response => {
+                        if (response.status === 200) {
+                            setPlaylistCount(response.value.count)
+                            setPlaylists(prev => [...prev, ...response.value.playlists])
+                            setPageLoading(prev => prev++)
+                        }
+                    })
+                    .finally(() => {
+                        setIsSearched(true)
+                        setIsFetching(false)
+                        setPageLoading(prev => prev + 1)
+                    })
+                setIsSearched(true)
+            }
+            if (searchTypeDynamic === 3) {
+                setSongs([])
+                setPlaylists([])
+                getAuthorsByFilter(authorFilters.authorNameFilter, search, 2, pageLoading, 10)
+                    .then(response => setAuthors(prev => [...response]))
+                    .finally(() => {
+                        setIsSearched(true)
+                        setIsFetching(false)
+                        setPageLoading(prev => prev + 1)
+                    })
+                setIsSearched(true)
+            }
+        }
+    }, [isFetching]);
+
+    useEffect(() => {
+        // if (!isFetching)
+        // document.addEventListener('scroll', scrollHandler)
+    }, [isFetching]);
+
+    const scrollHandler = (e: any) => {
+        console.log(1)
+        if ((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 200)
+            && ((searchTypeDynamic === 2 && playlists.length < playlistCount)
+                || (searchTypeDynamic === 1 && songs.length < songCount))) {
+            console.log('reached')
+            document.removeEventListener('scroll', scrollHandler)
+            setIsFetching(true)
         }
     }
+
+    useEffect(() => {
+        return function () {
+            document.removeEventListener('scroll', scrollHandler)
+        }
+    }, []);
 
     const inputPlaceholder = searchTypesProps
         .filter(i => i.value === searchType)[0].title
@@ -99,9 +169,14 @@ const SearchPage = () => {
             </div>
             <div className="search__main">
                 {
-                    songs.map((song, index) => (
-                        <SongCard song={song} order_number={index + 1}/>
-                    ))
+                    songs.map((song, index) =>
+                        <SongCard
+                            song={song}
+                            order_number={index + 1}
+                            onModalOpen={undefined}
+                            playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}
+                            playlist={null}/>
+                    )
                 }
                 {
                     playlists.map(i => (

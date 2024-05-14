@@ -22,9 +22,8 @@ public class ApplicationBaseException : Exception
     /// <param name="message">Сообщение об ошибку</param>
     public ApplicationBaseException(string message)
     {
-        
     }
-    
+
     /// <summary>
     /// Конструктор
     /// </summary>

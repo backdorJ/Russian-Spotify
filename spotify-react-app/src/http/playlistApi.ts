@@ -2,6 +2,7 @@ import Playlist from "../models/Playlist";
 import {$authHost} from "./index";
 // @ts-ignore
 import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
+import {GetPlaylists} from "../utils/dto/playlist/getPlaylists";
 
 /** Возвращает список альбомов по фильтру
  @param filterName - название фильтра
@@ -11,7 +12,7 @@ import {ResponseWithMessage} from "../utils/dto/responseWithMessage";
  * */
 export const getPlaylistsByFilter = async (filterName: string, filterValue: string, pageNumber: number, pageSize: number) => {
     if (!filterValue || !filterName)
-        return [];
+        return new ResponseWithMessage(400, 'Wrong filter')
 
     const response = await $authHost.get(`api/Playlist/GetPlaylistsByFilter?` +
         new URLSearchParams({
@@ -22,7 +23,7 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
         }));
 
     if (response.status !== 200 || response.data === undefined)
-        return new Array<Playlist>();
+        return new ResponseWithMessage(response.status, '')
 
     let result: Array<Playlist> = [];
 
@@ -33,20 +34,23 @@ export const getPlaylistsByFilter = async (filterName: string, filterValue: stri
             playlist.id,
             playlist.playlistName,
             playlist.imageId,
+            playlist.authorId,
             playlist.authorName,
             playlist.releaseDate,
             playlist.isAlbum,
             playlist.isInFavorite);
     }
 
-    return result;
+    return response.status === 200
+        ? new ResponseWithMessage(200, '', new GetPlaylists(result, response.data.totalCount))
+        : new ResponseWithMessage(response.status, response.data.message)
 }
 
-export const addPlaylist = async (playlistName: string, fileId: string) => {
+export const addPlaylist = async (playlistName: string, fileId: string, isAlbum: boolean) => {
     let body: any = {
         playlistName: playlistName,
         songsIds: [],
-        isAlbum: false
+        isAlbum,
     }
 
     if (fileId !== '')
@@ -60,7 +64,7 @@ export const addPlaylist = async (playlistName: string, fileId: string) => {
     return new ResponseWithMessage(response.status, response.data.message)
 }
 
-export const editPlaylist = async (playlistId: string, playlistName: string, fileId: string, songsIds: Array<string>) => {
+export const editPlaylist = async (playlistId: string, playlistName: string, fileId: string | undefined, songsIds: Array<string>) => {
     let body: any = {
         playlistName: playlistName,
         songsIds: songsIds
@@ -69,7 +73,7 @@ export const editPlaylist = async (playlistId: string, playlistName: string, fil
     if (playlistName === '')
         body.playlistName = null
 
-    if (fileId !== '')
+    if (fileId !== undefined)
         body.imageId = fileId
 
     const response = await $authHost.put(`api/Playlist/EditPlaylist/${playlistId}`, body)
@@ -78,6 +82,14 @@ export const editPlaylist = async (playlistId: string, playlistName: string, fil
         return new ResponseWithMessage(200, '', response.data)
 
     return new ResponseWithMessage(response.status, response.data.message)
+}
+
+export const deletePlaylist = async (playlistId: string) => {
+    let response = await $authHost.delete(`api/Playlist/DeletePlaylist/${playlistId}`)
+
+    return response.status === 200
+        ? new ResponseWithMessage(200, '', response.data)
+        : new ResponseWithMessage(response.status, response.data.message)
 }
 
 export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playlist> =
@@ -94,10 +106,11 @@ export const getPlaylistInfo: (playlistId: string | undefined) => Promise<Playli
             playlistId,
             response.data.playlistName,
             response.data.imageId,
+            response.data.authorId,
             response.data.authorName,
             response.data.releaseDate,
             response.data.isAlbum,
-            response.data.isInFavorite
+            response.data.isInFavorite,
         );
     }
 

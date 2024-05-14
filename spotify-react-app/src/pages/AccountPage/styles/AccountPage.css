@@ -17,11 +17,6 @@ p, a {
     font-size: 12px;
 }
 
-.account-page-header {
-    display: flex;
-    justify-content: flex-end;
-}
-
 .account-page-header img {
     width: 35px;
     height: 35px;
@@ -94,7 +89,6 @@ p, a {
 
 .user-image-container {
     display: flex;
-    
 }
 
 .user-image {
@@ -170,51 +164,9 @@ p, a {
     align-items: center;
 }
 
-.music-card-button {
-    background: none;
-    border: none;
-    border-radius: 7px;
-    width: 80%;
-    display: flex;
-    margin: 0.5%;
-    padding: 8px 16px;
-    transition: all 0.3s ease;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .music-card-button span {
     color: white;
     align-self: flex-start;
-}
-
-.music-card-button:hover {
-    border: 2px dimgray;
-    transition: all 0.3s ease;
-    background: mediumpurple;
-    transform: scale(1.005);
-}
-
-.music-image-container {
-    display: flex;
-    width: 6%;
-}
-
-.music-image {
-    width: 100%;
-    border-radius: 10px;
-}
-
-.music-name-authors {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    flex: 0.9;
-}
-
-.music-duration {
-    align-self: center;
-    margin: 0 4px;
 }
 
 .music-more-button {
@@ -223,20 +175,6 @@ p, a {
     border: none;
     font-weight: 700;
     font-size: 18px;
-}
-
-.like-icon-container {
-    display: flex;
-}
-
-.play-icon-container {
-    display: flex;
-    margin-right: 1%;
-}
-
-.artist-link:hover {
-    cursor: pointer;
-    color: #222222;
 }
 
 .show-all-music-button {
@@ -270,8 +208,6 @@ p, a {
 .music-menu {
     position: absolute;
     z-index: 999;
-    top: 100%;
-    right: 0;
     background: #120F0F;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding: 1%;
@@ -380,8 +316,6 @@ p, a {
         font-size: 18px;
     }
 
-
-
     .music-container-wrapper {
         display: flex;
         flex-direction: column;
@@ -393,28 +327,12 @@ p, a {
         font-size: 13px;
     }
 
-    .music-image-container {
-        display: flex;
-        width: 15%;
-        margin: 4px;
-    }
-
-    .music-image {
-        width: 30px;
-        height: 30px;
-    }
-
     .music-more-button {
         background: none;
         color: white;
         border: none;
         font-weight: 700;
         font-size: 18px;
-    }
-
-    .like-icon-container {
-        display: flex;
-        margin: 2px;
     }
 
     .show-all-music-button {

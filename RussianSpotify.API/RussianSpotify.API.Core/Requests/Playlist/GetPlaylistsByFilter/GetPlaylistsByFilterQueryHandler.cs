@@ -57,12 +57,12 @@ public class GetPlaylistsByFilterQueryHandler
 
         var totalCount = await filteredPlaylists.CountAsync(cancellationToken: cancellationToken);
         var resultPlaylists = await filteredPlaylists
-            .Include(playlist => playlist.Users)
             .Select(playlist => new GetPlaylistsByFilterResponseItem
             {
                 Id = playlist.Id,
                 PlaylistName = playlist.PlaylistName,
                 ImageId = playlist.ImageId,
+                AuthorId = playlist.AuthorId,
                 AuthorName = playlist.Author!.UserName,
                 ReleaseDate = playlist.ReleaseDate,
                 IsAlbum = playlist.IsAlbum,

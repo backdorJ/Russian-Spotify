@@ -9,12 +9,12 @@ public enum Privileges
     /// Слушать музыку
     /// </summary>
     ListenMusic = 1,
-    
+
     /// <summary>
     /// Выпускать музыку
     /// </summary>
     DeployMusic = 2,
-    
+
     /// <summary>
     /// Админ
     /// </summary>

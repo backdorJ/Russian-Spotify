@@ -44,70 +44,71 @@ public class GetExternalLoginCallbackCommandHandler :
         _signInManager = signInManager;
         _contextAccessor = contextAccessor;
     }
-    
+
     /// <inheritdoc cref="IRequestHandler{TRequest,TResponse}"/>
-    public async Task<GetExternalLoginCallbackResponse> Handle(GetExternalLoginCallbackCommand request, CancellationToken cancellationToken)
+    public async Task<GetExternalLoginCallbackResponse> Handle(GetExternalLoginCallbackCommand request,
+        CancellationToken cancellationToken)
     {
-         if (request is null)
+        if (request is null)
             throw new ArgumentNullException(nameof(request));
-        
-         var info = await _signInManager.GetExternalLoginInfoAsync();
-        
-         if (info is null)
-             throw new ExternalLoginInfoNotFoundException(AuthErrorMessages.ExternalLoginInfoNotFound);
 
-         var claims = info.Principal.Claims
-             .Where(x => !x.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))
-             .ToList();
+        var info = await _signInManager.GetExternalLoginInfoAsync();
 
-         var email = claims.GetClaimValueOf(ClaimTypes.Email);
-         if (email is null)
-             throw new EmailClaimNotFoundException(AuthErrorMessages.EmailClaimNotFound);
+        if (info is null)
+            throw new ExternalLoginInfoNotFoundException(AuthErrorMessages.ExternalLoginInfoNotFound);
 
-         var user = await _userManager.FindByEmailAsync(email);
-        
-         if (user is null)
-         {
-             user = new User
-             {
-                 UserName = claims.GetClaimValueOf(ClaimTypes.Name) ??
-                            $"{claims.GetClaimValueOf(ClaimTypes.GivenName)}" +
-                            $" {claims.GetClaimValueOf(ClaimTypes.Surname)}", 
-                 Email = email,
-                 EmailConfirmed = true
-             };
+        var claims = info.Principal.Claims
+            .Where(x => !x.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))
+            .ToList();
 
-             var createUserResult = await _userManager.CreateAsync(user);
+        var email = claims.GetClaimValueOf(ClaimTypes.Email);
+        if (email is null)
+            throw new EmailClaimNotFoundException(AuthErrorMessages.EmailClaimNotFound);
 
-             if (!createUserResult.Succeeded)
-                 throw new RegisterUserException(string.Join("\n",
-                     createUserResult.Errors.Select(error => error.Description)));
-            
-             await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName);
-         }
-         else
-         {
-             var roles = await _userManager.GetRolesAsync(user);
-             claims.Add(new(ClaimTypes.Role, roles.First()));
-         }
+        var user = await _userManager.FindByEmailAsync(email);
 
-         claims.Add(new(ClaimTypes.NameIdentifier, user.Id.ToString()));
-         
-         var jwt = _jwtGenerator.GenerateToken(claims);
-         var refreshToken = _jwtGenerator.GenerateRefreshToken();
-        
-         user.AccessToken = jwt;
-         user.RefreshToken = refreshToken;
-         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
+        if (user is null)
+        {
+            user = new User
+            {
+                UserName = claims.GetClaimValueOf(ClaimTypes.Name) ??
+                           $"{claims.GetClaimValueOf(ClaimTypes.GivenName)}" +
+                           $" {claims.GetClaimValueOf(ClaimTypes.Surname)}",
+                Email = email,
+                EmailConfirmed = true
+            };
 
-         await _userManager.UpdateAsync(user);
-        
-         _contextAccessor.HttpContext?.Response.Cookies.Append(
-             BaseCookieOptions.AccessTokenCookieName, user.AccessToken, BaseCookieOptions.Options);
-         _contextAccessor.HttpContext?.Response.Cookies.Append(
-             BaseCookieOptions.RefreshTokenCookieName, user.RefreshToken, BaseCookieOptions.Options);
-         
-         return new GetExternalLoginCallbackResponse
-             { AccessToken = jwt, RefreshToken = refreshToken };
+            var createUserResult = await _userManager.CreateAsync(user);
+
+            if (!createUserResult.Succeeded)
+                throw new RegisterUserException(string.Join("\n",
+                    createUserResult.Errors.Select(error => error.Description)));
+
+            await _userManager.AddToRoleAsync(user, BaseRoles.UserRoleName);
+        }
+        else
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            claims.Add(new(ClaimTypes.Role, roles.First()));
+        }
+
+        claims.Add(new(ClaimTypes.NameIdentifier, user.Id.ToString()));
+
+        var jwt = _jwtGenerator.GenerateToken(claims);
+        var refreshToken = _jwtGenerator.GenerateRefreshToken();
+
+        user.AccessToken = jwt;
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(TokenConfiguration.RefreshTokenExpiryDays);
+
+        await _userManager.UpdateAsync(user);
+
+        _contextAccessor.HttpContext?.Response.Cookies.Append(
+            BaseCookieOptions.AccessTokenCookieName, user.AccessToken, BaseCookieOptions.Options);
+        _contextAccessor.HttpContext?.Response.Cookies.Append(
+            BaseCookieOptions.RefreshTokenCookieName, user.RefreshToken, BaseCookieOptions.Options);
+
+        return new GetExternalLoginCallbackResponse
+            { AccessToken = jwt, RefreshToken = refreshToken };
     }
 }

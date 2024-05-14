@@ -13,7 +13,7 @@ public class FavoriteSongsFilter : IFilter<Song>
         CancellationToken cancellationToken)
     {
         var userId = Guid.Parse(filterValue);
-        
+
         return Task.FromResult(queryable
             .Where(x => x.Buckets
                 .Any(b => b.UserId.Equals(userId)))

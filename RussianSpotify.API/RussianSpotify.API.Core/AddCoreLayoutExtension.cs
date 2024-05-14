@@ -21,7 +21,7 @@ public static class AddCoreLayoutExtension
     /// <returns>Коллекцию сервисов с добавленными зависимостями</returns>
     public static IServiceCollection AddCoreLayout(this IServiceCollection services)
     {
-        services.AddMediatR(config 
+        services.AddMediatR(config
             => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly() });

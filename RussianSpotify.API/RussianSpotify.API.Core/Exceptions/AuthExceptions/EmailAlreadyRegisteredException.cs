@@ -13,7 +13,7 @@ public class EmailAlreadyRegisteredException : ApplicationBaseException
     {
     }
 
-    public EmailAlreadyRegisteredException() 
+    public EmailAlreadyRegisteredException()
     {
     }
 }

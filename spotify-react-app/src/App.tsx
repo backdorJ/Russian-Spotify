@@ -11,13 +11,15 @@ import loadUser from "./functions/loadUser";
 import Player from "./commonComponents/Player/Player";
 import SideBar from "./commonComponents/SideBar/SideBar";
 import CreateOrEditPlaylistModal
-    from "./commonComponents/SideBar/components/CreatePlaylistModal/CreateOrEditPlaylistModal";
+    from "./commonComponents/SideBar/components/CreateOrEditPlaylistModal/CreateOrEditPlaylistModal";
+import CreateOrEditSongModal from "./commonComponents/SideBar/components/CreateOrEditSongModal/CreateOrEditSongModal";
 
 const App = observer(() => {
     const userStore = useContext(UserContext);
     const playerStore = useContext(PlayerContext);
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false)
     const [showCreatePlaylistModal, setShowCreatePlaylistModal] = useState(false)
+    const [showCreateSongModal, setShowCreateSongModal] = useState(false)
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [canShowPlayer, setCanShowPlayer] = useState(false);
     const [showPlayerExpanded, setShowPlayerExpanded] = useState(false);
@@ -58,7 +60,9 @@ const App = observer(() => {
                 className="app">
                 {
                     userStore.isAuth &&
-                    <SideBar setCreatePlaylistModal={setShowCreatePlaylistModal}/>
+                    <SideBar
+                        setShowCreatePlaylistModal={setShowCreatePlaylistModal}
+                        setShowCreateSongModal={setShowCreateSongModal}/>
                 }
                 <div className="app__main">
                     <NavBar setShowSubModal={setShowSubscriptionModal}/>
@@ -70,6 +74,12 @@ const App = observer(() => {
                     onHide={() => setShowCreatePlaylistModal(false)}
                     playlist={undefined}
                     songsIds={[]}
+                    reloadTrigger={() => {
+                    }}/>
+                <CreateOrEditSongModal
+                    show={showCreateSongModal}
+                    onHide={() => setShowCreateSongModal(false)}
+                    song={undefined}
                     reloadTrigger={() => {
                     }}/>
             </div>

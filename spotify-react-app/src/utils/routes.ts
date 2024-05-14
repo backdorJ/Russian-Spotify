@@ -10,6 +10,7 @@ import SearchPage from "../pages/SearchPage/SearchPage";
 import AuthorPage from "../pages/AuthorPage/AuthorPage";
 // @ts-ignore
 import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
+import AboutPage from "../pages/AboutPage/AboutPage";
 
 export const routes = []
 
@@ -56,5 +57,9 @@ export const authRoutes = [
     {
         path: routeNames.AUTHOR_PAGE_ROUTE,
         Component: AuthorPage
+    },
+    {
+        path: routeNames.ABOUT_PAGE,
+        Component: AboutPage
     }
 ]

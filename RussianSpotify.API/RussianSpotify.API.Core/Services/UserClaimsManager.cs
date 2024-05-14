@@ -25,7 +25,7 @@ public class UserClaimsManager : IUserClaimsManager
         CancellationToken cancellationToken = default)
     {
         var userRoles = await _userManager.GetRolesAsync(user);
-        
+
         var authClaims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -33,7 +33,7 @@ public class UserClaimsManager : IUserClaimsManager
             new(ClaimTypes.Email, user.Email!),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
-        
+
         authClaims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
         return authClaims;

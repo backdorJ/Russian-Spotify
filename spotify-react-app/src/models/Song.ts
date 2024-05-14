@@ -1,3 +1,8 @@
+import AuthorLittle from "./AuthorLittle";
+import SongSources from "../utils/song/songSources";
+import songSources from "../utils/song/songSources";
+import {GetSongs} from "../utils/dto/song/getSongs";
+
 /** DTO для песни, которая приходит с API(когда запрашивается много песен)*/
 export default class Song {
     /** Id песни в бд */
@@ -19,13 +24,17 @@ export default class Song {
     isInFavorite: boolean;
 
     /** Список имён авторов песни */
-    authors: string[];
+    authors: AuthorLittle[];
 
     /** Предыдущая песня */
     prevSong: Song | null;
 
     /** Следущая песня */
-    nextSong: Song| null;
+    nextSong: Song | null;
+
+    source: string = '';
+
+    nextLoad: (() => Promise<GetSongs>) | undefined = undefined;
 
     constructor() {
         this.songId = "";
@@ -44,10 +53,12 @@ export default class Song {
                 imageId: string,
                 duration: number,
                 category: string,
-                authors: string[],
+                authors: AuthorLittle[],
                 nextSong: Song | null,
                 prevSong: Song | null,
-                isInFavorite: boolean) {
+                isInFavorite: boolean,
+                source: string = songSources.NotSet,
+                nextLoad: (() => Promise<GetSongs>) | undefined = undefined) {
 
         let newSong = new Song();
 
@@ -60,6 +71,8 @@ export default class Song {
         newSong.nextSong = nextSong;
         newSong.prevSong = prevSong;
         newSong.isInFavorite = isInFavorite;
+        newSong.source = source;
+        newSong.nextLoad = nextLoad;
 
         return newSong;
     }

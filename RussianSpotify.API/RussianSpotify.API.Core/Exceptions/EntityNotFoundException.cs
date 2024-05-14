@@ -17,17 +17,17 @@ public class EntityNotFoundException<TEntity> : ApplicationBaseException
         [typeof(Entities.Playlist)] = "Не найден альбом/плейлист",
         [typeof(Song)] = "Не найдена песня",
     };
-    
+
     public EntityNotFoundException(string message)
         : base($"{ExceptionEntity} с адресом {message}")
     {
     }
-    
+
     public EntityNotFoundException(Guid id)
         : base($"{ExceptionEntity} c идентификатором {id}")
     {
     }
-    
+
     private static string? ExceptionEntity => EntityExceptions.TryGetValue(typeof(TEntity), out var text)
         ? text
         : typeof(TEntity).FullName;

@@ -1,22 +1,23 @@
 <b>File structure:</b>
+
 1. <b>commonComponents</b> - общие компоненты, которые могут быть использованы в любых других компонентах или страницах.
-    Структура хранения:
-    --commonComponents: <br>
-    ----NavBar: <br>
-    ------NavBar.tsx <br>
-    ------NavBar.cs <br>
+   Структура хранения:
+   --commonComponents: <br>
+   ----NavBar: <br>
+   ------NavBar.tsx <br>
+   ------NavBar.cs <br>
 2. <b>pages</b> - страницы: <br>
-    2.1. Для каждой страницы есть своя папка. В этой папке будет .tsx файл с таким же названием 
-    как и у папки (Сама страница), папка <b>components</b>,
-    в которой будут хранится компоненты только этой страницы,<br>
-    папка <b>styles</b> со стилями страницы (Пример в pages/AboutPage): <br>
-    --pages: <br>
-    ----examplePage: <br>
-    ------examplePage.tsx <br> 
-    ------components: <br>
-    --------someComponents.tsx <br>
-    ------styles: <br> 
-    --------examplePage.cs <br>
+   2.1. Для каждой страницы есть своя папка. В этой папке будет .tsx файл с таким же названием
+   как и у папки (Сама страница), папка <b>components</b>,
+   в которой будут хранится компоненты только этой страницы,<br>
+   папка <b>styles</b> со стилями страницы (Пример в pages/AboutPage): <br>
+   --pages: <br>
+   ----examplePage: <br>
+   ------examplePage.tsx <br>
+   ------components: <br>
+   --------someComponents.tsx <br>
+   ------styles: <br>
+   --------examplePage.cs <br>
 3. <b>utils</b> - папка с утилитами. Здесь будут хранится переиспользуемые функции и objects.
 4. <b>tests</b> - папка с тестами. P.S. Пока без понятия как их писать..
 5. <b>http</b> - папка с клиентом <b>Axios</b> и настроенными методами для того чтобы делать <b>HTTP Request</b>.

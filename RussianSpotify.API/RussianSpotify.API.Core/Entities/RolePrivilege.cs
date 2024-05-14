@@ -21,7 +21,7 @@ public class RolePrivilege
     public RolePrivilege()
     {
     }
-    
+
     /// <summary>
     /// Идентификатор
     /// </summary>

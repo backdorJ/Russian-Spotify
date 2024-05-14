@@ -15,7 +15,7 @@ public class UploadFileResponseItem
         FileName = fileName;
         FileId = fileId;
     }
-    
+
     /// <summary>
     /// Название файла
     /// </summary>

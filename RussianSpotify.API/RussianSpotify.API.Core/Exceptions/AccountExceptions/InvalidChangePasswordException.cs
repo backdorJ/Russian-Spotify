@@ -8,7 +8,7 @@ public class InvalidChangePasswordException : ApplicationBaseException
         : base(message, statusCode)
     {
     }
-    
+
     public InvalidChangePasswordException()
     {
     }

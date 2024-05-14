@@ -12,6 +12,11 @@
     transition: margin-left 0.3s ease-in-out;
 }
 
+.shadow {
+    box-shadow: 0 0 0 9999px rgba(0,0,0, 0.5);
+    transition: all 0.3ms ease;
+}
+
 .player {
     display: flex;
     flex-direction: row;
@@ -23,6 +28,7 @@
 .buttons {
     display: flex;
     align-items: center;
+    gap: 10px;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
@@ -35,7 +41,6 @@
     border-radius: 50%;
     background-color: #444; /* Цвет кнопок */
     cursor: pointer;
-    margin-right: 10px; /* Отступ между кнопками */
     transition: margin-bottom 0.3s ease-in-out;
 }
 
@@ -46,16 +51,16 @@
     transition: margin-bottom 0.3s ease-in-out;
 }
 
-.player-music-image-container:hover{
+.player-music-image-container:hover {
     cursor: pointer;
 }
 
-.player-music-image-container:hover img{
+.player-music-image-container:hover img {
     box-shadow: 0 0 10px rgb(168, 2, 255);
     transition: 0.5s;
 }
 
-.close-expanded:hover{
+.close-expanded:hover {
     cursor: pointer;
     box-shadow: 0 0 10px rgb(168, 2, 255);
     transition: 0.4s;
@@ -86,11 +91,11 @@
 }
 
 .song-name {
+    display: flex;
     justify-content: center;
-    align-content: center;
     align-items: center;
-    text-align: center;
     transition: margin-bottom 0.3s ease-in-out;
+    gap: 5px;
 }
 
 .progress {
@@ -104,15 +109,19 @@
 .volume-button {
     display: flex;
     align-items: center;
-    margin-left: 10px;
-    margin-right: 20px;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
 .like-button {
+    margin: 20px;
     display: flex;
     align-items: center;
     transition: margin-bottom 0.3s ease-in-out;
+}
+
+.player-artist-link {
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .player-artist-link:hover {
@@ -124,28 +133,32 @@
 .actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    gap: 10px;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
 .volume {
+    margin: 10px 20px;
     height: 40px;
-    padding-top: 11px;
     transition: margin-bottom 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-.volume-slider{
+.volume-slider {
     transform: rotate(-360deg);
     -webkit-appearance: slider-vertical;
     position: absolute;
-    top: -94px;
     width: 50px;
+    bottom: 70px;
     background-color: rgba(255, 255, 255, 0);
-    right: 23.39%;
 }
 
-input[type=range]  {
-    width: 200px;
+input[type=range] {
+    width: 100px;
     height: 30px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -153,11 +166,12 @@ input[type=range]  {
     transform: rotate(-90deg);
 
 }
+
 input[type=range]::-webkit-slider-runnable-track {
     border-radius: 10px/100%;
-    height: 7px;
+    height: 10px;
     border: 2px solid #333;
-    background: linear-gradient(to right, #333, #555555);
+    background: linear-gradient(to right, #444, #666);
     transform: rotate(-360deg);
 }
 
@@ -166,11 +180,12 @@ input[type=range]::-webkit-slider-thumb {
     box-shadow: 0 0 10px mediumpurple;
     border-radius: 10px/100%;
     cursor: pointer;
-    width:15px;
+    width: 15px;
     height: 15px;
     -webkit-appearance: none;
     margin-top: -4px;
     transform: rotate(-360deg);
+    align-self: center;
 }
 
 input[type=range]::-moz-range-track {
@@ -192,11 +207,15 @@ input[type=range] {
 }
 
 @keyframes ani {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-.player-music-image{
+.player-music-image {
     animation: 12s linear 0s normal none infinite running rot;
     -webkit-animation: 12s linear 0s normal none infinite running rot;
     transition: all 0.3s ease-in-out;
@@ -210,6 +229,7 @@ input[type=range] {
         transform: rotate(360deg);
     }
 }
+
 @-webkit-keyframes rot {
     0% {
         transform: rotate(0deg);
@@ -220,7 +240,7 @@ input[type=range] {
 }
 
 .player-wrapper.expanded {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     bottom: 0;
     transition: margin-left 0.3s ease-in-out;
 }
@@ -230,7 +250,6 @@ input[type=range] {
     transform: translate(-50%, -50%);
     width: 50%;
     left: 30%;
-    bottom: -25%;
     max-width: 600px; /* Максимальная ширина плеера */
     background-color: #333; /* Тёмно-тёмно-серый фон */
     border-radius: 10px; /* Закругленные углы */
@@ -243,18 +262,14 @@ input[type=range] {
 }
 
 .buttons.expanded {
-    width: 100%;
-    margin-bottom: 20px;
-    position: absolute;
-    bottom: 0;
-    left: 35%;
     transition: margin-top 0.3s ease-in-out;
+    display: flex;
+    justify-content: space-between;
 }
 
 .btn.expanded {
     width: 60px;
     height: 60px;
-    margin-right: 15px;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
@@ -293,25 +308,31 @@ input[type=range] {
 }
 
 .volume.expanded {
-    margin-bottom: 20px;
+    margin: 20px;
+
     z-index: 1;
     transition: margin-bottom 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .volume-slider.expanded {
+    bottom: 70px;
     width: 100px;
-    top: 75%;
-    left: 83%;
     z-index: 1;
     transition: margin-bottom 0.3s ease-in-out;
 }
 
 .close-expanded {
+    position: absolute;
+    top: 20px;
+    right: 20px;
     z-index: 1;
-    margin-top: -50.2%;
-    margin-left: 36.6%;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -323,6 +344,64 @@ input[type=range] {
 
 .close-expanded:hover {
     transform: rotate(90deg);
+}
+
+.current-playlist-div {
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.current-playlist-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.current-playlist-div.expanded {
+    display: none;
+}
+
+.current-playlist-container.opened .music-menu {
+    position: absolute;
+    width: 800px;
+    z-index: 2;
+    background: rgba(18, 15, 15, 0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2px 8px;
+    border-radius: 5px;
+    animation: fadeIn 0.2s ease;
+    bottom: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.opened .playlist-page__songs__list__main__song-card__liked {
+    display: none;
+}
+
+.opened .music-more-button {
+    display: none;
+}
+
+.opened .playlist-page__songs__list__main__song-card__length {
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.opened .playlist-page__songs__list__main__song-card__album {
+    display: flex;
+    justify-content: center;
+}
+
+.opened .playlist-page__songs__list__main__song-card {
+    margin: 2px 0;
 }
 
 

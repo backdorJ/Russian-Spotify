@@ -17,7 +17,7 @@ public class PostLoginRequest
     public PostLoginRequest()
     {
     }
-    
+
     /// <summary>
     /// Почта пользователя
     /// </summary>

@@ -11,5 +11,4 @@ public class AuthorNameFilter : IFilter<User>
         => Task.FromResult(queryable
             .Where(author => author.UserName!.ToLower().Contains(filterValue.ToLower()))
             .OrderBy(i => i.UserName));
-
 }

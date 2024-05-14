@@ -1,4 +1,5 @@
-﻿using RussianSpotify.API.Core.Abstractions;
+﻿using Microsoft.AspNetCore.Identity;
+using RussianSpotify.API.Core.Abstractions;
 using RussianSpotify.API.Core.Entities;
 
 namespace RussianSpotify.API.Core.Services;
@@ -6,21 +7,18 @@ namespace RussianSpotify.API.Core.Services;
 /// <inheritdoc cref="IRoleManager"/>
 public class RoleManager : IRoleManager
 {
-    private readonly IJwtGenerator _jwtGenerator;
+    private readonly UserManager<User> _userManager;
 
-    public RoleManager(IJwtGenerator jwtGenerator)
+    public RoleManager(UserManager<User> userManager)
     {
-        _jwtGenerator = jwtGenerator;
+        _userManager = userManager;
     }
-    
-    /// <inheritdoc cref="IRoleManager"/>
-    public bool IsInRole(User user, string roleName)
-    {
-        if (user.AccessToken is null)
-            return false;
-        
-        var claims = _jwtGenerator.GetPrincipalFromExpiredToken(user.AccessToken!);
 
-        return claims.IsInRole(roleName);
+    /// <inheritdoc cref="IRoleManager"/>
+    public async Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken = new())
+    {
+        var roles = await _userManager.GetRolesAsync(user);
+
+        return roles.Contains(roleName);
     }
 }

@@ -7,10 +7,3 @@ a {
     padding-top: 3%;
 }
 
-.reg-form-container {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-}

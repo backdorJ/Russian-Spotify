@@ -9,11 +9,11 @@ public class PostRevokeTokenRequest
 
         Email = request.Email;
     }
-    
+
     public PostRevokeTokenRequest()
     {
     }
-    
+
     /// <summary>
     /// Email пользователя
     /// </summary>

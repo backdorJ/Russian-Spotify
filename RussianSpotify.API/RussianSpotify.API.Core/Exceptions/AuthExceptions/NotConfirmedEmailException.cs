@@ -11,7 +11,7 @@ public class NotConfirmedEmailException : ApplicationBaseException
         HttpStatusCode statusCode = HttpStatusCode.BadRequest) : base(message, statusCode)
     {
     }
-    
+
     public NotConfirmedEmailException()
     {
     }

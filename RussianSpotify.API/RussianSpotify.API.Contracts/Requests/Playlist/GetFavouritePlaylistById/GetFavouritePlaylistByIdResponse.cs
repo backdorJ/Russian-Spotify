@@ -21,6 +21,11 @@ public class GetFavouritePlaylistByIdResponse
     public bool IsAlbum { get; set; }
 
     /// <summary>
+    /// Id автора
+    /// </summary>
+    public Guid AuthorId { get; set; }
+
+    /// <summary>
     /// Автор
     /// </summary>
     public string? AuthorName { get; set; }
@@ -29,7 +34,7 @@ public class GetFavouritePlaylistByIdResponse
     /// Дата релиза
     /// </summary>
     public DateTime? ReleaseDate { get; set; }
-    
+
     /// <summary>
     /// Находится ли альбом в избранном
     /// </summary>

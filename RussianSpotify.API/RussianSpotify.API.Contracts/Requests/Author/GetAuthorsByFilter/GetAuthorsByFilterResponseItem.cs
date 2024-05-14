@@ -9,22 +9,22 @@ public class GetAuthorsByFilterResponseItem
     /// Id автора
     /// </summary>
     public Guid AuthorId { get; set; }
-    
+
     /// <summary>
     /// Имя автора
     /// </summary>
     public string AuthorName { get; set; } = null!;
-    
+
     /// <summary>
     /// Id картинки автора
     /// </summary>
     public Guid ImageId { get; set; }
-    
+
     /// <summary>
     /// Список альбомов <see cref="GetAuthorsByFilterResponseItemPlaylist"/>
     /// </summary>
     public List<GetAuthorsByFilterResponseItemPlaylist> Albums { get; set; } = new();
-    
+
     /// <summary>
     /// Общее количество альбомов автора
     /// </summary>

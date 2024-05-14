@@ -4,23 +4,30 @@ import "./styles/Player.css"
 import {getImage} from "../../http/fileApi";
 import PrevIcon from "./components/PrevIcon";
 import NextIcon from "./components/NextIcon";
-import StartStopIcon from "./components/StartStopIcon";
-import LikeIcon from "../../assets/mock/common/LikeIcon";
+import StartIcon from "./components/StartIcon";
+import LikeIcon from "./components/LikeIcon";
 import {getSong, tryAddSongToFavorites, tryRemoveSongFromFavorites} from "../../http/songApi";
 import VolumeIcon from "./components/VolumeIcon";
 import {useNavigate} from "react-router-dom";
 import CloseExpandedPlayer from "./components/CloseExpandedPlayer";
+import StopIcon from "./components/StopIcon";
+import {CurrentPlaylistIcon} from "./components/CurrentPlaylistIcon";
+import SongCard from "../SongCard/SongCard";
+import songSources from "../../utils/song/songSources";
 
 /** Музыкальный плеер снизу экрана */
 const Player = (props: any) => {
     const {showExpanded, setShowExpanded} = props
+    const [isLoadingNext] = useState(false)
     const playerStore = useContext(PlayerContext);
     const userStore = useContext(UserContext);
     const [currentPlayingSong, setCurrentPlayingSong] =
         useState(playerStore.Player.currentSong!);
+    const [currentPlaylist] = useState(playerStore.Player.currentPlaylist);
     const [volume, setVolume] = useState(playerStore.Volume);
     const [volumeVisibility, setVolumeVisibility] = useState("none");
     const navigate = useNavigate();
+    const [, setReloadTrigger] = useState(false)
     const [isLiked, setIsLiked] = useState(playerStore.Player.currentSong!.isInFavorite);
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
@@ -30,22 +37,53 @@ const Player = (props: any) => {
 
     /** Проиграть следующий трек */
     const handleNextClick = () => {
-        if(currentPlayingSong.nextSong !== null) {
-            playerStore.Player = getSong(currentPlayingSong.nextSong, userStore.user);
+        if (currentPlayingSong.nextSong === null && !isLoadingNext) {
+            if (currentPlayingSong.source === songSources.Search) {
+                if (currentPlayingSong.nextLoad) {
+                    currentPlayingSong.nextLoad()
+                        .then(getSongs => {
+                            getSongs.songs[0].prevSong = currentPlayingSong
+                            currentPlayingSong.nextSong = getSongs.songs[0]
+                            playerStore.Player = getSong(currentPlayingSong.nextSong, userStore.user, currentPlaylist);
+                            setCurrentPlayingSong(playerStore.Player.currentSong!);
+                        })
+                }
+            }
+        } else if (currentPlayingSong.nextSong !== null) {
+            playerStore.Player = getSong(currentPlayingSong.nextSong, userStore.user, currentPlaylist);
             setCurrentPlayingSong(playerStore.Player.currentSong!);
         }
     }
 
+    useEffect(() => {
+        let audio: any = document.getElementById("audio-player");
+        let volumeFromLocalStorage = localStorage.getItem('player-volume')
+
+        if (volumeFromLocalStorage) {
+            setVolume(parseFloat(volumeFromLocalStorage))
+            audio.volume = volumeFromLocalStorage
+        } else {
+            setVolume(0.5)
+            audio.volume = 0.5
+        }
+
+
+    }, []);
+
+    useEffect(() => {
+        setIsPlaying(playerStore.IsPlaying);
+    }, [playerStore.IsPlaying]);
+
     /** Смена текущего играющего трека */
     useEffect(() => {
-        if(currentPlayingSong != playerStore.Player.currentSong)
+        if (currentPlayingSong !== playerStore.Player.currentSong)
             setCurrentPlayingSong(playerStore.Player.currentSong!);
     }, [playerStore.Player.currentSong]);
 
     /** Проиграть предыдыщий трек */
     const handlePrevClick = () => {
-        if(currentPlayingSong.prevSong !== null) {
-            playerStore.Player = getSong(currentPlayingSong.prevSong, userStore.user);
+        if (currentPlayingSong.prevSong !== null) {
+            playerStore.Player = getSong(currentPlayingSong.prevSong, userStore.user, currentPlaylist);
             setCurrentPlayingSong(playerStore.Player.currentSong!);
         }
     }
@@ -55,7 +93,7 @@ const Player = (props: any) => {
         const audio = document.getElementById("audio-player");
 
         const handleTimeUpdate = (e: any) => {
-            const { duration, currentTime } = e.srcElement;
+            const {duration, currentTime} = e.srcElement;
             setCurrentProgressBarPercent((currentTime / duration) * 100);
         };
 
@@ -94,7 +132,7 @@ const Player = (props: any) => {
         const audio: any = document.getElementById("audio-player");
 
         const onEndedPlayNext = () => {
-            if(!isOnRepeat)
+            if (!isOnRepeat)
                 handleNextClick();
         }
 
@@ -109,6 +147,7 @@ const Player = (props: any) => {
     const handleVolumeChange = (e: any) => {
         let audio: any = document.getElementById("audio-player");
         audio.volume = e.target.value;
+        localStorage.setItem('player-volume', e.target.value)
         playerStore.Volume = e.target.value;
         setVolume(playerStore.Volume);
     }
@@ -117,12 +156,12 @@ const Player = (props: any) => {
     const closeExpanded = () => setShowExpanded(false);
 
     const handleLikeClick = () => {
-        if(!isInLikeProcess) {
+        if (!isInLikeProcess) {
             isInLikeProcess = true;
             if (!playerStore.Player.currentSong!.isInFavorite) {
                 tryAddSongToFavorites(playerStore.Player.currentSong!.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful) {
+                        if (isSuccessful) {
                             setIsLiked(true);
                             isInLikeProcess = false;
                             playerStore.Player.currentSong!.isInFavorite = true;
@@ -131,7 +170,7 @@ const Player = (props: any) => {
             } else {
                 tryRemoveSongFromFavorites(playerStore.Player.currentSong!.songId)
                     .then(isSuccessful => {
-                        if(isSuccessful){
+                        if (isSuccessful) {
                             setIsLiked(false);
                             isInLikeProcess = false;
                             playerStore.Player.currentSong!.isInFavorite = false;
@@ -141,38 +180,102 @@ const Player = (props: any) => {
         }
     }
 
+    const playerContext = useContext(PlayerContext);
+    const [isPlaying, setIsPlaying] = useState(true);
+
+    const handleStartStopClick = () => {
+        const audio: any = document.getElementById("audio-player");
+        const image: any = document.querySelector(".player-music-image");
+
+        if (audio !== null) {
+            if (audio?.paused) {
+                playerContext.IsPlaying = true;
+                audio.play();
+                image.style.animation = "3s linear 0s normal none infinite running rot";
+            } else {
+                playerContext.IsPlaying = false;
+                audio.pause();
+                image.style.animation = "none";
+            }
+        }
+    }
+
+    const [isCurrentPlaylistOpened, setCurrentPlaylistOpened] = useState(false);
+    const handleCurrentPlaylistIconClick = () => {
+        setCurrentPlaylistOpened(!isCurrentPlaylistOpened);
+    }
+
     return (
         <>
-            <div className={`player-wrapper ${showExpanded ? "expanded" : ""}`}>
-                {showExpanded && <div className="close-expanded"><CloseExpandedPlayer onClick={closeExpanded}/></div>}
+            <div
+                className={`player-wrapper ${showExpanded ? "expanded" : ""} ${isCurrentPlaylistOpened ? "shadow" : ""}`}>
                 <audio autoPlay={playerStore.IsPlaying} id="audio-player"
-                       src={getSong(currentPlayingSong, userStore.user).currentSongUrl}/>
+                       src={getSong(currentPlayingSong, userStore.user, currentPlaylist).currentSongUrl}/>
                 <div className={`player${showExpanded ? " expanded" : ""}`}>
-                    <div className={`buttons${showExpanded ? " expanded" : ""}`}>
-                        <div className={`btn prev${showExpanded ? " expanded" : ""}`}><PrevIcon handlePrev={handlePrevClick}/></div>
-                        <div className={`btn play${showExpanded ? " expanded" : ""}`}><StartStopIcon isPlaying={true}/></div>
-                        <div className={`btn next${showExpanded ? " expanded" : ""}`}><NextIcon handleNext={handleNextClick}/></div>
+                    <div onClick={handleShowExpanded}
+                         className={`player-music-image-container${showExpanded ? " expanded" : ""}`}>
+                        <img className={`player-music-image ${showExpanded ? " expanded" : ""}`}
+                             src={getImage(currentPlayingSong.imageId!)}
+                             alt="SongCard Image"/>
                     </div>
-                    <div onClick={handleShowExpanded} className={`player-music-image-container${showExpanded ? " expanded" : ""}`}>
-                        <img className={`player-music-image ${showExpanded ? " expanded" : ""}`} src={getImage(currentPlayingSong.imageId!)}
-                             alt="Song Image"/>
-                    </div>
+                    {showExpanded &&
+                        <div className="close-expanded"><CloseExpandedPlayer onClick={closeExpanded}/></div>}
                     <div className={`player-content${showExpanded ? " expanded" : ""}`}>
-                        <div onClick={() => setShowExpanded(false)} className={`song-name${showExpanded ? " expanded" : ""}`}>{currentPlayingSong.songName}
-                            <span> - {currentPlayingSong.authors.map((author, index) => <span
-                                onClick={() => navigate(`/author/${author}`)}
-                                className={`player-artist-link${showExpanded ? " expanded" : ""}`}>{author}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
+                        <div onClick={() => setShowExpanded(false)}
+                             className={`song-name${showExpanded ? " expanded" : ""}`}>{currentPlayingSong.songName}
+                            <span>-</span>
+                            <span>
+                                 {currentPlayingSong.authors.map((author, index) => <span
+                                     onClick={() => navigate(`/author/${author}`)}
+                                     className={`player-artist-link${showExpanded ? " expanded" : ""}`}>{author.authorName}{index < currentPlayingSong.authors.length - 1 ? ', ' : ''}</span>)}</span>
                         </div>
                         <div className={`progress__container${showExpanded ? " expanded" : ""}`}>
-                            <div style={{width: currentProgressBarPercent + "%"}} className={`progress${showExpanded ? " expanded" : ""}`}></div>
+                            <div style={{width: currentProgressBarPercent + "%"}}
+                                 className={`progress${showExpanded ? " expanded" : ""}`}></div>
                         </div>
                     </div>
                     <div className={`actions${showExpanded ? " expanded" : ""}`}>
-                        <div className={`like-button${showExpanded ? " expanded" : ""}`}><LikeIcon onClick = {handleLikeClick} isLiked={isLiked}/></div>
-                        <div onMouseEnter={() => setVolumeVisibility("block")} onMouseLeave={() => setVolumeVisibility("none")}  className={`volume ${showExpanded ? "expanded" : ""}`}>
-                            <VolumeIcon />
-                            <input style={{display: volumeVisibility}} className={`volume-slider${showExpanded ? " expanded" : ""}`} onInput={handleVolumeChange} type="range" id="volume-slider" min="0" max="1" step="0.01"
-                                value={volume}/>
+                        <div className={`like-button${showExpanded ? " expanded" : ""}`}><LikeIcon
+                            onClick={handleLikeClick} isLiked={isLiked}/></div>
+                        <div className={`buttons${showExpanded ? " expanded" : ""}`}>
+                            <div className={`btn prev${showExpanded ? " expanded" : ""}`} onClick={handlePrevClick}>
+                                <PrevIcon/></div>
+                            {isPlaying ?
+                                <div className={`btn play${showExpanded ? " expanded" : ""}`}
+                                     onClick={handleStartStopClick}><StartIcon/></div>
+                                : <div className={`btn play${showExpanded ? " expanded" : ""}`}
+                                       onClick={handleStartStopClick}><StopIcon/></div>}
+                            <div className={`btn next${showExpanded ? " expanded" : ""}`} onClick={handleNextClick}>
+                                <NextIcon/></div>
+                        </div>
+                        <div onMouseEnter={() => setVolumeVisibility("block")}
+                             onMouseLeave={() => setVolumeVisibility("none")}
+                             className={`volume ${showExpanded ? "expanded" : ""}`}>
+                            <VolumeIcon/>
+                            <input style={{display: volumeVisibility}}
+                                   className={`volume-slider${showExpanded ? " expanded" : ""}`}
+                                   onInput={handleVolumeChange} type="range" id="volume-slider" min="0" max="1"
+                                   step="0.01"
+                                   value={volume}/>
+                        </div>
+                    </div>
+                    <div className={`current-playlist-div${showExpanded ? " expanded" : ""}`}>
+                        <div className={`current-playlist-icon-container${showExpanded ? " expanded" : ""}`}>
+                            <CurrentPlaylistIcon onClick={handleCurrentPlaylistIconClick}/>
+                        </div>
+                        <div className={`current-playlist-container${isCurrentPlaylistOpened ? " opened" : "closed"}`}>
+                            {isCurrentPlaylistOpened &&
+                                <div className="music-menu">
+                                    <div className="music-container">
+                                        <div className="music-container-wrapper">
+                                            {currentPlaylist && currentPlaylist.songs.map((song, index) => <SongCard
+                                                song={song}
+                                                order_number={index + 1} playlist={currentPlaylist}
+                                                onModalOpen={undefined}
+                                                playlistReloadTrigger={() => setReloadTrigger(prev => !prev)}/>)}
+                                        </div>
+                                    </div>
+                                </div>}
                         </div>
                     </div>
                 </div>

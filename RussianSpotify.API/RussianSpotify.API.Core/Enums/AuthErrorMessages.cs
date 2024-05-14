@@ -14,12 +14,12 @@ public static class AuthErrorMessages
     /// Неправильный пароль
     /// </summary>
     public const string WrongPassword = "Wrong password";
-    
+
     /// <summary>
     /// Пароли не совпадают
     /// </summary>
     public const string PasswordIsNotConfirmed = "Passwords are not equals";
-    
+
     /// <summary>
     /// Пользователь с такой почтой уже зарегистрирован
     /// </summary>
@@ -47,14 +47,14 @@ public static class AuthErrorMessages
     /// </summary>
     /// <param name="requiredLength">Минимальная длина пароля</param>
     /// <returns></returns>
-    public static string ShortPassword(int requiredLength) 
+    public static string ShortPassword(int requiredLength)
         => $"The password must be more than {requiredLength} symbols";
 
     /// <summary>
     /// Некорректный JWT
     /// </summary>
     public const string InvalidAccessToken = "Invalid Access Token";
-    
+
     /// <summary>
     /// Некорректный Refresh Token
     /// </summary>

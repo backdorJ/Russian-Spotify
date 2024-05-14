@@ -14,7 +14,7 @@ public class Category
     {
         Songs = new List<Song>();
     }
-    
+
     /// <summary>
     /// Ид категории
     /// </summary>
@@ -23,7 +23,7 @@ public class Category
     /// <summary>
     /// Имя категории
     /// </summary>
-    public CategoryTypes CategoryName { get; protected set; }
+    public CategoryTypes CategoryName { get; set; }
 
     /// <summary>
     /// Песни

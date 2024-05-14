@@ -13,7 +13,7 @@ public class Role : IdentityRole<Guid>
     {
         Privileges = new List<RolePrivilege>();
     }
-    
+
     /// <summary>
     /// Привилегии
     /// </summary>
@@ -27,7 +27,7 @@ public class Role : IdentityRole<Guid>
     {
         if (Privileges is null)
             throw new NotIncludedException(nameof(Privileges));
-        
+
         var rolePrivilegesToDelete = Privileges.Where(x =>
                 !privilegesList.Exists(y => y == x.Privilege))
             .ToList();

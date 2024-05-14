@@ -14,7 +14,7 @@ public class PostRefreshTokenRequest
     public PostRefreshTokenRequest()
     {
     }
-    
+
     /// <summary>
     /// JWT
     /// </summary>
