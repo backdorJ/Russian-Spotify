@@ -1,4 +1,4 @@
-namespace RussianSpotify.API.Core.Exceptions.File;
+namespace RussianSpotify.API.Core.Exceptions.FileExceptions;
 
 public class FileBadRequestException : BadRequestException
 {

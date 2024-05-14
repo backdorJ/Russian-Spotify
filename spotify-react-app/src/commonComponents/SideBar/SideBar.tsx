@@ -3,7 +3,7 @@ import navigationElementsProps from "../../utils/sidebar/navigationElementsProps
 // @ts-ignore
 import create_playlist from '../../assets/sidebar/create_playlist.png'
 // @ts-ignore
-import liked_songs from '../../assets/sidebar/liked_songs.png'
+import liked_songs from '../../assets/sidebar/like.png'
 // @ts-ignore
 import author_icon from '../../assets/sidebar/author_icon.png'
 import {useNavigate} from "react-router-dom";

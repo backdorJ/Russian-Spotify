@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace RussianSpotify.API.Core.Exceptions.AccountExceptions;
+namespace RussianSpotify.API.Core.Exceptions.AuthExceptions;
 
 /// <summary>
 /// Исключение выбрасывается при логине пользователя, если не удалось найти пользователя с нужной почтой

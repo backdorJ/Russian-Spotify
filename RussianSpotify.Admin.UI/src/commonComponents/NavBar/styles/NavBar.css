@@ -1,0 +1,51 @@
+.navbar {
+    display: flex;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    justify-content: end;
+    padding: 10px 15px;
+    border-radius: 28px;
+}
+
+.navbar p {
+    font-size: 16px;
+}
+
+.navbar__account {
+    min-width: inherit;
+    display: flex;
+    flex-direction: column;
+    border-radius: 28px;
+    background-color: mediumpurple;
+    cursor: pointer;
+}
+
+.navbar__account__main {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 28px;
+    transition: .05s;
+}
+
+.navbar__account:hover {
+    transition: .05s;
+    transform: scale(1.1);
+}
+
+.navbar__account__wide__element {
+    display: flex;
+    align-items: center;
+    border-radius: 28px;
+    padding: 5px;
+    cursor: pointer;
+    transition: .05s;
+}
+
+.navbar__account__wide__element__text {
+    font-family: 'proxima_nova_rgbold', sans-serif;
+    cursor: pointer;
+}

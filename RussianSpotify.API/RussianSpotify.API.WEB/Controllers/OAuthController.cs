@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RussianSpotify.API.Core.Entities;
-using RussianSpotify.API.Core.Requests.OAuthAccount.GetExternalLoginCallback;
+using RussianSpotify.API.Core.Requests.OAuth.GetExternalLoginCallback;
 
 namespace RussianSpotify.API.WEB.Controllers;
 

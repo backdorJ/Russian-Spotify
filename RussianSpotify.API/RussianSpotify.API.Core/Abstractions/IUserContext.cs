@@ -9,4 +9,9 @@ public interface IUserContext
     /// ИД текущего пользователя
     /// </summary>
     Guid? CurrentUserId { get; }
+    
+    /// <summary>
+    /// Название роли текущего пользователя
+    /// </summary>
+    string? RoleName { get; }
 }

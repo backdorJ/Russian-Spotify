@@ -9,7 +9,7 @@ using RussianSpotify.API.Core.Exceptions.AccountExceptions;
 using RussianSpotify.API.Core.Exceptions.AuthExceptions;
 using RussianSpotify.API.Core.Extensions;
 using RussianSpotify.API.Core.Models;
-using RussianSpotify.Contracts.Requests.Account.PostRegister;
+using RussianSpotify.Contracts.Requests.Auth.PostRegister;
 
 namespace RussianSpotify.API.Core.Requests.Auth.PostRegister;
 

@@ -1,5 +1,5 @@
 using MediatR;
-using RussianSpotify.Contracts.Requests.Account.PostConfirmEmail;
+using RussianSpotify.Contracts.Requests.Auth.PostConfirmEmail;
 
 namespace RussianSpotify.API.Core.Requests.Auth.PostConfirmEmail;
 

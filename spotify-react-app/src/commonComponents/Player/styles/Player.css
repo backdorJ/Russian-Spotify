@@ -381,10 +381,6 @@ input[type=range] {
     text-align: center;
 }
 
-.opened .playlist-page__songs__list__main__song-card__id {
-    display: none;
-}
-
 .opened .playlist-page__songs__list__main__song-card__liked {
     display: none;
 }

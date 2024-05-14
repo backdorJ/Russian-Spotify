@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace RussianSpotify.API.Core.Exceptions.OAuthAccountExceptions;
+namespace RussianSpotify.API.Core.Exceptions.OAuthExceptions;
 
 /// <summary>
 /// Если не найден Claim с типом Email

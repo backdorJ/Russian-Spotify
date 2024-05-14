@@ -1,0 +1,28 @@
+.date-selector-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.date-selector-container label {
+    position: absolute;
+    transform: translate(0, -30px);
+    color: #ffffff;
+}
+
+.date-selector-container input {
+    padding: 8px;
+    border: 1px solid mediumpurple;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: #ffffff;
+    outline: none;
+}
+
+.date-selector-container input::placeholder {
+    color: #ffffff;
+}

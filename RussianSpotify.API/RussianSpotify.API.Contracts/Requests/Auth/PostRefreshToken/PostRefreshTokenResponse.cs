@@ -1,4 +1,4 @@
-namespace RussianSpotify.Contracts.Requests.Account.PostRefreshToken;
+namespace RussianSpotify.Contracts.Requests.Auth.PostRefreshToken;
 
 public class PostRefreshTokenResponse
 {

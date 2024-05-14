@@ -18,7 +18,7 @@ import songSources from "../../utils/song/songSources";
 /** Музыкальный плеер снизу экрана */
 const Player = (props: any) => {
     const {showExpanded, setShowExpanded} = props
-    const [isLoadingNext, setIsLoadingNext] = useState(false)
+    const [isLoadingNext] = useState(false)
     const playerStore = useContext(PlayerContext);
     const userStore = useContext(UserContext);
     const [currentPlayingSong, setCurrentPlayingSong] =
@@ -27,7 +27,7 @@ const Player = (props: any) => {
     const [volume, setVolume] = useState(playerStore.Volume);
     const [volumeVisibility, setVolumeVisibility] = useState("none");
     const navigate = useNavigate();
-    const [reloadTrigger, setReloadTrigger] = useState(false)
+    const [, setReloadTrigger] = useState(false)
     const [isLiked, setIsLiked] = useState(playerStore.Player.currentSong!.isInFavorite);
     /** Находится ли песня в процессе добавления в понравившееся */
     let isInLikeProcess = false;
@@ -37,7 +37,6 @@ const Player = (props: any) => {
 
     /** Проиграть следующий трек */
     const handleNextClick = () => {
-        console.log(1)
         if (currentPlayingSong.nextSong === null && !isLoadingNext) {
             if (currentPlayingSong.source === songSources.Search) {
                 if (currentPlayingSong.nextLoad) {
