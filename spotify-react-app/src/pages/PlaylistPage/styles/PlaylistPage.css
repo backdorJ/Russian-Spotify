@@ -1,6 +1,5 @@
 .playlist-page-wrapper {
-    width: inherit;
-    height: 100%
+    display: flex;
 }
 
 .playlist-page {
@@ -9,10 +8,10 @@
 }
 
 .playlist-page-background {
+    width: 100%;
     position: absolute;
-    width: inherit;
     height: 650px;
-    background: linear-gradient(#DEF628, #121212)
+    background: linear-gradient(#DEF628, #121212);
 }
 
 .playlist-page__main {
@@ -74,7 +73,7 @@
 }
 
 .playlist-page__songs {
-    height: 1000px;
+    height: 700px;
     padding: 30px 40px 80px 40px;
     background: linear-gradient(rgba(18, 18, 18, 0.19), #121212);
 }
@@ -179,7 +178,7 @@
 }
 
 .playlist-page__songs__list__header__album {
-    width: 30%;
+    width: 33%;
 }
 
 .playlist-page__songs__list__header__added {
