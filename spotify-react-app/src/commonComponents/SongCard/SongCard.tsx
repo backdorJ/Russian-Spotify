@@ -17,7 +17,6 @@ import StartIcon from "../Player/components/StartIcon";
 import StopIcon from "../Player/components/StopIcon";
 // @ts-ignore
 import author_icon from '../../assets/song/author_icon.png'
-import player from "../Player/Player";
 import routeNames from "../../utils/routeNames";
 
 const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloadTrigger, playlist}) => {
@@ -229,11 +228,10 @@ const SongCard: FC<ISongCard> = ({song, order_number, onModalOpen, playlistReloa
                 className="playlist-page__songs__list__main__song-card__id"
                 style={{marginRight: isMouseOverPlay ? '17px' : '12px', marginLeft: isMouseOverPlay ? '-5px' : '0'}}>
                 {
-                    isMouseOverPlay
-                        ?
-                        isPlaying ?
-                            <StartIcon/>
-                            : <StopIcon/>
+                    isMouseOverPlay ?
+                        isPlaying ? 
+                            <StopIcon/>
+                            :  <StartIcon/>
                         : <p>{order_number}</p>
                 }
             </div>
