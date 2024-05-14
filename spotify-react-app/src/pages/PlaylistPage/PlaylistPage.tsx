@@ -9,7 +9,7 @@ import like_icon_hover from "../../assets/mock/playlistpage/songs/liked_icon_svg
 import options_icon from "../../assets/mock/playlistpage/options_icon.png"
 // @ts-ignore
 import favoriteSongsPlaylistImage from "../../assets/playlist/favorite-songs-playlist-image.png"
-import {Fragment, useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {PlayerContext, UserContext} from "../../index";
 import {useNavigate, useParams} from "react-router-dom";
 import {getPlaylistInfo, tryAddPlaylistToFavorites, tryRemovePlaylistFromFavorites} from "../../http/playlistApi";
@@ -152,22 +152,7 @@ const PlaylistPage = () => {
             setGetting(true);
         }
     }
-
-    const allAuthorsTogetherUnique = new Array<string>()
-    songs.forEach(i => {
-        i.authors.forEach(e => {
-            if (allAuthorsTogetherUnique.includes(e.authorName))
-                return
-            allAuthorsTogetherUnique.push(e.authorName)
-        })
-    })
-
-    const authorsMapped = allAuthorsTogetherUnique.map((author, index) => {
-        if (index < allAuthorsTogetherUnique.length - 1)
-            return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span>, </Fragment>)
-        return (<Fragment><span onClick={() => navigate(`/author/${author}`)}>{author}</span></Fragment>)
-    })
-
+    
     const handleLikeClick = () => {
         if (!isInLikeProcess) {
             isInLikeProcess = true;
@@ -214,7 +199,7 @@ const PlaylistPage = () => {
                             {currentPlaylist.playlistName}
                         </h1>
                         <p className="playlist-page__main__info__singers">
-                            Made by <span>{authorsMapped}</span>
+                            Made by <span onClick={() => navigate(`/author/${currentPlaylist.authorName}`)}>{currentPlaylist.authorName}</span>
                         </p>
                         <p className="playlist-page__main__info__additional">
                             ◦ {songs.length} songs, {formatDuration(songs.reduce((sum, current) => sum + current.duration, 0))}
