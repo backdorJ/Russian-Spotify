@@ -34,7 +34,6 @@ import {FileService} from "./services/databaseInteraction/fileService";
 import {FileInteractionController} from "./modules/databaseInteraction/controllers/fileInteraction.controller";
 import {PlaylistSong} from "./DAL/entities/russianSpotifyDbEntities/PlaylistSong.entity";
 import {FileExtender} from "./interceptors/FileInterceptor";
-import {StatisticModule} from "./modules/statistic/statistic.module";
 import { config } from 'dotenv';
 const httpsAgent = new Agent({ rejectUnauthorized: false });
 
@@ -74,7 +73,6 @@ config();
           Subscribe,
           PlaylistSong
       ]),
-      StatisticModule,
       AuthModule,
       HttpModule.register({
           httpsAgent,
