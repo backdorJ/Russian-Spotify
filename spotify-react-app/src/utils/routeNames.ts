@@ -10,8 +10,8 @@ export default {
     FAVORITE_SONGS: '/playlist/favorite-songs',
     AUTHOR_PAGE_ROUTE: '/author/:authorName',
     AUTHOR_PAGE_NAV: '/author/',
-    AUTHOR_SONGS_ROUTE: '/songs/:authorName',
-    AUTHOR_SONGS_NAV: '/songs/',
+    AUTHOR_SONGS_ROUTE: '/playlist/:authorName',
+    AUTHOR_SONGS_NAV: '/playlist/author-',
     PLAYLIST_PAGE_ROUTE: '/playlist/:id',
     PLAYLIST_PAGE_NAV: '/playlist/',
     ABOUT_PAGE: '/about-us'
