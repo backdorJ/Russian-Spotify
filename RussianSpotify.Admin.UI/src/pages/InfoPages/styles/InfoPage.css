@@ -1,0 +1,231 @@
+.info-page-content-header {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.info-page-wrapper {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-page-content-header-text {
+    font-weight: bold;
+    font-size: 60px;
+}
+
+footer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 20px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+footer button:disabled {
+    color: #999;
+    cursor: not-allowed;
+}
+
+footer button:disabled path {
+    fill: #999;
+    cursor: not-allowed;
+}
+
+footer svg {
+    margin-right: 5px;
+    fill: currentColor;
+    width: 20px;
+    height: 20px;
+}
+
+.add-button {
+    cursor: pointer;
+    width: 150px;
+    height: 40px;
+    background: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    transition: 0.1s;
+}
+
+.add-button:hover {
+    transform: scale(1.1);
+    transition: 0.1s;
+}
+
+.add-button-text {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delete-button {
+    cursor: pointer;
+    width: 150px;
+    height: 40px;
+    background: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    transition: 0.1s;
+}
+
+.delete-button:hover {
+    transform: scale(1.1);
+    transition: 0.1s;
+}
+
+.delete-button-text {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.update-button {
+    cursor: pointer;
+    width: 150px;
+    height: 40px;
+    background: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    transition: 0.1s;
+}
+
+.update-button:hover {
+    transform: scale(1.1);
+    transition: 0.1s;
+}
+
+.update-button-text {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid mediumpurple;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.2);
+    outline: none;
+    color: #ffffff;
+}
+
+.search-select {
+    padding: 8px;
+    border: 1px solid mediumpurple;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    color: #ffffff;
+}
+
+.search-select option {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+}
+
+.search-button {
+    margin: 10px;
+    padding: 8px 16px;
+    background-color: mediumpurple;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.search-button:hover {
+    transition: all 0.1s linear;
+    transform: scale(1.1);
+}
+
+.checkbox-label {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: mediumpurple;
+    cursor: pointer;
+}
+
+.checkbox-custom {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #444;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.checkbox-custom::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.search-input-checkbox:checked + .checkbox-custom::after {
+    display: block;
+}
+
+.search-input-checkbox {
+    display: none;
+}
+
+.checkbox-custom::before {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    height: 100%; 
+    background-color: #444;
+    border: none;
+    border-radius: 3px;
+}
+

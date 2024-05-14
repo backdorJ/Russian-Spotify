@@ -1,5 +1,4 @@
-import {Column, Entity, OneToMany, PrimaryColumn} from "typeorm";
-import {PlaylistUser} from "./PlaylistUser.entity";
+import {Column, Entity, PrimaryColumn} from "typeorm";
 import {User} from "./User.entity";
 import {Song} from "./Song.entity";
 

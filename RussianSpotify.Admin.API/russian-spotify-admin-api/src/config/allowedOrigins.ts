@@ -1,4 +1,4 @@
 export const allowedOrigins = [
-    'http://localhost:5437',
-    'https://localhost:44361'
+    'http://localhost:3003',
+    'https://localhost:7177'
 ]

@@ -44,7 +44,7 @@ export class UsersService {
             role: "Пользователь"
         });
 
-        if(response.status != 200)
+        if (response.status != 200)
             throw new HttpException(response.data.message, response.status);
 
         let user = await this.userRepository.findOneByOrFail({Email: request.email});
@@ -53,9 +53,6 @@ export class UsersService {
 
         let requestRole = await this.roleRepository
             .findOneByOrFail({NormalizedName: request.role.toUpperCase()});
-
-        console.log(user.Id);
-        console.log(requestRole);
 
         await this.userRolesRepository.createQueryBuilder()
             .update()
@@ -72,18 +69,18 @@ export class UsersService {
 
         if (request.userName)
             query = query
-                .andWhere('LOWER("u"."UserName") LIKE \':userName%\'',
-                    {userName: request.userName.toLowerCase()});
+                .andWhere('LOWER("u"."UserName") LIKE :userName',
+                    {userName: `%${request.userName.toLowerCase()}%`});
 
         if (request.id)
             query = query
-                .andWhere('LOWER("u"."Id") LIKE :id',
+                .andWhere('"u"."Id" = :id',
                     {id: request.id.toLowerCase()});
 
         if (request.email)
             query = query
-                .andWhere('LOWER("u"."Email") LIKE \':email%\'',
-                    {email: request.email.toLowerCase()});
+                .andWhere('LOWER("u"."Email") LIKE :email',
+                    {email: `%${request.email.toLowerCase()}%`});
 
         // @ts-ignore
         if (request.isNullRefresh && request.isNullRefresh == "true")
@@ -106,22 +103,22 @@ export class UsersService {
         // @ts-ignore
         if (request.isExpiredRefresh && request.isExpiredRefresh == "true")
             query = query
-                .andWhere('"u"."RefreshToken" IS NOT null')
-                .andWhere('"u"."RefreshTokenExpiryTime" AT TIME ZONE \'UTC\' < CURRENT_DATE AT TIME ZONE \'UTC\'');
+                .andWhere('("u"."RefreshToken" IS NULL OR ("u"."RefreshToken" IS NOT NULL AND "u"."RefreshTokenExpiryTime" AT TIME ZONE \'UTC\' < CURRENT_DATE AT TIME ZONE \'UTC\'))');
         // @ts-ignore
         else if (request.isExpiredRefresh && request.isExpiredRefresh == "false")
             query = query
-                .andWhere('"u"."RefreshToken" IS NOT null')
-                .andWhere('"u"."RefreshTokenExpiryTime" AT TIME ZONE \'UTC\' > CURRENT_DATE AT TIME ZONE \'UTC\'');
+                .andWhere('("u"."RefreshToken" IS NOT NULL AND "u"."RefreshTokenExpiryTime" AT TIME ZONE \'UTC\' > CURRENT_DATE AT TIME ZONE \'UTC\')');
 
         if (request.isEmailConfirmed)
             query = query
                 .andWhere('"u"."EmailConfirmed" = :isEmailConfirmed',
                     {isEmailConfirmed: request.isEmailConfirmed});
-
-        query = query
-            .innerJoin('AspNetUserRoles', 'ur', '"u"."Id" = "ur"."UserId"')
-            .innerJoin('AspNetRoles', 'r', '"ur"."RoleId" = "r"."Id"')
+        
+        if (request.role)
+            query = query
+                .innerJoin('AspNetUserRoles', 'ur', '"u"."Id" = "ur"."UserId"')
+                .innerJoin('AspNetRoles', 'r', '"ur"."RoleId" = "r"."Id"')
+                .andWhere('LOWER("r"."Name") LIKE :name', { name: `%${request.role.toLowerCase()}%` });
 
         const totalCount = await query.getCount();
 
@@ -188,9 +185,7 @@ export class UsersService {
         if (request.emailConfirmed)
             user.EmailConfirmed = request.emailConfirmed;
 
-        console.log(request)
         if (request.userName) {
-            console.log("true, bro");
             user.UserName = request.userName;
             user.NormalizedUserName = request.userName.toUpperCase();
         }
@@ -202,7 +197,7 @@ export class UsersService {
             throw new NotFoundException("Image file not found");
 
         if (request.role) {
-            let role = await this.roleRepository.findOneByOrFail({"NormalizedName": request.userName.toUpperCase()});
+            let role = await this.roleRepository.findOneByOrFail({"NormalizedName": request.role.toUpperCase()});
             let currentRole = await this.userRolesRepository.findOneByOrFail({"UserId": request.id});
             currentRole.RoleId = role.Id;
             await this.userRolesRepository.save(currentRole);

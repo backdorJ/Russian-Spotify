@@ -61,15 +61,16 @@ export class PlaylistService {
             query = query.andWhere('"p"."IsAlbum" = false');
 
         if(request.name)
-            query = query.andWhere('LOWER("p"."PlaylistName") LIKE \':name%\'',
-                {name: request.name.toLowerCase()});
+            query = query.andWhere('LOWER("p"."PlaylistName") LIKE :name',
+                { name: `%${request.name.toLowerCase()}%` });
 
         if(request.authorId)
             query = query.andWhere('"p"."AuthorId" = :authorId', {authorId: request.authorId});
 
         if(request.authorName)
-            query = query.innerJoin('AspNetUsers', 'u', '"p"."AuthorId" = "u"."Id"')
-                .andWhere('LOWER("u"."UserName") LIKE :name', {name: request.authorName.toLowerCase()});
+            query = query.leftJoinAndSelect('AspNetUsers', 'u', '1 = 1')
+                .andWhere('LOWER("u"."UserName") LIKE :name',
+                    { name: `%${request.authorName.toLowerCase()}%` });
 
         if(!request.authorName)
             query = query.innerJoin('AspNetUsers', 'u', '"p"."AuthorId" = "u"."Id"');
@@ -91,7 +92,7 @@ export class PlaylistService {
             .take(request.pageSize)
 
         const resultFromDb = await query.execute();
-
+        
         let result = new GetPlaylistsByFilterResponseDto();
         result.totalCount = totalCount;
         result.playlists = resultFromDb.map(x => {

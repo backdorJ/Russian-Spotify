@@ -1,4 +1,4 @@
-import {Column, Entity, OneToMany, OneToOne, PrimaryColumn} from "typeorm";
+import {Column, Entity, PrimaryColumn} from "typeorm";
 import {Bucket} from "./Bucket.entity";
 import {Subscribe} from "./Subscribe.entity";
 import {Playlist} from "./Playlist.entity";

@@ -77,10 +77,24 @@ export class FileService {
         else if (request.orderBySize)
             query = query.addOrderBy('"f"."Size"', "DESC")
 
-        query = query.skip(request.pageSize * (request.pageNumber - 1)).take(request.pageSize);
+        query = query.addSelect([
+            '"f"."Id"',
+            '"f"."Address"',
+            '"f"."Size"',
+            '"f"."FileName"',
+            '"f"."ContentType"',
+            '"f"."UserId"',
+            '"f"."SongId"',
+        ])
 
         const totalCount = await query.getCount();
-        const resultFromDb = await query.getRawMany<Files>();
+
+        query = query
+            .skip(request.pageSize * (request.pageNumber - 1))
+            .take(request.pageSize);
+        
+        const resultFromDb = await query.execute();
+        
 
         const result = new GetFilesByFilterResponseDto();
         result.totalCount = totalCount;

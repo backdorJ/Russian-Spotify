@@ -54,8 +54,8 @@ export class SongService {
 
         if (request.songName)
             query = query
-                .andWhere('LOWER("s"."SongName") LIKE \':songName%\'',
-                    {songName: request.songName.toLowerCase()});
+                .andWhere('LOWER("s"."SongName") LIKE :name',
+                    { name: `%${request.songName.toLowerCase()}%` });
 
         if (request.lessThenPlaysNumber)
             query = query
@@ -102,7 +102,7 @@ export class SongService {
             query = query
                 .innerJoin('PlaylistSong', 'ps', '"s"."Id" = "ps"."SongsId"')
                 .andWhere('"ps"."PlaylistId" = :albumId', {albumId: request.albumId});
-
+        
         let totalCount = await query.getCount();
 
         query = query
@@ -141,8 +141,8 @@ export class SongService {
             song.id = resultFromDb[i].Id;
             song.authorNames.push(resultFromDb[i].UserName);
             song.authorIds.push(resultFromDb[i].AuthorsId);
-            song.duration = resultFromDb[i].duration;
-            song.name = resultFromDb[i].name;
+            song.duration = resultFromDb[i].Duration;
+            song.name = resultFromDb[i].SongName;
             song.imageId = resultFromDb[i].ImageId;
             song.playsNumber = resultFromDb[i].PlaysNumber;
             song.categoryId = resultFromDb[i].CategoryId;
@@ -217,7 +217,9 @@ export class SongService {
         if (request.fileId) {
             let file = await this.fileRepository.findOneByOrFail({"Id": request.fileId});
             file.SongId = request.id;
-            await this.songRepository.save(file);
+            await this.fileRepository.save(file);
         }
+        
+        await this.songRepository.save(song)
     }
 }

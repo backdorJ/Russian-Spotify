@@ -1,8 +1,8 @@
-import {Column, Entity, ManyToOne, PrimaryColumn} from "typeorm";
+import {Column, Entity, PrimaryColumn} from "typeorm";
 import {Playlist} from "./Playlist.entity";
 import {User} from "./User.entity";
 
-@Entity({name: "PlaylistUser", synchronize: false})
+@Entity("PlaylistUser")
 export class PlaylistUser {
     @PrimaryColumn({unique: false})
     PlaylistId: string;

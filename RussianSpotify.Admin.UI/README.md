@@ -1,30 +1,24 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+<b>File structure:</b>
+1. <b>commonComponents</b> - общие компоненты, которые могут быть использованы в любых других компонентах или страницах.
+    Структура хранения:
+    --commonComponents: <br>
+    ----NavBar: <br>
+    ------NavBar.tsx <br>
+    ------NavBar.cs <br>
+2. <b>pages</b> - страницы: <br>
+    2.1. Для каждой страницы есть своя папка. В этой папке будет .tsx файл с таким же названием 
+    как и у папки (Сама страница), папка <b>components</b>,
+    в которой будут хранится компоненты только этой страницы,<br>
+    папка <b>styles</b> со стилями страницы (Пример в pages/AboutPage): <br>
+    --pages: <br>
+    ----examplePage: <br>
+    ------examplePage.tsx <br> 
+    ------components: <br>
+    --------someComponents.tsx <br>
+    ------styles: <br> 
+    --------examplePage.cs <br>
+3. <b>utils</b> - папка с утилитами. Здесь будут хранится переиспользуемые функции и objects.
+4. <b>tests</b> - папка с тестами. P.S. Пока без понятия как их писать..
+5. <b>http</b> - папка с клиентом <b>Axios</b> и настроенными методами для того чтобы делать <b>HTTP Request</b>.
+6. <b>stores</b> - папка, в которой будут хранится классы для <b>State</b> менеджера.
+7. <b>assets</b> - папка, в которй будут хранится разные ассеты: картинки, иконки и т.д.

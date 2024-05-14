@@ -14,7 +14,7 @@ import {PostCreateResponseDtoBase} from "../DTOs/common/PostCreateResponseDtoBas
 @Controller("api/UserInteraction")
 export class UserInteractionController {
     constructor(@Inject(UsersService) private readonly usersService: UsersService) {}
-
+    
     @ApiOperation({description: "Создать пользователя(через апи ASP.NET Core)"})
     @Post("CreateUser")
     async createUser(@Body() postCreateUserRequestDto: PostCreateUserRequestDto) : Promise<PostCreateResponseDtoBase> {
@@ -22,17 +22,17 @@ export class UserInteractionController {
     }
 
     @ApiOperation({description: "Отдать пользователей по фильтру"})
-    @Get("GetUsers")
+    @Get("GetUsersByFilter")
     async getUsers(@Query() getUsersRequestDto: GetUsersByFilterRequestDto): Promise<GetUsersByFilterResponseDto> {
         return await this.usersService.getUsersByFilter(getUsersRequestDto);
     }
-
+    
     @ApiOperation({description: "Удалить пользователя"})
     @Delete("DeleteUser")
     async deleteUser(@Body() deleteUserRequestDto: DeleteRequesDtotBase) : Promise<DeleteResponseDtoBase> {
         return await this.usersService.deleteUser(deleteUserRequestDto);
     }
-
+    
     @ApiOperation({description: "Обновить пользователя"})
     @Patch("UpdateUser")
     async updateUser(@Body() patchUpdateUserRequestDto: PatchUpdateUserRequestDto): Promise<void>{
