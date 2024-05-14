@@ -20,7 +20,7 @@ import {
     PostCreateBucketRequestDto
 } from "../../modules/databaseInteraction/DTOs/bucketInteraction/PostCreateBucket/PostCreateBucketRequestDto";
 import {PostCreateResponseDtoBase} from "../../modules/databaseInteraction/DTOs/common/PostCreateResponseDtoBase";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 @Injectable()
 export class BucketService {
@@ -43,9 +43,10 @@ export class BucketService {
         if (request.id)
             query = query
                 .andWhere('"b"."Id" = :id', {id: request.id})
-        else if (request.userId)
+        else if (request.userId) {
             query = query
                 .andWhere('"b"."UserId" = :userId', {userId: request.userId})
+        }
 
         query = query
             .innerJoin(BucketSong, 'bs', '"b"."Id" = "bs"."BucketsId"', {quotedTableName: true})
@@ -54,10 +55,14 @@ export class BucketService {
                 '"b"."UserId"',
                 '"bs"."SongsId"'
             ]);
-
+        
         let resultDbItems = await query.execute();
 
         let result = new GetBucketsByFilterResponseDto();
+        
+        if (resultDbItems.length === 0)
+            return null
+        
         result.userId = resultDbItems[0].UserId;
         result.bucketId = resultDbItems[0].Id;
         result.songs = resultDbItems.map(x => {
@@ -85,8 +90,6 @@ export class BucketService {
             ]);
 
         let songs = await songsQuery.execute();
-
-        console.log(songs);
 
         for (let i = 0; i < songs.length; i++) {
             let song = result.songs.find(x => x.id === songs[i].Id);

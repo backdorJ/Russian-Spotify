@@ -1,0 +1,51 @@
+body {
+    background-color: #120F0F;
+    font-family: "Inter", sans-serif;
+}
+
+.home-page {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-page__content {
+    padding-top: 100px;
+}
+
+.home-page__buttons_div {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.home-page__buttons_btn {
+    cursor: pointer;
+    border-radius: 8px;
+    min-height: 50px;
+    min-width: 150px;
+    transition: .05s;
+}
+
+.home-page__buttons_btn:hover {
+    transition: .05s;
+    transform: scale(1.1);
+}
+
+.button-content {
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.button-content p {
+    cursor: pointer;
+    margin: 0;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}

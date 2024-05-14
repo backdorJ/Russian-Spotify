@@ -20,7 +20,7 @@ export class UserInteractionController {
         return await this.usersService.createUser(postCreateUserRequestDto)
     }
 
-    @Get("GetUsers")
+    @Get("GetUsersByFilter")
     async getUsers(@Query() getUsersRequestDto: GetUsersByFilterRequestDto): Promise<GetUsersByFilterResponseDto> {
         return await this.usersService.getUsersByFilter(getUsersRequestDto);
     }

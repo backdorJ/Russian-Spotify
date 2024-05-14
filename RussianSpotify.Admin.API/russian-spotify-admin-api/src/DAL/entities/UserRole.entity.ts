@@ -1,11 +1,8 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
 
-@Entity("AspNetUserRoles")
+@Entity({name: "AspNetUserRoles", synchronize: false})
 export class UserRole {
-    @PrimaryColumn()
-    private readonly id: string;
-
-    @Column()
+    @PrimaryColumn({unique: false})
     UserId: string;
     @Column()
     RoleId: string;

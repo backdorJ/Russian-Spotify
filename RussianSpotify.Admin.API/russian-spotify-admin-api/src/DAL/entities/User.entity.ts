@@ -1,8 +1,7 @@
-import {Column, Entity, OneToMany, OneToOne, PrimaryColumn} from "typeorm";
+import {Column, Entity, PrimaryColumn} from "typeorm";
 import {Bucket} from "./Bucket.entity";
 import {Subscribe} from "./Subscribe.entity";
 import {Playlist} from "./Playlist.entity";
-import {PlaylistUser} from "./PlaylistUser.entity";
 import {Song} from "./Song.entity";
 import {File} from "./File.entity";
 
@@ -16,6 +15,9 @@ export class User {
 
     @Column()
     UserName: string;
+    
+    @Column()
+    NormalizedUserName: string;
 
     @Column()
     EmailConfirmed: boolean;

@@ -1,0 +1,65 @@
+.auth-form-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.rounded-button {
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.3s linear;
+    flex: 0 0 auto;
+    border-radius: 500px;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    box-sizing: border-box;
+    gap: 9px;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    color: white;
+}
+
+.rounded-button:hover {
+    transition: all 0.3s linear;
+    border-color: black;
+    background-color: white;
+}
+
+.purple-button-style {
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    border: 1px solid mediumpurple;
+    border-radius: 500px;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    background: mediumpurple;
+    width: 80%;
+    height: 48px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.purple-button-style:hover {
+    transition: all 0.3s ease;
+    background: #5a4184;
+    border-color: black;
+}
+
+.login-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

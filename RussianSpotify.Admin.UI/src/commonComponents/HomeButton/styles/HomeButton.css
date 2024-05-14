@@ -1,0 +1,13 @@
+.home-button {
+    position: fixed;
+    left: 0;
+    padding: 10px 25px;
+    z-index: 9999;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.home-button img {
+    width: 40px;
+}
