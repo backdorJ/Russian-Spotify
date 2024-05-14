@@ -13,7 +13,7 @@ const FavouriteMusic: FC<IFavouriteMusic> = ({favouriteSongs, playlistReloadTrig
     const params = useParams();
     const navigate = useNavigate();
 
-    const link = params.authorName ? routeNames.AUTHOR_SONGS_ROUTE + params.authorName : routeNames.FAVORITE_SONGS;
+    const link = params.authorName ? (routeNames.AUTHOR_SONGS_NAV + params.authorName) : routeNames.FAVORITE_SONGS;
 
     const [songs] = useState(favouriteSongs);
     const [playlist] = useState(new Playlist())

@@ -191,7 +191,6 @@ const SongCard: FC<ISongCard> = observer(({song, order_number, onModalOpen, play
         const image: any = document.querySelector(".player-music-image");
         console.log(audio)
         if (playerStore.Player.currentSong?.songId === song.songId) {
-            setAsPlaying(prev => !prev);
             if (audio !== null) {
                 if (audio?.paused) {
                     playerStore.IsPlaying = true;
@@ -206,7 +205,6 @@ const SongCard: FC<ISongCard> = observer(({song, order_number, onModalOpen, play
         }
         else {
             playerStore.Player = getSong(song, userStore.user, playlist);
-            setAsPlaying(true);
             playerStore.IsPlaying = true;
             audio.play();
             image.style.animation = "3s linear 0s normal none infinite running rot";
@@ -230,8 +228,8 @@ const SongCard: FC<ISongCard> = observer(({song, order_number, onModalOpen, play
                 {
                     isMouseOverPlay ?
                         isPlaying ? 
-                            <StopIcon/>
-                            :  <StartIcon/>
+                            <StartIcon/>
+                            : <StopIcon/>
                         : <p>{order_number}</p>
                 }
             </div>
