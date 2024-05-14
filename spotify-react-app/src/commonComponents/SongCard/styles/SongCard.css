@@ -174,10 +174,6 @@
     align-items: center;
 }
 
-.music-more-icon {
-    width: 20px;
-}
-
 .playlist-page__songs__list__song-card__playlists {
     display: flex;
     flex-direction: column;
@@ -223,9 +219,8 @@
     color: white;
 }
 
-.music-more-icon {
-    display: flex;
-    justify-content: center;
+.music-container-wrapper .playlist-page__songs__list__main__song-card__title__info__song-name img {
+    display: none;
 }
 
 @keyframes fadeIn {

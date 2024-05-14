@@ -138,9 +138,6 @@
 }
 
 /* Playlist Page Songs List Table */
-.playlist-page__songs__list__table {
-    width: 100%;
-}
 
 .playlist-page__songs__list__divider {
     width: 100%;
@@ -163,7 +160,7 @@
 .playlist-page__songs__list__header p {
     color: #B3B3B3;
     font-size: 16px;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     font-family: proxima_nova_rgregular, sans-serif;
     margin-bottom: 20px;
 }
@@ -187,10 +184,6 @@
 
 .playlist-page__songs__list__header__added {
     width: 20%;
-}
-
-.playlist-page__songs__list__header__length {
-    width: 7%;
 }
 
 .playlist-page__songs__list__main {

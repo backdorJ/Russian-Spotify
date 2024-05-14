@@ -75,7 +75,7 @@ body {
     display: flex;
     justify-content: center;
     width: 100%;
-    margin: 0px auto;
+    margin: 0 auto;
 }
 
 .map{
@@ -115,10 +115,6 @@ body {
     margin-bottom: 50px;
     text-align: center;
     font-size: 50px;
-}
-
-.about-us-photo__image{
-    max-width: 600px;
 }
 
 .about-footer{
