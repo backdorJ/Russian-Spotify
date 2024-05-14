@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostRefreshToken;
+namespace RussianSpotify.API.Core.Requests.Auth.PostRefreshToken;
 
 /// <summary>
 /// Валидатор для <see cref="PostRefreshTokenCommand"/>

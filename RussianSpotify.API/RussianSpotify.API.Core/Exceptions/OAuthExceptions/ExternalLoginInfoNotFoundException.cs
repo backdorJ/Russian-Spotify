@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace RussianSpotify.API.Core.Exceptions.OAuthAccountExceptions;
+namespace RussianSpotify.API.Core.Exceptions.OAuthExceptions;
 
 /// <summary>
 /// Если после авторизации через сторонний сервис не найдено ExternalLoginInfo

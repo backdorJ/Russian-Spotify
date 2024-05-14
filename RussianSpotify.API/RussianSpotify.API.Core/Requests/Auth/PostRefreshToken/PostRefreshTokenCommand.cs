@@ -1,7 +1,7 @@
 using MediatR;
-using RussianSpotify.Contracts.Requests.Account.PostRefreshToken;
+using RussianSpotify.Contracts.Requests.Auth.PostRefreshToken;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostRefreshToken;
+namespace RussianSpotify.API.Core.Requests.Auth.PostRefreshToken;
 
 /// <summary>
 /// Команда для обновления JWT токена

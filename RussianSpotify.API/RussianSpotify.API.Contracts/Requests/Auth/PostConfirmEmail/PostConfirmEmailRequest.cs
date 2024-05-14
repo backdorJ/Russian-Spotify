@@ -1,4 +1,4 @@
-namespace RussianSpotify.Contracts.Requests.Account.PostConfirmEmail;
+namespace RussianSpotify.Contracts.Requests.Auth.PostConfirmEmail;
 
 public class PostConfirmEmailRequest
 {

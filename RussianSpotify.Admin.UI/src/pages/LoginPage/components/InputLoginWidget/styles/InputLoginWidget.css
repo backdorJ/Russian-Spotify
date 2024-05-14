@@ -1,0 +1,67 @@
+.input-field-container {
+    flex: 0 0 auto;
+    margin-top: 6%;
+}
+
+.input-label-container {
+    border: none;
+    box-sizing: border-box;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    height: 74px;
+}
+
+.form-labels-style {
+    font-weight: 700;
+    font-size: 13px;
+    font-family: "Inter", sans-serif;
+    display: block;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.password-input-container {
+    border: none;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+}
+
+.input-container {
+    border: none;
+    border-radius: 20px;
+    font-weight: 400;
+    font-size: 15px;
+    font-family: "Inter", sans-serif;
+    background: white;
+    box-sizing: border-box;
+    width: 100%;
+    height: 48px;
+    padding-left: 13px;
+}
+
+.button-switch-type {
+    -webkit-tap-highlight-color: transparent;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    margin-top: 5%;
+}
+
+.svg-container1 {
+    display: flex;
+    width: 35px;
+    height: 100%;
+    margin-right: 10px;
+    color: dimgray;
+    position: absolute;
+    right: 0;
+}
+

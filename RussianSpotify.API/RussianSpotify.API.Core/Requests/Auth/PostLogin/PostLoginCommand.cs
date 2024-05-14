@@ -1,7 +1,7 @@
 using MediatR;
-using RussianSpotify.Contracts.Requests.Account.PostLogin;
+using RussianSpotify.Contracts.Requests.Auth.PostLogin;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostLogin;
+namespace RussianSpotify.API.Core.Requests.Auth.PostLogin;
 
 /// <summary>
 /// Команда для авторизации пользователя

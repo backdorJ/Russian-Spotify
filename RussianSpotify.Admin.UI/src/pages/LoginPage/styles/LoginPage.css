@@ -1,0 +1,16 @@
+body {
+    background-color: #120F0F;
+    font-family: "Inter", sans-serif;
+}
+
+.form-page {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-page .form-container {
+    padding-top: 100px;
+}

@@ -1,4 +1,4 @@
-namespace RussianSpotify.Contracts.Requests.Account.PostRegister;
+namespace RussianSpotify.Contracts.Requests.Auth.PostRegister;
 
 public class PostRegisterResponse
 {

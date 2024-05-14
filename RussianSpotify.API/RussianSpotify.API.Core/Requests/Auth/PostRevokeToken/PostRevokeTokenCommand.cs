@@ -1,7 +1,7 @@
 using MediatR;
-using RussianSpotify.Contracts.Requests.Account.PostRevokeToken;
+using RussianSpotify.Contracts.Requests.Auth.PostRevokeToken;
 
-namespace RussianSpotify.API.Core.Requests.Account.PostRevokeToken;
+namespace RussianSpotify.API.Core.Requests.Auth.PostRevokeToken;
 
 /// <summary>
 /// Команда для обнуления Refresh токена

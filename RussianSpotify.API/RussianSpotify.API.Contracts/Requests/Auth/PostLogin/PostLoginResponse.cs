@@ -1,4 +1,4 @@
-namespace RussianSpotify.Contracts.Requests.Account.PostLogin;
+namespace RussianSpotify.Contracts.Requests.Auth.PostLogin;
 
 /// <summary>
 /// Результат логина для PostLogin
